@@ -160,7 +160,7 @@
 }
 lrc {
 	display: block;
-	font-family: "Times New Roman Italic","Microsoft JHenghei","寰蒋闆呴粦" !important;
+	font-family: "Times New Roman Italic","Microsoft JHenghei","微软雅黑" !important;
 	font-size: 1.2em;
 	line-height: 2.1em;
 }
@@ -173,7 +173,7 @@ lrc {
 .lyric-context {
 	font-size: 1.7em;
 	color: #fff;
-	font-family: "Times New Roman Bold","Microsoft JHenghei Bold","寰蒋闆呴粦 Bold" !important;
+	font-family: "Times New Roman Bold","Microsoft JHenghei Bold","微软雅黑 Bold" !important;
 	line-height: 2em;
 }
 

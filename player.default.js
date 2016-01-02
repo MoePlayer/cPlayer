@@ -187,7 +187,7 @@ Element.prototype.addMusic = function(){
     			}
     		}while(lists.lrc[i].getAttribute("time")<=thats.audio.currentTime&&i < (lists.lrc.length-1));
     		while(thats.paused !== true && i <= (lists.lrc.length) && lists.lrc[i].getAttribute("time")>thats.audio.currentTime){
-    			i--;
+    			i = i-1;
     			if(thats.getElementsByClassName("lyric-context")[0]) thats.getElementsByClassName("lyric-context")[0].classList.toggle("lyric-context");
     			lists.lrc[i].classList.toggle("lyric-context");
     			lists.lyricprimary.style.transform = "translateY("+(-(thats.getElementsByClassName("lyric-context")[0].offsetTop-thats.getElementsByClassName("lyric-context")[0].parentNode.offsetTop)+parseInt(getComputedStyle(thats.getElementsByClassName("lyric-context")[0].parentNode.parentNode).height)/2 - thats.getElementsByClassName("lyric-context")[0].scrollHeight/2)+"px)";

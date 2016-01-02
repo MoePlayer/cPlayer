@@ -71,7 +71,7 @@ Element.prototype.cPlayer = function(){
 	}
 
 	//增加audio元素
-	if(this.audio === undefined) this.audio = document.createElement('audio');
+	if(this.audio === undefined) this.audio = new Audio;
 	this.audio.src = this.getAttribute("src");
 	this.innerHTML = this.audio.outerHTML + this.innerHTML;
 	this.audio = this.getElementsByTagName("audio")[0];

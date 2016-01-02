@@ -125,6 +125,7 @@
 	height: 20vh;
 	display:block;
 	background:-webkit-linear-gradient(top,#333,transparent);
+	background:-moz-linear-gradient(top,#333,transparent);
 	position:absolute;
 	top:0;
 	left:0;
@@ -137,6 +138,7 @@
 	height: 20vh;
 	display:block;
 	background:-webkit-linear-gradient(top,transparent,#333);
+	background:-moz-linear-gradient(top,transparent,#333);
 	position:absolute;
 	bottom:0;
 	left:0;
@@ -158,7 +160,7 @@
 }
 lrc {
 	display: block;
-	font-family: "Times New Roman Italic","Microsoft JHenghei","微软雅黑" !important;
+	font-family: "Times New Roman Italic","Microsoft JHenghei","寰蒋闆呴粦" !important;
 	font-size: 1.2em;
 	line-height: 2.1em;
 }
@@ -171,7 +173,7 @@ lrc {
 .lyric-context {
 	font-size: 1.7em;
 	color: #fff;
-	font-family: "Times New Roman Bold","Microsoft JHenghei Bold","微软雅黑 Bold" !important;
+	font-family: "Times New Roman Bold","Microsoft JHenghei Bold","寰蒋闆呴粦 Bold" !important;
 	line-height: 2em;
 }
 
@@ -186,9 +188,11 @@ lrc:empty {
 }
 .player.white .lyric::before{
 	background: -webkit-linear-gradient(top,aliceblue,transparent);
+	background: -moz-linear-gradient(top,aliceblue,transparent);
 }
 .player.white .lyric::after{
 	background: -webkit-linear-gradient(top,transparent,aliceblue);
+	background: -moz-linear-gradient(top,transparent,aliceblue);
 }
 .player.white .lyric-context{
 	color:#111;
@@ -244,6 +248,7 @@ i.volume_up {
 	vertical-align: middle;
 	text-transform: none;
 	-webkit-text-fill-color: transparent;
+	color: transparent;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -254,7 +259,9 @@ i.volume_up {
 	width: 24px;
 	opacity: 0.5;
 	-webkit-filter: invert(1);
+	filter: invert(1);
 }
 .player.white .bc i{
 	-webkit-filter: none;
+	filter: none;
 }

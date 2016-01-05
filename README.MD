@@ -51,9 +51,9 @@ new cPlayer(必须的音乐URL字符串,可选的LRC歌词字符串,可选的自
 
 如此生成一个DOM Element元素,可以用`appendChild`将其载入文档.
 
-# 博客 插件
+## 博客 插件
 
-## Typecho
+### Typecho
 
 Look at Here: [https://github.com/journey-ad/cPlayer-Typecho-Plugin](https://github.com/journey-ad/cPlayer-Typecho-Plugin)
 感谢journey AD的支持~

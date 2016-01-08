@@ -3,17 +3,27 @@
 * Author  Corps
 */
 
-function cPlayer(a,b,c){
+
+function cPlayer(json){
+	try{
+		json = JSON.parse(json);
+	}catch(e){
+		if((/(http|https):\/\//gi).test(json)){
+			var url = json;
+			json = new Object;
+			json.url = url;
+		}else{
+			console.error("What the fuck you do! \nThere isn't anything as a music url.");
+			return false;
+		}
+	}
 	var thisPlayer = document.createElement("div");
 	thisPlayer.classList.add("player");
-	if(a !== undefined) {
-		thisPlayer.setAttribute("src", a);
-	}else{
-		console.error("What the fuck you do! \nThere isn't anything as a music url.");
-		return false;
+	if(json.url !== undefined) {
+		thisPlayer.setAttribute("src", json.url);
 	}
-	if(b != undefined) thisPlayer.innerHTML = b;
-	if(c !== undefined) thisPlayer.classList.add(c);
+	if(json.lyric !== undefined) thisPlayer.innerHTML = lyric;
+	if(json.white === true) thisPlayer.classList.add("white");
 	thisPlayer.cPlayer();
 	return thisPlayer;
 }
@@ -88,7 +98,6 @@ Element.prototype.cPlayer = function(){
 	if(this.audio === undefined) this.audio = new Audio;
 	this.audio.src = this.getAttribute("src");
 	this.innerHTML = this.audio.outerHTML + this.innerHTML;
-	this.audio = this.getElementsByTagName("audio")[0];
 	//增加Waiting DIV
 	if(this.getElementsByClassName("placeholder")[0] === undefined) {
 		var p = document.createElement("div");
@@ -106,6 +115,7 @@ Element.prototype.cPlayer = function(){
 	if(this.lyric.check === true){
 		var p = document.createElement("div");
 		p.classList.add("lyric");
+		p.style.display = "none";
 		pl = document.createElement("div");
 		pl.classList.add("lyric-primary");
 		pl.innerHTML = this.lyric.result;
@@ -114,7 +124,19 @@ Element.prototype.cPlayer = function(){
 	}
 	this.addMusic();
 }
+
+Element.prototype.playicon = function(a,lists){
+	    if(a === "pause"){
+    		lists.icon.plays.classList.toggle("played");
+    		if(lists.icon.plays.classList.contains("paused")) lists.icon.plays.classList.remove("paused");
+    	}else if(a === "play"){
+    		lists.icon.plays.classList.toggle("paused");
+    		if(lists.icon.plays.classList.contains("played")) lists.icon.plays.classList.remove("played");
+    	};
+}
+
 Element.prototype.addMusic = function(){
+	this.audio = this.getElementsByTagName("audio")[0];
 	var lists = new Object;
 	lists.button = new Object;
 	lists.icon = new Object;
@@ -176,14 +198,16 @@ Element.prototype.addMusic = function(){
 		i=0;
 		thats.audio.pause();
 	};
-	for (var key = 0; key < document.getElementsByClassName("lyric").length; key++) {
-		document.getElementsByClassName("lyric")[key].slide(500);
-	};
+
+	this.audio.onpause = function(){
+		thats.playicon("pause",lists);
+	}
 
 	this.audio.onplay = function(){
 		if(thats.lyric.check === true && thats.getElementsByClassName("lyric")[0].style.display === "none"){
 			thats.getElementsByClassName("lyric")[0].slide(500);
 		}
+		thats.playicon("play",lists);
 	};
 
     //This is LYRICs Break.
@@ -200,12 +224,15 @@ Element.prototype.addMusic = function(){
     				i++;
     			}
     		}while(lists.lrc[i].getAttribute("time")<=thats.audio.currentTime&&i < (lists.lrc.length-1));
-    		while(thats.paused !== true && i <= (lists.lrc.length) && lists.lrc[i].getAttribute("time")>thats.audio.currentTime){
-    			i = i>0 ? i-1 : i+1;
-    			if(thats.getElementsByClassName("lyric-context")[0]) thats.getElementsByClassName("lyric-context")[0].classList.toggle("lyric-context");
-    			lists.lrc[i].classList.toggle("lyric-context");
-    			lists.lyricprimary.style.transform = "translateY("+(-(thats.getElementsByClassName("lyric-context")[0].offsetTop-thats.getElementsByClassName("lyric-context")[0].parentNode.offsetTop)+parseInt(getComputedStyle(thats.getElementsByClassName("lyric-context")[0].parentNode.parentNode).height)/2 - thats.getElementsByClassName("lyric-context")[0].scrollHeight/2)+"px)";
-    		}
+    		(function lrcu(){
+    			if(thats.paused !== true && i <= (lists.lrc.length) && lists.lrc[i].getAttribute("time")>thats.audio.currentTime && i>1){
+    				i--;
+    				if(thats.getElementsByClassName("lyric-context")[0]) thats.getElementsByClassName("lyric-context")[0].classList.toggle("lyric-context");
+    				lists.lrc[i].classList.toggle("lyric-context");
+    				lists.lyricprimary.style.transform = "translateY("+(-(thats.getElementsByClassName("lyric-context")[0].offsetTop-thats.getElementsByClassName("lyric-context")[0].parentNode.offsetTop)+parseInt(getComputedStyle(thats.getElementsByClassName("lyric-context")[0].parentNode.parentNode).height)/2 - thats.getElementsByClassName("lyric-context")[0].scrollHeight/2)+"px)";
+    				setTimeout(0,lrcu);
+    			}
+    		})();
     	}else{
     		if(thats.getElementsByClassName("lyric-context")[0]) thats.getElementsByClassName("lyric-context")[0].classList.toggle("lyric-context");
     		lists.lrc[i].classList.toggle("lyric-context");
@@ -217,12 +244,10 @@ Element.prototype.addMusic = function(){
     lists.button.plays.onclick = function(){
     	if(thats.audio.paused === false){
     		thats.audio.pause();
-    		lists.icon.plays.classList.toggle("played");
-    		if(lists.icon.plays.classList.contains("paused")) lists.icon.plays.classList.remove("paused");
+    		//thats.playicon("pause",lists); onpause 冲突
     	}else{
     		thats.audio.play();
-    		lists.icon.plays.classList.toggle("paused");
-    		if(lists.icon.plays.classList.contains("played")) lists.icon.plays.classList.remove("played");
+    		//thats.playicon("play",lists); onplay 冲突
     	};
     };
     lists.button.volumeButton.onclick = function(){

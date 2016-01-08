@@ -90,19 +90,28 @@
 	height: 1em;
 	float: left;
 	background-color: rgb(73, 174, 232);
-	border-radius: 5px;
 }
 .leng .wall {
 	width: 100%;
 	height: 1em;
+	overflow:hidden;
 	background-color: rgba(78, 78, 78, 0.25);
 	border-radius: 5px;
 }
+
+.leng .buffer{
+	height: 100%;
+	transition: width 0.15s cubic-bezier(0.4, 0, 1, 1) 0s;
+	-moz-transition: width 0.15s cubic-bezier(0.4, 0, 1, 1) 0s;
+	background-color: rgba(255,255,255,0.5);
+}
+
 .volume .v-wall {
 	width: 100%;
 	height: 1em;
 	background-color: rgba(78, 78, 78, 0.25);
 	border-radius: 5px;
+	overflow: hidden;
 }
 
 .player .right button {
@@ -119,7 +128,6 @@
 	height: 1em;
 	float: left;
 	background-color: rgb(73, 174, 232);
-	border-radius: 5px;
 }
 .lyric::before{
 	content:"";
@@ -185,17 +193,17 @@ lrc:empty {
 }
 
 .player.white{
-	background-color:aliceblue;
+	background-color:rgba(255,255,255,0.9);
 	box-shadow:0 3px 20px #ccc;
 	border-radius:0px;
 }
 .player.white .lyric::before{
-	background: -webkit-linear-gradient(top,aliceblue,transparent);
-	background: -moz-linear-gradient(top,aliceblue,transparent);
+	background: -webkit-linear-gradient(top,rgba(255,255,255,0.9),transparent);
+	background: -moz-linear-gradient(top,rgba(255,255,255,0.9),transparent);
 }
 .player.white .lyric::after{
-	background: -webkit-linear-gradient(top,transparent,aliceblue);
-	background: -moz-linear-gradient(top,transparent,aliceblue);
+	background: -webkit-linear-gradient(top,transparent,rgba(255,255,255,0.9));
+	background: -moz-linear-gradient(top,transparent,rgba(255,255,255,0.9));
 }
 .player.white .lyric-context{
 	color:#111;
@@ -204,7 +212,7 @@ lrc:empty {
 	color:#222;
 }
 .player.white .placeholder{
-	background-color: aliceblue;
+	background-color: rgba(255,255,255,0.9);
 }
 
 i.played {

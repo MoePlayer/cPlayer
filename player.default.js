@@ -6,7 +6,8 @@
 
 function cPlayer(json){
 	try{
-		json = JSON.parse(json);
+		json = eval(json);
+		console.log(json);
 	}catch(e){
 		if((/(http|https):\/\//gi).test(json)){
 			var url = json;
@@ -21,8 +22,9 @@ function cPlayer(json){
 	thisPlayer.classList.add("player");
 	if(json.url !== undefined) {
 		thisPlayer.setAttribute("src", json.url);
+		console.log(json.url);
 	}
-	if(json.lyric !== undefined) thisPlayer.innerHTML = lyric;
+	if(json.lyric !== undefined) thisPlayer.innerHTML = json.lyric;
 	if(json.white === true) thisPlayer.classList.add("white");
 	thisPlayer.cPlayer();
 	return thisPlayer;
@@ -108,7 +110,7 @@ Element.prototype.cPlayer = function(){
 	if(this.getElementsByClassName("player-primary")[0] === undefined){
 		var p = document.createElement("div");
 		p.classList.add("player-primary");
-		p.innerHTML = '				<div class="left"><button class="bc plays"><i class="played">played</i></button><div class="leng"><div class="clicks"></div><div class="wall"></div></div></div><div class="right"><button class="bc volumeButton"><i class="volume_up">volume_up</i></button><div class="volume"><div class="v-clicks"></div><div class="v-wall"></div></div></div>';
+		p.innerHTML = '				<div class="left"><button class="bc plays"><i class="played">played</i></button><div class="leng"><div class="wall"><div class="clicks"></div><div class="buffer"></div></div></div></div><div class="right"><button class="bc volumeButton"><i class="volume_up">volume_up</i></button><div class="volume"><div class="v-wall"><div class="v-clicks"></div></div></div></div>';
 		this.innerHTML = this.innerHTML + p.outerHTML;
 	}
 	//增加歌词DIV
@@ -142,6 +144,7 @@ Element.prototype.addMusic = function(){
 	lists.icon = new Object;
 	lists.button.plays = this.getElementsByClassName("plays")[0];
 	lists.button.clicks = this.getElementsByClassName("clicks")[0];
+	lists.button.buffer = this.getElementsByClassName("buffer")[0];
 	lists.button.vclicks = this.getElementsByClassName("v-clicks")[0];
 	lists.button.volumeButton = this.getElementsByClassName("volumeButton")[0];
 	lists.icon.volumeButton = this.getElementsByClassName("volumeButton")[0].getElementsByTagName('i')[0];
@@ -161,8 +164,7 @@ Element.prototype.addMusic = function(){
 		thats.audio.currentTime = (e.offsetX / this.offsetWidth * thats.audio.duration);
 		if(thats.audio.paused === true){
 			thats.audio.play();
-			lists.icon.plays.classList.toggle("paused");
-			if(lists.icon.plays.classList.contains("played")) lists.icon.plays.classList.remove("played");
+			//thats.playicon("play",lists); 冲突
 		}
 	};
 	this.getElementsByClassName("volume")[0].onmousedown = function (e) {
@@ -183,14 +185,16 @@ Element.prototype.addMusic = function(){
 		//thats.getElementsByClassName("placeholder")[0].fade(100); 效果不好
 	};
 
-	this.audio.oncanplaythrough = function(){
+	this.audio.oncanplay = function(){
 		if(thats.getElementsByClassName("placeholder")[0].style.display !== "none")thats.getElementsByClassName("placeholder")[0].fade(100);
 		lists.button.vclicks.style.width = (this.volume * 100) + "%";
+		setInterval(function(){
+			lists.button.buffer.style.width = (( thats.audio.buffered.end(0) / thats.audio.duration ) * 100) + "%";
+		},200);
 	};
 
 	this.audio.onended = function(){
-		lists.icon.plays.classList.toggle("played");
-		if(lists.icon.plays.classList.contains("paused")) lists.icon.plays.classList.remove("paused");
+		thats.playicon("pause",lists);
 		if(thats.lyric.check === true){
 			lists.lyricprimary.style.transform = "translateY(100px)";
 			thats.getElementsByClassName("lyric")[0].slide(500);
@@ -269,7 +273,7 @@ window.onload = function(){
 			try{
 				document.getElementsByClassName("player")[key].cPlayer();
 			}catch(e){
-				document.getElementsByClassName("debug")[0].innerHTML += "<br>" + e;
+				alert(e);
 			}
 		}
 };

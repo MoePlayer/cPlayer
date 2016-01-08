@@ -266,7 +266,11 @@ Element.prototype.addMusic = function(){
 
 window.onload = function(){
 		for(var key = 0;key <= (document.getElementsByClassName("player").length-1);key++){
-			document.getElementsByClassName("player")[key].cPlayer();
+			try{
+				document.getElementsByClassName("player")[key].cPlayer();
+			}catch(e){
+				document.getElementsByClassName("debug")[0].innerHTML += "<br>" + e;
+			}
 		}
 };
 

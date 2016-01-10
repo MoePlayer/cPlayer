@@ -7,7 +7,6 @@
 function cPlayer(json){
 	try{
 		json = eval(json);
-		console.log(json);
 	}catch(e){
 		if((/(http|https):\/\//gi).test(json)){
 			var url = json;
@@ -22,7 +21,6 @@ function cPlayer(json){
 	thisPlayer.classList.add("player");
 	if(json.url !== undefined) {
 		thisPlayer.setAttribute("src", json.url);
-		console.log(json.url);
 	}
 	if(json.lyric !== undefined) thisPlayer.innerHTML = json.lyric;
 	if(json.white === true) thisPlayer.classList.add("white");
@@ -194,13 +192,13 @@ Element.prototype.addMusic = function(){
 	};
 
 	this.audio.onended = function(){
-		thats.playicon("pause",lists);
+		//thats.playicon("pause",lists);
 		if(thats.lyric.check === true){
 			lists.lyricprimary.style.transform = "translateY(100px)";
 			thats.getElementsByClassName("lyric")[0].slide(500);
 		}
 		i=0;
-		thats.audio.pause();
+		//thats.audio.pause();
 	};
 
 	this.audio.onpause = function(){

@@ -43,6 +43,17 @@
 		display:none !important;
 	}
 }
+@media screen and (max-width: 500px){
+	.player .button{
+		min-width:25% !important;
+	}
+}
+@media screen and (max-width: 500px){
+	.leng{
+		width: 70% !important;
+		float: right !important;
+	}
+}
 .player .right {
 	flex: 1;
 	display: flex;
@@ -147,8 +158,8 @@
 .lyric::before{
 	content:"";
 	width:100%;
-	height: 5em;
-	height: 20vh;
+	height: 3em;
+	height: 10vh;
 	display:block;
 	background:-webkit-linear-gradient(top,#333,transparent);
 	background:-moz-linear-gradient(top,#333,transparent);
@@ -160,8 +171,8 @@
 .lyric::after{
 	content:"";
 	width:100%;
-	height: 5em;
-	height: 20vh;
+	height: 3em;
+	height: 10vh;
 	display:block;
 	background:-webkit-linear-gradient(top,transparent,#333);
 	background:-moz-linear-gradient(top,transparent,#333);
@@ -213,12 +224,12 @@ lrc:empty {
 	border-radius:0px;
 }
 .player.white .lyric::before{
-	background: -webkit-linear-gradient(top,rgba(255,255,255,0.9),transparent);
-	background: -moz-linear-gradient(top,rgba(255,255,255,0.9),transparent);
+	background: -webkit-linear-gradient(top,white,transparent);
+	background: -moz-linear-gradient(top,white,transparent);
 }
 .player.white .lyric::after{
-	background: -webkit-linear-gradient(top,transparent,rgba(255,255,255,0.9));
-	background: -moz-linear-gradient(top,transparent,rgba(255,255,255,0.9));
+	background: -webkit-linear-gradient(top,transparent,white);
+	background: -moz-linear-gradient(top,transparent,white);
 }
 .player.white .lyric-context{
 	color:#111;

@@ -6,26 +6,30 @@
 
 function cPlayer(json){
 	try{
-		json = eval(json);
-	}catch(e){
-		if((/(http|https):\/\//gi).test(json)){
-			var url = json;
-			json = new Object;
-			json.url = url;
-		}else{
-			console.error("What the fuck you do! \nThere isn't anything as a music url.");
-			return false;
+		try{
+			json = eval(json);
+		}catch(e){
+			if((/(http|https):\/\//gi).test(json)){
+				var url = json;
+				json = new Object;
+				json.url = url;
+			}else{
+				console.error("What the fuck you do! \nThere isn't anything as a music url.");
+				return false;
+			}
 		}
+		var thisPlayer = document.createElement("div");
+		thisPlayer.classList.add("player");
+		if(json.url !== undefined) {
+			thisPlayer.setAttribute("src", json.url);
+		}
+		if(json.lyric !== undefined) thisPlayer.innerHTML = json.lyric;
+		if(json.white === true) thisPlayer.classList.add("white");
+		thisPlayer.cPlayer();
+		return thisPlayer;
+	}catch(e){
+		document.write("cPlayer Function Error" + e);
 	}
-	var thisPlayer = document.createElement("div");
-	thisPlayer.classList.add("player");
-	if(json.url !== undefined) {
-		thisPlayer.setAttribute("src", json.url);
-	}
-	if(json.lyric !== undefined) thisPlayer.innerHTML = json.lyric;
-	if(json.white === true) thisPlayer.classList.add("white");
-	thisPlayer.cPlayer();
-	return thisPlayer;
 }
 
 //仿jQuery Slide,Fade特效
@@ -75,54 +79,58 @@ Element.prototype.fade = function(time){
 	}
 }
 Element.prototype.cPlayer = function(){
-	/* 元素修正 / 添加 */
-	//歌词验证
-	if((/\S/).test(this.innerHTML)){
-		this.lyric = new Object; //建立一个对象集
-		this.lyric.check = true; //存储Lyric证据.
-		this.lyric.content = this.innerHTML.replace(/<br>/gi,"\n"); //去除HTML换行元素
-		this.innerHTML = ""; //清空内容,以便之后增加DOM元素
-		this.lyric.result = this.lyric.content.replace(/\[(\d+):(\d+)\.(\d+)\](.*)|.*/gi,
-								function(w,a,b,c,d){
-								if((/\[(\d+):(\d+)\.(\d+)\].*/gi).test(w) === false) return "";
-									return '<lrc time="' + (parseInt(a)*60 + parseInt(b)) + "." + c + '">' + d + "</lrc>\n"
-								}); //嗯..转换成DOM格式歌词
-	}else{
-		this.lyric = new Object;
-		this.lyric.check = false;
-		this.lyric.content = "";
-		this.lyric.result = "";
-	}
+	try{
+		/* 元素修正 / 添加 */
+		//歌词验证
+		if((/\S/).test(this.innerHTML)){
+			this.lyric = new Object; //建立一个对象集
+			this.lyric.check = true; //存储Lyric证据.
+			this.lyric.content = this.innerHTML.replace(/<br>/gi,"\n"); //去除HTML换行元素
+			this.innerHTML = ""; //清空内容,以便之后增加DOM元素
+			this.lyric.result = this.lyric.content.replace(/\[(\d+):(\d+)\.(\d+)\](.*)|.*/gi,
+									function(w,a,b,c,d){
+									if((/\[(\d+):(\d+)\.(\d+)\].*/gi).test(w) === false) return "";
+										return '<lrc time="' + (parseInt(a)*60 + parseInt(b)) + "." + c + '">' + d + "</lrc>\n"
+									}); //嗯..转换成DOM格式歌词
+		}else{
+			this.lyric = new Object;
+			this.lyric.check = false;
+			this.lyric.content = "";
+			this.lyric.result = "";
+		}
 
-	//增加audio元素
-	if(this.audio === undefined) this.audio = new Audio;
-	this.audio.src = this.getAttribute("src");
-	this.innerHTML = this.audio.outerHTML + this.innerHTML;
-	//增加Waiting DIV
-	if(this.getElementsByClassName("placeholder")[0] === undefined) {
-		var p = document.createElement("div");
-		p.classList.add("placeholder");
-		this.appendChild(p);
+		//增加audio元素
+		if(this.audio === undefined) this.audio = new Audio;
+		this.audio.src = this.getAttribute("src");
+		this.innerHTML = this.audio.outerHTML + this.innerHTML;
+		//增加Waiting DIV
+		if(this.getElementsByClassName("placeholder")[0] === undefined) {
+			var p = document.createElement("div");
+			p.classList.add("placeholder");
+			this.appendChild(p);
+		}
+		//增加主面板DIV
+		if(this.getElementsByClassName("player-primary")[0] === undefined){
+			var p = document.createElement("div");
+			p.classList.add("player-primary");
+			p.innerHTML = '				<div class="left"><button class="bc plays"><i class="played">played</i></button><div class="leng"><div class="wall"><div class="clicks"></div><div class="buffer"></div></div></div></div><div class="right"><button class="bc volumeButton"><i class="volume_up">volume_up</i></button><div class="volume"><div class="v-wall"><div class="v-clicks"></div></div></div></div>';
+			this.innerHTML = this.innerHTML + p.outerHTML;
+		}
+		//增加歌词DIV
+		if(this.lyric.check === true){
+			var p = document.createElement("div");
+			p.classList.add("lyric");
+			p.style.display = "none";
+			pl = document.createElement("div");
+			pl.classList.add("lyric-primary");
+			pl.innerHTML = this.lyric.result;
+			p.appendChild(pl);
+			this.innerHTML = this.innerHTML + p.outerHTML;
+		}
+		this.addMusic();
+	}catch(e){
+		document.write("Prototype cPlayer Error" + e  );
 	}
-	//增加主面板DIV
-	if(this.getElementsByClassName("player-primary")[0] === undefined){
-		var p = document.createElement("div");
-		p.classList.add("player-primary");
-		p.innerHTML = '				<div class="left"><button class="bc plays"><i class="played">played</i></button><div class="leng"><div class="wall"><div class="clicks"></div><div class="buffer"></div></div></div></div><div class="right"><button class="bc volumeButton"><i class="volume_up">volume_up</i></button><div class="volume"><div class="v-wall"><div class="v-clicks"></div></div></div></div>';
-		this.innerHTML = this.innerHTML + p.outerHTML;
-	}
-	//增加歌词DIV
-	if(this.lyric.check === true){
-		var p = document.createElement("div");
-		p.classList.add("lyric");
-		p.style.display = "none";
-		pl = document.createElement("div");
-		pl.classList.add("lyric-primary");
-		pl.innerHTML = this.lyric.result;
-		p.appendChild(pl);
-		this.innerHTML = this.innerHTML + p.outerHTML;
-	}
-	this.addMusic();
 }
 
 Element.prototype.playicon = function(a,lists){
@@ -157,7 +165,7 @@ Element.prototype.addMusic = function(){
 			lists.button.clicks.style.width = (( thats.audio.currentTime / thats.audio.duration ) * 100) + "%";
 		}
 		,200);
-	this.getElementsByClassName("leng")[0].onmousedown = function (e) {
+	this.getElementsByClassName("leng")[0].onclick = function (e) {
 		//i=0; 嗯改进一下
 		thats.audio.currentTime = (e.offsetX / this.offsetWidth * thats.audio.duration);
 		if(thats.audio.paused === true){
@@ -165,91 +173,176 @@ Element.prototype.addMusic = function(){
 			//thats.playicon("play",lists); 冲突
 		}
 	};
-	this.getElementsByClassName("volume")[0].onmousedown = function (e) {
+	this.getElementsByClassName("volume")[0].onclick = function (e) {
 		thats.audio.volume = (e.offsetX / this.offsetWidth);
 	};
-	this.audio.onvolumechange = function(){
-		lists.button.vclicks.style.width = (this.volume * 100) + "%";
-		if(this.volume === 0&&lists.icon.volumeButton.classList.contains("volume_up")){
-			lists.icon.volumeButton.classList.add('volume_mute');
-			if(lists.icon.volumeButton.classList.contains("volume_up")) lists.icon.volumeButton.classList.remove('volume_up');
-		}
-		if(this.volume !== 0&&lists.icon.volumeButton.classList.contains("volume_mute")){
-			lists.icon.volumeButton.classList.add('volume_mute');
-			if(lists.icon.volumeButton.classList.contains("volume_up")) lists.icon.volumeButton.classList.remove('volume_up');
-		}
-	};
-	this.audio.onwaiting = function(){
-		//thats.getElementsByClassName("placeholder")[0].fade(100); 效果不好
-	};
 
-	this.audio.oncanplay = function(){
-		if(thats.getElementsByClassName("placeholder")[0].style.display !== "none")thats.getElementsByClassName("placeholder")[0].fade(100);
-		lists.button.vclicks.style.width = (this.volume * 100) + "%";
+	//声音响度改变时
+	if(this.audio.onvolumechange === undefined){
+		var volumes = thats.audio.volume;
 		setInterval(function(){
-			lists.button.buffer.style.width = (( thats.audio.buffered.end(0) / thats.audio.duration ) * 100) + "%";
-		},200);
-	};
-
-	this.audio.onended = function(){
-		//thats.playicon("pause",lists);
-		if(thats.lyric.check === true){
-			lists.lyricprimary.style.transform = "translateY(100px)";
-			thats.getElementsByClassName("lyric")[0].slide(500);
-		}
-		i=0;
-		//thats.audio.pause();
-	};
-
-	this.audio.onpause = function(){
-		thats.playicon("pause",lists);
+			if(volumes !== thats.audio.volume){
+				lists.button.vclicks.style.width = (this.volume * 100) + "%";
+				if(this.volume === 0&&lists.icon.volumeButton.classList.contains("volume_up")){
+					lists.icon.volumeButton.classList.add('volume_mute');
+					if(lists.icon.volumeButton.classList.contains("volume_up")) lists.icon.volumeButton.classList.remove('volume_up');
+				}
+				if(this.volume !== 0&&lists.icon.volumeButton.classList.contains("volume_mute")){
+					lists.icon.volumeButton.classList.add('volume_mute');
+					if(lists.icon.volumeButton.classList.contains("volume_up")) lists.icon.volumeButton.classList.remove('volume_up');
+				}
+			}
+		}, 1000); //垃圾浏览器支持
+	}else{
+		this.audio.onvolumechange = function(){
+			lists.button.vclicks.style.width = (this.volume * 100) + "%";
+			if(this.volume === 0&&lists.icon.volumeButton.classList.contains("volume_up")){
+				lists.icon.volumeButton.classList.add('volume_mute');
+				if(lists.icon.volumeButton.classList.contains("volume_up")) lists.icon.volumeButton.classList.remove('volume_up');
+			}
+			if(this.volume !== 0&&lists.icon.volumeButton.classList.contains("volume_mute")){
+				lists.icon.volumeButton.classList.add('volume_mute');
+				if(lists.icon.volumeButton.classList.contains("volume_up")) lists.icon.volumeButton.classList.remove('volume_up');
+			}
+		};
 	}
 
-	this.audio.onplay = function(){
-		if(thats.lyric.check === true && thats.getElementsByClassName("lyric")[0].style.display === "none"){
-			thats.getElementsByClassName("lyric")[0].slide(500);
-		}
-		thats.playicon("play",lists);
+	//响应?无需了
+	/*this.audio.onwaiting = function(){
+		//thats.getElementsByClassName("placeholder")[0].fade(100); 效果不好
 	};
+	*/
+
+	//PlaceHolder消失的?
+	if(this.audio.oncanplay === undefined){
+			if(thats.getElementsByClassName("placeholder")[0].style.display !== "none")thats.getElementsByClassName("placeholder")[0].fade(100);
+			lists.button.vclicks.style.width = (this.volume * 100) + "%";
+			setInterval(function(){
+				lists.button.buffer.style.width = (( thats.audio.buffered.end(0) / thats.audio.duration ) * 100) + "%";
+			},200);
+	}else{
+		this.audio.oncanplay = function(){
+			if(thats.getElementsByClassName("placeholder")[0].style.display !== "none")thats.getElementsByClassName("placeholder")[0].fade(100);
+			lists.button.vclicks.style.width = (this.volume * 100) + "%";
+			setInterval(function(){
+				lists.button.buffer.style.width = (( thats.audio.buffered.end(0) / thats.audio.duration ) * 100) + "%";
+			},200);
+		};
+	}
+
+	//结束了么?
+	if(this.audio.onended === undefined){
+		setInterval(function(){
+			if(this.audio.currentTime === this.audio.duration){
+				if(thats.lyric.check === true){
+					lists.lyricprimary.style.transform = "translateY(100px)";
+					thats.getElementsByClassName("lyric")[0].slide(500);
+				}
+				i=0;
+			}
+		},1000);
+	}else{
+		this.audio.onended = function(){
+			//thats.playicon("pause",lists);
+			if(thats.lyric.check === true){
+				lists.lyricprimary.style.transform = "translateY(100px)";
+				thats.getElementsByClassName("lyric")[0].slide(500);
+			}
+			i=0;
+			//thats.audio.pause();
+		};
+	}
+	if(this.audio.onpause === null){
+		this.audio.onpause = function(){
+			thats.playicon("pause",lists);
+		}
+	}
+
+	if(this.audio.onplay === null){
+		this.audio.onplay = function(){
+			if(thats.lyric.check === true && thats.getElementsByClassName("lyric")[0].style.display === "none"){
+				thats.getElementsByClassName("lyric")[0].slide(500);
+			}
+			thats.playicon("play",lists);
+		};
+	}else{
+			if(thats.lyric.check === true && thats.getElementsByClassName("lyric")[0].style.display === "none"){
+				thats.getElementsByClassName("lyric")[0].slide(500);
+			}
+	}
 
     //This is LYRICs Break.
     if(this.lyric.check === true){
-    	lists.lyricprimary.style.transform = "translateY(100px)";
-    	var i=0;
-    	thats.audio.ontimeupdate = function(){
-    		if(i < (lists.lrc.length-1)){
-    		do{
-    			if(thats.paused !== true && i <= (lists.lrc.length) && lists.lrc[i].getAttribute("time")<=thats.audio.currentTime){
-    				if(thats.getElementsByClassName("lyric-context")[0]) thats.getElementsByClassName("lyric-context")[0].classList.toggle("lyric-context");
-    				lists.lrc[i].classList.toggle("lyric-context");
-    				lists.lyricprimary.style.transform = "translateY("+(-(thats.getElementsByClassName("lyric-context")[0].offsetTop-thats.getElementsByClassName("lyric-context")[0].parentNode.offsetTop)+parseInt(getComputedStyle(thats.getElementsByClassName("lyric-context")[0].parentNode.parentNode).height)/2 - thats.getElementsByClassName("lyric-context")[0].scrollHeight/2)+"px)";
-    				i++;
-    			}
-    		}while(lists.lrc[i].getAttribute("time")<=thats.audio.currentTime&&i < (lists.lrc.length-1));
-    		(function lrcu(){
-    			if(thats.paused !== true && i <= (lists.lrc.length) && lists.lrc[i].getAttribute("time")>thats.audio.currentTime && i>1){
-    				i--;
-    				if(thats.getElementsByClassName("lyric-context")[0]) thats.getElementsByClassName("lyric-context")[0].classList.toggle("lyric-context");
-    				lists.lrc[i].classList.toggle("lyric-context");
-    				lists.lyricprimary.style.transform = "translateY("+(-(thats.getElementsByClassName("lyric-context")[0].offsetTop-thats.getElementsByClassName("lyric-context")[0].parentNode.offsetTop)+parseInt(getComputedStyle(thats.getElementsByClassName("lyric-context")[0].parentNode.parentNode).height)/2 - thats.getElementsByClassName("lyric-context")[0].scrollHeight/2)+"px)";
-    				setTimeout(0,lrcu);
-    			}
-    		})();
+    	if(lists.lyricprimary.style.transform === ""){
+    		lists.lyricprimary.style.transform = "translateY(100px)";
     	}else{
-    		if(thats.getElementsByClassName("lyric-context")[0]) thats.getElementsByClassName("lyric-context")[0].classList.toggle("lyric-context");
-    		lists.lrc[i].classList.toggle("lyric-context");
-    		lists.lyricprimary.style.transform = "translateY("+(-(thats.getElementsByClassName("lyric-context")[0].offsetTop-thats.getElementsByClassName("lyric-context")[0].parentNode.offsetTop)+parseInt(getComputedStyle(thats.getElementsByClassName("lyric-context")[0].parentNode.parentNode).height)/2 - thats.getElementsByClassName("lyric-context")[0].scrollHeight/2)+"px)";
-    		return;
+    		lists.lyricprimary.style.marginTop = "100px";
+    		var m = true;
     	}
-    	};
+    	var i=0;
+    	if(thats.audio.ontimeupdate === null){
+	    	thats.audio.ontimeupdate = function(){
+		    	if(i < (lists.lrc.length-1)){
+		    		do{
+		    			if(thats.paused !== true && i <= (lists.lrc.length) && lists.lrc[i].getAttribute("time")<=thats.audio.currentTime){
+		    				if(thats.getElementsByClassName("lyric-context")[0]) thats.getElementsByClassName("lyric-context")[0].classList.toggle("lyric-context");
+		    				lists.lrc[i].classList.toggle("lyric-context");
+		    				lists.lyricprimary.style.transform = "translateY("+(-(thats.getElementsByClassName("lyric-context")[0].offsetTop-thats.getElementsByClassName("lyric-context")[0].parentNode.offsetTop)+parseInt(getComputedStyle(thats.getElementsByClassName("lyric-context")[0].parentNode.parentNode).height)/2 - thats.getElementsByClassName("lyric-context")[0].scrollHeight/2)+"px)";
+		    				i++;
+		    			}
+		    		}while(lists.lrc[i].getAttribute("time")<=thats.audio.currentTime&&i < (lists.lrc.length-1));
+		    		(function lrcu(){
+		    			if(thats.paused !== true && i <= (lists.lrc.length) && lists.lrc[i].getAttribute("time")>thats.audio.currentTime && i>1){
+		    				i--;
+		    				if(thats.getElementsByClassName("lyric-context")[0]) thats.getElementsByClassName("lyric-context")[0].classList.toggle("lyric-context");
+		    				lists.lrc[i].classList.toggle("lyric-context");
+		    				lists.lyricprimary.style.transform = "translateY("+(-(thats.getElementsByClassName("lyric-context")[0].offsetTop-thats.getElementsByClassName("lyric-context")[0].parentNode.offsetTop)+parseInt(getComputedStyle(thats.getElementsByClassName("lyric-context")[0].parentNode.parentNode).height)/2 - thats.getElementsByClassName("lyric-context")[0].scrollHeight/2)+"px)";
+		    				setTimeout(0,lrcu);
+		    			}
+		    		})();
+		    	}else{
+		    		if(thats.getElementsByClassName("lyric-context")[0]) thats.getElementsByClassName("lyric-context")[0].classList.toggle("lyric-context");
+		    		lists.lrc[i].classList.toggle("lyric-context");
+		    		lists.lyricprimary.style.transform = "translateY("+(-(thats.getElementsByClassName("lyric-context")[0].offsetTop-thats.getElementsByClassName("lyric-context")[0].parentNode.offsetTop)+parseInt(getComputedStyle(thats.getElementsByClassName("lyric-context")[0].parentNode.parentNode).height)/2 - thats.getElementsByClassName("lyric-context")[0].scrollHeight/2)+"px)";
+		    		return;
+		    	}
+	    	};
+	    }else{
+	    	setInterval(function(){
+		    	if(i < (lists.lrc.length-1)){
+		    		do{
+		    			if(thats.paused !== true && i <= (lists.lrc.length) && lists.lrc[i].getAttribute("time")<=thats.audio.currentTime){
+		    				if(thats.getElementsByClassName("lyric-context")[0]) thats.getElementsByClassName("lyric-context")[0].classList.toggle("lyric-context");
+		    				lists.lrc[i].classList.toggle("lyric-context");
+		    				lists.lyricprimary.style.marginTop = (-(thats.getElementsByClassName("lyric-context")[0].offsetTop-thats.getElementsByClassName("lyric-context")[0].parentNode.offsetTop)+parseInt(getComputedStyle(thats.getElementsByClassName("lyric-context")[0].parentNode.parentNode).height)/2 - thats.getElementsByClassName("lyric-context")[0].scrollHeight/2)+"px";
+		    				i++;
+		    			}
+		    		}while(lists.lrc[i].getAttribute("time")<=thats.audio.currentTime&&i < (lists.lrc.length-1));
+		    		(function lrcu(){
+		    			if(thats.paused !== true && i <= (lists.lrc.length) && lists.lrc[i].getAttribute("time")>thats.audio.currentTime && i>1){
+		    				i--;
+		    				if(thats.getElementsByClassName("lyric-context")[0]) thats.getElementsByClassName("lyric-context")[0].classList.toggle("lyric-context");
+		    				lists.lrc[i].classList.toggle("lyric-context");
+		    				lists.lyricprimary.style.marginTop = (-(thats.getElementsByClassName("lyric-context")[0].offsetTop-thats.getElementsByClassName("lyric-context")[0].parentNode.offsetTop)+parseInt(getComputedStyle(thats.getElementsByClassName("lyric-context")[0].parentNode.parentNode).height)/2 - thats.getElementsByClassName("lyric-context")[0].scrollHeight/2)+"px";
+		    				setTimeout(0,lrcu);
+		    			}
+		    		})();
+		    	}else{
+		    		if(thats.getElementsByClassName("lyric-context")[0]) thats.getElementsByClassName("lyric-context")[0].classList.toggle("lyric-context");
+		    		lists.lrc[i].classList.toggle("lyric-context");
+		    		lists.lyricprimary.style.marginTop = (-(thats.getElementsByClassName("lyric-context")[0].offsetTop-thats.getElementsByClassName("lyric-context")[0].parentNode.offsetTop)+parseInt(getComputedStyle(thats.getElementsByClassName("lyric-context")[0].parentNode.parentNode).height)/2 - thats.getElementsByClassName("lyric-context")[0].scrollHeight/2)+"px";
+		    		return;
+		    	}
+	    	},200);
+	    }
     };
     lists.button.plays.onclick = function(){
     	if(thats.audio.paused === false){
     		thats.audio.pause();
-    		//thats.playicon("pause",lists); onpause 冲突
+    		if(thats.audio.onpause === undefined) thats.playicon("pause",lists);
     	}else{
     		thats.audio.play();
-    		//thats.playicon("play",lists); onplay 冲突
+    		if(thats.audio.onplay === undefined) thats.playicon("play",lists);
     	};
     };
     lists.button.volumeButton.onclick = function(){

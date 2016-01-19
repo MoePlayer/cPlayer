@@ -284,6 +284,7 @@ i.volume_up {
 .bc i {
 	vertical-align: middle;
 	text-transform: none;
+	word-wrap: normal;
 	-webkit-text-fill-color: transparent;
 	color: transparent;
 	position: absolute;

@@ -3,6 +3,10 @@
 * Author	Corps
 */
 
+.player *{
+	position: static; /* CLEAR */
+}
+
 /* Placeholder */
 .player .placeholder {
 	width: 100%;
@@ -192,7 +196,7 @@
 	list-style: none;
 	margin: 1em;
 	z-index: 10;
-	color: #eee;
+	color: #ddd;
 	font-size: medium;
 }
 lrc {
@@ -215,7 +219,7 @@ lrc {
 }
 
 lrc:empty {
-	height: 2.1em !important;
+	height: 1.5em !important;
 }
 
 .player.white{
@@ -232,7 +236,7 @@ lrc:empty {
 	background: -moz-linear-gradient(top,transparent,white);
 }
 .player.white .lyric-context{
-	color:#111;
+	color:#5ad;
 }
 .player.white .lyric{
 	color:#222;
@@ -285,6 +289,7 @@ i.volume_up {
 	vertical-align: middle;
 	text-transform: none;
 	word-wrap: normal;
+	word-break: normal;
 	-webkit-text-fill-color: transparent;
 	color: transparent;
 	position: absolute;

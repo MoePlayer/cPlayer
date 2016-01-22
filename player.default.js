@@ -109,22 +109,22 @@ Element.prototype.cPlayer = function(){
 			p.classList.add("placeholder");
 			this.appendChild(p);
 		}
-		//增加主面板DIV
-		if(this.getElementsByClassName("player-primary")[0] === undefined){
-			var p = document.createElement("div");
-			p.classList.add("player-primary");
-			p.innerHTML = '				<div class="left"><button class="bc plays"><i class="played">played</i></button><div class="leng"><div class="wall"><div class="clicks"></div><div class="buffer"></div></div></div></div><div class="right"><button class="bc volumeButton"><i class="volume_up">volume_up</i></button><div class="volume"><div class="v-wall"><div class="v-clicks"></div></div></div></div>';
-			this.innerHTML = this.innerHTML + p.outerHTML;
-		}
 		//增加歌词DIV
 		if(this.lyric.check === true){
-			var p = document.createElement("div");
+			p = document.createElement("div");
 			p.classList.add("lyric");
 			p.style.display = "none";
 			pl = document.createElement("div");
 			pl.classList.add("lyric-primary");
 			pl.innerHTML = this.lyric.result;
 			p.appendChild(pl);
+			this.innerHTML = this.innerHTML + p.outerHTML;
+		}
+		//增加主面板DIV
+		if(this.getElementsByClassName("player-primary")[0] === undefined){
+			p = document.createElement("div");
+			p.classList.add("player-primary");
+			p.innerHTML = '				<div class="left"><button class="bc plays"><i class="played">played</i></button><div class="leng"><div class="wall"><div class="clicks"></div><div class="buffer"></div></div></div></div><div class="right"><button class="bc volumeButton"><i class="volume_up">volume_up</i></button><div class="volume"><div class="v-wall"><div class="v-clicks"></div></div></div></div>';
 			this.innerHTML = this.innerHTML + p.outerHTML;
 		}
 		this.addMusic();
@@ -285,9 +285,12 @@ Element.prototype.addMusic = function(){
 		    	if(i < (lists.lrc.length-1)){
 		    		do{
 		    			if(thats.paused !== true && i <= (lists.lrc.length) && lists.lrc[i].getAttribute("time")<=thats.audio.currentTime){
-		    				if(thats.getElementsByClassName("lyric-context")[0]) thats.getElementsByClassName("lyric-context")[0].classList.toggle("lyric-context");
-		    				lists.lrc[i].classList.toggle("lyric-context");
-		    				lists.lyricprimary.style.transform = "translateY("+(-(thats.getElementsByClassName("lyric-context")[0].offsetTop-thats.getElementsByClassName("lyric-context")[0].parentNode.offsetTop)+parseInt(getComputedStyle(thats.getElementsByClassName("lyric-context")[0].parentNode.parentNode).height)/2 - thats.getElementsByClassName("lyric-context")[0].scrollHeight/2)+"px)";
+		    				if(thats.getElementsByClassName("lyric-context")[0] !== undefined && thats.getElementsByClassName("lyric-context")[0] !== lists.lrc[i]) {
+		    					thats.getElementsByClassName("lyric-context")[0].classList.toggle("lyric-context");
+		    					lists.lrc[i].classList.toggle("lyric-context");
+		    					lists.lyricprimary.style.transform = "translateY("+(-(thats.getElementsByClassName("lyric-context")[0].offsetTop-thats.getElementsByClassName("lyric-context")[0].parentNode.offsetTop)+parseInt(getComputedStyle(thats.getElementsByClassName("lyric-context")[0].parentNode.parentNode).height)/2 - thats.getElementsByClassName("lyric-context")[0].scrollHeight/2)+"px)";
+		    					
+		    				}
 		    				i++;
 		    			}
 		    		}while(lists.lrc[i].getAttribute("time")<=thats.audio.currentTime&&i < (lists.lrc.length-1));
@@ -368,4 +371,3 @@ window.onload = function(){
 			}
 		}
 };
-

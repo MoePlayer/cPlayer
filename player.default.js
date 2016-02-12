@@ -3,7 +3,6 @@
 * Author  Corps
 */
 
-
 function cPlayer(json){
 	try{
 		try{
@@ -25,6 +24,7 @@ function cPlayer(json){
 		}
 		if(json.lyric !== undefined) thisPlayer.innerHTML = json.lyric;
 		if(json.white === true) thisPlayer.classList.add("white");
+		if(json.video === true) thisPlayer.classList.add("video");
 		thisPlayer.cPlayer();
 		return thisPlayer;
 	}catch(e){
@@ -100,9 +100,13 @@ Element.prototype.cPlayer = function(){
 		}
 
 		//增加audio元素
-		if(this.audio === undefined) this.audio = new Audio;
+		if(this.classList.contains("video")){
+			this.audio = document.createElement("video");
+		}else{
+			if(this.audio === undefined) this.audio = new Audio;
+		}
 		this.audio.src = this.getAttribute("src");
-		this.innerHTML = this.audio.outerHTML + this.innerHTML;
+		this.appendChild(this.audio);
 		//增加Waiting DIV
 		if(this.getElementsByClassName("placeholder")[0] === undefined) {
 			var p = document.createElement("div");
@@ -144,7 +148,11 @@ Element.prototype.playicon = function(a,lists){
 }
 
 Element.prototype.addMusic = function(){
-	this.audio = this.getElementsByTagName("audio")[0];
+		if(this.classList.contains("video")){
+			this.audio = this.getElementsByTagName('video')[0];
+		}else{
+			this.audio = this.getElementsByTagName('audio')[0];
+		}
 	var lists = new Object;
 	lists.button = new Object;
 	lists.icon = new Object;

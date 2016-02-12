@@ -55,17 +55,32 @@ For Example
 new cPlayer({
 	"url":"http://7tsyoo.com1.z0.glb.clouddn.com/monody.mp3",
 	"lyric":"[by:阿西巴格达]\n[00:00.00]\n[02:48.50]Summer in the hills\n[02:51.68]Those hazy days I do remember\n[02:55.50]We were running still\n[02:58.06]Had the whole world at our feet\n[03:02.10]Watching seasons change\n[03:04.66]Our roads were lined with adventure\n[03:08.70]Mountains in the way\n[03:11.30]Couldn\'t keep us from the sea\n[03:14.50]Here we stand open arms\n[03:17.91]This is home where we are\n[03:21.65]Ever strong in the world that we made\n[03:28.75]I still hear you in the breeze\n[03:32.15]See your shadows in the trees\n[03:35.85]Holding on, memories never change\n[03:42.96]\n",
-	"white":true
+	"white":true,
+	"video":false
 });
 ```
 JSON不能上字符串(加`""`或者`''`)
 如此生成一个DOM Element元素,可以用`appendChild`将其载入文档.
 
+### Video Support
+
+```html
+<div class="player video" src="http://[...].mp4"></div>
+```
+同样可以使用构造器生成.
+
+```javascript
+new cPlayer({
+	"url":"http://7tsyoo.com1.z0.glb.clouddn.com/monody.mp3",
+	"video":true
+});
+```
+
 ## TODO
 - [x] 手机支持
 - [ ] 全屏样式
 - [ ] 手机样式
-- [ ] 视频支持
+- [x] 视频支持
 - [ ] 列表支持
 - [ ] 多彩支持
 - [ ] 上一首-下一首支持(切歌支持)

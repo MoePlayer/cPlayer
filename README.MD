@@ -1,4 +1,4 @@
-** cPlayer Rewriting... **
+**cPlayer Rewriting...**
 
 # cPlayer
 

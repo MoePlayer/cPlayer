@@ -16,6 +16,8 @@
 	top: 0;
 	left: 0;
 	z-index: 9999;
+	display:-webkit-flex;
+	display:-ms-flexbox;
 	display:flex;
 	transition: all 1s cubic-bezier(0, 0.55, 0.2, 1.11) 0s;
 	-moz-transition: all 1s cubic-bezier(0, 0.55, 0.2, 1.11) 0s;
@@ -35,12 +37,20 @@
 }
 
 .leng {
-	flex: 1;
+	-webkit-flex: 1;
+	    -ms-flex: 1;
+	        flex: 1;
 }
 .player .left {
-	flex: 3;
+	-webkit-flex: 3;
+	    -ms-flex: 3;
+	        flex: 3;
+	display: -webkit-flex;
+	display: -ms-flexbox;
 	display: flex;
-	align-items: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
 }
 @media screen and (max-width: 500px){
 	.player .right{
@@ -59,9 +69,15 @@
 	}
 }
 .player .right {
-	flex: 1;
+	-webkit-flex: 1;
+	    -ms-flex: 1;
+	        flex: 1;
+	display: -webkit-flex;
+	display: -ms-flexbox;
 	display: flex;
-	align-items: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
 }
 .player button{
 	z-index: 1;
@@ -98,7 +114,9 @@
 	line-height: 0;
 	min-height: 50px;
 	background: rgba(51,51,51,1);
-	align-items: center;
+	-webkit-align-items: center;
+	    -ms-flex-align: center;
+	        align-items: center;
 	padding: 0.75em;
 	padding-right: 1.75em;
 	box-sizing: border-box;
@@ -112,6 +130,8 @@
 	-moz-user-select:none;
 }
 .player-primary{
+	display:-webkit-flex;
+	display:-ms-flexbox;
 	display:flex;
 }
 .leng .clicks {
@@ -145,11 +165,15 @@
 }
 
 .player .right button {
-	flex: 1;
+	-webkit-flex: 1;
+	    -ms-flex: 1;
+	        flex: 1;
 }
 
 .volume {
-	flex: 10;
+	-webkit-flex: 10;
+	    -ms-flex: 10;
+	        flex: 10;
 }
 
 .volume .v-clicks {
@@ -165,7 +189,6 @@
 	height: 3em;
 	height: 10vh;
 	display:block;
-	background:-webkit-linear-gradient(top,rgba(51,51,51,1),rgba(51,51,51,0));
 	background:-moz-linear-gradient(top,rgba(51,51,51,1),rgba(51,51,51,0));
 	position:absolute;
 	top:0;
@@ -178,7 +201,6 @@
 	height: 3em;
 	height: 10vh;
 	display:block;
-	background:-webkit-linear-gradient(top,rgba(51,51,51,0),rgba(51,51,51,1));
 	background:-moz-linear-gradient(top,rgba(51,51,51,0),rgba(51,51,51,1));
 	position:absolute;
 	bottom:0;
@@ -228,11 +250,9 @@ lrc:empty {
 	border-radius:0px;
 }
 .player.white .lyric::before{
-	background: -webkit-linear-gradient(top,rgba(255,255,255,1),rgba(255,255,255,0));
 	background: -moz-linear-gradient(top,rgba(255,255,255,1),rgba(255,255,255,0));
 }
 .player.white .lyric::after{
-	background: -webkit-linear-gradient(top,rgba(255,255,255,0),rgba(255,255,255,1));
 	background: -moz-linear-gradient(top,rgba(255,255,255,0),rgba(255,255,255,1));
 }
 .player.white .lyric-context{
@@ -296,7 +316,6 @@ i.volume_up {
 	top: 50%;
 	left: 50%;
 	-webkit-transform: translate(-12px,-12px);
-	-ms-transform: translate(-12px,-12px);
 	transform: translate(-12px,-12px);
 	line-height: 24px;
 	width: 24px;

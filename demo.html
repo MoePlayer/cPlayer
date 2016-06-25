@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>DEMO</title>
+    <script src="cplayer.js"></script>
+    <link rel="stylesheet" href="cplayer.css">
+    <link href="//cdn.bootcss.com/material-design-icons/2.2.3/iconfont/material-icons.css" rel="stylesheet">
+    <style>
+
+        body {
+            margin: 0;
+            background: url(https://dn-corps-blog-ghost.qbox.me/47174278_p0.jpg);
+            background-size: cover;
+        }
+
+        body>.main {
+            margin: 5% 0;
+            padding: 3% 15%;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 20px #000;
+            background: rgba(255, 255, 255, 0.62);
+        }
+
+        body>.main::before {
+            display: block;
+            content: " ";
+            background-size: cover;
+            background: url(https://dn-corps-blog-ghost.qbox.me/47174278_p0.jpg) center;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            -webkit-filter: blur(10px) brightness(1.2);
+            transform: scale(1.03);
+            z-index: -9999;
+        }
+
+        h1 {
+            color: white;
+            text-shadow: 1px 2px 5px #000;
+        }
+
+        .main .content {display: flex;flex-direction: column;line-height: 3;font-size: larger;}
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h1>cPlayer DEMO</h1>
+        <div class="content">
+            <span>The cPlayer is a WEB Music Player.</span>
+            <span>Corps created this and rewrote once.Corps think it is the best code he wrote.</span>
+            <span>Here is a DEMO,Thank you for trying this.</span>
+            <div id="cplayer"></div>
+        </div>
+    </div>
+    <script>
+        var cp = new cPlayer({list:[{
+            name:"ninelie",
+            author:"Aimer/EGOist",
+            image:"http://p3.music.126.net/uCUwmV7fEousHpMlWTYtQQ==/3312828538482348.jpg",
+            lyric:`[00:00.00] 作曲 : 澤野弘之
+[00:01.00] 作词 : 澤野弘之
+[00:22.590]君を繋ぐ空の星が1つ音を立てても
+[00:33.680]どれも同じ雨に濡れた夢ばかり 乾くだけの光(こう)
+[00:44.890]相手をなぞる 答えに疲れた
+[00:55.400]繰り返す日の無い夜明けに 崩れた朝
+[01:05.460]捕まえたdaydream 出遅れたストーリーと栄光が
+[01:13.090]どこへ叫び唱えても
+[01:17.340]荒れたトンネル 声もくぐれない
+[01:22.850]だからサイレンス 灯すためと
+[01:32.260]...
+[01:54.590]外とパズルのようにハマるピースが必要としても
+[02:05.750]影(えい)もない偽(いつわ)りと同じだ 捨て去られ並ぶだけの賞(しょう)
+[02:16.890]箱の中に揃えた苛立(いらだ)ち
+[02:27.370]順番待ちさらし 誤魔化しのゴール
+[02:37.490]Don't be above your daydream 角(かど)が取れたvision
+[02:43.760]君の夢が横で外れても
+[02:49.340]僕は歌い 橋をかけよう
+[02:54.980]だからサイレンス 鳴らすためと
+[03:04.350]どこまでも片側に沿ったリズム 過ぎた街並は終の愛と遠くへ
+[03:15.560]伝えれない歪(ひず)みかけのイメージに 目が覚めた抵抗 型落ちの衝動
+[03:26.700]...
+[03:27.710]砕けたcry&dream 扉だけの理想
+[03:34.030]街が雑音に溺れはしゃいでも
+[03:39.600]僕は歌い 舵を捨てよう
+[03:45.160]だからサイレンス 響くためと
+[03:55.270]Don't be afraid
+[04:00.890]daybreak has come`,
+            url:"http://m2.music.126.net/IPp5OVDljqZx2kBO7gYIsQ==/1413971962652446.mp3"
+        },{
+            name:"scapeGoat",
+            author:"泽野弘之",
+            image:"http://p3.music.126.net/87NydiTK_uTLZTjfMApdhQ==/2897213140592026.jpg",
+            lyric:`[00:00.350]
+[00:14.030]馴染めた白 鳥かご隅 鼓動獲たッポミも
+[00:26.800]置き去り声 眩めた 記憶の影
+[00:36.650]
+[00:37.380]I need your blood
+[00:40.500]You read love 唱える
+[00:43.370]足掻くRED LIGHT
+[00:50.180]嗅ぎ分けた音|音と こじ開けたReasonが
+[00:55.790]ただ平行に並ぶ
+[01:00.810]
+[01:00.990]罪・音 LIVE&死&I
+[01:04.320]疑似SIDE HEAVEN
+[01:06.760]キリがない「欲しい」でも 利害鳴る鈴
+[01:12.970]懺悔さえ乾いた 4拍子が 奏でたズレを辿る
+[01:23.370]木漏れ日の 赤が 騒ぐ
+[01:31.590]
+[01:34.360]I must be sacrificed
+[01:37.250]So can I help you all?
+[01:41.740]I'll be a scapegoat if I can
+[01:46.250]My resolution failed
+[01:51.510]And all who died
+[01:54.850]Light of day still hurts me
+[01:55.800]
+[01:57.470]You so need to know
+[02:00.390]You don't need to go
+[02:03.100]You're waiting right here
+[02:09.620]A way for me to make it back
+[02:13.190]Some way I won't need to attack
+[02:15.710]Everything has gone so wrong
+[02:20.610]
+[02:20.950]Come on break it down for me!
+[02:24.270]A river will flow
+[02:26.640]You are not my enemy
+[02:30.430]I'll let you prove me wrong
+[02:33.170]You can trust me when I say
+[02:36.670]It won't be long
+[02:39.230]We're gonna see the end of night
+[02:43.060]Don't forsake me now
+[02:45.310]We haven't got the time
+[02:49.920]
+[02:52.910]The fallen angels I run with all know
+[02:55.650]It's our fear that makes us all human after all
+[02:58.830]Torn old sepia photographs show
+[03:02.190]Our fragile little world
+[03:03.390]Must reject it, respond to the
+[03:05.270]Calling, screaming inside of my soul
+[03:07.950]It's my fear of loving what's
+[03:09.630]Dearest to us all
+[03:11.110]Sun is fading
+[03:14.440]It will set forever
+[03:16.630]
+[03:19.170]Are you still my family?
+[03:22.730]A river will flow
+[03:25.300]You are not my enemy
+[03:28.780]I'll let you prove me wrong
+[03:31.540]You can trust me when I say
+[03:35.130]It won't be long
+[03:37.610]We're gonna see the end of night
+[03:41.440]
+[03:43.770]Come on break it down for me
+[03:47.360]A river will flow
+[03:49.830]KEYがない「欲しい」でも 利害鳴る鈴
+[03:56.040]懺悔さえ乾いた 4拍子が 奏でた意図を辿る
+[04:06.060]木漏れ日の 赤が 騒ぐ
+[04:14.260]
+[04:15.660]The fallen angels I run with all know
+[04:18.900]It's our fear that makes us all human after all
+[04:22.230]Torn old sepia photographs show
+[04:24.860]Our fragile little world
+[04:26.340]Must reject it, respond to the
+[04:28.330]Calling, screaming inside of my soul
+[04:31.100]It's my fear of loving what's
+[04:32.580]Dearest to us all
+[04:34.300]Sun is fading
+[04:37.340]It will set forever
+[04:44.340]`,
+            url:"scaPEGoat.mp3"
+        }]});
+    </script>
+</body>
+</html>

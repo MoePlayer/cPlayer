@@ -4,6 +4,7 @@
      Author && user(:cry:)	Corps
      天若有情天亦老,我为长者续一秒~
  */
+"use strict";
 class cPlayer {
     constructor(options) {
         /*

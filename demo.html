@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>DEMO</title>
-    <script src="cplayer.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="cplayer.babeled.js"></script>
     <link rel="stylesheet" href="cplayer.css">
     <link href="//cdn.bootcss.com/material-design-icons/2.2.3/iconfont/material-icons.css" rel="stylesheet">
     <style>
@@ -42,6 +43,11 @@
         h1 {
             color: white;
             text-shadow: 1px 2px 5px #000;
+        }
+        @media screen and (max-width: 700px) {
+			body>.main{
+				padding: 3% 5%;
+			}
         }
 
         .main .content {display: flex;flex-direction: column;line-height: 3;font-size: larger;}

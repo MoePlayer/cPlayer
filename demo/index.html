@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <title>DEMO</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="cplayer.min.js"></script>
+    <link rel="stylesheet" href="cplayer.min.css">
+    <link href="https://cdn.bootcss.com/material-design-icons/2.2.3/iconfont/material-icons.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background: url(https://dn-corps-blog-ghost.qbox.me/47174278_p0.jpg);
+            background-size: cover;
+        }
+        body>.main {
+            margin: 5% 0;
+            padding: 3% 15%;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 20px #000;
+            background: rgba(255, 255, 255, 0.62);
+        }
+        body>.main::before {
+    	    display: block;
+    	    content: " ";
+    	    background-size: cover !important;
+    	    background: url(https://dn-corps-blog-ghost.qbox.me/47174278_p0.jpg);
+    	    background-position: center !important;
+    	    width: 100%;
+    	    height: 100%;
+    	    position: absolute;
+    	    left: 0;
+    	    right: 0;
+    	    top: 0;
+    	    bottom: 0;
+    	    filter: blur(10px) brightness(1.2);
+    	    transform: scale(1.03);
+    	    z-index: -9999;
+            will-change:background,transform;
+        }
+        h1 {
+            color: white;
+            text-shadow: 1px 2px 5px #000;
+        }
+        @media screen and (max-width: 700px) {
+			body>.main{
+				padding: 3% 5%;
+			}
+        }
+        .main .content {display: flex;flex-direction: column;line-height: 3;font-size: larger;}
+    </style>
+</head>
+<body>
+    <div class="main">
+        <h1>cPlayer DEMO</h1>
+        <div class="content">
+            <span>The cPlayer is a WEB Music Player.</span>
+            <span>Corps created this and rewrote once.Corps think it is the best code he wrote.</span>
+            <span>Here is a DEMO,Thank you for trying this.</span>
+            <div id="cplayer"></div>
+        </div>
+    </div>
+    <script>
+        var cp = new cPlayer({list:[{
+            name:"ninelie",
+            artist:"Aimer/EGOist",
+            image:"http://p3.music.126.net/uCUwmV7fEousHpMlWTYtQQ==/3312828538482348.jpg",
+            lyric:`[00:00.00] 作曲 : 澤野弘之
+[00:01.00] 作词 : 澤野弘之
+[00:22.590]君を繋ぐ空の星が1つ音を立てても
+[00:33.680]どれも同じ雨に濡れた夢ばかり 乾くだけの光(こう)
+[00:44.890]相手をなぞる 答えに疲れた
+[00:55.400]繰り返す日の無い夜明けに 崩れた朝
+[01:05.460]捕まえたdaydream 出遅れたストーリーと栄光が
+[01:13.090]どこへ叫び唱えても
+[01:17.340]荒れたトンネル 声もくぐれない
+[01:22.850]だからサイレンス 灯すためと
+[01:32.260]...
+[01:54.590]外とパズルのようにハマるピースが必要としても
+[02:05.750]影(えい)もない偽(いつわ)りと同じだ 捨て去られ並ぶだけの賞(しょう)
+[02:16.890]箱の中に揃えた苛立(いらだ)ち
+[02:27.370]順番待ちさらし 誤魔化しのゴール
+[02:37.490]Don't be above your daydream 角(かど)が取れたvision
+[02:43.760]君の夢が横で外れても
+[02:49.340]僕は歌い 橋をかけよう
+[02:54.980]だからサイレンス 鳴らすためと
+[03:04.350]どこまでも片側に沿ったリズム 過ぎた街並は終の愛と遠くへ
+[03:15.560]伝えれない歪(ひず)みかけのイメージに 目が覚めた抵抗 型落ちの衝動
+[03:26.700]...
+[03:27.710]砕けたcry&dream 扉だけの理想
+[03:34.030]街が雑音に溺れはしゃいでも
+[03:39.600]僕は歌い 舵を捨てよう
+[03:45.160]だからサイレンス 響くためと
+[03:55.270]Don't be afraid
+[04:00.890]daybreak has come`,
+            url:"http://m2.music.126.net/IPp5OVDljqZx2kBO7gYIsQ==/1413971962652446.mp3"
+        },{
+            name:"SNOW PRINT",
+            artist:"oiko",
+            image:"http://p3.music.126.net/UA2mu5hb5B3Evvz49W_GIA==/2506886511393629.jpg",
+            url:"https://dn-corps-blog-ghost.qbox.me/snow-print.mp3"
+        }]});
+    </script>
+</body>
+</html>

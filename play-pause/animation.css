@@ -1,0 +1,30 @@
+body {
+  display: flex; }
+
+.play {
+  margin: auto;
+  position: relative; }
+  .play * {
+    height: 2em;
+    width: 0.2em;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #000;
+    border-radius: 0.2em; }
+  .play .l1 {
+    transform: translateX(-0.05em); }
+  .play .l2 {
+    transform: rotate(-60deg) translate(-50%, 0);
+    transform-origin: 0.025em 0.05em;
+    transition: all 0.5s ease-in; }
+  .play .l3 {
+    transform: rotate(60deg) translate(-50%, 5%);
+    transform-origin: 50% 100%;
+    transition: all 0.5s ease-in; }
+  .play.pause .l2 {
+    transform: rotate(0deg) translateX(1.5em); }
+  .play.pause .l3 {
+    transform: rotate(0deg) translateX(1.5em); }
+
+/*# sourceMappingURL=animation.css.map */

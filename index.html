@@ -25,19 +25,21 @@
         }
 
         body>.main::before {
-            display: block;
-            content: " ";
-            background-size: cover;
-            background: url(https://dn-corps-blog-ghost.qbox.me/47174278_p0.jpg) center;
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            left: 0;
-            right: 0;
-            top: 0;
-            -webkit-filter: blur(10px) brightness(1.2);
-            transform: scale(1.03);
-            z-index: -9999;
+	    display: block;
+	    content: " ";
+	    background-size: cover !important;
+	    background: url(https://dn-corps-blog-ghost.qbox.me/47174278_p0.jpg);
+	    background-position: center !important;
+	    width: 100%;
+	    height: 100%;
+	    position: absolute;
+	    left: 0;
+	    right: 0;
+	    top: 0;
+	    bottom: 0;
+	    filter: blur(10px) brightness(1.2);
+	    transform: scale(1.03);
+	    z-index: -9999;
         }
 
         h1 {

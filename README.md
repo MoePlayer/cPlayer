@@ -44,13 +44,14 @@ npm run demo
 ```javascript
 let cp = new cPlayer({
     "element":document.getElementById("here"),
-    "mdicon":true, //If your page has been loaded with the Material Icons,you can turn it to false;if not,you can turn it to true or fill it with a URL string
+    "mdicon":true, //If your page has been loaded with the Material Icons,you can turn it to false;if not,you can turn it to true or fill it with a URL string.
     "list":[
         {
             "name":"NINELIE", //The Music's Name
             "artist":"Aimer/EGOist",//The Music's Artist
             "image":"http://xxxxx",//The Music's Cover
-            "url":"http://xxxxx",//The Music's URL,
+            "url":"http://xxxxx",//The Music's URL
+            "loop":true,//If loop === true,the Music will be played again and again.
             "lyric":`
             [00:00.00]XXXXXXXX
             .....
@@ -76,15 +77,15 @@ let cp = new cPlayer({
 * `cp.next()` // Set the next music
 * `cp.to(now)` // Set the music you set
 * `cp.hasLyric(id)` // Return if the music you set has lyric
-* `cp.showLyric()` // Show the Lyric Body,if the music at that time hasn't lyric,DO NOTHING;if the Lyric Body is already shown,HIDE IT
+* `cp.showLyric()` // Show the Lyric Body,if the music at that time hasn't lyric,DO NOTHING;if the Lyric Body is already shown,HIDE IT.
 * `cp.hideLyric()` // Hide the Lyric Body
 * `cp.hasList()`
 * `cp.showList()`
 * `cp.hideList()` // (The Same As Above)
-* `refreshList()` // Refresh the List from ____LIST____(unuseful)
+* `refreshList()` // Refresh the List from `__LIST__`(unuseful)
 * `cp.add(options)` // Add music(the options is like above)
 * `cp.lyric(a)` // Set Lyric or Get Lyric
-* `cp.refreshLyric()` // Refresh the lyric now from ____LYRIC____(unuseful)
+* `cp.refreshLyric()` // Refresh the lyric now from `__LYRIC__`(unuseful)
 * `cp.updateTime()` // Set Music's Current Time
 * `cp.slideLyric(time)` //Core Lyric Process
 

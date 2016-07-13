@@ -176,13 +176,11 @@ class cPlayer {
         __SELF__.music.addEventListener("ended", ()=> {
             this.__LIST__.lyricBody.style.transform = "";
             __SELF__.__LIST__.toggleIcon.innerHTML = "play_arrow";
-            if (this.hasList()&&this.now !== this.options.list.length-1) {
-                this.next();
-            } else {
-                if (this.options.list[this.now].loop === true) {
+            if (this.options.list[this.now].loop === true) {
                     this.updateTime(0);
                     this.play();
-                }
+            }else if (this.hasList()&&this.now !== this.options.list.length-1) {
+                this.next();
             }
         });
         this.options.element.addEventListener("mousedown", (a)=>this.dragPercentage(a));
@@ -452,14 +450,18 @@ class cPlayer {
      */
     slideLyric(time) {
         if(this.__LIST__.lyric.classList.contains("invisible"))return;
+        let lyricToTop,halfBody,translateY;
         for (var i = this.__LYRIC__.length - 1; i >= 0; i--) {
             if (this.__LYRIC__[i + 1] !== undefined && this.__LYRIC__[i].time < time && this.__LYRIC__[i + 1].time > time
                 || this.__LYRIC__[i + 1] === undefined && this.__LYRIC__[i].time < time) {
                 if (this.__LIST__.lyricBody.querySelector(".now") !== null && this.__LIST__.lyricBody.querySelector(".now") !== this.__LIST__.lyricBody.childNodes[i + 1])
                     this.__LIST__.lyricBody.querySelector(".now").classList.toggle("now");
                 this.__LIST__.lyricBody.childNodes[i].classList.toggle("now");
-                this.__LIST__.lyricBody.style.transform = "translateY(-" + parseInt(this.__LIST__.lyricBody.childNodes[i].offsetTop -this.__LIST__.lyric.offsetTop - 0.4 * this.__LIST__.lyric.clientHeight) + "px)";
-
+                //以下四句借鉴了KK的写法,感谢Kookxiang.
+                let lyricToTop = this.__LIST__.lyricBody.childNodes[i].offsetTop - this.__LIST__.lyricBody.childNodes[0].offsetTop - 0.5 * this.__LIST__.lyricBody.childNodes[i].clientHeight;
+                let halfBody = 0.5 * this.__LIST__.lyric.clientHeight - this.__LIST__.lyricBody.childNodes[i].clientHeight;
+                let translateY = -(lyricToTop - halfBody);
+                this.__LIST__.lyricBody.style.transform = "translateY(" + translateY + "px)";
             }
         }
     }

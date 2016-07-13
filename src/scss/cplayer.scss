@@ -70,7 +70,8 @@ c-player{
 			flex-direction: column;
 			width:100%;
 			text-align: center;
-			margin:6em auto;
+			//padding:6em 0;
+			transform:translateY(-6em);
 			transition: all 0.25s;
 			lrc{
 				will-change:background;

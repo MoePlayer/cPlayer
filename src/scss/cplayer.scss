@@ -29,6 +29,7 @@ $p-radius:5px;
 	border-radius:100%;
 	background-color:lighten($b-color,20%);
 	color:white;
+	cursor:pointer;
 }
 @mixin small-button{
 	display:flex;
@@ -37,6 +38,7 @@ $p-radius:5px;
 	border-radius: 10%;
 	color:grey;
 	transition:all 0.2s ease-in;
+	cursor:pointer;
 	&:hover{
 		background:rgba(117,117,117,.3);
 	}
@@ -71,7 +73,7 @@ c-player{
 			width:100%;
 			text-align: center;
 			//padding:6em 0;
-			transform:translateY(-6em);
+			transform:translateY(6em);
 			transition: all 0.25s;
 			lrc{
 				will-change:background;
@@ -98,18 +100,20 @@ c-player{
 					height:100%;
 					width:$c-height;
 					&:hover + .music-meta{
-						max-width: 100%;
-						margin:0 0.5em;
+						max-width: 9999px;
+						//margin:0 0.5em;
 					}
 				}
 				.music-meta{
+					margin:0 0.5em;
 					flex:1;
 					max-width:0;
+					width:auto;
 					display:flex;
 					overflow: hidden;
 					flex-direction: column;
 					height: 100%;
-					transition: all 1s ease-in;
+					transition: 1.5s all 0.5s ease-in;
 					.music-name{
 						font-size: 1.5em;
 					}

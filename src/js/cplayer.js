@@ -21,7 +21,7 @@ class cPlayer {
             alert("Please UPDATE YOUR BROWSER!!!");
         };
         */
-        let __SELF__ = this;
+        //let __SELF__ = this;
         if(Object.assign !== undefined){
             this.options = Object.assign({}, DEFAULTS, options);
         }else{
@@ -127,55 +127,55 @@ class cPlayer {
 
         this.music = new Audio;
         this.toggle();
-        __SELF__.__LIST__.toggle.addEventListener("click", ()=> {
-            if (__SELF__.isPaused()) {
-                __SELF__.play();
+        this.__LIST__.toggle.addEventListener("click", ()=> {
+            if (this.isPaused()) {
+                this.play();
             } else {
-                __SELF__.pause();
+                this.pause();
             }
         });
-        __SELF__.__LIST__.lyricPower.addEventListener("click", ()=> {
-            if (__SELF__.hasLyric(__SELF__.now) && __SELF__.__LIST__.lyric.classList.contains("invisible")) {
-                __SELF__.showLyric();
-            } else if (__SELF__.hasLyric(__SELF__.now) && !__SELF__.__LIST__.lyric.classList.contains("invisible")) {
-                __SELF__.hideLyric();
+        this.__LIST__.lyricPower.addEventListener("click", ()=> {
+            if (this.hasLyric(this.now) && this.__LIST__.lyric.classList.contains("invisible")) {
+                this.showLyric();
+            } else if (this.hasLyric(this.now) && !this.__LIST__.lyric.classList.contains("invisible")) {
+                this.hideLyric();
             }
         });
-        __SELF__.__LIST__.listPower.addEventListener("click", ()=> {
-            if (__SELF__.hasList() && __SELF__.__LIST__.list.classList.contains("invisible")) {
-                __SELF__.showList();
-            } else if (__SELF__.hasLyric() && !__SELF__.__LIST__.list.classList.contains("invisible")) {
-                __SELF__.hideList();
+        this.__LIST__.listPower.addEventListener("click", ()=> {
+            if (this.hasList() && this.__LIST__.list.classList.contains("invisible")) {
+                this.showList();
+            } else if (this.hasLyric() && !this.__LIST__.list.classList.contains("invisible")) {
+                this.hideList();
             }
         });
-        __SELF__.__LIST__.volumePower.addEventListener("click", ()=> {
-            if (__SELF__.isMuted()) {
-                __SELF__.music.muted = false;
+        this.__LIST__.volumePower.addEventListener("click", ()=> {
+            if (this.isMuted()) {
+                this.music.muted = false;
             } else {
-                __SELF__.volume(0);
+                this.volume(0);
             }
         });
-        __SELF__.music.addEventListener("volumechange", ()=> {
-            __SELF__.volume();
+        this.music.addEventListener("volumechange", ()=> {
+            this.volume();
         });
-        __SELF__.music.addEventListener("timeupdate", ()=> {
-            __SELF__.updateTime();
-            if (__SELF__.hasLyric(__SELF__.now)) {
-                __SELF__.slideLyric(__SELF__.music.currentTime);
+        this.music.addEventListener("timeupdate", ()=> {
+            this.updateTime();
+            if (this.hasLyric(this.now)) {
+                this.slideLyric(this.music.currentTime);
             }
         });
-        __SELF__.music.addEventListener("canplaythrough", ()=> {
-            //__SELF__.__LIST__.toggle.classList.add("pause");
+        this.music.addEventListener("canplaythrough", ()=> {
+            //this.__LIST__.toggle.classList.add("pause");
         });
-        __SELF__.music.addEventListener("pause", ()=> {
-            __SELF__.__LIST__.toggleIcon.innerHTML = "play_arrow";
+        this.music.addEventListener("pause", ()=> {
+            this.__LIST__.toggleIcon.innerHTML = "play_arrow";
         });
-        __SELF__.music.addEventListener("play", ()=> {
-            __SELF__.__LIST__.toggleIcon.innerHTML = "pause";
+        this.music.addEventListener("play", ()=> {
+            this.__LIST__.toggleIcon.innerHTML = "pause";
         });
-        __SELF__.music.addEventListener("ended", ()=> {
+        this.music.addEventListener("ended", ()=> {
             this.__LIST__.lyricBody.style.transform = "";
-            __SELF__.__LIST__.toggleIcon.innerHTML = "play_arrow";
+            this.__LIST__.toggleIcon.innerHTML = "play_arrow";
             if (this.options.list[this.now].loop === true) {
                     this.updateTime(0);
                     this.play();
@@ -335,7 +335,7 @@ class cPlayer {
     }
 
     refreshList() {
-        let __SELF__ = this;
+        //let __SELF__ = this;
         let list = this.options.list, lb = this.__LIST__.listBody;
         lb.innerHTML = ``;
         for (let i = 0; i <= list.length - 1; i++) {
@@ -343,20 +343,20 @@ class cPlayer {
             div.innerHTML = '<span class="music-name">' + list[i].name + '</span><span class="music-artist">' + list[i].artist + '</span>';
             div = lb.appendChild(div);
             div.addEventListener("click", ()=> {
-                __SELF__.to(i);
+                this.to(i);
             });
         }
 
     }
 
     add(u) {
-        let __SELF__ = this;
+        //let __SELF__ = this;
         let ln = this.options.list.push(u);
         let div = document.createElement("div");
         div.innerHTML = '<span class="music-name">' + u.name + '</span><span class="music-artist">' + u.artist + '</span>';
         div = this.__LIST__.listBody.appendChild(div);
         div.addEventListener("click", ()=> {
-            __SELF__.to(ln - 1);
+            this.to(ln - 1);
         });
     }
 

@@ -24,14 +24,7 @@ class cPlayer {
         //let __SELF__ = this;
         if(Object.assign !== undefined){
             this.options = Object.assign({}, DEFAULTS, options);
-        }else{
-            for(let a in DEFAULTS){
-                this.options[a] = DEFAULTS[a];
-            }
-            for(let b in options){
-                this.options[b] = options[b];
-            }
-        };
+        }
         if(this.options.mdicon !== false){
             let link = document.createElement("link");
             link.rel = "stylesheet";
@@ -105,22 +98,22 @@ class cPlayer {
     </c-player>`;
         //然后为DOMList填充一下吧
         this.__LIST__ = {
-            lyric      : gbc("lyric"),
-            lyricBody  : gbn("lyric-body"),
-            toggle     : gbc("play-icon"),
-            img        : gbc("meta-bak"),
-            name       : gbc("music-name"),
-            artist     : gbc("music-artist"),
-            time       : gbc("time"),
-            timeLine   : gbc("time-line"),
-            timePoint  : gbc("time-point"),
-            lyricPower : gbc("lyric-power"),
-            volumePower: gbc("volume-power"),
-            volumeLine : gbc("volume-line"),
-            volumePoint: gbc("volume-point"),
-            listPower  : gbc("list-power"),
-            list       : gbc("list"),
-            listBody   : gbn("list-body")
+            "lyric"      : gbc("lyric"),
+            "lyricBody"  : gbn("lyric-body"),
+            "toggle"     : gbc("play-icon"),
+            "img"        : gbc("meta-bak"),
+            "name"       : gbc("music-name"),
+            "artist"     : gbc("music-artist"),
+            "time"       : gbc("time"),
+            "timeLine"   : gbc("time-line"),
+            "timePoint"  : gbc("time-point"),
+            "lyricPower" : gbc("lyric-power"),
+            "volumePower": gbc("volume-power"),
+            "volumeLine" : gbc("volume-line"),
+            "volumePoint": gbc("volume-point"),
+            "listPower"  : gbc("list-power"),
+            "list"       : gbc("list"),
+            "listBody"   : gbn("list-body")
         };
         this.__LIST__.toggleIcon = gbc("material-icons",this.__LIST__.toggle);
         this.__LIST__.volumeIcon = gbc("material-icons",this.__LIST__.volumePower);
@@ -256,19 +249,22 @@ class cPlayer {
 
     play() {
         if(this.music.seeking === true) return;
+        /*
         this.music.play().then(()=>{
             console.log("It starts playing......")
         }).catch((e)=>{
             console.warn(e);
             console.log("Maybe The problem is that the music hasn't been loaded,you can send a Loading Request again by using `sth.load()` there.")
         });
-        return this.now;
+        */
+        this.music.play();
+        return this;
     }
 
     pause() {
         if(this.music.seeking === true) return;
         this.music.pause();
-        return this.now;
+        return this;
     }
 
     last() {
@@ -276,6 +272,7 @@ class cPlayer {
         this.now--;
         this.toggle();
         this.play();
+        return this;
     }
 
     next() {
@@ -283,12 +280,14 @@ class cPlayer {
         this.now++;
         this.toggle();
         this.play();
+        return this;
     }
 
     to(now) {
         this.now = now;
         this.toggle();
         this.play();
+        return this;
     }
 
     toggle(now = this.now) {
@@ -298,13 +297,16 @@ class cPlayer {
         if (!this.hasLyric(this.now))this.hideLyric();
         this.__LIST__.lyricBody.style.transform = "";
         //this.play();
+        return this;
     }
 
-    isPaused() {
+    isPaused(func) {
+        if(func !== undefined) func();
         return this.music.paused;
     }
 
-    hasLyric(id = 0) {
+    hasLyric(id = 0,func) {
+        if(func !== undefined) func();
         return (this.options.list[id].lyric !== undefined);
     }
 
@@ -319,22 +321,25 @@ class cPlayer {
         return this;
     }
 
-    hasList() {
+    hasList(func) {
+        if(func !== undefined) func();
         return (this.options.list.length > 1);
     }
 
-    showList() {
+    showList(func) {
         this.__LIST__.list.classList.remove("invisible");
         if (!this.__LIST__.lyric.classList.contains("invisible")) this.hideLyric();
+        if(func !== undefined) func();
         return this;
     }
 
-    hideList() {
+    hideList(func) {
         this.__LIST__.list.classList.add("invisible");
+        if(func !== undefined) func();
         return this;
     }
 
-    refreshList() {
+    refreshList(func) {
         //let __SELF__ = this;
         let list = this.options.list, lb = this.__LIST__.listBody;
         lb.innerHTML = ``;
@@ -346,10 +351,10 @@ class cPlayer {
                 this.to(i);
             });
         }
-
+        if(func !== undefined) func();
     }
 
-    add(u) {
+    add(u,func) {
         //let __SELF__ = this;
         let ln = this.options.list.push(u);
         let div = document.createElement("div");
@@ -358,6 +363,7 @@ class cPlayer {
         div.addEventListener("click", ()=> {
             this.to(ln - 1);
         });
+        if(func !== undefined) func();
     }
 
     lyric(content = undefined) {
@@ -367,6 +373,7 @@ class cPlayer {
             this.options.list[this.now].lyric = content;
             this.refreshLyric();
         }
+        return this;
     }
 
     refreshLyric() {
@@ -431,10 +438,11 @@ class cPlayer {
 
     }
 
-    updateTime(time = undefined) {
+    updateTime(time = undefined,func) {
         if (time !== undefined)this.music.currentTime = parseInt(time);
         if (this.dragging.contain === false) this.__LIST__.timeLine.style.width = (this.music.currentTime / this.music.duration) * 100 + "%";
         //if(this.isPaused()) this.play();
+        if(func !== undefined) func(this.music.currentTime);
         return this.music.currentTime;
     }
 
@@ -465,4 +473,28 @@ class cPlayer {
             }
         }
     }
+}
+
+
+//Object.assign 解决方案
+if (typeof Object.assign != 'function') {
+  Object.assign = function(target) {
+    'use strict';
+    if (target == null) {
+      throw new TypeError('Cannot convert undefined or null to object');
+    }
+
+    target = Object(target);
+    for (var index = 1; index < arguments.length; index++) {
+      var source = arguments[index];
+      if (source != null) {
+        for (var key in source) {
+          if (Object.prototype.hasOwnProperty.call(source, key)) {
+            target[key] = source[key];
+          }
+        }
+      }
+    }
+    return target;
+  };
 }

@@ -291,6 +291,7 @@ class cPlayer {
     }
 
     toggle(now = this.now) {
+        if(this.options.onChange !== undefined) this.options.onChange(this.now);
         let list = this.options.list[now], dom = this.__LIST__;
         [dom.img.src, dom.name.innerHTML, dom.artist.innerHTML, this.music.src] = [list.image, list.name, list.artist, list.url];
         this.refreshLyric();

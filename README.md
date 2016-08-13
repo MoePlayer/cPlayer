@@ -88,6 +88,44 @@ let cp = new cPlayer({
 * `cp.refreshLyric()` // Refresh the lyric now from `__LYRIC__`(unuseful)
 * `cp.updateTime()` // Set Music's Current Time
 * `cp.slideLyric(time)` //Core Lyric Process
+* `cp.on(eventName,func)` //__NEW!__ Set Events
+
+## Events
+
+Now Here are some events.
+
+| Event          | param | Note                                                         |
+|----------------|:-----:|--------------------------------------------------------------|
+|play            |       |                                                              |
+|pause           |       |                                                              |
+|volumechange    |   √   | Return the music's own event object                          |
+|timeupdate      |   √   | The same as above                                            |
+|canplaythrough  |       |                                                              |
+|ended           |       |                                                              |
+|toggle          |       |                                                              |
+|previous        |       |                                                              |
+|next            |       |                                                              |
+|changeList      |       |                                                              |
+|changeLyric     |       |                                                              |
+|slideList       |   √   | If showed,the param is `true`;If not,the param is `false`    |
+|slideLyric      |   √   | The same as above                                            |
+|clickListPower  |       |                                                              |
+|clickLyricPower |       |                                                              |
+|clickVolumePower|       |                                                              |
+
+### Usage
+
+```javascript
+cp.on("slideLyric",([showed])=>{
+    if(showed===true){
+        //...
+    }else{
+        //...
+    }
+}).on("timeupdate",([ev])=>{
+    //...
+})
+```
 
 ## DEMO
 

@@ -1,285 +1,293 @@
-// Color variables (appears count calculates by raw css)
-@color0: #ff6666; // Appears 4 times
-@color1: #cccccc; // Appears 2 times
-
-// Width variables (appears count calculates by raw css)
-@width0: 9999px; // Appears 2 times
-@width4: 10px; // Appears 2 times
-@width5: 100%; // Appears 7 times
-@width6: 2em; // Appears 2 times
-@width8: 4em; // Appears 2 times
-@width9: 0%; // Appears 2 times
-@width10: 0; // Appears 2 times
-
-// Height variables (appears count calculates by raw css)
-@height1: 10px; // Appears 2 times
-@height4: 100%; // Appears 6 times
-@height5: 2em; // Appears 3 times
-@height6: 2px; // Appears 4 times
+@var1: #eeeeee;
+@var2: #dddddd;
+@var3: #ffffff;
+@var4: #ff6666;
+@var5: #cccccc;
 
 c-player {
+	display: -webkit-flex;
+	display: -ms-flexbox;
 	display: flex;
+	-webkit-flex-direction: column;
+	-ms-flex-direction: column;
 	flex-direction: column;
+	.lyric, .lyric lyric-body {
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		transition: all .25s;
+	}
 	.invisible {
-		height: 0 !important;
+		height: 0;
 		overflow: hidden;
 	}
 	* {
+		text-decoration: none;
 		font-size: initial;
 		line-height: initial;
-		text-decoration: none;
 	}
 	.lyric {
-		background: #eeeeee;
+		will-change: height;
 		display: flex;
 		height: 45vh;
+		background: @var1;
 		overflow: hidden;
-		transition: all 0.25s;
-		will-change: height;
 		lyric-body {
-			display: flex;
-			flex-direction: column;
-			text-align: center;
-			transform: translateY(6em);
-			transition: all 0.25s;
-			width: @width5;
 			will-change: transform;
+			display: flex;
+			-webkit-flex-direction: column;
+			-ms-flex-direction: column;
+			flex-direction: column;
+			width: 100%;
+			text-align: center;
+			-webkit-transform: translateY(6em);
+			-ms-transform: translateY(6em);
+			transform: translateY(6em);
 			lrc {
-				font-family: "LiHei Pro","Microsoft Yahei",sans-serif;
-				font-size: large;
-				line-height: 3em;
-				transition: 0.25s background ease;
-				width: @width5;
 				will-change: background;
-			}
-			lrc.now {
-				background: #dddddd;
+				line-height: 3em;
+				font-size: large;
+				font-family: "LiHei Pro","Microsoft Yahei",sans-serif;
+				width: 100%;
+				transition: .25s background ease;
+				&.now {
+					background: @var2;
+				}
 			}
 		}
 	}
 	.controls {
-		background: white;
-		display: flex;
+		background: @var3;
 		height: 4em;
-		.c-left {
+		display: -webkit-flex;
+		display: -ms-flexbox;
+		display: flex;
+		.c-left, .c-left .music-description {
+			display: -webkit-flex;
+			display: -ms-flexbox;
 			display: flex;
-			.music-description {
-				display: flex;
-				.image {
-					height: @height4;
-					width: @width8;
-					img {
-						height: @height4;
-						width: @width8;
-						&:hover+.music-meta {
-							max-width: @width0;
-						}
-					}
-					&:hover+.music-meta {
-						max-width: @width0;
-					}
-				}
-				.music-meta {
-					display: flex;
-					flex-direction: column;
-					flex: 1;
-					height: @height4;
-					margin: 0 0.5em;
-					max-width: @width10;
-					overflow: hidden;
-					transition: 1.5s all 0.5s ease-in;
-					width: auto;
-					.music-name {
-						font-size: 1.5em;
-					}
-					.music-artist {
-						color: grey;
-						font-size: 0.7em;
-					}
-				}
+		}
+		.c-left .music-description .image, .c-left .music-description .image img {
+			height: 100%;
+			width: 4em;
+		}
+		.c-left .music-description .image img:hover+.music-meta, .c-left .music-description .image:hover+.music-meta {
+			max-width: 9999px;
+		}
+		.c-left .music-description .music-meta {
+			margin: 0 .5em;
+			-webkit-flex: 1;
+			-ms-flex: 1;
+			flex: 1;
+			max-width: 0;
+			width: auto;
+			display: -webkit-flex;
+			display: -ms-flexbox;
+			display: flex;
+			overflow: hidden;
+			-webkit-flex-direction: column;
+			-ms-flex-direction: column;
+			flex-direction: column;
+			height: 100%;
+			transition: 1.5s all .5s ease-in;
+			.music-name {
+				font-size: 1.5em;
 			}
-			.play-icon {
-				align-items: center;
-				background-color: @color0;
-				border-radius: 100%;
-				color: white;
-				cursor: pointer;
-				display: flex;
-				height: 3.@height5;
-				margin: auto 0.5em;
-				width: 3.@width6;
-				i {
-					font-size: 2.5em;
-					margin: auto;
-				}
+			.music-artist {
+				font-size: .7em;
+				color: grey;
+			}
+		}
+		.c-left .play-icon {
+			display: -webkit-flex;
+			display: -ms-flexbox;
+			display: flex;
+			-webkit-align-items: center;
+			-ms-flex-align: center;
+			align-items: center;
+			margin: auto .5em;
+			width: 3.2em;
+			height: 3.2em;
+			border-radius: 100%;
+			background-color: @var4;
+			color: @var3;
+			cursor: pointer;
+			i {
+				margin: auto;
+				font-size: 2.5em;
 			}
 		}
 		.c-center {
-			align-items: center;
-			display: flex;
+			-webkit-flex: 1;
+			-ms-flex: 1;
 			flex: 1;
-			padding: 0.5em;
 			width: auto;
+			display: -webkit-flex;
+			display: -ms-flexbox;
+			display: flex;
+			-webkit-align-items: center;
+			-ms-flex-align: center;
+			align-items: center;
+			padding: .5em;
 			.time {
-				width: @width5;
+				width: 100%;
 				.time-body {
-					background-color: @color1;
-					display: flex;
-					height: @height6;
 					margin: 0 1%;
+					height: 2px;
+					background-color: @var5;
+					display: -webkit-flex;
+					display: -ms-flexbox;
+					display: flex;
 					.time-line {
+						width: 0;
+						height: 2px;
 						background-color: red;
-						height: @height6;
-						width: @width9;
 					}
 					.time-point {
-						background-color: @color0;
-						border-radius: 100%;
-						height: @height1;
+						width: 10px;
+						height: 10px;
 						margin: -4px 0 0 -5px;
-						width: @width4;
+						background-color: @var4;
+						border-radius: 100%;
 					}
 				}
 			}
 		}
 		.c-right {
+			display: -webkit-flex;
+			display: -ms-flexbox;
 			display: flex;
 			margin: auto;
+			&>* {
+				width: 2em;
+				height: 2em;
+				margin: 0 .5em;
+				display: -webkit-flex;
+				display: -ms-flexbox;
+				display: flex;
+			}
 			.volume {
+				-webkit-align-items: center;
+				-ms-flex-align: center;
+				-ms-grid-row-align: center;
 				align-items: center;
-				transition: width @width10.2s;
+				transition: width .2s;
 				.volume-body {
-					background-color: @color1;
-					display: flex;
-					height: @height6;
 					margin: 0 1%;
-					transition: width @width10.2s;
-					visibility: hidden;
-					width: @width10;
+					height: 2px;
+					background-color: @var5;
+					display: -webkit-flex;
+					display: -ms-flexbox;
+					display: flex;
 					.volume-line {
+						width: 0;
+						height: 2px;
 						background-color: red;
-						height: @height6;
-						width: @width9;
 					}
 					.volume-point {
-						background-color: @color0;
-						border-radius: 100%;
-						height: @height1;
+						width: 10px;
+						height: 10px;
 						margin: -4px 0 0 -5px;
-						width: @width4;
+						background-color: @var4;
+						border-radius: 100%;
 					}
 				}
+				.volume-body {
+					visibility: hidden;
+					width: 0;
+					transition: width .2s;
+				}
 				&:hover {
-					width: 1@width6;
+					width: 12em;
 					.volume-body {
 						visibility: visible;
-						width: @width5;
+						width: 100%;
 					}
 				}
 				.volume-button {
-					height: @height5;
-					margin: 0.5em;
-					width: @width6;
+					width: 2em;
+					height: 2em;
+					margin: .5em;
 					.volume-power {
+						display: -webkit-flex;
+						display: -ms-flexbox;
+						display: flex;
+						width: 100%;
+						height: 100%;
 						border-radius: 10%;
 						color: grey;
+						transition: all .2s ease-in;
 						cursor: pointer;
-						display: flex;
-						height: @height4;
-						transition: all 0.2s ease-in;
-						width: @width5;
-						&:hover {
-							background: rgba(117, 117, 117, 0.3);
-						}
-						.material-icons {
-							margin: auto;
-						}
 					}
 				}
 			}
-			.list-button {
-				.list-power {
-					border-radius: 10%;
-					color: grey;
-					cursor: pointer;
-					display: flex;
-					height: @height4;
-					transition: all 0.2s ease-in;
-					width: @width5;
-					&:hover {
-						background: rgba(117, 117, 117, 0.3);
-					}
-					.material-icons {
-						margin: auto;
-					}
-				}
+			.list-button .list-power:hover, .lyric-button .lyric-power:hover, .volume .volume-button .volume-power:hover {
+				background: rgba(117,117,117,.3);
 			}
-			.lyric-button {
-				.lyric-power {
-					border-radius: 10%;
-					color: grey;
-					cursor: pointer;
-					display: flex;
-					height: @height4;
-					transition: all 0.2s ease-in;
-					width: @width5;
-					&:hover {
-						background: rgba(117, 117, 117, 0.3);
-					}
-					.material-icons {
-						margin: auto;
-					}
-				}
+			.list-button .list-power .material-icons, .lyric-button .lyric-power .material-icons, .volume .volume-button .volume-power .material-icons {
+				margin: auto;
 			}
-		}
-		.c-right>* {
-			display: flex;
-			height: @height5;
-			margin: 0 0.5em;
-			width: @width6;
+			.list-button .list-power, .lyric-button .lyric-power {
+				display: -webkit-flex;
+				display: -ms-flexbox;
+				width: 100%;
+				height: 100%;
+				border-radius: 10%;
+				color: grey;
+				transition: all .2s ease-in;
+				cursor: pointer;
+			}
+			.list-button .list-power {
+				display: flex;
+			}
+			.lyric-button .lyric-power {
+				display: flex;
+			}
 		}
 	}
 	.list {
-		background: white;
-		height: 35vh;
-		overflow: auto;
-		transition: all 0.25s;
 		will-change: height;
+		transition: all .25s;
+		height: 35vh;
+		background: @var3;
+		overflow: auto;
 		list-body {
+			display: -webkit-flex;
+			display: -ms-flexbox;
 			display: flex;
+			-webkit-flex-direction: column;
+			-ms-flex-direction: column;
 			flex-direction: column;
+			&>* {
+				line-height: 2em;
+				cursor: pointer;
+				transition: .2s background 0s ease;
+			}
+			&>:nth-child(2n-1) {
+				background: rgba(117,117,117,.23);
+			}
+			&>:hover {
+				background: rgba(117,117,117,.5);
+				&::before {
+					width: .2em;
+				}
+			}
+			&>::before {
+				background: @var4;
+				transition: .2s width 0s ease;
+				float: left;
+				height: 2em;
+				width: 0;
+				display: block;
+				content: "";
+			}
+			.music-artist, .music-name {
+				padding: 0 .5em;
+			}
 			.music-name {
 				float: left;
-				padding: 0 0.5em;
 			}
 			.music-artist {
 				float: right;
-				padding: 0 0.5em;
-			}
-		}
-		list-body>* {
-			cursor: pointer;
-			line-height: @height5;
-			transition: 0.2s background 0s ease;
-			&:nth-child(2n-1) {
-				background: rgba(117, 117, 117, 0.23);
-			}
-			&:hover {
-				background: rgba(117, 117, 117, 0.5);
-			}
-			&::before {
-				background: @color0;
-				content: "";
-				display: block;
-				float: left;
-				height: @height5;
-				transition: @width10.2s width @width10s ease;
-				width: @width10em;
-			}
-		}
-		list-body>*:hover {
-			&::before {
-				width: 0.@width6;
 			}
 		}
 	}

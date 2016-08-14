@@ -39,6 +39,33 @@ class cPlayer {
         if(Object.assign !== undefined){
             this.options = Object.assign({}, DEFAULTS, options);
         }
+
+        //SVG建立
+        this.SVG = {
+            "playArrow"     :'<path d="M16 10v28l22-14z"/>',
+            "pause"         :'<path d="M12 38h8V10h-8v28zm16-28v28h8V10h-8z"/>',
+            "playlistPlay"  :'<path d="M26 6H-8v4h34V6zm0-8H-8v4h34v-4zM-8 18h26v-4H-8v4zm30-4v12l10-6-10-6z"/>',
+            "note"          :'<path d="M44 20L32 8H8c-2.2 0-4 1.8-4 4v24.02C4 38.22 5.8 40 8 40l32-.02c2.2 0 4-1.78 4-3.98V20zm-14-9l11 11H30V11z"/>',
+            "volumeUp"      :'<path d="M6 18v12h8l10 10V8L14 18H6zm27 6c0-3.53-2.04-6.58-5-8.05v16.11c2.96-1.48 5-4.53 5-8.06zM28 6.46v4.13c5.78 1.72 10 7.07 10 13.41s-4.22 11.69-10 13.41v4.13c8.01-1.82 14-8.97 14-17.54S36.01 8.28 28 6.46z"/>',
+            "volumeMute"    :'<path d="M14 18v12h8l10 10V8L22 18h-8z"/>',
+            "volumeOff"     :'<path d="M33 24c0-3.53-2.04-6.58-5-8.05v4.42l4.91 4.91c.06-.42.09-.85.09-1.28zm5 0c0 1.88-.41 3.65-1.08 5.28l3.03 3.03C41.25 29.82 42 27 42 24c0-8.56-5.99-15.72-14-17.54v4.13c5.78 1.72 10 7.07 10 13.41zM8.55 6L6 8.55 15.45 18H6v12h8l10 10V26.55l8.51 8.51c-1.34 1.03-2.85 1.86-4.51 2.36v4.13c2.75-.63 5.26-1.89 7.37-3.62L39.45 42 42 39.45l-18-18L8.55 6zM24 8l-4.18 4.18L24 16.36V8z"/>',
+            "volumeDown"    :'<path d="M37 24c0-3.53-2.04-6.58-5-8.05v16.11c2.96-1.48 5-4.53 5-8.06zm-27-6v12h8l10 10V8L18 18h-8z"/>',
+        };
+        (()=>{
+            for(let i = 0,keys = Object.keys(this.SVG),length = keys.length;i<length;i++){
+                let svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
+                    if(keys[i]==="playlistPlay"){
+                        svg.setAttribute("viewBox","-12 -12 48 48");
+                        svg.setAttribute("enable-background","new -12 -12 48 48")
+                    }else{
+                        svg.setAttribute("viewBox","0 0 48 48");
+                    }
+                    svg.innerHTML = this.SVG[keys[i]];
+                this.SVG[keys[i]] = svg;
+            }
+        })();
+
+
         if(this.options.mdicon !== false){
             let link = document.createElement("link");
             link.rel = "stylesheet";
@@ -49,7 +76,7 @@ class cPlayer {
             }
             document.head.appendChild(link);
         };
-        var list, gbc = (args,ald)=>ald!==undefined?ald.getElementsByClassName(args)[0]:this.options.element.getElementsByClassName(args)[0], gbn = (args)=>this.options.element.getElementsByTagName(args)[0];
+        this.CDOM = new cDOM(this.options.element);
         this.now = 0;
         this.dragging = {contain: false, target: undefined};
         //现在开始填DOM
@@ -73,20 +100,19 @@ class cPlayer {
                                             image.appendChild(metaBak);
                                         let musicMeta = document.createElement("div");
                                             musicMeta.classList.add("music-meta");
-                                                let musicName = document.createElement("span");
-                                                    musicName.classList.add("music-name");
-                                                let musicArtist = document.createElement("span");
-                                                    musicArtist.classList.add("music-artist");
-                                            musicMeta.appendChild(musicName);
-                                            musicMeta.appendChild(musicArtist);
+                                                let div = document.createElement("div");
+                                                    let musicName = document.createElement("span");
+                                                        musicName.classList.add("music-name");
+                                                    let musicArtist = document.createElement("span");
+                                                        musicArtist.classList.add("music-artist");
+                                                    div.appendChild(musicName);
+                                                    div.appendChild(musicArtist);
+                                            musicMeta.appendChild(div);
                                     musicDescription.appendChild(image);
                                     musicDescription.appendChild(musicMeta);
                                 let playIcon = document.createElement("a");
                                     playIcon.classList.add("play-icon");
-                                        let playtoggleicon = document.createElement("i");
-                                            playtoggleicon.classList.add("material-icons");
-                                            playtoggleicon.innerHTML = "play_arrow";
-                                    playIcon.appendChild(playtoggleicon);
+                                    playIcon.appendChild(this.SVG.playArrow.cloneNode(true));
                             cLeft.appendChild(musicDescription);
                             cLeft.appendChild(playIcon);
                         let cCenter = document.createElement("div");
@@ -111,10 +137,7 @@ class cPlayer {
                                             volumeButton.classList.add("volume-button");
                                                 let volumePower = document.createElement("a");
                                                     volumePower.classList.add("volume-power");
-                                                        let volumeIcon = document.createElement("i");
-                                                            volumeIcon.classList.add("material-icons");
-                                                            volumeIcon.innerHTML = "volume_up";
-                                                    volumePower.appendChild(volumeIcon);
+                                                    volumePower.appendChild(this.SVG.volumeOff.cloneNode(true));
                                             volumeButton.appendChild(volumePower);
                                         let volumeBody = document.createElement("div");
                                             volumeBody.classList.add("volume-body");
@@ -129,20 +152,14 @@ class cPlayer {
                                 let listButton = document.createElement("div");
                                     listButton.classList.add("list-button");
                                         let listPower = document.createElement("a");
-                                            listPower.classList.add("list-power")
-                                                let listIcon = document.createElement("i");
-                                                    listIcon.classList.add("material-icons");
-                                                    listIcon.innerHTML = "playlist_play";
-                                            listPower.appendChild(listIcon);
+                                            listPower.classList.add("list-power");
+                                            listPower.appendChild(this.SVG.playlistPlay.cloneNode(true));
                                     listButton.appendChild(listPower);
                                 let lyricButton = document.createElement("div");
                                     lyricButton.classList.add("lyric-button");
                                         let lyricPower = document.createElement("a");
                                             lyricPower.classList.add("lyric-power");
-                                                let lyricIcon = document.createElement("i");
-                                                    lyricIcon.classList.add("material-icons");
-                                                    lyricIcon.innerHTML = "note";
-                                            lyricPower.appendChild(lyricIcon);
+                                            lyricPower.appendChild(this.SVG.note.cloneNode(true));
                                     lyricButton.appendChild(lyricPower);
                             cRight.appendChild(volume);
                             cRight.appendChild(listButton);
@@ -162,25 +179,26 @@ class cPlayer {
         })();
         //然后为DOMList填充一下吧
         this.__LIST__ = {
-            "lyric"      : gbc("lyric"),
-            "lyricBody"  : gbn("lyric-body"),
-            "toggle"     : gbc("play-icon"),
-            "img"        : gbc("meta-bak"),
-            "name"       : gbc("music-name"),
-            "artist"     : gbc("music-artist"),
-            "time"       : gbc("time"),
-            "timeLine"   : gbc("time-line"),
-            "timePoint"  : gbc("time-point"),
-            "lyricPower" : gbc("lyric-power"),
-            "volumePower": gbc("volume-power"),
-            "volumeLine" : gbc("volume-line"),
-            "volumePoint": gbc("volume-point"),
-            "listPower"  : gbc("list-power"),
-            "list"       : gbc("list"),
-            "listBody"   : gbn("list-body")
+            "lyric"      : this.CDOM.getByClass("lyric"),
+            "lyricBody"  : this.CDOM.getByTagName("lyric-body"),
+            "toggle"     : this.CDOM.getByClass("play-icon"),
+            "img"        : this.CDOM.getByClass("meta-bak"),
+            "name"       : this.CDOM.getByClass("music-name"),
+            "artist"     : this.CDOM.getByClass("music-artist"),
+            "time"       : this.CDOM.getByClass("time"),
+            "timeLine"   : this.CDOM.getByClass("time-line"),
+            "timePoint"  : this.CDOM.getByClass("time-point"),
+            "lyricPower" : this.CDOM.getByClass("lyric-power"),
+            "volumePower": this.CDOM.getByClass("volume-power"),
+            "volumeLine" : this.CDOM.getByClass("volume-line"),
+            "volumePoint": this.CDOM.getByClass("volume-point"),
+            "listPower"  : this.CDOM.getByClass("list-power"),
+            "list"       : this.CDOM.getByClass("list"),
+            "listBody"   : this.CDOM.getByTagName("list-body")
         };
-        this.__LIST__.toggleIcon = gbc("material-icons",this.__LIST__.toggle);
-        this.__LIST__.volumeIcon = gbc("material-icons",this.__LIST__.volumePower);
+        this.__LIST__.toggleIcon = this.CDOM.getByTagName("svg",this.__LIST__.toggle);
+        this.__LIST__.volumeIcon = this.CDOM.getByTagName("svg",this.__LIST__.volumePower);
+
 
         this.music = new Audio;
         //绑定事件开始:
@@ -217,12 +235,16 @@ class cPlayer {
         }).on("volumechange",()=>{
             this.volume(); //做更新界面用.
         }).on("pause",()=>{
-            //...
+            this.CDOM.replace(this.__LIST__.toggleIcon,this.SVG.playArrow);
+            //再赋值,更新内容.
+            this.__LIST__.toggleIcon = this.CDOM.getByTagName("svg",this.__LIST__.toggle);
         }).on("play",()=>{
-            //...
+            this.CDOM.replace(this.__LIST__.toggleIcon,this.SVG.pause);
+            //再赋值,更新内容.
+            this.__LIST__.toggleIcon = this.CDOM.getByTagName("svg",this.__LIST__.toggle);
         }).on("ended",()=>{
             this.__LIST__.lyricBody.style.transform = "";
-            this.__LIST__.toggleIcon.innerHTML = "play_arrow";
+            this.__LIST__.toggle.replaceChild(this.__LIST__.toggleIcon,this.SVG.playArrow);
             if (this.options.list[this.now].loop === true) {
                     this.updateTime(0);
                     this.play();
@@ -297,19 +319,31 @@ class cPlayer {
     }
 
     volume(vl = undefined) {
+        let checkLevel = ()=>{
+            if(this.music.volume===0||this.isMuted()){
+                this.CDOM.replace(this.__LIST__.volumeIcon,this.SVG.volumeOff);
+                this.__LIST__.volumeIcon = this.CDOM.getByTagName("svg",this.__LIST__.volumePower);
+            } else if(this.music.volume>0&&this.music.volume<=0.5){
+                this.CDOM.replace(this.__LIST__.volumeIcon,this.SVG.volumeDown);
+                this.__LIST__.volumeIcon = this.CDOM.getByTagName("svg",this.__LIST__.volumePower);
+            } else if(this.music.volume>0.5&&this.music.volume<=1){
+                this.CDOM.replace(this.__LIST__.volumeIcon,this.SVG.volumeUp);
+                this.__LIST__.volumeIcon = this.CDOM.getByTagName("svg",this.__LIST__.volumePower);
+            } else {
+                console.log("Unexcepted Volume:"+this.music.volume);
+            }
+        }
         if (vl === undefined) {
             this.__LIST__.volumeLine.style.width = (this.music.volume * 100) + "%";
-            if(!this.isMuted()){
-                this.__LIST__.volumeIcon.innerHTML = "volume_up";
-            }
+            checkLevel();
             return this.isMuted() ? 0 : this.music.volume;
         } else {
             if (vl === 0) {
                 this.music.muted = true;
-                this.__LIST__.volumeIcon.innerHTML = "volume_mute";
+                checkLevel();
             } else {
                 this.music.volume = vl;
-                this.__LIST__.volumeIcon.innerHTML = "volume_up";
+                checkLevel();
             }
         }
     }
@@ -334,8 +368,7 @@ class cPlayer {
         this.emitter.emit("previous");
         if(this.now === 0) return;
         this.now--;
-        this.toggle();
-        this.play();
+        this.toggle().play();
         return this;
     }
 
@@ -343,8 +376,7 @@ class cPlayer {
         this.emitter.emit("next");
         if(this.now === this.options.list.length-1) return;
         this.now++;
-        this.toggle();
-        this.play();
+        this.toggle().play();
         return this;
     }
 
@@ -358,7 +390,8 @@ class cPlayer {
     toggle(now = this.now) {
         this.emitter.emit("toggle");
         let list = this.options.list[now], dom = this.__LIST__;
-        this.pause();
+        this.music.pause();
+        //if(this.music.ended)this.music.load();
         [dom.img.src, dom.name.innerHTML, dom.artist.innerHTML, this.music.src] = [list.image, list.name, list.artist, list.url];
         this.refreshLyric();
         if (!this.hasLyric(this.now))this.hideLyric();
@@ -597,5 +630,23 @@ class cEmitter{
         }
         return this;
         //也许会有emitter.emit(..).emit(..)的写法?一次执行俩事件,实在不知道哪里有用...
+    }
+}
+class cDOM{
+    constructor(rootNode=document){
+        this.root = rootNode;
+    }
+    replace(oldElement,newElement){
+        //newElement 不存在于oldElement 的父元素中,首先载入.
+        newElement = newElement.cloneNode(true);
+        oldElement.parentNode.appendChild(newElement);
+        oldElement.parentNode.removeChild(oldElement);
+        //顺便如果有值为oldElement的变量,请重新赋值.
+    }
+    getByClass(className,parentElement){
+        return parentElement!=undefined?parentElement.getElementsByClassName(className)[0]:this.root.getElementsByClassName(className)[0];
+    }
+    getByTagName(tagName,parentElement){
+        return parentElement!=undefined?parentElement.getElementsByTagName(tagName)[0]:this.root.getElementsByTagName(tagName)[0];
     }
 }

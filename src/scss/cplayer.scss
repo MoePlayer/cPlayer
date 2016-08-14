@@ -3,6 +3,7 @@ $p-height:2px;
 $b-color:red;
 $p-radius:5px;
 @mixin progress($type:time){
+	cursor: pointer;
 	.#{$type}-body{
 		margin: 0 1%;
 		height:$p-height;
@@ -48,13 +49,24 @@ $p-radius:5px;
 }
 
 c-player{
+	svg{
+		width:100%;
+		fill:#333;
+	}
+	.play-icon svg{
+		fill:white;
+		width:80%;
+	}
 	.invisible{
 		height:0!important;
-		overflow: hidden;
+		overflow: hidden!important;
+		max-height: 0!important;
+		min-height: 0!important;
 	}
 	display:flex;
 	flex-direction: column;
 	* {
+		font-family: "Ubuntu Mono","微软雅黑","Microsoft JHenghei",sans-serif;
 	    text-decoration: none;
 	    font-size: initial;
 	    line-height:initial;
@@ -97,7 +109,7 @@ c-player{
 			.music-description{
 				display:flex;
 				.image,.image img{
-					height:100%;
+					height:$c-height;
 					width:$c-height;
 					&:hover + .music-meta{
 						max-width: 9999px;
@@ -114,27 +126,39 @@ c-player{
 					flex-direction: column;
 					height: 100%;
 					transition: 1.5s all 0.5s ease-in;
+					div{
+						display:flex;
+						width:100%;
+						height:100%;
+						justify-content:center;
+						align-items:center;
+						flex-direction:column;
+					}
 					.music-name{
 						font-size: 1.5em;
+						white-space: nowrap;
 					}
 					.music-artist{
 						font-size:0.7em;
 						color:grey;
+						white-space: nowrap;
 					}
 				}
 			}
 			.play-icon{
 				display:flex;
 				align-items:center;
+				justify-content:center;
 				margin:auto 0.5em;
 				@include big-button();
-				i{
-					margin:auto;
-					font-size:2.5em;
-				}
 			}
 		}
 		.c-center{
+			@media screen and (max-width: 800px) {
+				&{
+					display:none;
+				}
+			}
 			flex:1;
 			width:auto;
 			display:flex;
@@ -146,8 +170,14 @@ c-player{
 			}
 		}
 		.c-right{
+			@media screen and (max-width: 800px) {
+				&{
+					flex:1;
+				}
+			}
 			display:flex;
-			margin:auto;
+			justify-content: center;
+		    align-items: center;
 			&>*{
 				width:2em;
 				height:2em;
@@ -164,6 +194,11 @@ c-player{
 					transition: width 0.2s;
 				}
 				&:hover{
+					@media screen and (max-width: 800px) {
+						&{
+							width:100% !important;
+						}
+					}
 					width:12em;
 					.volume-body{
 						visibility: visible;
@@ -173,7 +208,6 @@ c-player{
 				.volume-button{
 					width:2em;
 					height:2em;
-					margin:0.5em;
 					.volume-power{
 						@include small-button();
 					}
@@ -194,14 +228,18 @@ c-player{
 	.list{
 		will-change:height;
 		transition:all 0.25s;
-		height:35vh;
+		//min-height: 45vh;
+		max-height: 75vh;
 		background:white;
 		overflow:auto;
 		list-body{
 			display: flex;
 			flex-direction: column;
+			overflow: hidden;
 			&>*{
-				line-height:2em;
+				display:flex;
+				align-items:center;
+				flex:1;
 				cursor:pointer;
 				transition: 0.2s background 0s ease;
 				&:nth-child(2n-1){
@@ -217,20 +255,29 @@ c-player{
 					background:lighten($b-color,20%);
 					transition:0.2s width 0s ease;
 					float:left;
-					height:2em;
+					height:2.5em;
 					width:0em;
 					display:block;
 					content:"";
+					@media screen and (max-width: 800px){
+						&{
+							height:3em;
+							&:hover{
+								&::before{
+									width:0.4em;
+								}
+							}
+						}
+					}
 				}
 			}
 			.music-name , .music-artist{
 				padding:0 0.5em;
 			}
 			.music-name{
-				float:left;
+				flex:1;
 			}
 			.music-artist{
-				float:right;
 			}
 		}
 	}

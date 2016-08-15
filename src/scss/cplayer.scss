@@ -2,6 +2,22 @@ $c-height:4em;
 $p-height:2px;
 $b-color:red;
 $p-radius:5px;
+
+@keyframes changeSize{
+	0%{
+		width:0;
+		height:0;
+		top:50%;
+		left:50%;
+	}
+	100%{
+		width:200%;
+		height:200%;
+		top:-50%;
+		left:-50%;
+	}
+}
+
 @mixin progress($type:time){
 	cursor: pointer;
 	.#{$type}-body{
@@ -20,7 +36,19 @@ $p-radius:5px;
 			margin:-1*($p-radius - $p-height/2) 0 0 -1*$p-radius;
 			background-color:lighten($b-color,20%);
 			border-radius: 100%;
-			//box-shadow:0 0 5px -1px;
+			position: relative;
+			&::before{
+				content:"";
+				display:block;
+				width:0;
+				height:0;
+				position: absolute;
+				top:50%;
+				left:50%;
+				background-color:rgba($b-color,.5);
+				animation:changeSize 1s ease-in-out infinite alternate;
+				border-radius: 100%;
+			}
 		}
 	}
 }

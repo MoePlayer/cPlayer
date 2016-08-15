@@ -2,7 +2,7 @@
 
 Maybe It's the best code I wrote.
 
-__Warning: This can only be loaded in the browser with ES6__
+__Warning: This can only be loaded well in the MODERN-BROWSER(eg. Edge14+,Firefox(Current Version,Chrome(Current Version)...))__
 
 ---
 
@@ -44,7 +44,6 @@ npm run demo
 ```javascript
 let cp = new cPlayer({
     "element":document.getElementById("here"),
-    "mdicon":true, //If your page has been loaded with the Material Icons,you can turn it to false;if not,you can turn it to true or fill it with a URL string.
     "list":[
         {
             "name":"NINELIE", //The Music's Name

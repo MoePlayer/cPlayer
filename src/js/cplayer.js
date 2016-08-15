@@ -66,17 +66,7 @@ class cPlayer {
         })();
 
 
-        if(this.options.mdicon !== false){
-            let link = document.createElement("link");
-            link.rel = "stylesheet";
-            if(typeof this.options.mdicon === "string"){
-                link.href = this.options.mdicon;
-            }else{
-                link.href = "https://cdn.bootcss.com/material-design-icons/2.2.3/iconfont/material-icons.css";
-            }
-            document.head.appendChild(link);
-        };
-        this.CDOM = new cDOM(this.options.element);
+        this.CBASE = new cBase(this.options.element);
         this.now = 0;
         this.dragging = {contain: false, target: undefined};
         //现在开始填DOM
@@ -179,25 +169,25 @@ class cPlayer {
         })();
         //然后为DOMList填充一下吧
         this.__LIST__ = {
-            "lyric"      : this.CDOM.getByClass("lyric"),
-            "lyricBody"  : this.CDOM.getByTagName("lyric-body"),
-            "toggle"     : this.CDOM.getByClass("play-icon"),
-            "img"        : this.CDOM.getByClass("meta-bak"),
-            "name"       : this.CDOM.getByClass("music-name"),
-            "artist"     : this.CDOM.getByClass("music-artist"),
-            "time"       : this.CDOM.getByClass("time"),
-            "timeLine"   : this.CDOM.getByClass("time-line"),
-            "timePoint"  : this.CDOM.getByClass("time-point"),
-            "lyricPower" : this.CDOM.getByClass("lyric-power"),
-            "volumePower": this.CDOM.getByClass("volume-power"),
-            "volumeLine" : this.CDOM.getByClass("volume-line"),
-            "volumePoint": this.CDOM.getByClass("volume-point"),
-            "listPower"  : this.CDOM.getByClass("list-power"),
-            "list"       : this.CDOM.getByClass("list"),
-            "listBody"   : this.CDOM.getByTagName("list-body")
+            "lyric"      : this.CBASE.getByClass("lyric"),
+            "lyricBody"  : this.CBASE.getByTagName("lyric-body"),
+            "toggle"     : this.CBASE.getByClass("play-icon"),
+            "img"        : this.CBASE.getByClass("meta-bak"),
+            "name"       : this.CBASE.getByClass("music-name"),
+            "artist"     : this.CBASE.getByClass("music-artist"),
+            "time"       : this.CBASE.getByClass("time"),
+            "timeLine"   : this.CBASE.getByClass("time-line"),
+            "timePoint"  : this.CBASE.getByClass("time-point"),
+            "lyricPower" : this.CBASE.getByClass("lyric-power"),
+            "volumePower": this.CBASE.getByClass("volume-power"),
+            "volumeLine" : this.CBASE.getByClass("volume-line"),
+            "volumePoint": this.CBASE.getByClass("volume-point"),
+            "listPower"  : this.CBASE.getByClass("list-power"),
+            "list"       : this.CBASE.getByClass("list"),
+            "listBody"   : this.CBASE.getByTagName("list-body")
         };
-        this.__LIST__.toggleIcon = this.CDOM.getByTagName("svg",this.__LIST__.toggle);
-        this.__LIST__.volumeIcon = this.CDOM.getByTagName("svg",this.__LIST__.volumePower);
+        this.__LIST__.toggleIcon = this.CBASE.getByTagName("svg",this.__LIST__.toggle);
+        this.__LIST__.volumeIcon = this.CBASE.getByTagName("svg",this.__LIST__.volumePower);
 
 
         this.music = new Audio;
@@ -235,13 +225,13 @@ class cPlayer {
         }).on("volumechange",()=>{
             this.volume(); //做更新界面用.
         }).on("pause",()=>{
-            this.CDOM.replace(this.__LIST__.toggleIcon,this.SVG.playArrow);
+            this.CBASE.replace(this.__LIST__.toggleIcon,this.SVG.playArrow);
             //再赋值,更新内容.
-            this.__LIST__.toggleIcon = this.CDOM.getByTagName("svg",this.__LIST__.toggle);
+            this.__LIST__.toggleIcon = this.CBASE.getByTagName("svg",this.__LIST__.toggle);
         }).on("play",()=>{
-            this.CDOM.replace(this.__LIST__.toggleIcon,this.SVG.pause);
+            this.CBASE.replace(this.__LIST__.toggleIcon,this.SVG.pause);
             //再赋值,更新内容.
-            this.__LIST__.toggleIcon = this.CDOM.getByTagName("svg",this.__LIST__.toggle);
+            this.__LIST__.toggleIcon = this.CBASE.getByTagName("svg",this.__LIST__.toggle);
         }).on("ended",()=>{
             this.__LIST__.lyricBody.style.transform = "";
             this.__LIST__.toggle.replaceChild(this.__LIST__.toggleIcon,this.SVG.playArrow);
@@ -321,14 +311,14 @@ class cPlayer {
     volume(vl = undefined) {
         let checkLevel = ()=>{
             if(this.music.volume===0||this.isMuted()){
-                this.CDOM.replace(this.__LIST__.volumeIcon,this.SVG.volumeOff);
-                this.__LIST__.volumeIcon = this.CDOM.getByTagName("svg",this.__LIST__.volumePower);
+                this.CBASE.replace(this.__LIST__.volumeIcon,this.SVG.volumeOff);
+                this.__LIST__.volumeIcon = this.CBASE.getByTagName("svg",this.__LIST__.volumePower);
             } else if(this.music.volume>0&&this.music.volume<=0.5){
-                this.CDOM.replace(this.__LIST__.volumeIcon,this.SVG.volumeDown);
-                this.__LIST__.volumeIcon = this.CDOM.getByTagName("svg",this.__LIST__.volumePower);
+                this.CBASE.replace(this.__LIST__.volumeIcon,this.SVG.volumeDown);
+                this.__LIST__.volumeIcon = this.CBASE.getByTagName("svg",this.__LIST__.volumePower);
             } else if(this.music.volume>0.5&&this.music.volume<=1){
-                this.CDOM.replace(this.__LIST__.volumeIcon,this.SVG.volumeUp);
-                this.__LIST__.volumeIcon = this.CDOM.getByTagName("svg",this.__LIST__.volumePower);
+                this.CBASE.replace(this.__LIST__.volumeIcon,this.SVG.volumeUp);
+                this.__LIST__.volumeIcon = this.CBASE.getByTagName("svg",this.__LIST__.volumePower);
             } else {
                 console.log("Unexcepted Volume:"+this.music.volume);
             }
@@ -579,6 +569,12 @@ class cPlayer {
             }
         }
     }
+    get length(){
+        return this.options.list.length;
+    }
+    set length(length){
+        throw new SyntaxError("Read-only Property.");
+    }
 }
 
 
@@ -632,7 +628,7 @@ class cEmitter{
         //也许会有emitter.emit(..).emit(..)的写法?一次执行俩事件,实在不知道哪里有用...
     }
 }
-class cDOM{
+class cBase{
     constructor(rootNode=document){
         this.root = rootNode;
     }
@@ -648,5 +644,10 @@ class cDOM{
     }
     getByTagName(tagName,parentElement){
         return parentElement!=undefined?parentElement.getElementsByTagName(tagName)[0]:this.root.getElementsByTagName(tagName)[0];
+    }
+    rand(start,end){
+        if(start===undefined||end===undefined) return Math.random();
+        if(start>end) throw new RangeError("the EndNumber must be bigger than the StartNumber");
+        return (end-start)*Math.random()+start;
     }
 }

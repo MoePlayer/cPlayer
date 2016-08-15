@@ -126,6 +126,9 @@ cp.on("slideLyric",([showed])=>{
 })
 ```
 
+## TODOLIST
+* [ ] Playlist Order Mode(Random/Asc/Desc(Order By ID))
+
 ## DEMO
 
 [Click Here to See the Demo](http://cplayer.js.org)

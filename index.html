@@ -13,12 +13,14 @@
             background: url(https://dn-corps-blog-ghost.qbox.me/47174278_p0.jpg);
             background-size: cover;
             background-position: 50%;
+            display:flex;
+            height:100vh;
         }
         body>.main {
-            margin: 5% 0;
+            margin: auto 0;
+            width:100%;
             padding: 3% 15%;
             overflow: hidden;
-            /* opacity: 0; */
             position: relative;
             box-shadow: 0 0 20px #000;
             background: rgba(255, 255, 255, 0.62);
@@ -44,13 +46,20 @@
         h1 {
             color: white;
             text-shadow: 1px 2px 5px #000;
+            font-family: Tahoma,sans-serif;
         }
         @media screen and (max-width: 700px) {
 			body>.main{
 				padding: 3% 5%;
 			}
         }
-        .main .content {display: flex;flex-direction: column;line-height: 3;font-size: larger;}
+        .main .content {
+            display: flex;
+            flex-direction: column;
+            line-height: 3;
+            font-size: larger;
+            font-family: "Microsoft Yahei",sans-serif;
+        }
     </style>
 </head>
 <body>

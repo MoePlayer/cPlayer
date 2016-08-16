@@ -60,6 +60,8 @@ class cPlayer {
                     }else{
                         svg.setAttribute("viewBox","0 0 48 48");
                     }
+                    svg.setAttribute("width","100%");
+                    svg.setAttribute("height","100%");
                     svg.innerHTML = this.SVG[keys[i]];
                 this.SVG[keys[i]] = svg;
             }

@@ -1,6 +1,6 @@
 {
   "name": "cPlayer",
-  "version": "2.0.2",
+  "version": "2.3.0",
   "description": "A beautiful and clean WEB Music Player by HTML5.",
   "scripts":{
     "dist":"gulp compress",

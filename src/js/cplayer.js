@@ -234,7 +234,7 @@ class cPlayer {
             this.__LIST__.toggleIcon = this.CBASE.getByTagName("svg",this.__LIST__.toggle);
         }).on("ended",()=>{
             this.__LIST__.lyricBody.style.transform = "";
-            this.__LIST__.toggle.replaceChild(this.__LIST__.toggleIcon,this.SVG.playArrow);
+            //this.__LIST__.toggle.replaceChild(this.__LIST__.toggleIcon,this.SVG.playArrow);
             if (this.options.list[this.now].loop === true) {
                     this.updateTime(0);
                     this.play();

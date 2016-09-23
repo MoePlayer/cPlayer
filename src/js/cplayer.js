@@ -647,7 +647,7 @@ class cEmitter{
 class cBase{
     constructor(rootNode=document){
         this.root = rootNode;
-        for(let styleList = Object.keys(getComputedStyle(document.documentElement)),i = styleList.length;i>0;i--){
+        for(let styleList = document.documentElement.style,i = styleList.length;i>0;i--){
             if(styleList[i].indexOf("-webkit-")!==-1){
                 this.browser = "webkit";
                 break;

@@ -760,7 +760,7 @@ var cBase = function () {
         _classCallCheck(this, cBase);
 
         this.root = rootNode;
-        for (var styleList = Object.keys(getComputedStyle(document.documentElement)), i = styleList.length; i > 0; i--) {
+        for (var styleList = document.documentElement.style, i = styleList.length; i > 0; i--) {
             if (styleList[i].indexOf("-webkit-") !== -1) {
                 this.browser = "webkit";
                 break;

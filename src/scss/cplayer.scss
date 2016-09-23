@@ -46,7 +46,7 @@ $p-radius:5px;
 				top:50%;
 				left:50%;
 				background-color:rgba($b-color,.5);
-				animation:changeSize 1s ease-in-out infinite alternate;
+				//animation:changeSize 1s ease-in-out infinite alternate;
 				border-radius: 100%;
 			}
 		}
@@ -68,7 +68,7 @@ $p-radius:5px;
 	color:grey;
 	transition:all 0.2s ease-in;
 	cursor:pointer;
-	&:hover{
+	&:hover,&:active{
 		background:rgba(117,117,117,.3);
 	}
 	.material-icons{
@@ -79,11 +79,14 @@ $p-radius:5px;
 c-player{
 	svg{
 		width:100%;
+		height:100%;
 		fill:#333;
+		display:block;
 	}
 	.play-icon svg{
 		fill:white;
 		width:80%;
+		height:80%;
 	}
 	.invisible{
 		height:0!important;
@@ -103,25 +106,31 @@ c-player{
 		will-change:height;
 		transition:all 0.25s;
 		display:flex;
+		height:20em;
 		height:45vh;
+		width:100%;
 		background:#eee;
 		overflow:hidden;
 		lyric-body{
 			will-change:transform;
-			display:flex;
+			display:block;
+			//display:flex;
 			flex-direction: column;
 			width:100%;
+			height:100%;
 			text-align: center;
 			//padding:6em 0;
 			transform:translateY(6em);
 			transition: all 0.25s;
 			lrc{
+				flex:1;
+				display:block;
 				will-change:background;
 				line-height:3em;
 				font-size:large;
 				font-family: "LiHei Pro","Microsoft Yahei",sans-serif;
 				width:100%;
-				transition:0.25s background ease;
+				//transition:0.25s background ease;
 				&.now{
 					background:#ddd;
 				}
@@ -221,7 +230,7 @@ c-player{
 					width:0;
 					transition: width 0.2s;
 				}
-				&:hover{
+				&:hover,&:active{
 					@media screen and (max-width: 800px) {
 						&{
 							width:100% !important;
@@ -273,7 +282,7 @@ c-player{
 				&:nth-child(2n-1){
 					background:rgba(117,117,117,0.23);
 				}
-				&:hover{
+				&:hover,&:active{
 					background:rgba(117,117,117,0.5);
 					&::before{
 						width:0.2em;
@@ -290,7 +299,7 @@ c-player{
 					@media screen and (max-width: 800px){
 						&{
 							height:3em;
-							&:hover{
+							&:hover,&:active{
 								&::before{
 									width:0.4em;
 								}

@@ -1,7 +1,7 @@
 /*!
  cPlayer REWRITE - 2.0
 
-     Author && user(:cry:)	Corps
+     Author && user(:cry:)  Corps
      天若有情天亦老,我为长者续一秒~
  */
 class cPlayer {
@@ -29,7 +29,7 @@ class cPlayer {
         this.emitter = new cEmitter(EVENTS);
         this.on = (eventName,func)=>this.emitter.on(eventName,func);
         /*
-         *	參數处理,合并默认参数与定义參數
+         *  參數处理,合并默认参数与定义參數
          */
         const DEFAULTS = {
             "element": document.getElementById("cplayer"),
@@ -42,14 +42,14 @@ class cPlayer {
 
         //SVG建立
         this.SVG = {
-            "playArrow"     :'<path d="M16 10v28l22-14z"/>',
-            "pause"         :'<path d="M12 38h8V10h-8v28zm16-28v28h8V10h-8z"/>',
-            "playlistPlay"  :'<path d="M26 6H-8v4h34V6zm0-8H-8v4h34v-4zM-8 18h26v-4H-8v4zm30-4v12l10-6-10-6z"/>',
-            "note"          :'<path d="M44 20L32 8H8c-2.2 0-4 1.8-4 4v24.02C4 38.22 5.8 40 8 40l32-.02c2.2 0 4-1.78 4-3.98V20zm-14-9l11 11H30V11z"/>',
-            "volumeUp"      :'<path d="M6 18v12h8l10 10V8L14 18H6zm27 6c0-3.53-2.04-6.58-5-8.05v16.11c2.96-1.48 5-4.53 5-8.06zM28 6.46v4.13c5.78 1.72 10 7.07 10 13.41s-4.22 11.69-10 13.41v4.13c8.01-1.82 14-8.97 14-17.54S36.01 8.28 28 6.46z"/>',
-            "volumeMute"    :'<path d="M14 18v12h8l10 10V8L22 18h-8z"/>',
-            "volumeOff"     :'<path d="M33 24c0-3.53-2.04-6.58-5-8.05v4.42l4.91 4.91c.06-.42.09-.85.09-1.28zm5 0c0 1.88-.41 3.65-1.08 5.28l3.03 3.03C41.25 29.82 42 27 42 24c0-8.56-5.99-15.72-14-17.54v4.13c5.78 1.72 10 7.07 10 13.41zM8.55 6L6 8.55 15.45 18H6v12h8l10 10V26.55l8.51 8.51c-1.34 1.03-2.85 1.86-4.51 2.36v4.13c2.75-.63 5.26-1.89 7.37-3.62L39.45 42 42 39.45l-18-18L8.55 6zM24 8l-4.18 4.18L24 16.36V8z"/>',
-            "volumeDown"    :'<path d="M37 24c0-3.53-2.04-6.58-5-8.05v16.11c2.96-1.48 5-4.53 5-8.06zm-27-6v12h8l10 10V8L18 18h-8z"/>',
+            "playArrow"     :'M16 10v28l22-14z',
+            "pause"         :'M12 38h8V10h-8v28zm16-28v28h8V10h-8z',
+            "playlistPlay"  :'M26 6H-8v4h34V6zm0-8H-8v4h34v-4zM-8 18h26v-4H-8v4zm30-4v12l10-6-10-6z',
+            "note"          :'M44 20L32 8H8c-2.2 0-4 1.8-4 4v24.02C4 38.22 5.8 40 8 40l32-.02c2.2 0 4-1.78 4-3.98V20zm-14-9l11 11H30V11z',
+            "volumeUp"      :'M6 18v12h8l10 10V8L14 18H6zm27 6c0-3.53-2.04-6.58-5-8.05v16.11c2.96-1.48 5-4.53 5-8.06zM28 6.46v4.13c5.78 1.72 10 7.07 10 13.41s-4.22 11.69-10 13.41v4.13c8.01-1.82 14-8.97 14-17.54S36.01 8.28 28 6.46z',
+            "volumeMute"    :'M14 18v12h8l10 10V8L22 18h-8z',
+            "volumeOff"     :'M33 24c0-3.53-2.04-6.58-5-8.05v4.42l4.91 4.91c.06-.42.09-.85.09-1.28zm5 0c0 1.88-.41 3.65-1.08 5.28l3.03 3.03C41.25 29.82 42 27 42 24c0-8.56-5.99-15.72-14-17.54v4.13c5.78 1.72 10 7.07 10 13.41zM8.55 6L6 8.55 15.45 18H6v12h8l10 10V26.55l8.51 8.51c-1.34 1.03-2.85 1.86-4.51 2.36v4.13c2.75-.63 5.26-1.89 7.37-3.62L39.45 42 42 39.45l-18-18L8.55 6zM24 8l-4.18 4.18L24 16.36V8z',
+            "volumeDown"    :'M37 24c0-3.53-2.04-6.58-5-8.05v16.11c2.96-1.48 5-4.53 5-8.06zm-27-6v12h8l10 10V8L18 18h-8z',
         };
         (()=>{
             for(let i = 0,keys = Object.keys(this.SVG),length = keys.length;i<length;i++){
@@ -60,9 +60,9 @@ class cPlayer {
                     }else{
                         svg.setAttribute("viewBox","0 0 48 48");
                     }
-                    svg.setAttribute("width","100%");
-                    svg.setAttribute("height","100%");
-                    svg.innerHTML = this.SVG[keys[i]];
+                    svg = keys[i]==="playlistPlay" ?
+                     '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-12 -12 48 48" enable-background="new -12 -12 48 48"><path d="' + this.SVG[keys[i]] + '"/></svg>' :
+                     '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="' + this.SVG[keys[i]] + '"/></svg>';
                 this.SVG[keys[i]] = svg;
             }
         })();
@@ -104,7 +104,7 @@ class cPlayer {
                                     musicDescription.appendChild(musicMeta);
                                 let playIcon = document.createElement("a");
                                     playIcon.classList.add("play-icon");
-                                    playIcon.appendChild(this.SVG.playArrow.cloneNode(true));
+                                    this.CBASE.replaceInner(playIcon,this.SVG.playArrow);
                             cLeft.appendChild(musicDescription);
                             cLeft.appendChild(playIcon);
                         let cCenter = document.createElement("div");
@@ -129,7 +129,7 @@ class cPlayer {
                                             volumeButton.classList.add("volume-button");
                                                 let volumePower = document.createElement("a");
                                                     volumePower.classList.add("volume-power");
-                                                    volumePower.appendChild(this.SVG.volumeOff.cloneNode(true));
+                                                    this.CBASE.replaceInner(volumePower,this.SVG.volumeOff);
                                             volumeButton.appendChild(volumePower);
                                         let volumeBody = document.createElement("div");
                                             volumeBody.classList.add("volume-body");
@@ -145,13 +145,13 @@ class cPlayer {
                                     listButton.classList.add("list-button");
                                         let listPower = document.createElement("a");
                                             listPower.classList.add("list-power");
-                                            listPower.appendChild(this.SVG.playlistPlay.cloneNode(true));
+                                            this.CBASE.replaceInner(listPower,this.SVG.playlistPlay);
                                     listButton.appendChild(listPower);
                                 let lyricButton = document.createElement("div");
                                     lyricButton.classList.add("lyric-button");
                                         let lyricPower = document.createElement("a");
                                             lyricPower.classList.add("lyric-power");
-                                            lyricPower.appendChild(this.SVG.note.cloneNode(true));
+                                            this.CBASE.replaceInner(lyricPower,this.SVG.note);
                                     lyricButton.appendChild(lyricPower);
                             cRight.appendChild(volume);
                             cRight.appendChild(listButton);
@@ -192,7 +192,8 @@ class cPlayer {
         this.__LIST__.volumeIcon = this.CBASE.getByTagName("svg",this.__LIST__.volumePower);
 
 
-        this.music = new Audio;
+        this.music = document.createElement("audio");
+        this.music.autoplay = !!this.options.autoplay;
         //绑定事件开始:
 
         this.emitter.on("toggle",()=>{
@@ -227,16 +228,16 @@ class cPlayer {
         }).on("volumechange",()=>{
             this.volume(); //做更新界面用.
         }).on("pause",()=>{
-            this.CBASE.replace(this.__LIST__.toggleIcon,this.SVG.playArrow);
+            this.CBASE.replaceInner(this.__LIST__.toggle,this.SVG.playArrow);
             //再赋值,更新内容.
-            this.__LIST__.toggleIcon = this.CBASE.getByTagName("svg",this.__LIST__.toggle);
+            //this.__LIST__.toggleIcon = this.CBASE.getByTagName("svg",this.__LIST__.toggle);
         }).on("play",()=>{
-            this.CBASE.replace(this.__LIST__.toggleIcon,this.SVG.pause);
+            this.CBASE.replaceInner(this.__LIST__.toggle,this.SVG.pause);
             //再赋值,更新内容.
             this.__LIST__.toggleIcon = this.CBASE.getByTagName("svg",this.__LIST__.toggle);
         }).on("ended",()=>{
-            this.__LIST__.lyricBody.style.transform = "";
-            //this.__LIST__.toggle.replaceChild(this.__LIST__.toggleIcon,this.SVG.playArrow);
+            //this.__LIST__.lyricBody.style.transform = ""; 为了兼容性封装一遍
+            this.CBASE.style(this.__LIST__.lyricBody,"transform","");
             if (this.options.list[this.now].loop === true) {
                     this.updateTime(0);
                     this.play();
@@ -264,6 +265,16 @@ class cPlayer {
         this.options.element.addEventListener("mousemove", (a)=>this.dragPercentage(a));
         this.options.element.addEventListener("mouseup", (a)=>this.dragPercentage(a));
         //以上内容不适合使用cEmitter,所以就不使用了.
+
+        //以下内容是为了兼容UC
+        if(this.music.onplay = undefined) Object.defineProperty(music,"paused",{set:function(check){
+            if(check = true){
+                this.emitter.emit("pause");
+            }else{
+                this.emitter.emit("play");
+            }
+        }});
+        //以上内容是为了兼容UC
 
         this.volume();
         this.refreshList();
@@ -313,13 +324,13 @@ class cPlayer {
     volume(vl = undefined) {
         let checkLevel = ()=>{
             if(this.music.volume===0||this.isMuted()){
-                this.CBASE.replace(this.__LIST__.volumeIcon,this.SVG.volumeOff);
+                this.CBASE.replaceInner(this.__LIST__.volumePower,this.SVG.volumeOff);
                 this.__LIST__.volumeIcon = this.CBASE.getByTagName("svg",this.__LIST__.volumePower);
             } else if(this.music.volume>0&&this.music.volume<=0.5){
-                this.CBASE.replace(this.__LIST__.volumeIcon,this.SVG.volumeDown);
+                this.CBASE.replaceInner(this.__LIST__.volumePower,this.SVG.volumeDown);
                 this.__LIST__.volumeIcon = this.CBASE.getByTagName("svg",this.__LIST__.volumePower);
             } else if(this.music.volume>0.5&&this.music.volume<=1){
-                this.CBASE.replace(this.__LIST__.volumeIcon,this.SVG.volumeUp);
+                this.CBASE.replaceInner(this.__LIST__.volumePower,this.SVG.volumeUp);
                 this.__LIST__.volumeIcon = this.CBASE.getByTagName("svg",this.__LIST__.volumePower);
             } else {
                 console.log("Unexcepted Volume:"+this.music.volume);
@@ -387,7 +398,8 @@ class cPlayer {
         [dom.img.src, dom.name.innerHTML, dom.artist.innerHTML, this.music.src] = [list.image, list.name, list.artist, list.url];
         this.refreshLyric();
         if (!this.hasLyric(this.now))this.hideLyric();
-        this.__LIST__.lyricBody.style.transform = "";
+        //this.__LIST__.lyricBody.style.transform = "";
+        this.CBASE.style(this.__LIST__.lyricBody,"transform","");
         //this.play();
         return this;
     }
@@ -481,7 +493,8 @@ class cPlayer {
         //START LRC BASEING...
         lr = lr.split("\n");
         let lrcs = [];
-        for (let content of lr) {
+        for (/* let content of lr */ let i = 0,content=lr[i];i<lr.length;i++,content=lr[i]) {
+            console.log(content);
             if (typeof content !== "string") break;
             let onelrc = content.split(/\[|\]\[|\]/gi);
             for (let i = 0; i < onelrc.length - 1; i++) {
@@ -567,7 +580,8 @@ class cPlayer {
                 let lyricToTop = this.__LIST__.lyricBody.childNodes[i].offsetTop - this.__LIST__.lyricBody.childNodes[0].offsetTop - 0.5 * this.__LIST__.lyricBody.childNodes[i].clientHeight;
                 let halfBody = 0.5 * this.__LIST__.lyric.clientHeight - this.__LIST__.lyricBody.childNodes[i].clientHeight;
                 let translateY = -(lyricToTop - halfBody);
-                this.__LIST__.lyricBody.style.transform = "translateY(" + translateY + "px)";
+                //this.__LIST__.lyricBody.style.transform = "translateY(" + translateY + "px)";
+                this.CBASE.style(this.__LIST__.lyricBody,"transform","translateY(" + translateY + "px)")
             }
         }
     }
@@ -633,6 +647,24 @@ class cEmitter{
 class cBase{
     constructor(rootNode=document){
         this.root = rootNode;
+        for(let styleList = Object.keys(getComputedStyle(document.documentElement)),i = styleList.length;i>0;i--){
+            if(styleList[i].indexOf("-webkit-")!==-1){
+                this.browser = "webkit";
+                break;
+            }
+            if(styleList[i].indexOf("-moz-")!==-1){
+                this.browser = "moz";
+                break;
+            }
+            if(styleList[i].indexOf("-o-")!==-1){
+                this.browser = "o";
+                break;
+            }
+            if(styleList[i].indexOf("-ms-")!==-1){
+                this.browser = "ms";
+                break;
+            }
+        }
     }
     replace(oldElement,newElement){
         //newElement 不存在于oldElement 的父元素中,首先载入.
@@ -640,6 +672,10 @@ class cBase{
         oldElement.parentNode.appendChild(newElement);
         oldElement.parentNode.removeChild(oldElement);
         //顺便如果有值为oldElement的变量,请重新赋值.
+    }
+    replaceInner(element,innerContent){
+        //进行一次简单的封装
+        element.innerHTML = innerContent;
     }
     getByClass(className,parentElement){
         return parentElement!=undefined?parentElement.getElementsByClassName(className)[0]:this.root.getElementsByClassName(className)[0];
@@ -651,5 +687,12 @@ class cBase{
         if(start===undefined||end===undefined) return Math.random();
         if(start>end) throw new RangeError("the EndNumber must be bigger than the StartNumber");
         return (end-start)*Math.random()+start;
+    }
+    style(dom,property,content){
+        if(!dom.style[property]&&this.browser!==""){
+            dom.style[this.browser+property.slice(0,1).toUpperCase()+property.slice(1)] = content;
+        }else{
+            dom.style[property] = content;
+        }
     }
 }

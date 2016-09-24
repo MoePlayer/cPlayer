@@ -473,7 +473,7 @@ var cPlayer = function () {
             var func = arguments[1];
 
             if (func !== undefined) func();
-            return this.options.list[id].lyric !== undefined;
+            return this.options.list[id].lyric != undefined;
         }
     }, {
         key: "showLyric",

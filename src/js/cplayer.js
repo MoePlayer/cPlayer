@@ -411,7 +411,7 @@ class cPlayer {
 
     hasLyric(id = 0,func) {
         if(func !== undefined) func();
-        return (this.options.list[id].lyric !== undefined);
+        return (this.options.list[id].lyric != undefined);
     }
 
     showLyric() {

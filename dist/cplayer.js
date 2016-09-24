@@ -45,8 +45,7 @@ var cPlayer = function () {
          */
         var DEFAULTS = {
             "element": document.getElementById("cplayer"),
-            "list": [],
-            "mdicon": true
+            "list": []
         };
         if (Object.assign !== undefined) {
             this.options = Object.assign({}, DEFAULTS, options);
@@ -77,7 +76,7 @@ var cPlayer = function () {
             }
         })();
 
-        this.CBASE = new cBase(this.options.element);
+        this.CBASE = new cBase();
         this.now = 0;
         this.dragging = { contain: false, target: undefined };
         //现在开始填DOM
@@ -178,6 +177,8 @@ var cPlayer = function () {
             cPlayer.appendChild(list);
             _this.options.element.appendChild(cPlayer);
         })();
+        this.CBASE.root = this.options.element.getElementsByTagName("c-player");
+        this.CBASE.root = this.CBASE.root[this.CBASE.root.length - 1];
         //然后为DOMList填充一下吧
         this.__LIST__ = {
             "lyric": this.CBASE.getByClass("lyric"),
@@ -550,6 +551,7 @@ var cPlayer = function () {
             div.addEventListener("click", function () {
                 _this4.to(ln - 1);
             });
+            if (ln === 1) this.toggle(); //刷新元素.
             if (func !== undefined) func();
         }
     }, {
@@ -754,7 +756,7 @@ var cEmitter = function () {
 
 var cBase = function () {
     function cBase() {
-        var rootNode = arguments.length <= 0 || arguments[0] === undefined ? document : arguments[0];
+        var rootNode = arguments.length <= 0 || arguments[0] === undefined ? document.documentElement : arguments[0];
 
         _classCallCheck(this, cBase);
 

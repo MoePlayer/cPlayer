@@ -33,8 +33,7 @@ class cPlayer {
          */
         const DEFAULTS = {
             "element": document.getElementById("cplayer"),
-            "list"   : [],
-            "mdicon" : true
+            "list"   : []
         };
         if(Object.assign !== undefined){
             this.options = Object.assign({}, DEFAULTS, options);
@@ -67,8 +66,7 @@ class cPlayer {
             }
         })();
 
-
-        this.CBASE = new cBase(this.options.element);
+        this.CBASE = new cBase;
         this.now = 0;
         this.dragging = {contain: false, target: undefined};
         //现在开始填DOM
@@ -169,6 +167,8 @@ class cPlayer {
             cPlayer.appendChild(list);
             this.options.element.appendChild(cPlayer);
         })();
+        this.CBASE.root = this.options.element.getElementsByTagName("c-player");
+        this.CBASE.root = this.CBASE.root[this.CBASE.root.length-1];
         //然后为DOMList填充一下吧
         this.__LIST__ = {
             "lyric"      : this.CBASE.getByClass("lyric"),
@@ -472,6 +472,7 @@ class cPlayer {
         div.addEventListener("click", ()=> {
             this.to(ln - 1);
         });
+        if(ln===1) this.toggle(); //刷新元素.
         if(func !== undefined) func();
     }
 
@@ -644,7 +645,7 @@ class cEmitter{
     }
 }
 class cBase{
-    constructor(rootNode=document){
+    constructor(rootNode=document.documentElement){
         this.root = rootNode;
         for(let styleList = document.documentElement.style,i = styleList.length;i>0;i--){
             if(styleList[i].indexOf("-webkit-")!==-1){

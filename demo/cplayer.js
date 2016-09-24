@@ -257,7 +257,7 @@ var cPlayer = function () {
         //结束
 
 
-        this.toggle();
+        if (this.options.list[0]) this.toggle();
         this.__LIST__.toggle.addEventListener("click", function () {
             return _this.emitter.emit("toggle");
         });
@@ -576,7 +576,6 @@ var cPlayer = function () {
             lr = lr.split("\n");
             var lrcs = [];
             for ( /* let content of lr */var i = 0, content = lr[i]; i < lr.length; i++, content = lr[i]) {
-                console.log(content);
                 if (typeof content !== "string") break;
                 var onelrc = content.split(/\[|\]\[|\]/gi);
                 for (var _i = 0; _i < onelrc.length - 1; _i++) {

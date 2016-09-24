@@ -249,7 +249,7 @@ class cPlayer {
         //结束
 
 
-        this.toggle();
+        if(this.options.list[0]) this.toggle();
         this.__LIST__.toggle.addEventListener("click", ()=>this.emitter.emit("toggle"));
         this.__LIST__.lyricPower.addEventListener("click", ()=>this.emitter.emit("clickLyricPower"));
         this.__LIST__.listPower.addEventListener("click", ()=>this.emitter.emit("clickListPower"));
@@ -494,7 +494,6 @@ class cPlayer {
         lr = lr.split("\n");
         let lrcs = [];
         for (/* let content of lr */ let i = 0,content=lr[i];i<lr.length;i++,content=lr[i]) {
-            console.log(content);
             if (typeof content !== "string") break;
             let onelrc = content.split(/\[|\]\[|\]/gi);
             for (let i = 0; i < onelrc.length - 1; i++) {

@@ -96,8 +96,6 @@ c-player .lyric lyric-body {
   -webkit-transform: translateY(6em);
       -ms-transform: translateY(6em);
           transform: translateY(6em);
-  -webkit-transition: all 0.25s;
-  transition: all 0.25s;
 }
 
 c-player .lyric lyric-body lrc {
@@ -270,9 +268,11 @@ c-player .controls .c-center .time .time-body .time-line {
   width: 0%;
   height: 2px;
   background-color: red;
+  will-change: width;
 }
 
 c-player .controls .c-center .time .time-body .time-point {
+  will-change: scroll-position;
   width: 10px;
   height: 10px;
   margin: -4px 0 0 -5px;
@@ -354,9 +354,11 @@ c-player .controls .c-right .volume .volume-body .volume-line {
   width: 0%;
   height: 2px;
   background-color: red;
+  will-change: width;
 }
 
 c-player .controls .c-right .volume .volume-body .volume-point {
+  will-change: scroll-position;
   width: 10px;
   height: 10px;
   margin: -4px 0 0 -5px;

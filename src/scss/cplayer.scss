@@ -29,8 +29,10 @@ $p-radius:5px;
 			width:0%;
 			height:$p-height;
 			background-color:$b-color;
+			will-change:width;
 		}
 		.#{$type}-point{
+			will-change: scroll-position;
 			width:2*$p-radius;
 			height:2*$p-radius;
 			margin:-1*($p-radius - $p-height/2) 0 0 -1*$p-radius;
@@ -121,7 +123,7 @@ c-player{
 			text-align: center;
 			//padding:6em 0;
 			transform:translateY(6em);
-			transition: all 0.25s;
+			//transition: all 0.25s;
 			lrc{
 				flex:1;
 				display:block;

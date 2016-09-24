@@ -498,7 +498,7 @@ class cPlayer {
             if (typeof content !== "string") break;
             let onelrc = content.split(/\[|\]\[|\]/gi);
             for (let i = 0; i < onelrc.length - 1; i++) {
-                if (onelrc[i] === "" && i !== onelrc.length - 1) {
+                if (onelrc[i] === "" && i !== onelrc.length - 1 || onelrc[i].match(/\d{1,}\:\d{1,}/gi)===null) {
                     onelrc.splice(i, 1);
                     i--;
                     continue;
@@ -526,12 +526,12 @@ class cPlayer {
         for (let i = lrcs.length - 1; i >= 0; i--) {
             if (lrcs[i].length > 2) {
                 for (let count = lrcs[i].length - 1; count >= 0; count--) {
-                    if (count !== lrcs[i].length - 1) {
+                    if (count !== lrcs[i].length - 1 && lrcs[i][lrcs[i].length - 1]!==undefined) {
                         lyric.push({time: lrcs[i][count], content: lrcs[i][lrcs[i].length - 1]});
                     }
                 }
 
-            } else {
+            } else if(lrcs[i][1]!==undefined) {
                 lyric.push({time: lrcs[i][0], content: lrcs[i][1]});
             }
         }
@@ -550,11 +550,11 @@ class cPlayer {
     }
 
     updateTime(time = undefined,func) {
-        if (time !== undefined)this.music.currentTime = parseInt(time);
+        if (time !== undefined)this.music.currentTime = time;
         if (this.dragging.contain === false) this.__LIST__.timeLine.style.width = (this.music.currentTime / this.music.duration) * 100 + "%";
         //if(this.isPaused()) this.play();
         if(func !== undefined) func(this.music.currentTime);
-        return this.music.currentTime;
+        //return this.music.currentTime;
     }
 
     /*
@@ -689,10 +689,7 @@ class cBase{
         return (end-start)*Math.random()+start;
     }
     style(dom,property,content){
-        if(!dom.style[property]&&this.browser!==""){
-            dom.style[this.browser+property.slice(0,1).toUpperCase()+property.slice(1)] = content;
-        }else{
-            dom.style[property] = content;
-        }
+        dom.style[this.browser+property.slice(0,1).toUpperCase()+property.slice(1)] = content;
+        dom.style[property] = content;
     }
 }

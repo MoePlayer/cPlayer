@@ -45,8 +45,7 @@ var cPlayer = function () {
          */
         var DEFAULTS = {
             "element": document.getElementById("cplayer"),
-            "list": [],
-            "mdicon": true
+            "list": []
         };
         if (Object.assign !== undefined) {
             this.options = Object.assign({}, DEFAULTS, options);
@@ -77,7 +76,7 @@ var cPlayer = function () {
             }
         })();
 
-        this.CBASE = new cBase(this.options.element);
+        this.CBASE = new cBase();
         this.now = 0;
         this.dragging = { contain: false, target: undefined };
         //现在开始填DOM
@@ -178,6 +177,8 @@ var cPlayer = function () {
             cPlayer.appendChild(list);
             _this.options.element.appendChild(cPlayer);
         })();
+        this.CBASE.root = this.options.element.getElementsByTagName("c-player");
+        this.CBASE.root = this.CBASE.root[this.CBASE.root.length - 1];
         //然后为DOMList填充一下吧
         this.__LIST__ = {
             "lyric": this.CBASE.getByClass("lyric"),
@@ -257,7 +258,7 @@ var cPlayer = function () {
         //结束
 
 
-        this.toggle();
+        if (this.options.list[0]) this.toggle();
         this.__LIST__.toggle.addEventListener("click", function () {
             return _this.emitter.emit("toggle");
         });
@@ -472,7 +473,7 @@ var cPlayer = function () {
             var func = arguments[1];
 
             if (func !== undefined) func();
-            return this.options.list[id].lyric !== undefined;
+            return this.options.list[id].lyric != undefined;
         }
     }, {
         key: "showLyric",
@@ -550,6 +551,7 @@ var cPlayer = function () {
             div.addEventListener("click", function () {
                 _this4.to(ln - 1);
             });
+            if (ln === 1) this.toggle(); //刷新元素.
             if (func !== undefined) func();
         }
     }, {
@@ -576,11 +578,10 @@ var cPlayer = function () {
             lr = lr.split("\n");
             var lrcs = [];
             for ( /* let content of lr */var i = 0, content = lr[i]; i < lr.length; i++, content = lr[i]) {
-                console.log(content);
                 if (typeof content !== "string") break;
                 var onelrc = content.split(/\[|\]\[|\]/gi);
                 for (var _i = 0; _i < onelrc.length - 1; _i++) {
-                    if (onelrc[_i] === "" && _i !== onelrc.length - 1) {
+                    if (onelrc[_i] === "" && _i !== onelrc.length - 1 || onelrc[_i].match(/\d{1,}\:\d{1,}/gi) === null) {
                         onelrc.splice(_i, 1);
                         _i--;
                         continue;
@@ -608,11 +609,11 @@ var cPlayer = function () {
             for (var _i2 = lrcs.length - 1; _i2 >= 0; _i2--) {
                 if (lrcs[_i2].length > 2) {
                     for (var count = lrcs[_i2].length - 1; count >= 0; count--) {
-                        if (count !== lrcs[_i2].length - 1) {
+                        if (count !== lrcs[_i2].length - 1 && lrcs[_i2][lrcs[_i2].length - 1] !== undefined) {
                             lyric.push({ time: lrcs[_i2][count], content: lrcs[_i2][lrcs[_i2].length - 1] });
                         }
                     }
-                } else {
+                } else if (lrcs[_i2][1] !== undefined) {
                     lyric.push({ time: lrcs[_i2][0], content: lrcs[_i2][1] });
                 }
             }
@@ -634,11 +635,11 @@ var cPlayer = function () {
             var time = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
             var func = arguments[1];
 
-            if (time !== undefined) this.music.currentTime = parseInt(time);
+            if (time !== undefined) this.music.currentTime = time;
             if (this.dragging.contain === false) this.__LIST__.timeLine.style.width = this.music.currentTime / this.music.duration * 100 + "%";
             //if(this.isPaused()) this.play();
             if (func !== undefined) func(this.music.currentTime);
-            return this.music.currentTime;
+            //return this.music.currentTime;
         }
 
         /*
@@ -755,7 +756,7 @@ var cEmitter = function () {
 
 var cBase = function () {
     function cBase() {
-        var rootNode = arguments.length <= 0 || arguments[0] === undefined ? document : arguments[0];
+        var rootNode = arguments.length <= 0 || arguments[0] === undefined ? document.documentElement : arguments[0];
 
         _classCallCheck(this, cBase);
 
@@ -815,11 +816,8 @@ var cBase = function () {
     }, {
         key: "style",
         value: function style(dom, property, content) {
-            if (!dom.style[property] && this.browser !== "") {
-                dom.style[this.browser + property.slice(0, 1).toUpperCase() + property.slice(1)] = content;
-            } else {
-                dom.style[property] = content;
-            }
+            dom.style[this.browser + property.slice(0, 1).toUpperCase() + property.slice(1)] = content;
+            dom.style[property] = content;
         }
     }]);
 

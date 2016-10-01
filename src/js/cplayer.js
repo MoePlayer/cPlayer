@@ -221,7 +221,7 @@ class cPlayer {
                 this.volume(0);
             }
         }).on("timeupdate",()=>{
-            this.updateTime();
+            //this.updateTime();
             if (this.hasLyric(this.now)) {
                 this.slideLyric(this.music.currentTime);
             }
@@ -313,7 +313,7 @@ class cPlayer {
                     let time = (options.clientX - this.dragging.target.parentNode.offsetLeft) / this.dragging.target.parentNode.offsetWidth;
                     time = time > 1 ? 1 : time;
                     time = time < 0 ? 0 : time;
-                    this.music.currentTime = time * this.music.duration;
+                    this.updateTime(time * this.music.duration);
                 }
                 this.dragging.contain = false;
                 this.dragging.target = undefined;
@@ -356,6 +356,9 @@ class cPlayer {
     }
 
     play() {
+        this.interval = setInterval(()=>{
+            if (this.dragging.contain === false) this.__LIST__.timeLine.style.width = (this.music.currentTime / this.music.duration) * 100 + "%";
+        },500);
         if(this.music.seeking === true) return this;
         this.music.play();
         return this;
@@ -363,6 +366,7 @@ class cPlayer {
 
     pause() {
         if(this.music.seeking === true) return;
+        clearInterval(this.interval);
         this.music.pause();
         return this;
     }
@@ -539,6 +543,7 @@ class cPlayer {
         lyric.sort((a, b)=> {
             return a.time - b.time;
         });
+        lyric["now"] = 0;
         this.__LYRIC__ = lyric;
         for (let i = 0; i <= lyric.length - 1; i++) {
             let div = document.createElement("lrc");
@@ -551,7 +556,7 @@ class cPlayer {
 
     updateTime(time = undefined,func) {
         if (time !== undefined)this.music.currentTime = time;
-        if (this.dragging.contain === false) this.__LIST__.timeLine.style.width = (this.music.currentTime / this.music.duration) * 100 + "%";
+        //if (this.dragging.contain === false) this.__LIST__.timeLine.style.width = (this.music.currentTime / this.music.duration) * 100 + "%";
         //if(this.isPaused()) this.play();
         if(func !== undefined) func(this.music.currentTime);
         //return this.music.currentTime;
@@ -567,15 +572,19 @@ class cPlayer {
      [i+1]:下一个歌词
      * 此时应操纵下一个歌词!!!!(重要) *
      */
+    /* 重写!
     slideLyric(time) {
         if(this.__LIST__.lyric.classList.contains("invisible"))return;
         let lyricToTop,halfBody,translateY;
         for (var i = this.__LYRIC__.length - 1; i >= 0; i--) {
-            if (this.__LYRIC__[i + 1] !== undefined && this.__LYRIC__[i].time < time && this.__LYRIC__[i + 1].time > time
+            if (this.__LYRIC__[i + 1] !== undefined && this.__LYRIC__[i].time < time && this.__LYRIC__[i + 1].time > time //如果有下一个歌词,这个歌词的时间小于当前时间,下一个歌词时间大于当前时间
                 || this.__LYRIC__[i + 1] === undefined && this.__LYRIC__[i].time < time) {
+                /* 辣鸡写法,删删删
                 if (this.__LIST__.lyricBody.querySelector(".now") !== null && this.__LIST__.lyricBody.querySelector(".now") !== this.__LIST__.lyricBody.childNodes[i + 1])
                     this.__LIST__.lyricBody.querySelector(".now").classList.toggle("now");
                 this.__LIST__.lyricBody.childNodes[i].classList.toggle("now");
+                * /
+
                 //以下四句借鉴了KK的写法,感谢Kookxiang.
                 let lyricToTop = this.__LIST__.lyricBody.childNodes[i].offsetTop - this.__LIST__.lyricBody.childNodes[0].offsetTop - 0.5 * this.__LIST__.lyricBody.childNodes[i].clientHeight;
                 let halfBody = 0.5 * this.__LIST__.lyric.clientHeight - this.__LIST__.lyricBody.childNodes[i].clientHeight;
@@ -584,6 +593,38 @@ class cPlayer {
                 this.CBASE.style(this.__LIST__.lyricBody,"transform","translateY(" + translateY + "px)")
             }
         }
+    }
+    */
+    slideLyric(time){
+        //如果没开歌词,就不干事了
+        if(this.__LIST__.lyric.classList.contains("invisible")) return;
+        //声明三个变量
+        let lyricToTop,halfBody,translateY,lyricBody=this.__LIST__.lyricBody,lrc = this.__LIST__.lyricBody.getElementsByTagName("lrc");
+        //遍历一次Lyric,寻找当前的歌词(for时,i最大为length-1)
+        for (let lyric = this.__LYRIC__,length = lyric.length,i=0; i < length; i++) 
+        //若当前的歌词时间小于time,但是之后的歌词时间又大于,就不管.若当前的歌词时间小于time,之后的歌词时间也小于,就跳
+    	// lyric[x]==a,lyric[x+1]==b,if (a<time && b<time) then turn(lyric[x+2]);
+    	// lyric[0]==a,lyric[1]==b,if (a<time && b>time) then turn(lyric[0])
+            if(lyric[i+1]===undefined||lyric[i].time<time&&lyric[i+1].time<time||(lyric["now"]===0&&lyric[i].time<time&&lyric[i+1].time>time)){
+                //使之后的歌词为当前歌词(此时lyric[i+1]为当前歌词)
+                if(lyric[i+1]===undefined){
+                	break;
+                }else if(lyric.now===i){
+                    //切换当前歌词
+                    if(!(lyric["now"]===0&&lyric[i].time<time&&lyric[i+1].time>time))lyric.now++;
+                    if(lrc[i].classList.contains("now")) lrc[i].classList.remove("now");
+                    lrc[lyric["now"]].classList.add("now");
+                    //滚滚滚动~
+                    lyricToTop  = lyricBody.childNodes[lyric["now"]].offsetTop - lyricBody.childNodes[0].offsetTop - 0.5 * lyricBody.childNodes[lyric["now"]].clientHeight;
+                    halfBody    = 0.5 * this.__LIST__.lyric.clientHeight - lyricBody.childNodes[i].clientHeight;
+                    translateY  = -(lyricToTop - halfBody);
+                    this.CBASE.style(lyricBody,"transform","translateY(" + translateY + "px)");
+                    break;
+                }else{
+                    //已经OK就返回吧
+                    continue;
+                }
+            };
     }
     get length(){
         return this.options.list.length;

@@ -106,6 +106,7 @@ c-player .lyric lyric-body lrc {
   display: block;
   will-change: background;
   line-height: 3em;
+  min-height: 3em;
   font-size: large;
   font-family: "LiHei Pro","Microsoft Yahei",sans-serif;
   width: 100%;
@@ -333,7 +334,6 @@ c-player .controls .c-right .volume {
   -webkit-box-align: center;
   -webkit-align-items: center;
       -ms-flex-align: center;
-              -ms-grid-row-align: center;
           align-items: center;
   cursor: pointer;
   -webkit-transition: width 0.2s;

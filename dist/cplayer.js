@@ -230,7 +230,7 @@ var cPlayer = function () {
                 _this.volume(0);
             }
         }).on("timeupdate", function () {
-            _this.updateTime();
+            //this.updateTime();
             if (_this.hasLyric(_this.now)) {
                 _this.slideLyric(_this.music.currentTime);
             }
@@ -350,7 +350,7 @@ var cPlayer = function () {
                         var time = (options.clientX - this.dragging.target.parentNode.offsetLeft) / this.dragging.target.parentNode.offsetWidth;
                         time = time > 1 ? 1 : time;
                         time = time < 0 ? 0 : time;
-                        this.music.currentTime = time * this.music.duration;
+                        this.updateTime(time * this.music.duration);
                     }
                     this.dragging.contain = false;
                     this.dragging.target = undefined;
@@ -362,7 +362,7 @@ var cPlayer = function () {
         value: function volume() {
             var _this2 = this;
 
-            var vl = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
+            var vl = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
 
             var checkLevel = function checkLevel() {
                 if (_this2.music.volume === 0 || _this2.isMuted()) {
@@ -400,6 +400,11 @@ var cPlayer = function () {
     }, {
         key: "play",
         value: function play() {
+            var _this3 = this;
+
+            this.interval = setInterval(function () {
+                if (_this3.dragging.contain === false) _this3.__LIST__.timeLine.style.width = _this3.music.currentTime / _this3.music.duration * 100 + "%";
+            }, 500);
             if (this.music.seeking === true) return this;
             this.music.play();
             return this;
@@ -408,6 +413,7 @@ var cPlayer = function () {
         key: "pause",
         value: function pause() {
             if (this.music.seeking === true) return;
+            clearInterval(this.interval);
             this.music.pause();
             return this;
         }
@@ -440,7 +446,7 @@ var cPlayer = function () {
     }, {
         key: "toggle",
         value: function toggle() {
-            var now = arguments.length <= 0 || arguments[0] === undefined ? this.now : arguments[0];
+            var now = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.now;
 
             this.emitter.emit("toggle");
             var list = this.options.list[now],
@@ -469,7 +475,7 @@ var cPlayer = function () {
     }, {
         key: "hasLyric",
         value: function hasLyric() {
-            var id = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+            var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
             var func = arguments[1];
 
             if (func !== undefined) func();
@@ -516,7 +522,7 @@ var cPlayer = function () {
     }, {
         key: "refreshList",
         value: function refreshList(func) {
-            var _this3 = this;
+            var _this4 = this;
 
             this.emitter.emit("changeList");
             //let __SELF__ = this;
@@ -529,7 +535,7 @@ var cPlayer = function () {
                 div.innerHTML = '<span class="music-name">' + list[i].name + '</span><span class="music-artist">' + list[i].artist + '</span>';
                 div = lb.appendChild(div);
                 div.addEventListener("click", function () {
-                    _this3.to(i);
+                    _this4.to(i);
                 });
             };
 
@@ -541,7 +547,7 @@ var cPlayer = function () {
     }, {
         key: "add",
         value: function add(u, func) {
-            var _this4 = this;
+            var _this5 = this;
 
             //let __SELF__ = this;
             var ln = this.options.list.push(u);
@@ -549,7 +555,7 @@ var cPlayer = function () {
             div.innerHTML = '<span class="music-name">' + u.name + '</span><span class="music-artist">' + u.artist + '</span>';
             div = this.__LIST__.listBody.appendChild(div);
             div.addEventListener("click", function () {
-                _this4.to(ln - 1);
+                _this5.to(ln - 1);
             });
             if (ln === 1) this.toggle(); //刷新元素.
             if (func !== undefined) func();
@@ -557,7 +563,7 @@ var cPlayer = function () {
     }, {
         key: "lyric",
         value: function lyric() {
-            var content = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
+            var content = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
 
             if (content === undefined) {
                 if (this.hasLyric(this.now)) return this.options.list[this.now].lyric;
@@ -621,6 +627,7 @@ var cPlayer = function () {
             lyric.sort(function (a, b) {
                 return a.time - b.time;
             });
+            lyric["now"] = 0;
             this.__LYRIC__ = lyric;
             for (var _i3 = 0; _i3 <= lyric.length - 1; _i3++) {
                 var div = document.createElement("lrc");
@@ -632,11 +639,11 @@ var cPlayer = function () {
     }, {
         key: "updateTime",
         value: function updateTime() {
-            var time = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
+            var time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
             var func = arguments[1];
 
             if (time !== undefined) this.music.currentTime = time;
-            if (this.dragging.contain === false) this.__LIST__.timeLine.style.width = this.music.currentTime / this.music.duration * 100 + "%";
+            //if (this.dragging.contain === false) this.__LIST__.timeLine.style.width = (this.music.currentTime / this.music.duration) * 100 + "%";
             //if(this.isPaused()) this.play();
             if (func !== undefined) func(this.music.currentTime);
             //return this.music.currentTime;
@@ -652,26 +659,66 @@ var cPlayer = function () {
          [i+1]:下一个歌词
          * 此时应操纵下一个歌词!!!!(重要) *
          */
+        /* 重写!
+        slideLyric(time) {
+            if(this.__LIST__.lyric.classList.contains("invisible"))return;
+            let lyricToTop,halfBody,translateY;
+            for (var i = this.__LYRIC__.length - 1; i >= 0; i--) {
+                if (this.__LYRIC__[i + 1] !== undefined && this.__LYRIC__[i].time < time && this.__LYRIC__[i + 1].time > time //如果有下一个歌词,这个歌词的时间小于当前时间,下一个歌词时间大于当前时间
+                    || this.__LYRIC__[i + 1] === undefined && this.__LYRIC__[i].time < time) {
+                    /* 辣鸡写法,删删删
+                    if (this.__LIST__.lyricBody.querySelector(".now") !== null && this.__LIST__.lyricBody.querySelector(".now") !== this.__LIST__.lyricBody.childNodes[i + 1])
+                        this.__LIST__.lyricBody.querySelector(".now").classList.toggle("now");
+                    this.__LIST__.lyricBody.childNodes[i].classList.toggle("now");
+                    * /
+                      //以下四句借鉴了KK的写法,感谢Kookxiang.
+                    let lyricToTop = this.__LIST__.lyricBody.childNodes[i].offsetTop - this.__LIST__.lyricBody.childNodes[0].offsetTop - 0.5 * this.__LIST__.lyricBody.childNodes[i].clientHeight;
+                    let halfBody = 0.5 * this.__LIST__.lyric.clientHeight - this.__LIST__.lyricBody.childNodes[i].clientHeight;
+                    let translateY = -(lyricToTop - halfBody);
+                    //this.__LIST__.lyricBody.style.transform = "translateY(" + translateY + "px)";
+                    this.CBASE.style(this.__LIST__.lyricBody,"transform","translateY(" + translateY + "px)")
+                }
+            }
+        }
+        */
 
     }, {
         key: "slideLyric",
         value: function slideLyric(time) {
+            //如果没开歌词,就不干事了
             if (this.__LIST__.lyric.classList.contains("invisible")) return;
+            //声明三个变量
             var lyricToTop = void 0,
                 halfBody = void 0,
-                translateY = void 0;
-            for (var i = this.__LYRIC__.length - 1; i >= 0; i--) {
-                if (this.__LYRIC__[i + 1] !== undefined && this.__LYRIC__[i].time < time && this.__LYRIC__[i + 1].time > time || this.__LYRIC__[i + 1] === undefined && this.__LYRIC__[i].time < time) {
-                    if (this.__LIST__.lyricBody.querySelector(".now") !== null && this.__LIST__.lyricBody.querySelector(".now") !== this.__LIST__.lyricBody.childNodes[i + 1]) this.__LIST__.lyricBody.querySelector(".now").classList.toggle("now");
-                    this.__LIST__.lyricBody.childNodes[i].classList.toggle("now");
-                    //以下四句借鉴了KK的写法,感谢Kookxiang.
-                    var _lyricToTop = this.__LIST__.lyricBody.childNodes[i].offsetTop - this.__LIST__.lyricBody.childNodes[0].offsetTop - 0.5 * this.__LIST__.lyricBody.childNodes[i].clientHeight;
-                    var _halfBody = 0.5 * this.__LIST__.lyric.clientHeight - this.__LIST__.lyricBody.childNodes[i].clientHeight;
-                    var _translateY = -(_lyricToTop - _halfBody);
-                    //this.__LIST__.lyricBody.style.transform = "translateY(" + translateY + "px)";
-                    this.CBASE.style(this.__LIST__.lyricBody, "transform", "translateY(" + _translateY + "px)");
+                translateY = void 0,
+                lyricBody = this.__LIST__.lyricBody,
+                lrc = this.__LIST__.lyricBody.getElementsByTagName("lrc");
+            //遍历一次Lyric,寻找当前的歌词(for时,i最大为length-1)
+            for (var lyric = this.__LYRIC__, length = lyric.length, i = 0; i < length; i++) {
+                //若当前的歌词时间小于time,但是之后的歌词时间又大于,就不管.若当前的歌词时间小于time,之后的歌词时间也小于,就跳
+                // lyric[x]==a,lyric[x+1]==b,if (a<time && b<time) then turn(lyric[x+2]);
+                // lyric[0]==a,lyric[1]==b,if (a<time && b>time) then turn(lyric[0])
+                if (lyric[i + 1] === undefined || lyric[i].time < time && lyric[i + 1].time < time || lyric["now"] === 0 && lyric[i].time < time && lyric[i + 1].time > time) {
+                    //使之后的歌词为当前歌词(此时lyric[i+1]为当前歌词)
+                    if (lyric[i + 1] === undefined) {
+                        break;
+                    } else if (lyric.now === i) {
+                        //切换当前歌词
+                        if (!(lyric["now"] === 0 && lyric[i].time < time && lyric[i + 1].time > time)) lyric.now++;
+                        if (lrc[i].classList.contains("now")) lrc[i].classList.remove("now");
+                        lrc[lyric["now"]].classList.add("now");
+                        //滚滚滚动~
+                        lyricToTop = lyricBody.childNodes[lyric["now"]].offsetTop - lyricBody.childNodes[0].offsetTop - 0.5 * lyricBody.childNodes[lyric["now"]].clientHeight;
+                        halfBody = 0.5 * this.__LIST__.lyric.clientHeight - lyricBody.childNodes[i].clientHeight;
+                        translateY = -(lyricToTop - halfBody);
+                        this.CBASE.style(lyricBody, "transform", "translateY(" + translateY + "px)");
+                        break;
+                    } else {
+                        //已经OK就返回吧
+                        continue;
+                    }
                 }
-            }
+            };
         }
     }, {
         key: "length",
@@ -756,7 +803,7 @@ var cEmitter = function () {
 
 var cBase = function () {
     function cBase() {
-        var rootNode = arguments.length <= 0 || arguments[0] === undefined ? document.documentElement : arguments[0];
+        var rootNode = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.documentElement;
 
         _classCallCheck(this, cBase);
 

@@ -86,27 +86,27 @@
         function add163(cp,id){
             if(!cp||!id)throw new Error("Unable Property.");
             let obj = {name:false,artist:false,image:false,url:false,lyric:false};
-            let push = bool=>{
+            let push = function(bool){
                 if(bool) cp.add(obj);
             };
             fetch("https://api.imjad.cn/cloudmusic/?type=song&id="+id+"&br=320000")
-                .then(a=>a.json())
-                .then(result=>{
+                .then(function(a){return a.json()})
+                .then(function(result){
                     obj["url"] = result["data"][0]["url"];
                     return check(obj,["name","artist","image","url","lyric"]);
                 })
                 .then(push);
             fetch("https://api.imjad.cn/cloudmusic/?type=detail&id="+id)
-                .then(a=>a.json())
-                .then(result=>{
+                .then(function(a){return a.json()})
+                .then(function(result){
                     result = result["songs"][0];
                     [obj["name"],obj["artist"],obj["image"]] = [result["name"],result["ar"][0]["name"],result["al"]["picUrl"]];
                     return check(obj,["name","artist","image","url","lyric"]);
                 })
                 .then(push);
             fetch("https://api.imjad.cn/cloudmusic/?type=lyric&id="+id)
-                .then(a=>a.json())
-                .then(result=>{
+                .then(function(a){return a.json()})
+                .then(function(result){
                     if(result["nolyric"]===true){
                         obj["lyric"] = undefined;
                     }else{

@@ -30,26 +30,28 @@ $p-radius:5px;
 			height:$p-height;
 			background-color:$b-color;
 			will-change:width;
-		}
-		.#{$type}-point{
-			will-change: scroll-position;
-			width:2*$p-radius;
-			height:2*$p-radius;
-			margin:-1*($p-radius - $p-height/2) 0 0 -1*$p-radius;
-			background-color:lighten($b-color,20%);
-			border-radius: 100%;
 			position: relative;
-			&::before{
-				content:"";
-				display:block;
-				width:0;
-				height:0;
-				position: absolute;
-				top:50%;
-				left:50%;
-				background-color:rgba($b-color,.5);
-				//animation:changeSize 1s ease-in-out infinite alternate;
+			.#{$type}-point{
+				width:2*$p-radius;
+				height:2*$p-radius;
+				margin:-1*($p-radius - $p-height/2) 0 0 -1*$p-radius;
+				background-color:lighten($b-color,20%);
 				border-radius: 100%;
+				position: absolute;
+				right:0;
+				/*&::before{
+					content:"";
+					display:block;
+					width:0;
+					height:0;
+					position: absolute;
+					top:50%;
+					left:50%;
+					background-color:rgba($b-color,.5);
+					//animation:changeSize 1s ease-in-out infinite alternate;
+					border-radius: 100%;
+				}
+				*/
 			}
 		}
 	}
@@ -123,7 +125,7 @@ c-player{
 			text-align: center;
 			//padding:6em 0;
 			transform:translateY(6em);
-			//transition: all 0.25s;
+			transition: all 0.25s;
 			lrc{
 				flex:1;
 				display:block;
@@ -133,7 +135,7 @@ c-player{
 				font-size:large;
 				font-family: "LiHei Pro","Microsoft Yahei",sans-serif;
 				width:100%;
-				//transition:0.25s background ease;
+				transition:0.25s background ease;
 				&.now{
 					background:#ddd;
 				}

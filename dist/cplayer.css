@@ -96,6 +96,8 @@ c-player .lyric lyric-body {
   -webkit-transform: translateY(6em);
       -ms-transform: translateY(6em);
           transform: translateY(6em);
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
 }
 
 c-player .lyric lyric-body lrc {
@@ -110,6 +112,8 @@ c-player .lyric lyric-body lrc {
   font-size: large;
   font-family: "LiHei Pro","Microsoft Yahei",sans-serif;
   width: 100%;
+  -webkit-transition: 0.25s background ease;
+  transition: 0.25s background ease;
 }
 
 c-player .lyric lyric-body lrc.now {
@@ -270,30 +274,31 @@ c-player .controls .c-center .time .time-body .time-line {
   height: 2px;
   background-color: red;
   will-change: width;
+  position: relative;
 }
 
-c-player .controls .c-center .time .time-body .time-point {
-  will-change: scroll-position;
+c-player .controls .c-center .time .time-body .time-line .time-point {
   width: 10px;
   height: 10px;
   margin: -4px 0 0 -5px;
   background-color: #ff6666;
   -webkit-border-radius: 100%;
           border-radius: 100%;
-  position: relative;
-}
-
-c-player .controls .c-center .time .time-body .time-point::before {
-  content: "";
-  display: block;
-  width: 0;
-  height: 0;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  background-color: rgba(255, 0, 0, 0.5);
-  -webkit-border-radius: 100%;
-          border-radius: 100%;
+  right: 0;
+  /*&::before{
+					content:"";
+					display:block;
+					width:0;
+					height:0;
+					position: absolute;
+					top:50%;
+					left:50%;
+					background-color:rgba($b-color,.5);
+					//animation:changeSize 1s ease-in-out infinite alternate;
+					border-radius: 100%;
+				}
+				*/
 }
 
 c-player .controls .c-right {
@@ -355,30 +360,31 @@ c-player .controls .c-right .volume .volume-body .volume-line {
   height: 2px;
   background-color: red;
   will-change: width;
+  position: relative;
 }
 
-c-player .controls .c-right .volume .volume-body .volume-point {
-  will-change: scroll-position;
+c-player .controls .c-right .volume .volume-body .volume-line .volume-point {
   width: 10px;
   height: 10px;
   margin: -4px 0 0 -5px;
   background-color: #ff6666;
   -webkit-border-radius: 100%;
           border-radius: 100%;
-  position: relative;
-}
-
-c-player .controls .c-right .volume .volume-body .volume-point::before {
-  content: "";
-  display: block;
-  width: 0;
-  height: 0;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  background-color: rgba(255, 0, 0, 0.5);
-  -webkit-border-radius: 100%;
-          border-radius: 100%;
+  right: 0;
+  /*&::before{
+					content:"";
+					display:block;
+					width:0;
+					height:0;
+					position: absolute;
+					top:50%;
+					left:50%;
+					background-color:rgba($b-color,.5);
+					//animation:changeSize 1s ease-in-out infinite alternate;
+					border-radius: 100%;
+				}
+				*/
 }
 
 c-player .controls .c-right .volume .volume-body {

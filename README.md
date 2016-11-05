@@ -55,7 +55,12 @@ let cp = new cPlayer({
             [00:00.00]XXXXXXXX
             .....
             [00:99.99][11:99.99]XXXXX
-            ` //The Lyric(Extra)
+            `,//The Lyric(Extra)
+            "transLyric":`
+            [00:00.00]XXXXXXXX
+            .....
+            [00:99.99][11:99.99]XXXXX
+            `//The Translated of Lyric(Extra),Must work with `lyric`.
         },
         {
             .......
@@ -87,7 +92,8 @@ let cp = new cPlayer({
 * `cp.refreshLyric()` // Refresh the lyric now from `__LYRIC__`(unuseful)
 * `cp.updateTime()` // Set Music's Current Time
 * `cp.slideLyric(time)` //Core Lyric Process
-* `cp.on(eventName,func)` //__NEW!__ Set Events
+* `cp.on(eventName,func)` //Set Events
+* `cp.translate()` //__NEW!__ Make the translated(with transLyric)
 
 ## Events
 

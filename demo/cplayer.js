@@ -14,6 +14,7 @@ var cPlayer = function () {
 
 		_classCallCheck(this, cPlayer);
 
+		this.transLock = false;
 		var EVENTS = {
 			"play": [], //When Music be played, Emit.
 			"pause": [], //When Music be paused, Emit.
@@ -459,6 +460,7 @@ var cPlayer = function () {
 			dom.artist.innerHTML = _ref[2];
 			this.music.src = _ref[3];
 
+			this.transLock = false;
 			this.refreshLyric();
 			if (!this.hasLyric(this.now)) this.hideLyric();
 			//this.__LIST__.lyricBody.style.transform = "";
@@ -575,11 +577,11 @@ var cPlayer = function () {
 		}
 	}, {
 		key: "refreshLyric",
-		value: function refreshLyric() {
+		value: function refreshLyric(isTrans) {
 			//REQUIRE LYRIC...
 			this.__LIST__.lyricBody.innerHTML = "";
 			if (!this.hasLyric(this.now)) return;
-			var lr = this.options.list[this.now].lyric;
+			var lr = !this.transLock && isTrans ? this.options.list[this.now].transLyric : this.options.list[this.now].lyric;
 			//START LRC BASEING...
 			lr = lr.split("\n");
 			var lrcs = [];
@@ -674,6 +676,13 @@ var cPlayer = function () {
 					if (list[n] !== lrc[i - 1]) list[n].classList.remove("now");
 				}
 			}
+		}
+	}, {
+		key: "translate",
+		value: function translate() {
+			if (!this.options.list[this.now].transLyric || !this.hasLyric(this.now)) return false;
+			this.refreshLyric(true);
+			this.transLock = true;
 		}
 	}, {
 		key: "length",

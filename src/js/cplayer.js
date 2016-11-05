@@ -4,6 +4,7 @@
  */
 const cPlayer = class cPlayer {
 	    constructor(options) {
+	    	this.transLock = false;
 	        const EVENTS = {
 	            "play"              :[], //When Music be played, Emit.
 	            "pause"             :[], //When Music be paused, Emit.
@@ -402,6 +403,7 @@ const cPlayer = class cPlayer {
 	        this.music.pause();
 	        //if(this.music.ended)this.music.load();
 	        [dom.img.src, dom.name.innerHTML, dom.artist.innerHTML, this.music.src] = [list.image, list.name, list.artist, list.url];
+	        this.transLock = false;
 	        this.refreshLyric();
 	        if (!this.hasLyric(this.now))this.hideLyric();
 	        //this.__LIST__.lyricBody.style.transform = "";
@@ -492,11 +494,11 @@ const cPlayer = class cPlayer {
 	        return this;
 	    }
 
-	    refreshLyric() {
+	    refreshLyric(isTrans) {
 	        //REQUIRE LYRIC...
 	        this.__LIST__.lyricBody.innerHTML = ``;
 	        if (!this.hasLyric(this.now)) return;
-	        let lr = this.options.list[this.now].lyric;
+	        let lr = ((!this.transLock)&&isTrans?this.options.list[this.now].transLyric:this.options.list[this.now].lyric);
 	        //START LRC BASEING...
 	        lr = lr.split("\n");
 	        let lrcs = [];
@@ -592,6 +594,11 @@ const cPlayer = class cPlayer {
 			            	if(list[n]!==lrc[i-1])
 			            		list[n].classList.remove("now");
 	        }
+	    }
+	    translate(){
+	    	if(!this.options.list[this.now].transLyric||!this.hasLyric(this.now)) return false;
+	    	this.refreshLyric(true);
+	    	this.transLock = true;
 	    }
 	    get length(){
 	        return this.options.list.length;

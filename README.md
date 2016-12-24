@@ -1,8 +1,7 @@
-﻿# cPlayer 
+# cPlayer 
 
-Maybe It's the best code I wrote.
 
-__Warning: This can only be loaded well in the MODERN-BROWSER(eg. Edge14+,Firefox(Current Version,Chrome(Current Version)...))__
+__Warning: We won't support IE-like browser.__
 
 ---
 

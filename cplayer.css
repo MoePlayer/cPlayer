@@ -96,6 +96,8 @@ c-player .lyric lyric-body {
   -webkit-transform: translateY(6em);
       -ms-transform: translateY(6em);
           transform: translateY(6em);
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
 }
 
 c-player .lyric lyric-body lrc {
@@ -110,6 +112,8 @@ c-player .lyric lyric-body lrc {
   font-size: large;
   font-family: "LiHei Pro","Microsoft Yahei",sans-serif;
   width: 100%;
+  -webkit-transition: 0.25s background ease;
+  transition: 0.25s background ease;
 }
 
 c-player .lyric lyric-body lrc.now {
@@ -335,6 +339,7 @@ c-player .controls .c-right .volume {
   -webkit-box-align: center;
   -webkit-align-items: center;
       -ms-flex-align: center;
+              -ms-grid-row-align: center;
           align-items: center;
   cursor: pointer;
   -webkit-transition: width 0.2s;

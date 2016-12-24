@@ -39,7 +39,17 @@ gulp.task("compress",["babel","sass"],()=>{
   .pipe(gulp.dest("dist"));
   return 0;
 });
+gulp.task("_compress",["babel"],()=>{
+  gulp.src("dist/cplayer.js")
+  .pipe(uglify())
+  .pipe(rename({"suffix":".min"}))
+  .pipe(gulp.dest("dist"));
+  return 0;
+});
 gulp.task("createDemo",["compress"],()=>{
+    return gulp.src("dist/*").pipe(gulp.dest("demo"));
+});
+gulp.task("_createDemo",["_compress"],()=>{
     return gulp.src("dist/*").pipe(gulp.dest("demo"));
 });
 gulp.task("serve",["createDemo"],()=>{
@@ -49,7 +59,7 @@ gulp.task("serve",["createDemo"],()=>{
     }
   });
   gulp.watch("src/scss/*.scss",["sass"]);
-  gulp.watch("src/js/*.js",["createDemo"]);
+  gulp.watch("src/js/*.js",["_createDemo"]);
   gulp.watch("demo/*.min.js").on("change",reload);
   gulp.watch("demo/*.html").on("change",reload);
 })

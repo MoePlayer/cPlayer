@@ -177,10 +177,12 @@ const cPlayer = class cPlayer {
 	            "name"       : this.CBASE.getByClass("music-name"),
 	            "artist"     : this.CBASE.getByClass("music-artist"),
 	            "time"       : this.CBASE.getByClass("time"),
+	            "timeBody"   : this.CBASE.getByClass("time-body"),
 	            "timeLine"   : this.CBASE.getByClass("time-line"),
 	            "timePoint"  : this.CBASE.getByClass("time-point"),
 	            "lyricPower" : this.CBASE.getByClass("lyric-power"),
 	            "volumePower": this.CBASE.getByClass("volume-power"),
+	            "volumeBody" : this.CBASE.getByClass("volume-body"),
 	            "volumeLine" : this.CBASE.getByClass("volume-line"),
 	            "volumePoint": this.CBASE.getByClass("volume-point"),
 	            "listPower"  : this.CBASE.getByClass("list-power"),
@@ -190,6 +192,100 @@ const cPlayer = class cPlayer {
 	        this.__LIST__.toggleIcon = this.CBASE.getByTagName("svg",this.__LIST__.toggle);
 	        this.__LIST__.volumeIcon = this.CBASE.getByTagName("svg",this.__LIST__.volumePower);
 
+	        let that=this;function dragPercentage(options) {
+		    	/*
+		    		While anything...
+		    		rightTarget(if.it.possible)[
+						0 -> sth.point
+						1 -> sth.line
+						2 -> sth.point & sth.line & sth.body
+		    		]
+		    	*/
+		    	let rightTarget = [];
+		    		rightTarget.push(options.target === that.__LIST__.timePoint 
+		                	|| options.target === that.__LIST__.volumePoint); //Check if the focus of mouse is the `point circle`
+		    		rightTarget.push(options.target === that.__LIST__.timeLine
+		                	|| options.target === that.__LIST__.volumeLine);
+		    		rightTarget.push((options.target === that.__LIST__.timePoint 
+		                	|| options.target === that.__LIST__.volumePoint
+		                	|| options.target === that.__LIST__.timeBody
+		                	|| options.target === that.__LIST__.volumeBody
+		                	|| options.target === that.__LIST__.timeLine
+		                	|| options.target === that.__LIST__.volumeLine));
+		    	if (!rightTarget[2]) return;
+		        that.dragging.contain = true;
+		        that.dragging.target = options.target;
+				if (rightTarget[0])window.addEventListener("mousemove",function mover(options){
+					if (that.dragging.contain === false) return;
+		            if (!rightTarget[0]) return;
+		            parent = that.dragging.target.parentNode.parentNode;
+		            if (parent.classList && parent.classList.contains("volume-body")) {
+		                that.__LIST__.volumeLine.style.width = (options.clientX - parent.offsetLeft) / parent.offsetWidth * 100 + "%";
+		            } else if (parent.classList && parent.classList.contains("time-body")) {
+		                that.__LIST__.timeLine.style.width = (options.clientX - parent.offsetLeft) / parent.offsetWidth * 100 + "%";
+		            }
+		            //实时修正VOLUME
+		            if (parent.classList.contains("volume-body")) {
+		                let vol = (options.clientX - parent.offsetLeft) / parent.offsetWidth;
+		                vol = vol > 1 ? 1 : vol;
+		                vol = vol < 0 ? 0 : vol;
+		                that.music.volume = vol;
+		            }
+		            window.addEventListener("mouseup",function upper(options){
+		            	if (that.dragging.contain === false) return;
+			            /*
+			            	While anything...
+			            	sth.body -> self
+			            	sth.line -> parent
+			            	sth.point-> parent.parent
+			            */
+			            if(false){}
+			            	else if(rightTarget[0]){parent = that.dragging.target.parentNode.parentNode}
+			            	else if(rightTarget[1]){parent = that.dragging.target.parentNode}
+			            	else if(rightTarget[2]){parent = that.dragging.target}
+			            	else throw new Error(JSON.stringify([that.dragging.target, rightTarget]));
+
+			            if (parent.classList.contains("volume-body")) {
+			                let vol = (options.clientX - parent.offsetLeft) / parent.offsetWidth;
+			                vol = vol > 1 ? 1 : vol;
+			                vol = vol < 0 ? 0 : vol;
+			                that.music.volume = vol;
+			            } else if (parent.classList.contains("time-body")) {
+			                let time = (options.clientX - parent.offsetLeft) / parent.offsetWidth;
+			                time = time > 1 ? 1 : time;
+			                time = time < 0 ? 0 : time;
+			                that.updateTime(time * that.music.duration);
+			            }
+			            that.dragging.contain = false;
+			            that.dragging.target = undefined;
+			            window.removeEventListener("mouseup",upper);
+			            window.removeEventListener("mousemove",mover);
+		            });
+				});
+				if (!rightTarget[0])window.addEventListener("mouseup",function upper(options){
+		            	if (that.dragging.contain === false) return;
+			            if(false){}
+			            	else if(rightTarget[0]){parent = that.dragging.target.parentNode.parentNode}
+			            	else if(rightTarget[1]){parent = that.dragging.target.parentNode}
+			            	else if(rightTarget[2]){parent = that.dragging.target}
+			            	else throw new Error(JSON.stringify([that.dragging.target, rightTarget]));
+
+			            if (parent.classList.contains("volume-body")) {
+			                let vol = (options.clientX - parent.offsetLeft) / parent.offsetWidth;
+			                vol = vol > 1 ? 1 : vol;
+			                vol = vol < 0 ? 0 : vol;
+			                that.music.volume = vol;
+			            } else if (parent.classList.contains("time-body")) {
+			                let time = (options.clientX - parent.offsetLeft) / parent.offsetWidth;
+			                time = time > 1 ? 1 : time;
+			                time = time < 0 ? 0 : time;
+			                that.updateTime(time * that.music.duration);
+			            }
+			            that.dragging.contain = false;
+			            that.dragging.target = undefined;
+			            window.removeEventListener("mouseup",upper);
+		            });
+		    }
 
 	        this.music = document.createElement("audio");
 	        this.music.autoplay = !!this.options.autoplay;
@@ -259,69 +355,11 @@ const cPlayer = class cPlayer {
 	        this.music.addEventListener("pause", ()=>this.emitter.emit("pause"));
 	        this.music.addEventListener("play", ()=>this.emitter.emit("play"));
 	        this.music.addEventListener("ended", ()=>this.emitter.emit("ended"));
-	        //以下内容不适合使用cEmitter,所以就不使用了.
-	        this.options.element.addEventListener("mousedown", (a)=>this.dragPercentage(a));
-	        this.options.element.addEventListener("mousemove", (a)=>this.dragPercentage(a));
-	        this.options.element.addEventListener("mouseup", (a)=>this.dragPercentage(a));
-	        //以上内容不适合使用cEmitter,所以就不使用了.
-
-	        //以下内容是为了兼容UC
-	        if(this.music.onplay = undefined) Object.defineProperty(music,"paused",{set:function(check){
-	            if(check = true){
-	                this.emitter.emit("pause");
-	            }else{
-	                this.emitter.emit("play");
-	            }
-	        }});
-	        //以上内容是为了兼容UC
+	        this.options.element.addEventListener("mousedown", (a)=>dragPercentage(a));
 
 	        this.volume();
 	        this.refreshList();
 	    };
-
-	    dragPercentage(options) {
-	    	let parent;
-	        switch (options.type) {
-	            case "mousedown":
-	                if (!(options.target !== this.__LIST__.timePoint || options.target !== this.__LIST__.volumePoint)) return;
-	                this.dragging.contain = true;
-	                this.dragging.target = options.target;
-	                break;
-	            case "mousemove":
-	                if (this.dragging.contain === false) return;
-	                parent = this.dragging.target.parentNode.parentNode;
-	                if (parent.classList.contains("volume-body")) {
-	                    this.__LIST__.volumeLine.style.width = (options.clientX - parent.offsetLeft) / parent.offsetWidth * 100 + "%";
-	                } else if (parent.classList.contains("time-body")) {
-	                    this.__LIST__.timeLine.style.width = (options.clientX - parent.offsetLeft) / parent.offsetWidth * 100 + "%";
-	                }
-	                //实时修正VOLUME(某人强烈要求)
-	                if (parent.classList.contains("volume-body")) {
-	                    let vol = (options.clientX - parent.offsetLeft) / parent.offsetWidth;
-	                    vol = vol > 1 ? 1 : vol;
-	                    vol = vol < 0 ? 0 : vol;
-	                    this.music.volume = vol;
-	                }
-	                break;
-	            case "mouseup":
-	                if (this.dragging.contain === false) return;
-	                parent = this.dragging.target.parentNode.parentNode;
-	                if (parent.classList.contains("volume-body")) {
-	                    let vol = (options.clientX - parent.offsetLeft) / parent.offsetWidth;
-	                    vol = vol > 1 ? 1 : vol;
-	                    vol = vol < 0 ? 0 : vol;
-	                    this.music.volume = vol;
-	                } else if (parent.classList.contains("time-body")) {
-	                    let time = (options.clientX - parent.offsetLeft) / parent.offsetWidth;
-	                    time = time > 1 ? 1 : time;
-	                    time = time < 0 ? 0 : time;
-	                    this.updateTime(time * this.music.duration);
-	                }
-	                this.dragging.contain = false;
-	                this.dragging.target = undefined;
-	                break;
-	        }
-	    }
 
 	    volume(vl = undefined) {
 	        let checkLevel = ()=>{
@@ -358,10 +396,6 @@ const cPlayer = class cPlayer {
 	    }
 
 	    play() {
-	        /*this.interval = setInterval(()=>{
-	            if (this.dragging.contain === false) this.__LIST__.timeLine.style.width = (this.music.currentTime / this.music.duration) * 100 + "%";
-	        },500);
-	        */
 	        if(this.music.seeking === true) return this;
 	        this.music.play();
 	        return this;
@@ -369,7 +403,6 @@ const cPlayer = class cPlayer {
 
 	    pause() {
 	        if(this.music.seeking === true) return;
-	        //clearInterval(this.interval);
 	        this.music.pause();
 	        return this;
 	    }
@@ -401,14 +434,11 @@ const cPlayer = class cPlayer {
 	        this.emitter.emit("toggle");
 	        let list = this.options.list[now], dom = this.__LIST__;
 	        this.music.pause();
-	        //if(this.music.ended)this.music.load();
 	        [dom.img.src, dom.name.innerHTML, dom.artist.innerHTML, this.music.src] = [list.image, list.name, list.artist, list.url];
 	        this.transLock = false;
 	        this.refreshLyric();
 	        if (!this.hasLyric(this.now))this.hideLyric();
-	        //this.__LIST__.lyricBody.style.transform = "";
 	        this.CBASE.style(this.__LIST__.lyricBody,"transform","");
-	        //this.play();
 	        return this;
 	    }
 
@@ -457,7 +487,6 @@ const cPlayer = class cPlayer {
 
 	    refreshList(func) {
 	        this.emitter.emit("changeList");
-	        //let __SELF__ = this;
 	        let list = this.options.list, lb = this.__LIST__.listBody;
 	        lb.innerHTML = ``;
 	        for (let i = 0; i <= list.length - 1; i++) {
@@ -472,7 +501,6 @@ const cPlayer = class cPlayer {
 	    }
 
 	    add(u,func) {
-	        //let __SELF__ = this;
 	        let ln = this.options.list.push(u);
 	        let div = document.createElement("div");
 	        div.innerHTML = '<span class="music-name">' + u.name + '</span><span class="music-artist">' + u.artist + '</span>';
@@ -502,7 +530,7 @@ const cPlayer = class cPlayer {
 	        //START LRC BASEING...
 	        lr = lr.split("\n");
 	        let lrcs = [];
-	        for (/* let content of lr */ let i = 0,content=lr[i];i<lr.length;i++,content=lr[i]) {
+	        for (let i = 0,content=lr[i];i<lr.length;i++,content=lr[i]) {
 	            if (typeof content !== "string") break;
 	            let onelrc = content.split(/\[|\]\[|\]/gi);
 	            for (let i = 0; i < onelrc.length - 1; i++) {
@@ -567,9 +595,8 @@ const cPlayer = class cPlayer {
 	    }
 
 	    slideLyric(time){
-	        //如果没开歌词,就不干事了
 	        if(this.__LIST__.lyric.classList.contains("invisible")) return;
-	        //声明变量
+
 	        let lyricToTop,
 	        	halfBody,
 	        	translateY,
@@ -640,7 +667,6 @@ const cEmitter = class cEmitter{
 	        }
 	    }
 	    on(eventName,func){
-	        //func的参数这样写:function([参数A,参数B]){}或者箭头函数([参数A,参数B])=>{}
 	        if(this.events[eventName]&&this.events[eventName].push !== undefined&&typeof func === "function"){
 	            this.events[eventName].push(func);
 	        }else if(this.events[eventName]===undefined||this.events[eventName].push===undefined){
@@ -655,7 +681,6 @@ const cEmitter = class cEmitter{
 	            this.events[eventName][i](args);
 	        }
 	        return this;
-	        //也许会有emitter.emit(..).emit(..)的写法?一次执行俩事件,实在不知道哪里有用...
 	    }
 }
 const cBase = class cBase{

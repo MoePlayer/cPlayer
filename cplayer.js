@@ -350,6 +350,13 @@ var cPlayer = function () {
 
 		//结束
 
+		new cContext({ element: this.options.element, items: [{ "name": "上一曲", "action": function action() {
+					return _this.previous();
+				} }, { "name": "下一曲", "action": function action() {
+					return _this.next();
+				} }, { "name": "翻译", "action": function action() {
+					return _this.translate();
+				} }] });
 
 		if (this.options.list[0]) this.toggle();
 		this.__LIST__.toggle.addEventListener("click", function () {
@@ -848,6 +855,98 @@ var cBase = function () {
 	}]);
 
 	return cBase;
+}();
+var cContext = function () {
+	/*
+  * options:{
+  *            "element":element,
+  *            "items":[
+  *                {"name":"XXX","action":func},
+  *                {"name":"XXX","action":func},
+  *            ]
+  *         }
+  */
+	function cContext(options) {
+		var _this5 = this;
+
+		_classCallCheck(this, cContext);
+
+		if (!options.element) throw new Error("Need a element to bind.");
+		this.options = options;
+		this.options.element.oncontextmenu = function () {
+			return false;
+		};
+		this.options.element.addEventListener("contextmenu", function (a) {
+			_this5.hide();
+			_this5.show(a);
+			return false;
+		});
+		document.documentElement.addEventListener("click", function () {
+			return _this5.hide();
+		});
+		return this;
+	}
+
+	_createClass(cContext, [{
+		key: "add",
+		value: function add(_ref2) {
+			var name = _ref2.name;
+			var action = _ref2.action;
+
+			this.options.items.push({ name: name, action: action });
+			return this;
+		}
+	}, {
+		key: "show",
+		value: function show(_ref3) {
+			var pageX = _ref3.pageX;
+			var pageY = _ref3.pageY;
+
+			var content = document.createElement("div");
+			content.classList.add("c-context");
+			for (var items = this.options.items, i = 0; i < items.length; i++) {
+				content.appendChild(document.createElement("div"));
+				content.children[i].classList.add("c-context--list");
+				content.children[i].innerHTML = items[i].name;
+				//content.innerHTML+=`<div class="c-context--list">${items[i].name}</div>`;
+				content.children[i].addEventListener("click", items[i].action);
+			}
+			document.body.appendChild(content);
+			//Set the offset-x
+			if (document.body.clientWidth > content.offsetWidth) {
+				//When the body is wide enough
+				if (document.body.clientWidth > content.offsetWidth + pageX) content.style.left = pageX + "px"; //Let the ContextMenu be right;
+				if (document.body.clientWidth < content.offsetWidth + pageX) content.style.left = pageX - content.offsetWidth + "px"; //Let the ContextMenu be left;
+			} else {
+				content.style.width = document.body.clientWidth + "px";
+			}
+			//Set the offset-y
+			if (document.body.clientHeight > content.offsetHeight) {
+				if (document.body.clientHeight > content.offsetHeight + pageY) content.style.top = pageY + "px";
+				if (document.body.clientHeight < content.offsetHeight + pageY) content.style.top = pageY - content.offsetHeight + "px";
+			}
+			content.style.visibility = "visible";
+			return this;
+		}
+	}, {
+		key: "hide",
+		value: function hide() {
+			for (var list = document.getElementsByClassName("c-context"), i = list.length - 1; i >= 0; i--) {
+				document.body.removeChild(list[i]);
+			}return this;
+		}
+	}, {
+		key: "items",
+		get: function get() {
+			return this.options.items;
+		},
+		set: function set(context) {
+			this.options.items = context;
+			return this.options.items;
+		}
+	}]);
+
+	return cContext;
 }();
 if (window) window.cPlayer = cPlayer;
 //# sourceMappingURL=cplayer.js.map

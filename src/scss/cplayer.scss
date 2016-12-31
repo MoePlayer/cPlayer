@@ -48,10 +48,9 @@ $p-radius:5px;
 					top:50%;
 					left:50%;
 					background-color:rgba($b-color,.5);
-					//animation:changeSize 1s ease-in-out infinite alternate;
+					animation:changeSize 1s ease-in-out infinite alternate;
 					border-radius: 100%;
-				}
-				*/
+				}***********/
 			}
 		}
 	}
@@ -324,3 +323,25 @@ c-player{
 		}
 	}
 }
+	.c-context{
+		z-index:9999;
+		position:absolute;
+		display:inline-flex;
+		min-width:5em;
+		height:auto;
+		flex-direction:column;
+		background: #fff;
+		box-shadow: 0 0 3em -1em #000;
+	}
+	.c-context--list{
+		display:flex;
+		flex:1;
+		min-height:2em;
+		padding:1em;
+		box-sizing:border-box;
+		transition:background 0.5s;
+		will-change:background;
+	}
+	.c-context--list:hover{
+		background: #6af;
+	}

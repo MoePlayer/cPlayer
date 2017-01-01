@@ -4,6 +4,11 @@ __Warning: Loaded well in Internet Explorer 10+, FireFox, Chrome, Edge and so on
 
 ---
 
+## Screenshot
+
+![Screenshot](http://i1.piimg.com/4851/594e267631e122c9.png)
+---
+
 ## Install && Build
 
 ```bash

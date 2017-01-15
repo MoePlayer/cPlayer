@@ -295,10 +295,9 @@ c-player .controls .c-center .time .time-body .time-line .time-point {
 					top:50%;
 					left:50%;
 					background-color:rgba($b-color,.5);
-					//animation:changeSize 1s ease-in-out infinite alternate;
+					animation:changeSize 1s ease-in-out infinite alternate;
 					border-radius: 100%;
-				}
-				*/
+				}***********/
 }
 
 c-player .controls .c-right {
@@ -339,7 +338,6 @@ c-player .controls .c-right .volume {
   -webkit-box-align: center;
   -webkit-align-items: center;
       -ms-flex-align: center;
-              -ms-grid-row-align: center;
           align-items: center;
   cursor: pointer;
   -webkit-transition: width 0.2s;
@@ -382,10 +380,9 @@ c-player .controls .c-right .volume .volume-body .volume-line .volume-point {
 					top:50%;
 					left:50%;
 					background-color:rgba($b-color,.5);
-					//animation:changeSize 1s ease-in-out infinite alternate;
+					animation:changeSize 1s ease-in-out infinite alternate;
 					border-radius: 100%;
-				}
-				*/
+				}***********/
 }
 
 c-player .controls .c-right .volume .volume-body {
@@ -598,11 +595,11 @@ c-player .list list-body .music-name {
   min-height: 2em;
   padding: 1em;
   -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
           box-sizing: border-box;
   -webkit-transition: background 0.5s;
   transition: background 0.5s;
   will-change: background;
+  cursor: pointer;
 }
 
 .c-context--list:hover {

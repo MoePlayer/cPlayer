@@ -527,11 +527,11 @@ const cPlayer = class cPlayer {
 	        return this;
 	    }
 
-	    refreshLyric(isTrans) {
+	    refreshLyric(isTrans=false) {
 	        //REQUIRE LYRIC...
 	        this.__LIST__.lyricBody.innerHTML = ``;
 	        if (!this.hasLyric(this.now)) return;
-	        let lr = ((!this.transLock)&&isTrans?this.options.list[this.now].transLyric:this.options.list[this.now].lyric);
+	        let lr = isTrans!==false?this.options.list[this.now].transLyric:this.options.list[this.now].lyric;
 	        //START LRC BASEING...
 	        lr = lr.split("\n");
 	        let lrcs = [];
@@ -588,7 +588,6 @@ const cPlayer = class cPlayer {
 	            this.__LIST__.lyricBody.appendChild(div);
 	        }
 	        this.emitter.emit("changeLyric");
-
 	    }
 
 	    updateTime(time = undefined,func) {
@@ -629,8 +628,8 @@ const cPlayer = class cPlayer {
 	    }
 	    translate(){
 	    	if(!this.options.list[this.now].transLyric||!this.hasLyric(this.now)) return false;
-	    	this.refreshLyric(true);
-	    	this.transLock = true;
+	    	this.transLock = !this.transLock;
+	    	this.refreshLyric(this.transLock);
 	    }
 	    get length(){
 	        return this.options.list.length;

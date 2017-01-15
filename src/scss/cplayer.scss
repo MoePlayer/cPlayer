@@ -341,6 +341,7 @@ c-player{
 		box-sizing:border-box;
 		transition:background 0.5s;
 		will-change:background;
+		cursor:pointer;
 	}
 	.c-context--list:hover{
 		background: #6af;

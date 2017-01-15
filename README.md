@@ -142,3 +142,7 @@ cp.on("slideLyric",([showed])=>{
 ## DEMO
 
 [Click Here to See the Demo](http://cplayer.js.org)
+
+## Plugins
+
+Jad's cPlayer-Typecho-Plugin: [Click here](https://github.com/journey-ad/cPlayer-Typecho-Plugin)

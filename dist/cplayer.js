@@ -295,6 +295,7 @@ var cPlayer = function () {
 		}
 
 		this.music = document.createElement("audio");
+		this.music.preload = "none";
 		this.music.autoplay = !!this.options.autoplay;
 		//绑定事件开始:
 

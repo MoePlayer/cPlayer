@@ -91,7 +91,7 @@
             fetch("https://api.imjad.cn/cloudmusic/?type=lyric&id=" + id).then(function (a) {
                 return a.json();
             }).then(function (result) {
-                if (result["nolyric"] === true) {
+                if (result["nolyric"] === true||result["uncollected"] === true) {
                     obj["lyric"] = undefined;
                 } else {
                     obj["lyric"] = result["lrc"]["lyric"];

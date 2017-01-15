@@ -289,7 +289,7 @@ const cPlayer = class cPlayer {
 
 	        this.music = document.createElement("audio");
 	        this.music.autoplay = !!this.options.autoplay;
-	        this.music.preload  = false;
+	        this.music.preload  = "none";
 	        //绑定事件开始:
 
 	        this.emitter.on("toggle",()=>{

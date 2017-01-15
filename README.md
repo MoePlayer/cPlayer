@@ -1,9 +1,12 @@
 ﻿# cPlayer 
 
-Maybe It's the best code I wrote.
+__Warning: Loaded well in Internet Explorer 10+, FireFox, Chrome, Edge and so on...(Modern Browser like.)__
 
-__Warning: This can only be loaded well in the MODERN-BROWSER(eg. Edge14+,Firefox(Current Version,Chrome(Current Version)...))__
+---
 
+## Screenshot
+
+![Screenshot](http://i1.piimg.com/4851/594e267631e122c9.png)
 ---
 
 ## Install && Build
@@ -134,6 +137,7 @@ cp.on("slideLyric",([showed])=>{
 
 ## TODOLIST
 * [ ] Playlist Order Mode(Random/Asc/Desc(Order By ID))
+* [x] Context Menu(previous, next and translate)
 
 ## DEMO
 

@@ -296,7 +296,7 @@ var cPlayer = function () {
 
 		this.music = document.createElement("audio");
 		this.music.autoplay = !!this.options.autoplay;
-		this.music.preload = "none";
+		this.music.preload = "metadata";
 		//绑定事件开始:
 
 		this.emitter.on("toggle", function () {

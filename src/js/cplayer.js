@@ -289,6 +289,7 @@ const cPlayer = class cPlayer {
 
 	        this.music = document.createElement("audio");
 	        this.music.autoplay = !!this.options.autoplay;
+	        this.music.preload  = false;
 	        //绑定事件开始:
 
 	        this.emitter.on("toggle",()=>{
@@ -807,3 +808,4 @@ const cContext = class cContext{
     }
 }
 if(window)window.cPlayer = cPlayer;
+console.log("\n%ccPlayer%cv1.4.2%c\n\n","padding:7px;background:#cd3e45;font-family:'Sitka Heading';font-weight:bold;font-size:large;color:white","padding:7px;background:#ff5450;font-family:'Sitka Text';font-style:italic;font-size:large;color:#eee","");

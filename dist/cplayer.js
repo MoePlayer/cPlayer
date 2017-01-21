@@ -223,13 +223,13 @@ var cPlayer = function () {
 				if (!rightTarget[0]) return;
 				parent = that.dragging.target.parentNode.parentNode;
 				if (parent.classList && parent.classList.contains("volume-body")) {
-					that.__LIST__.volumeLine.style.width = (options.screenX - parent.getBoundingClientRect().left) / parent.offsetWidth * 100 + "%";
+					that.__LIST__.volumeLine.style.width = (options.clientX - parent.getBoundingClientRect().left) / parent.offsetWidth * 100 + "%";
 				} else if (parent.classList && parent.classList.contains("time-body")) {
-					that.__LIST__.timeLine.style.width = (options.screenX - parent.getBoundingClientRect().left) / parent.offsetWidth * 100 + "%";
+					that.__LIST__.timeLine.style.width = (options.clientX - parent.getBoundingClientRect().left) / parent.offsetWidth * 100 + "%";
 				}
 				//实时修正VOLUME
 				if (parent.classList.contains("volume-body")) {
-					var vol = (options.screenX - parent.getBoundingClientRect().left) / parent.offsetWidth;
+					var vol = (options.clientX - parent.getBoundingClientRect().left) / parent.offsetWidth;
 					vol = vol > 1 ? 1 : vol;
 					vol = vol < 0 ? 0 : vol;
 					that.music.volume = vol;
@@ -251,12 +251,12 @@ var cPlayer = function () {
 					} else throw new Error(JSON.stringify([that.dragging.target, rightTarget]));
 
 					if (parent.classList.contains("volume-body")) {
-						var _vol = (options.screenX - parent.getBoundingClientRect().left) / parent.offsetWidth;
+						var _vol = (options.clientX - parent.getBoundingClientRect().left) / parent.offsetWidth;
 						_vol = _vol > 1 ? 1 : _vol;
 						_vol = _vol < 0 ? 0 : _vol;
 						that.music.volume = _vol;
 					} else if (parent.classList.contains("time-body")) {
-						var time = (options.screenX - parent.getBoundingClientRect().left) / parent.offsetWidth;
+						var time = (options.clientX - parent.getBoundingClientRect().left) / parent.offsetWidth;
 						time = time > 1 ? 1 : time;
 						time = time < 0 ? 0 : time;
 						that.updateTime(time * that.music.duration);
@@ -952,5 +952,5 @@ var cContext = function () {
 	return cContext;
 }();
 if (window) window.cPlayer = cPlayer;
-console.log("\n%ccPlayer%cv2.4.3%c\n\n", "padding:7px;background:#cd3e45;font-family:'Sitka Heading';font-weight:bold;font-size:large;color:white", "padding:7px;background:#ff5450;font-family:'Sitka Text';font-style:italic;font-size:large;color:#eee", "");
+console.log("\n%ccPlayer%cv2.4.5%c\n\n", "padding:7px;background:#cd3e45;font-family:'Sitka Heading';font-weight:bold;font-size:large;color:white", "padding:7px;background:#ff5450;font-family:'Sitka Text';font-style:italic;font-size:large;color:#eee", "");
 //# sourceMappingURL=cplayer.js.map

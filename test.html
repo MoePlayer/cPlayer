@@ -5,6 +5,7 @@
     <title>DEMO</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="cplayer.js"></script>
+    <script src="cpixel.js"></script>
     <script type="text/javascript" src="fetch.js"></script>
     <link rel="stylesheet" href="cplayer.min.css">
     <link href="https://cdn.bootcss.com/material-design-icons/2.2.3/iconfont/material-icons.css" rel="stylesheet">
@@ -51,7 +52,7 @@
     </div>
     <script>
         "use strict";
-
+        new cPixel;
         function check(obj, args) {
             if (!Array.isArray(args)) throw new Error("Property 'args' is not a Array.");
             var rs = true;

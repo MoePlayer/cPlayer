@@ -1,7 +1,7 @@
 $c-height:4em;
-$p-height:2px;
-$b-color:red;
-$p-radius:5px;
+$p-height:0.5em;
+$b-color:#66bb6a;
+$p-radius:1em;
 
 @keyframes changeSize{
 	0%{
@@ -19,22 +19,27 @@ $p-radius:5px;
 }
 
 @mixin progress($type:time){
+	touch-action: none;
+	pointer-events: auto;
 	cursor: pointer;
 	.#{$type}-body{
 		margin: 0 1%;
 		height:$p-height;
 		background-color:#ccc;
 		display:flex;
+		border-radius:0.5em;
 		.#{$type}-line{
 			width:0%;
-			height:$p-height;
+			height:100%;
 			background-color:$b-color;
 			will-change:width;
+			transition:0.1s width ease-in;
 			position: relative;
+			border-radius:0.5em;
 			.#{$type}-point{
-				width:2*$p-radius;
-				height:2*$p-radius;
-				margin:-1*($p-radius - $p-height/2) 0 0 -1*$p-radius;
+				width:$p-radius;
+				height:$p-radius;
+				margin:-0.25em -0.5em 0 0;
 				background-color:lighten($b-color,20%);
 				border-radius: 100%;
 				position: absolute;
@@ -282,14 +287,14 @@ c-player{
 				align-items:center;
 				flex:1;
 				cursor:pointer;
-				transition: 0.2s background 0s ease;
+				transition: 0.5s background 0s ease;
 				&:nth-child(2n-1){
-					background:rgba(117,117,117,0.23);
+					background:rgba(117,117,117,0.04);
 				}
 				&:hover,&:active{
-					background:rgba(117,117,117,0.5);
+					background:rgba(117,117,117,0.13);
 					&::before{
-						width:0.2em;
+						width:0.4em;
 					}
 				}
 				&::before{

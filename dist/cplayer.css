@@ -226,7 +226,7 @@ c-player .controls .c-left .play-icon {
   height: 3.2em;
   -webkit-border-radius: 100%;
           border-radius: 100%;
-  background-color: #ff6666;
+  background-color: #addaaf;
   color: white;
   cursor: pointer;
 }
@@ -256,32 +256,41 @@ c-player .controls .c-center {
 
 c-player .controls .c-center .time {
   width: 100%;
+  -ms-touch-action: none;
+      touch-action: none;
+  pointer-events: auto;
   cursor: pointer;
 }
 
 c-player .controls .c-center .time .time-body {
   margin: 0 1%;
-  height: 2px;
+  height: 0.5em;
   background-color: #ccc;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-border-radius: 0.5em;
+          border-radius: 0.5em;
 }
 
 c-player .controls .c-center .time .time-body .time-line {
   width: 0%;
-  height: 2px;
-  background-color: red;
+  height: 100%;
+  background-color: #66bb6a;
   will-change: width;
+  -webkit-transition: 0.1s width ease-in;
+  transition: 0.1s width ease-in;
   position: relative;
+  -webkit-border-radius: 0.5em;
+          border-radius: 0.5em;
 }
 
 c-player .controls .c-center .time .time-body .time-line .time-point {
-  width: 10px;
-  height: 10px;
-  margin: -4px 0 0 -5px;
-  background-color: #ff6666;
+  width: 1em;
+  height: 1em;
+  margin: -0.25em -0.5em 0 0;
+  background-color: #addaaf;
   -webkit-border-radius: 100%;
           border-radius: 100%;
   position: absolute;
@@ -339,6 +348,9 @@ c-player .controls .c-right .volume {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
+  -ms-touch-action: none;
+      touch-action: none;
+  pointer-events: auto;
   cursor: pointer;
   -webkit-transition: width 0.2s;
   transition: width 0.2s;
@@ -346,27 +358,33 @@ c-player .controls .c-right .volume {
 
 c-player .controls .c-right .volume .volume-body {
   margin: 0 1%;
-  height: 2px;
+  height: 0.5em;
   background-color: #ccc;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-border-radius: 0.5em;
+          border-radius: 0.5em;
 }
 
 c-player .controls .c-right .volume .volume-body .volume-line {
   width: 0%;
-  height: 2px;
-  background-color: red;
+  height: 100%;
+  background-color: #66bb6a;
   will-change: width;
+  -webkit-transition: 0.1s width ease-in;
+  transition: 0.1s width ease-in;
   position: relative;
+  -webkit-border-radius: 0.5em;
+          border-radius: 0.5em;
 }
 
 c-player .controls .c-right .volume .volume-body .volume-line .volume-point {
-  width: 10px;
-  height: 10px;
-  margin: -4px 0 0 -5px;
-  background-color: #ff6666;
+  width: 1em;
+  height: 1em;
+  margin: -0.25em -0.5em 0 0;
+  background-color: #addaaf;
   -webkit-border-radius: 100%;
           border-radius: 100%;
   position: absolute;
@@ -517,24 +535,24 @@ c-player .list list-body > * {
       -ms-flex: 1;
           flex: 1;
   cursor: pointer;
-  -webkit-transition: 0.2s background 0s ease;
-  transition: 0.2s background 0s ease;
+  -webkit-transition: 0.5s background 0s ease;
+  transition: 0.5s background 0s ease;
 }
 
 c-player .list list-body > *:nth-child(2n-1) {
-  background: rgba(117, 117, 117, 0.23);
+  background: rgba(117, 117, 117, 0.04);
 }
 
 c-player .list list-body > *:hover, c-player .list list-body > *:active {
-  background: rgba(117, 117, 117, 0.5);
+  background: rgba(117, 117, 117, 0.13);
 }
 
 c-player .list list-body > *:hover::before, c-player .list list-body > *:active::before {
-  width: 0.2em;
+  width: 0.4em;
 }
 
 c-player .list list-body > *::before {
-  background: #ff6666;
+  background: #addaaf;
   -webkit-transition: 0.2s width 0s ease;
   transition: 0.2s width 0s ease;
   float: left;

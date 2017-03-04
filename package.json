@@ -48,7 +48,7 @@
     "gulp-sass": "*",
     "gulp-sourcemaps": "*",
     "gulp-uglify": "*",
-    "node-sass": "*",
+    "node-sass": "latest",
     "uglify": "*"
   }
 }

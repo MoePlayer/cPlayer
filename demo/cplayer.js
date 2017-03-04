@@ -7,6 +7,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /*
  	cPlayer
     Author	Corps
+
+	I am the super Corps!
  */
 var cPlayer = function () {
 	function cPlayer(options) {
@@ -212,13 +214,37 @@ var cPlayer = function () {
    	]
    */
 			var rightTarget = [];
-			rightTarget.push(options.target === that.__LIST__.timePoint || options.target === that.__LIST__.volumePoint); //Check if the focus of mouse is the `point circle`
-			rightTarget.push(options.target === that.__LIST__.timeLine || options.target === that.__LIST__.volumeLine);
-			rightTarget.push(options.target === that.__LIST__.timePoint || options.target === that.__LIST__.volumePoint || options.target === that.__LIST__.timeBody || options.target === that.__LIST__.volumeBody || options.target === that.__LIST__.timeLine || options.target === that.__LIST__.volumeLine);
-			if (!rightTarget[2]) return;
+			Object.defineProperties(rightTarget, {
+				0: {
+					get: function get() {
+						return options.target === that.__LIST__.timePoint || options.target === that.__LIST__.volumePoint;
+					}
+				},
+				1: {
+					get: function get() {
+						return options.target === that.__LIST__.timeLine || options.target === that.__LIST__.volumeLine;
+					}
+				},
+				2: {
+					get: function get() {
+						return options.target === that.__LIST__.timePoint || options.target === that.__LIST__.volumePoint || options.target === that.__LIST__.timeBody || options.target === that.__LIST__.volumeBody || options.target === that.__LIST__.timeLine || options.target === that.__LIST__.volumeLine;
+					}
+				}
+			});
+			/*rightTarget.push(options.target === that.__LIST__.timePoint 
+             	|| options.target === that.__LIST__.volumePoint); //Check if the focus of mouse is the `point circle`
+   rightTarget.push(options.target === that.__LIST__.timeLine
+             	|| options.target === that.__LIST__.volumeLine);
+   rightTarget.push((options.target === that.__LIST__.timePoint 
+             	|| options.target === that.__LIST__.volumePoint
+             	|| options.target === that.__LIST__.timeBody
+             	|| options.target === that.__LIST__.volumeBody
+             	|| options.target === that.__LIST__.timeLine
+             	|| options.target === that.__LIST__.volumeLine));*/
+			if (!rightTarget[2]) return; //Warning!!! rightTarget[2] checks if mouse focus on the percentage.
 			that.dragging.contain = true;
 			that.dragging.target = options.target;
-			if (rightTarget[0]) window.addEventListener("mousemove", function mover(options) {
+			var mover = function mover(options) {
 				if (that.dragging.contain === false) return;
 				if (!rightTarget[0]) return;
 				parent = that.dragging.target.parentNode.parentNode;
@@ -234,40 +260,38 @@ var cPlayer = function () {
 					vol = vol < 0 ? 0 : vol;
 					that.music.volume = vol;
 				}
-				window.addEventListener("mouseup", function upper(options) {
-					if (that.dragging.contain === false) return;
-					/*
-     	While anything...
-     	sth.body -> self
-     	sth.line -> parent
-     	sth.point-> parent.parent
-     */
-					if (false) {} else if (rightTarget[0]) {
-						parent = that.dragging.target.parentNode.parentNode;
-					} else if (rightTarget[1]) {
-						parent = that.dragging.target.parentNode;
-					} else if (rightTarget[2]) {
-						parent = that.dragging.target;
-					} else throw new Error(JSON.stringify([that.dragging.target, rightTarget]));
-
-					if (parent.classList.contains("volume-body")) {
-						var _vol = (options.clientX - parent.getBoundingClientRect().left) / parent.offsetWidth;
-						_vol = _vol > 1 ? 1 : _vol;
-						_vol = _vol < 0 ? 0 : _vol;
-						that.music.volume = _vol;
-					} else if (parent.classList.contains("time-body")) {
-						var time = (options.clientX - parent.getBoundingClientRect().left) / parent.offsetWidth;
-						time = time > 1 ? 1 : time;
-						time = time < 0 ? 0 : time;
-						that.updateTime(time * that.music.duration);
-					}
-					that.dragging.contain = false;
-					that.dragging.target = undefined;
-					window.removeEventListener("mouseup", upper);
-					window.removeEventListener("mousemove", mover);
-				});
-			});
-			if (!rightTarget[0]) window.addEventListener("mouseup", function upper(options) {
+				window.addEventListener("mouseup", upper);
+			};var upper = function upper(options) {
+				if (that.dragging.contain === false) return;
+				/*
+    	While anything...
+    	sth.body -> self
+    	sth.line -> parent
+    	sth.point-> parent.parent
+    */
+				if (false) {} else if (rightTarget[0]) {
+					parent = that.dragging.target.parentNode.parentNode;
+				} else if (rightTarget[1]) {
+					parent = that.dragging.target.parentNode;
+				} else if (rightTarget[2]) {
+					parent = that.dragging.target;
+				} else throw new Error(JSON.stringify([that.dragging.target, rightTarget]));
+				if (parent.classList.contains("volume-body")) {
+					var vol = (options.clientX - parent.getBoundingClientRect().left) / parent.offsetWidth;
+					vol = vol > 1 ? 1 : vol;
+					vol = vol < 0 ? 0 : vol;
+					that.music.volume = vol;
+				} else if (parent.classList.contains("time-body")) {
+					var time = (options.clientX - parent.getBoundingClientRect().left) / parent.offsetWidth;
+					time = time > 1 ? 1 : time;
+					time = time < 0 ? 0 : time;
+					that.updateTime(time * that.music.duration);
+				}
+				that.dragging.contain = false;
+				that.dragging.target = undefined;
+				window.removeEventListener("mouseup", upper);
+				window.removeEventListener("mousemove", mover);
+			};var uppers = function uppers(options) {
 				if (that.dragging.contain === false) return;
 				if (false) {} else if (rightTarget[0]) {
 					parent = that.dragging.target.parentNode.parentNode;
@@ -278,20 +302,22 @@ var cPlayer = function () {
 				} else throw new Error(JSON.stringify([that.dragging.target, rightTarget]));
 
 				if (parent.classList.contains("volume-body")) {
-					var vol = (options.clientX - parent.offsetLeft) / parent.offsetWidth;
+					var vol = (options.clientX - parent.getBoundingClientRect().left) / parent.offsetWidth;
 					vol = vol > 1 ? 1 : vol;
 					vol = vol < 0 ? 0 : vol;
 					that.music.volume = vol;
 				} else if (parent.classList.contains("time-body")) {
-					var time = (options.clientX - parent.offsetLeft) / parent.offsetWidth;
+					var time = (options.clientX - parent.getBoundingClientRect().left) / parent.offsetWidth;
 					time = time > 1 ? 1 : time;
 					time = time < 0 ? 0 : time;
 					that.updateTime(time * that.music.duration);
 				}
 				that.dragging.contain = false;
 				that.dragging.target = undefined;
-				window.removeEventListener("mouseup", upper);
-			});
+				window.removeEventListener("mouseup", uppers);
+			};
+			if (rightTarget[0]) window.addEventListener("mousemove", mover);
+			if (!rightTarget[0]) window.addEventListener("mouseup", uppers);
 		}
 
 		this.music = document.createElement("audio");
@@ -614,7 +640,7 @@ var cPlayer = function () {
 			if (!this.hasLyric(this.now)) return;
 			var lr = isTrans !== false ? this.options.list[this.now].transLyric : this.options.list[this.now].lyric;
 			//START LRC BASEING...
-			lr = lr.split("\n");
+			lr = lr.split("\n").length > 1 ? lr.split("\n") : lr.replace("]", "]\n").split("]");
 			var lrcs = [];
 			for (var i = 0, content = lr[i]; i < lr.length; i++, content = lr[i]) {
 				if (typeof content !== "string") break;

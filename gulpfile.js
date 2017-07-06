@@ -28,7 +28,6 @@ gulp.task("sass",()=>{
   .pipe(sass({outputStyle:"compressed"}))
   .pipe(autoprefixer("last 20 version"))
   .pipe(rename({suffix:".min"}))
-  .pipe(gulp.dest("dist"))
   .pipe(gulp.dest("demo"))
   .pipe(reload({stream:true}));
 });

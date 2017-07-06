@@ -256,6 +256,9 @@ c-player .controls .c-center {
 
 c-player .controls .c-center .time {
   width: 100%;
+  -ms-touch-action: none;
+      touch-action: none;
+  pointer-events: auto;
   cursor: pointer;
 }
 
@@ -276,6 +279,8 @@ c-player .controls .c-center .time .time-body .time-line {
   height: 100%;
   background-color: #66bb6a;
   will-change: width;
+  -webkit-transition: 0.1s width ease-in;
+  transition: 0.1s width ease-in;
   position: relative;
   -webkit-border-radius: 0.5em;
           border-radius: 0.5em;
@@ -343,6 +348,9 @@ c-player .controls .c-right .volume {
   -webkit-align-items: center;
       -ms-flex-align: center;
           align-items: center;
+  -ms-touch-action: none;
+      touch-action: none;
+  pointer-events: auto;
   cursor: pointer;
   -webkit-transition: width 0.2s;
   transition: width 0.2s;
@@ -365,6 +373,8 @@ c-player .controls .c-right .volume .volume-body .volume-line {
   height: 100%;
   background-color: #66bb6a;
   will-change: width;
+  -webkit-transition: 0.1s width ease-in;
+  transition: 0.1s width ease-in;
   position: relative;
   -webkit-border-radius: 0.5em;
           border-radius: 0.5em;

@@ -509,7 +509,7 @@ var cPlayer = function () {
 		value: function toggle() {
 			var now = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.now;
 
-			this.emitter.emit("toggle");
+			//this.emitter.emit("toggle");
 			var list = this.options.list[now],
 			    dom = this.__LIST__;
 			this.music.pause();
@@ -739,6 +739,11 @@ var cPlayer = function () {
 			if (!this.options.list[this.now].transLyric || !this.hasLyric(this.now)) return false;
 			this.transLock = !this.transLock;
 			this.refreshLyric(this.transLock);
+		}
+	}, {
+		key: "checkProcessor",
+		value: function checkProcessor(param, id) {
+			this.options.list[id];
 		}
 	}, {
 		key: "length",
@@ -978,5 +983,6 @@ var cContext = function () {
 	return cContext;
 }();
 if (window) window.cPlayer = cPlayer;
+if (!fetch) document.head.innerHTML += "<script src=\"//cdn.bootcss.com/fetch/2.0.3/fetch.min.js\"/></script>"; //fetch polyfill
 console.log("\n%ccPlayer%cv2.4.5%c\n\n", "padding:7px;background:#cd3e45;font-family:'Sitka Heading';font-weight:bold;font-size:large;color:white", "padding:7px;background:#ff5450;font-family:'Sitka Text';font-style:italic;font-size:large;color:#eee", "");
 //# sourceMappingURL=cplayer.js.map

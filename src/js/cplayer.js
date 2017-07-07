@@ -222,16 +222,6 @@ const cPlayer = class cPlayer {
 		                	|| options.target === that.__LIST__.volumeLine}
 						}
 					});
-		    		/*rightTarget.push(options.target === that.__LIST__.timePoint 
-		                	|| options.target === that.__LIST__.volumePoint); //Check if the focus of mouse is the `point circle`
-		    		rightTarget.push(options.target === that.__LIST__.timeLine
-		                	|| options.target === that.__LIST__.volumeLine);
-		    		rightTarget.push((options.target === that.__LIST__.timePoint 
-		                	|| options.target === that.__LIST__.volumePoint
-		                	|| options.target === that.__LIST__.timeBody
-		                	|| options.target === that.__LIST__.volumeBody
-		                	|| options.target === that.__LIST__.timeLine
-		                	|| options.target === that.__LIST__.volumeLine));*/
 		    	if (!rightTarget[2]) return;//Warning!!! rightTarget[2] checks if mouse focus on the percentage.
 		        that.dragging.contain = true;
 		        that.dragging.target = options.target;
@@ -327,7 +317,7 @@ const cPlayer = class cPlayer {
 	        }).on("clickListPower",()=>{
 	            if (this.hasList() && this.__LIST__.list.classList.contains("invisible")) {
 	                this.showList();
-	            } else if (this.hasLyric() && !this.__LIST__.list.classList.contains("invisible")) {
+	            } else if (this.hasList() && !this.__LIST__.list.classList.contains("invisible")) {
 	                this.hideList();
 	            }
 	        }).on("clickVolumePower",()=>{
@@ -338,21 +328,16 @@ const cPlayer = class cPlayer {
 	            }
 	        }).on("timeupdate",()=>{
 	            this.updateTime();
-	            if (this.hasLyric(this.now)) {
-	                this.slideLyric(this.music.currentTime);
-	            }
+	            if (this.hasLyric(this.now)) 
+	            	this.slideLyric(this.music.currentTime);
 	        }).on("volumechange",()=>{
 	            this.volume(); //做更新界面用.
 	        }).on("pause",()=>{
 	            this.CBASE.replaceInner(this.__LIST__.toggle,this.SVG.playArrow);
-	            //再赋值,更新内容.
-	            //this.__LIST__.toggleIcon = this.CBASE.getByTagName("svg",this.__LIST__.toggle);
 	        }).on("play",()=>{
 	            this.CBASE.replaceInner(this.__LIST__.toggle,this.SVG.pause);
-	            //再赋值,更新内容.
 	            this.__LIST__.toggleIcon = this.CBASE.getByTagName("svg",this.__LIST__.toggle);
 	        }).on("ended",()=>{
-	            //this.__LIST__.lyricBody.style.transform = ""; 为了兼容性封装一遍
 	            this.CBASE.style(this.__LIST__.lyricBody,"transform","");
 	            if (this.options.list[this.now].loop === true) {
 	                    this.updateTime(0);
@@ -831,5 +816,4 @@ const cContext = class cContext{
     }
 }
 if(window)window.cPlayer = cPlayer;
-if(!fetch)document.head.innerHTML+="<script src=\"//cdn.bootcss.com/fetch/2.0.3/fetch.min.js\"/></script>";//fetch polyfill
 console.log("\n%ccPlayer%cv2.4.5%c\n\n","padding:7px;background:#cd3e45;font-family:'Sitka Heading';font-weight:bold;font-size:large;color:white","padding:7px;background:#ff5450;font-family:'Sitka Text';font-style:italic;font-size:large;color:#eee","");

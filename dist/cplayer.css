@@ -347,6 +347,7 @@ c-player .controls .c-right .volume {
   -webkit-box-align: center;
   -webkit-align-items: center;
       -ms-flex-align: center;
+              -ms-grid-row-align: center;
           align-items: center;
   -ms-touch-action: none;
       touch-action: none;
@@ -613,6 +614,7 @@ c-player .list list-body .music-name {
   min-height: 2em;
   padding: 1em;
   -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
           box-sizing: border-box;
   -webkit-transition: background 0.5s;
   transition: background 0.5s;

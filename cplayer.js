@@ -231,16 +231,6 @@ var cPlayer = function () {
 					}
 				}
 			});
-			/*rightTarget.push(options.target === that.__LIST__.timePoint 
-             	|| options.target === that.__LIST__.volumePoint); //Check if the focus of mouse is the `point circle`
-   rightTarget.push(options.target === that.__LIST__.timeLine
-             	|| options.target === that.__LIST__.volumeLine);
-   rightTarget.push((options.target === that.__LIST__.timePoint 
-             	|| options.target === that.__LIST__.volumePoint
-             	|| options.target === that.__LIST__.timeBody
-             	|| options.target === that.__LIST__.volumeBody
-             	|| options.target === that.__LIST__.timeLine
-             	|| options.target === that.__LIST__.volumeLine));*/
 			if (!rightTarget[2]) return; //Warning!!! rightTarget[2] checks if mouse focus on the percentage.
 			that.dragging.contain = true;
 			that.dragging.target = options.target;
@@ -340,7 +330,7 @@ var cPlayer = function () {
 		}).on("clickListPower", function () {
 			if (_this.hasList() && _this.__LIST__.list.classList.contains("invisible")) {
 				_this.showList();
-			} else if (_this.hasLyric() && !_this.__LIST__.list.classList.contains("invisible")) {
+			} else if (_this.hasList() && !_this.__LIST__.list.classList.contains("invisible")) {
 				_this.hideList();
 			}
 		}).on("clickVolumePower", function () {
@@ -351,21 +341,15 @@ var cPlayer = function () {
 			}
 		}).on("timeupdate", function () {
 			_this.updateTime();
-			if (_this.hasLyric(_this.now)) {
-				_this.slideLyric(_this.music.currentTime);
-			}
+			if (_this.hasLyric(_this.now)) _this.slideLyric(_this.music.currentTime);
 		}).on("volumechange", function () {
 			_this.volume(); //做更新界面用.
 		}).on("pause", function () {
 			_this.CBASE.replaceInner(_this.__LIST__.toggle, _this.SVG.playArrow);
-			//再赋值,更新内容.
-			//this.__LIST__.toggleIcon = this.CBASE.getByTagName("svg",this.__LIST__.toggle);
 		}).on("play", function () {
 			_this.CBASE.replaceInner(_this.__LIST__.toggle, _this.SVG.pause);
-			//再赋值,更新内容.
 			_this.__LIST__.toggleIcon = _this.CBASE.getByTagName("svg", _this.__LIST__.toggle);
 		}).on("ended", function () {
-			//this.__LIST__.lyricBody.style.transform = ""; 为了兼容性封装一遍
 			_this.CBASE.style(_this.__LIST__.lyricBody, "transform", "");
 			if (_this.options.list[_this.now].loop === true) {
 				_this.updateTime(0);
@@ -429,7 +413,7 @@ var cPlayer = function () {
 		value: function volume() {
 			var _this2 = this;
 
-			var vl = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+			var vl = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
 
 			var checkLevel = function checkLevel() {
 				if (_this2.music.volume === 0 || _this2.isMuted()) {
@@ -507,9 +491,9 @@ var cPlayer = function () {
 	}, {
 		key: "toggle",
 		value: function toggle() {
-			var now = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.now;
+			var now = arguments.length <= 0 || arguments[0] === undefined ? this.now : arguments[0];
 
-			this.emitter.emit("toggle");
+			//this.emitter.emit("toggle");
 			var list = this.options.list[now],
 			    dom = this.__LIST__;
 			this.music.pause();
@@ -534,7 +518,7 @@ var cPlayer = function () {
 	}, {
 		key: "hasLyric",
 		value: function hasLyric() {
-			var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+			var id = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
 			var func = arguments[1];
 
 			if (func !== undefined) func();
@@ -620,7 +604,7 @@ var cPlayer = function () {
 	}, {
 		key: "lyric",
 		value: function lyric() {
-			var content = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+			var content = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
 
 			if (content === undefined) {
 				if (this.hasLyric(this.now)) return this.options.list[this.now].lyric;
@@ -633,7 +617,7 @@ var cPlayer = function () {
 	}, {
 		key: "refreshLyric",
 		value: function refreshLyric() {
-			var isTrans = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+			var isTrans = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
 
 			//REQUIRE LYRIC...
 			this.__LIST__.lyricBody.innerHTML = "";
@@ -698,7 +682,7 @@ var cPlayer = function () {
 	}, {
 		key: "updateTime",
 		value: function updateTime() {
-			var time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+			var time = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
 			var func = arguments[1];
 
 			if (time !== undefined) this.music.currentTime = time;
@@ -739,6 +723,11 @@ var cPlayer = function () {
 			if (!this.options.list[this.now].transLyric || !this.hasLyric(this.now)) return false;
 			this.transLock = !this.transLock;
 			this.refreshLyric(this.transLock);
+		}
+	}, {
+		key: "checkProcessor",
+		value: function checkProcessor(param, id) {
+			this.options.list[id];
 		}
 	}, {
 		key: "length",
@@ -818,7 +807,7 @@ var cEmitter = function () {
 }();
 var cBase = function () {
 	function cBase() {
-		var rootNode = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.documentElement;
+		var rootNode = arguments.length <= 0 || arguments[0] === undefined ? document.documentElement : arguments[0];
 
 		_classCallCheck(this, cBase);
 
@@ -919,8 +908,8 @@ var cContext = function () {
 	_createClass(cContext, [{
 		key: "add",
 		value: function add(_ref2) {
-			var name = _ref2.name,
-			    action = _ref2.action;
+			var name = _ref2.name;
+			var action = _ref2.action;
 
 			this.options.items.push({ name: name, action: action });
 			return this;
@@ -928,8 +917,8 @@ var cContext = function () {
 	}, {
 		key: "show",
 		value: function show(_ref3) {
-			var pageX = _ref3.pageX,
-			    pageY = _ref3.pageY;
+			var pageX = _ref3.pageX;
+			var pageY = _ref3.pageY;
 
 			var content = document.createElement("div");
 			content.classList.add("c-context");

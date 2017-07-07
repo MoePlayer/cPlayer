@@ -51,31 +51,21 @@
     </div>
     <script>
         "use strict";
-
-        function check(obj, args) {
-            if (!Array.isArray(args)) throw new Error("Property 'args' is not a Array.");
-            var rs = true;
-            for (var i in args) {
-                if (obj[args[i]] === false) {
-                    return false;
-                }
-            }return true;
+        function after(times,callback){
+            return times<2?callback():function(){after(times--,callback)};
         }
         function add163(cp, id) {
             if (!cp || !id) throw new Error("Unable Property.");
-            var obj = { name: false, artist: false, image: false, url: false, lyric: false };
-            var push = function push(bool) {
-                if (bool) cp.add(obj);
-            };
+            var obj = { name: null, artist: null, image: null, url: null, lyric: null };
+            var push = after(3,function(){cp.add(obj)});
             fetch("https://api.imjad.cn/cloudmusic/?type=song&id=" + id + "&br=320000").then(function (a) {
-                return a.json();
+                return a.json()
             }).then(function (result) {
-                obj["url"] = result["data"][0]["url"];
-                return check(obj, ["name", "artist", "image", "url", "lyric"]);
-            }).then(push);
+                obj["url"] = result["data"][0]["url"];push()
+            });
             fetch("https://api.imjad.cn/cloudmusic/?type=detail&id=" + id).then(function (a) {
                 return a.json();
-            }).then(function (result) {
+            }).then(function (result) { 
                 result = result["songs"][0];
                 var _ref = [result["name"], (result["ar"].length>1?
                     (function(){
@@ -85,21 +75,19 @@
                 obj["name"] = _ref[0];
                 obj["artist"] = _ref[1];
                 obj["image"] = _ref[2];
-
-                return check(obj, ["name", "artist", "image", "url", "lyric"]);
-            }).then(push);
+                push()
+            }).then();
             fetch("https://api.imjad.cn/cloudmusic/?type=lyric&id=" + id).then(function (a) {
                 return a.json();
             }).then(function (result) {
-                if (result["nolyric"] === true) {
+                if (result["uncollected"] === true ||result["nolyric"]) {
                     obj["lyric"] = undefined;
                 } else {
                     obj["lyric"] = result["lrc"]["lyric"];
                     if(result["tlyric"]!==undefined&&result["tlyric"]["lyric"]!==undefined)
                         obj["transLyric"] = result["tlyric"]["lyric"];
-                }
-                return check(obj, ["name", "artist", "image", "url", "lyric"]);
-            }).then(push);
+                };push()
+            });
         }
 
     </script>
@@ -110,11 +98,10 @@
         add163(cp,792449);
         add163(cp,427609923);
         add163(cp,34880507);
-        add163(cp,32358691);
+        add163(cp,38574225);
         add163(cp,34072418);
         add163(cp,32102072);
         add163(cp,766471);
-	add163(cp,865025);
         setTimeout(function(){location.reload()},60*30*1000);
     </script>
 </body>

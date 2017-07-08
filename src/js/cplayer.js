@@ -816,4 +816,4 @@ const cContext = class cContext{
     }
 }
 if(window)window.cPlayer = cPlayer;
-console.log("\n%ccPlayer%cv2.4.5%c\n\n","padding:7px;background:#cd3e45;font-family:'Sitka Heading';font-weight:bold;font-size:large;color:white","padding:7px;background:#ff5450;font-family:'Sitka Text';font-style:italic;font-size:large;color:#eee","");
+console.log("\n%ccPlayer%cv2.4.6%c\n\n","padding:7px;background:#cd3e45;font-family:'Sitka Heading';font-weight:bold;font-size:large;color:white","padding:7px;background:#ff5450;font-family:'Sitka Text';font-size:large;color:#eee","");

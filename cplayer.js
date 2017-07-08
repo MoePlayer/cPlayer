@@ -413,7 +413,7 @@ var cPlayer = function () {
 		value: function volume() {
 			var _this2 = this;
 
-			var vl = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
+			var vl = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
 
 			var checkLevel = function checkLevel() {
 				if (_this2.music.volume === 0 || _this2.isMuted()) {
@@ -491,7 +491,7 @@ var cPlayer = function () {
 	}, {
 		key: "toggle",
 		value: function toggle() {
-			var now = arguments.length <= 0 || arguments[0] === undefined ? this.now : arguments[0];
+			var now = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.now;
 
 			//this.emitter.emit("toggle");
 			var list = this.options.list[now],
@@ -518,7 +518,7 @@ var cPlayer = function () {
 	}, {
 		key: "hasLyric",
 		value: function hasLyric() {
-			var id = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+			var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 			var func = arguments[1];
 
 			if (func !== undefined) func();
@@ -604,7 +604,7 @@ var cPlayer = function () {
 	}, {
 		key: "lyric",
 		value: function lyric() {
-			var content = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
+			var content = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
 
 			if (content === undefined) {
 				if (this.hasLyric(this.now)) return this.options.list[this.now].lyric;
@@ -617,7 +617,7 @@ var cPlayer = function () {
 	}, {
 		key: "refreshLyric",
 		value: function refreshLyric() {
-			var isTrans = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+			var isTrans = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
 			//REQUIRE LYRIC...
 			this.__LIST__.lyricBody.innerHTML = "";
@@ -682,7 +682,7 @@ var cPlayer = function () {
 	}, {
 		key: "updateTime",
 		value: function updateTime() {
-			var time = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
+			var time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
 			var func = arguments[1];
 
 			if (time !== undefined) this.music.currentTime = time;
@@ -807,7 +807,7 @@ var cEmitter = function () {
 }();
 var cBase = function () {
 	function cBase() {
-		var rootNode = arguments.length <= 0 || arguments[0] === undefined ? document.documentElement : arguments[0];
+		var rootNode = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.documentElement;
 
 		_classCallCheck(this, cBase);
 
@@ -908,8 +908,8 @@ var cContext = function () {
 	_createClass(cContext, [{
 		key: "add",
 		value: function add(_ref2) {
-			var name = _ref2.name;
-			var action = _ref2.action;
+			var name = _ref2.name,
+			    action = _ref2.action;
 
 			this.options.items.push({ name: name, action: action });
 			return this;
@@ -917,8 +917,8 @@ var cContext = function () {
 	}, {
 		key: "show",
 		value: function show(_ref3) {
-			var pageX = _ref3.pageX;
-			var pageY = _ref3.pageY;
+			var pageX = _ref3.pageX,
+			    pageY = _ref3.pageY;
 
 			var content = document.createElement("div");
 			content.classList.add("c-context");
@@ -967,5 +967,5 @@ var cContext = function () {
 	return cContext;
 }();
 if (window) window.cPlayer = cPlayer;
-console.log("\n%ccPlayer%cv2.4.5%c\n\n", "padding:7px;background:#cd3e45;font-family:'Sitka Heading';font-weight:bold;font-size:large;color:white", "padding:7px;background:#ff5450;font-family:'Sitka Text';font-style:italic;font-size:large;color:#eee", "");
+console.log("\n%ccPlayer%cv2.4.6%c\n\n", "padding:7px;background:#cd3e45;font-family:'Sitka Heading';font-weight:bold;font-size:large;color:white", "padding:7px;background:#ff5450;font-family:'Sitka Text';font-size:large;color:#eee", "");
 //# sourceMappingURL=cplayer.js.map

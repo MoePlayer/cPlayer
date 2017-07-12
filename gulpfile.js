@@ -3,11 +3,11 @@ var babel = require("gulp-babel");
 var rename = require("gulp-rename");
 var uglify = require("gulp-uglify");
 var sass = require("gulp-sass");
-//var clean = require("gulp-clean-css");
 var autoprefixer = require("gulp-autoprefixer");
 var browserSync = require("browser-sync").create();
 var reload = browserSync.reload;
 var sourceMap = require("gulp-sourcemaps");
+var thr = require("through2");
 
 gulp.task("default",["compress"],()=>{
     console.log("Compressing has been done.");
@@ -31,14 +31,26 @@ gulp.task("sass",()=>{
   .pipe(gulp.dest("demo"))
   .pipe(reload({stream:true}));
 });
-gulp.task("compress",["babel","sass"],()=>{
+
+gulp.task("versionify",["babel"],()=>{
+  return gulp.src("dist/cplayer.js")
+        .pipe(thr.obj(function(file,encoding,done){
+          var end = new Buffer('console.log("\\n%ccPlayer%cv'+require("./package.json").version+'%c\\n\\n", "padding:7px;background:#cd3e45;font-family:\'Sitka Heading\';font-weight:bold;font-size:large;color:white", "padding:7px;background:#ff5450;font-family:\'Sitka Text\';font-size:large;color:#eee", "");');
+          file.contents = Buffer.concat([file.contents,end]);
+          this.push(file);
+          done();
+        }))
+        .pipe(gulp.dest("dist"));
+})
+
+gulp.task("compress",["babel","versionify","sass"],()=>{
   gulp.src("dist/cplayer.js")
   .pipe(uglify())
   .pipe(rename({"suffix":".min"}))
   .pipe(gulp.dest("dist"));
   return 0;
 });
-gulp.task("_compress",["babel"],()=>{
+gulp.task("_compress",["babel","versionify"],()=>{
   gulp.src("dist/cplayer.js")
   .pipe(uglify())
   .pipe(rename({"suffix":".min"}))

@@ -413,7 +413,7 @@ var cPlayer = function () {
 		value: function volume() {
 			var _this2 = this;
 
-			var vl = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+			var vl = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
 
 			var checkLevel = function checkLevel() {
 				if (_this2.music.volume === 0 || _this2.isMuted()) {
@@ -491,7 +491,7 @@ var cPlayer = function () {
 	}, {
 		key: "toggle",
 		value: function toggle() {
-			var now = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.now;
+			var now = arguments.length <= 0 || arguments[0] === undefined ? this.now : arguments[0];
 
 			//this.emitter.emit("toggle");
 			var list = this.options.list[now],
@@ -518,7 +518,7 @@ var cPlayer = function () {
 	}, {
 		key: "hasLyric",
 		value: function hasLyric() {
-			var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+			var id = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
 			var func = arguments[1];
 
 			if (func !== undefined) func();
@@ -604,7 +604,7 @@ var cPlayer = function () {
 	}, {
 		key: "lyric",
 		value: function lyric() {
-			var content = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+			var content = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
 
 			if (content === undefined) {
 				if (this.hasLyric(this.now)) return this.options.list[this.now].lyric;
@@ -617,7 +617,7 @@ var cPlayer = function () {
 	}, {
 		key: "refreshLyric",
 		value: function refreshLyric() {
-			var isTrans = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+			var isTrans = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
 
 			//REQUIRE LYRIC...
 			this.__LIST__.lyricBody.innerHTML = "";
@@ -682,7 +682,7 @@ var cPlayer = function () {
 	}, {
 		key: "updateTime",
 		value: function updateTime() {
-			var time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+			var time = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
 			var func = arguments[1];
 
 			if (time !== undefined) this.music.currentTime = time;
@@ -702,19 +702,40 @@ var cPlayer = function () {
 			    lyricBody = this.__LIST__.lyricBody,
 			    lrc = this.__LIST__.lyricBody.getElementsByTagName("lrc");
 			//遍历Lyric,寻找当前时间的歌词
-			for (var i = this.__LYRIC__.length - 1, lyric = this.__LYRIC__[i]; i >= 0; lyric = this.__LYRIC__[i - 1], i--) {
-				if (lyric.time > time) if (this.__LYRIC__[i - 1]) if (this.__LYRIC__[i - 1].time > time) continue;
-				if (lyric.time < time || !this.__LYRIC__[i - 1]) break;
-				if (this.__LYRIC__["now"] !== i - 1) this.__LYRIC__["now"] = i - 1;
-				lrc[i - 1].classList.add("now");
-				lyricToTop = lyricBody.childNodes[i - 1].offsetTop - lyricBody.childNodes[0].offsetTop - 0.5 * lyricBody.childNodes[i - 1].clientHeight;
-				halfBody = 0.5 * this.__LIST__.lyric.clientHeight - lyricBody.childNodes[i - 1].clientHeight;
-				translateY = -(lyricToTop - halfBody);
-				this.CBASE.style(lyricBody, "transform", "translateY(" + translateY + "px)");
-				var list = this.__LIST__.lyricBody.getElementsByClassName("now");
-				if (list.length > 1) for (var n = list.length - 1; n >= 0; n--) {
-					if (list[n] !== lrc[i - 1]) list[n].classList.remove("now");
-				}
+			//注意:[].find & [].findIndex 仅返回符合要求元素组成的数组第一项,符合要求元素组成的数组的顺序参考原数组不变
+			//现在的写法需要__LYRIC__属性具有time从小到大排列的顺序,详见refreshLyric()方法
+			/*for (let i = this.__LYRIC__.length - 1, lyric = this.__LYRIC__[i]; i >= 0; lyric = this.__LYRIC__[i-1],i--) {
+   	if(lyric.time>time)
+   		if(this.__LYRIC__[i-1])
+   		if(this.__LYRIC__[i-1].time>time) continue;
+   	if(lyric.time<time||!this.__LYRIC__[i-1]) break;
+    	if(this.__LYRIC__["now"]!==i-1)
+    		this.__LYRIC__["now"]=i-1;
+        lrc[i-1].classList.add("now");
+     lyricToTop  = lyricBody.childNodes[i-1].offsetTop - lyricBody.childNodes[0].offsetTop - 0.5 * lyricBody.childNodes[i-1].clientHeight;
+     halfBody    = 0.5 * this.__LIST__.lyric.clientHeight - lyricBody.childNodes[i-1].clientHeight;
+     translateY  = -(lyricToTop - halfBody);
+     this.CBASE.style(lyricBody,"transform","translateY(" + translateY + "px)");
+     let list = this.__LIST__.lyricBody.getElementsByClassName("now");
+        if(list.length>1)
+         for (let n = list.length - 1; n >= 0; n--)
+         	if(list[n]!==lrc[i-1])
+         		list[n].classList.remove("now");
+   }*/
+			var lyric = this.CBASE.find(this.__LYRIC__, function (element) {
+				return element.time < time;
+			}).reverse()[0];
+			var i = this.__LYRIC__.indexOf(lyric);if (i < 0) return;
+
+			if (this.__LYRIC__["now"] !== i) this.__LYRIC__["now"] = i;
+			lrc[i].classList.add("now");
+			lyricToTop = lyricBody.childNodes[i].offsetTop - lyricBody.childNodes[0].offsetTop - 0.5 * lyricBody.childNodes[i].clientHeight;
+			halfBody = 0.5 * this.__LIST__.lyric.clientHeight - lyricBody.childNodes[i].clientHeight;
+			translateY = -(lyricToTop - halfBody);
+			this.CBASE.style(lyricBody, "transform", "translateY(" + translateY + "px)");
+			var list = this.__LIST__.lyricBody.getElementsByClassName("now");
+			if (list.length > 1) for (var n = list.length - 1; n >= 0; n--) {
+				if (list[n] !== lrc[i]) list[n].classList.remove("now");
 			}
 		}
 	}, {
@@ -807,7 +828,7 @@ var cEmitter = function () {
 }();
 var cBase = function () {
 	function cBase() {
-		var rootNode = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.documentElement;
+		var rootNode = arguments.length <= 0 || arguments[0] === undefined ? document.documentElement : arguments[0];
 
 		_classCallCheck(this, cBase);
 
@@ -865,6 +886,14 @@ var cBase = function () {
 			return (end - start) * Math.random() + start;
 		}
 	}, {
+		key: "find",
+		value: function find(array, func) {
+			var ar = [];
+			array.forEach(function (el) {
+				if (!!func(el)) ar.push(el);
+			});return ar;
+		}
+	}, {
 		key: "style",
 		value: function style(dom, property, content) {
 			dom.style[this.browser + property.slice(0, 1).toUpperCase() + property.slice(1)] = content;
@@ -908,8 +937,8 @@ var cContext = function () {
 	_createClass(cContext, [{
 		key: "add",
 		value: function add(_ref2) {
-			var name = _ref2.name,
-			    action = _ref2.action;
+			var name = _ref2.name;
+			var action = _ref2.action;
 
 			this.options.items.push({ name: name, action: action });
 			return this;
@@ -917,8 +946,8 @@ var cContext = function () {
 	}, {
 		key: "show",
 		value: function show(_ref3) {
-			var pageX = _ref3.pageX,
-			    pageY = _ref3.pageY;
+			var pageX = _ref3.pageX;
+			var pageY = _ref3.pageY;
 
 			var content = document.createElement("div");
 			content.classList.add("c-context");
@@ -931,17 +960,24 @@ var cContext = function () {
 			}
 			document.body.appendChild(content);
 			//Set the offset-x
-			if (document.body.clientWidth > content.offsetWidth) {
+			if (document.documentElement.clientWidth > content.offsetWidth) {
 				//When the body is wide enough
-				if (document.body.clientWidth > content.offsetWidth + pageX) content.style.left = pageX + "px"; //Let the ContextMenu be right;
-				if (document.body.clientWidth < content.offsetWidth + pageX) content.style.left = pageX - content.offsetWidth + "px"; //Let the ContextMenu be left;
+				/*  if(document.body.clientWidth>(content.offsetWidth+pageX))
+            content.style.left = pageX + "px"; //Let the ContextMenu be right;
+        if(document.body.clientWidth<(content.offsetWidth+pageX)) 
+            content.style.left = pageX - content.offsetWidth + "px"; //Let the ContextMenu be left;
+    */
+				content.style.left = document.documentElement.clientWidth > content.offsetWidth + pageX ? pageX + "px" : pageX - content.offsetWidth + "px";
 			} else {
-				content.style.width = document.body.clientWidth + "px";
+				content.style.width = document.documentElement.clientWidth + "px";
 			}
 			//Set the offset-y
-			if (document.body.clientHeight > content.offsetHeight) {
-				if (document.body.clientHeight > content.offsetHeight + pageY) content.style.top = pageY + "px";
-				if (document.body.clientHeight < content.offsetHeight + pageY) content.style.top = pageY - content.offsetHeight + "px";
+			if (document.documentElement.clientHeight > content.offsetHeight) {
+				/*  if(document.body.clientHeight>(content.offsetHeight+pageY))
+            content.style.top = pageY + "px";
+        if(document.body.clientHeight<(content.offsetHeight+pageY))
+            content.style.top = pageY - content.offsetHeight + "px";*/
+				content.style.top = document.documentElement.clientHeight > content.offsetHeight + pageY ? pageY + "px" : pageY - content.offsetHeight + "px";
 			}
 			content.style.visibility = "visible";
 			return this;
@@ -967,5 +1003,5 @@ var cContext = function () {
 	return cContext;
 }();
 if (window) window.cPlayer = cPlayer;
-console.log("\n%ccPlayer%cv2.4.6%c\n\n", "padding:7px;background:#cd3e45;font-family:'Sitka Heading';font-weight:bold;font-size:large;color:white", "padding:7px;background:#ff5450;font-family:'Sitka Text';font-size:large;color:#eee", "");
 //# sourceMappingURL=cplayer.js.map
+console.log("\n%ccPlayer%cv2.4.6%c\n\n", "padding:7px;background:#cd3e45;font-family:'Sitka Heading';font-weight:bold;font-size:large;color:white", "padding:7px;background:#ff5450;font-family:'Sitka Text';font-size:large;color:#eee", "");

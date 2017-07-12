@@ -613,7 +613,9 @@ const cPlayer = class cPlayer {
 	        	lyricBody=this.__LIST__.lyricBody,
 	        	lrc = this.__LIST__.lyricBody.getElementsByTagName("lrc");
 	        //遍历Lyric,寻找当前时间的歌词
-	        for (let i = this.__LYRIC__.length - 1, lyric = this.__LYRIC__[i]; i >= 0; lyric = this.__LYRIC__[i-1],i--) {
+			//注意:[].find & [].findIndex 仅返回符合要求元素组成的数组第一项,符合要求元素组成的数组的顺序参考原数组不变
+			//现在的写法需要__LYRIC__属性具有time从小到大排列的顺序,详见refreshLyric()方法
+	        /*for (let i = this.__LYRIC__.length - 1, lyric = this.__LYRIC__[i]; i >= 0; lyric = this.__LYRIC__[i-1],i--) {
 	        	if(lyric.time>time)
 	        		if(this.__LYRIC__[i-1])
 	        		if(this.__LYRIC__[i-1].time>time) continue;
@@ -630,7 +632,23 @@ const cPlayer = class cPlayer {
 			            for (let n = list.length - 1; n >= 0; n--)
 			            	if(list[n]!==lrc[i-1])
 			            		list[n].classList.remove("now");
-	        }
+			}*/
+			let lyric = this.CBASE.find(this.__LYRIC__,(element)=>element.time<time).reverse()[0];
+			let i = this.__LYRIC__.indexOf(lyric);if(i<0)return;
+
+        	if(this.__LYRIC__["now"]!==i)
+		        this.__LYRIC__["now"]=i;
+		    lrc[i].classList.add("now");
+			lyricToTop  = lyricBody.childNodes[i].offsetTop - lyricBody.childNodes[0].offsetTop - 0.5 * lyricBody.childNodes[i].clientHeight;
+			halfBody    = 0.5 * this.__LIST__.lyric.clientHeight - lyricBody.childNodes[i].clientHeight;
+			translateY  = -(lyricToTop - halfBody);
+			this.CBASE.style(lyricBody,"transform","translateY(" + translateY + "px)");
+			let list = this.__LIST__.lyricBody.getElementsByClassName("now");
+		    if(list.length>1)
+			    for (let n = list.length - 1; n >= 0; n--)
+			    	if(list[n]!==lrc[i])
+			    		list[n].classList.remove("now");
+
 	    }
 	    translate(){
 	    	if(!this.options.list[this.now].transLyric||!this.hasLyric(this.now)) return false;
@@ -740,6 +758,12 @@ const cBase = class cBase{
 	        if(start>end) throw new RangeError("the EndNumber must be bigger than the StartNumber");
 	        return (end-start)*Math.random()+start;
 	    }
+		find(array,func){
+			let ar = [];
+			array.forEach(el=>{
+				if(!!func(el))ar.push(el);
+			});return ar;
+		}
 	    style(dom,property,content){
 	        dom.style[this.browser+property.slice(0,1).toUpperCase()+property.slice(1)] = content;
 	        dom.style[property] = content;
@@ -785,20 +809,25 @@ const cContext = class cContext{
         }
         document.body.appendChild(content);
         //Set the offset-x
-        if(document.body.clientWidth>content.offsetWidth){ //When the body is wide enough
-            if(document.body.clientWidth>(content.offsetWidth+pageX))
+        if(document.documentElement.clientWidth>content.offsetWidth){ //When the body is wide enough
+        /*  if(document.body.clientWidth>(content.offsetWidth+pageX))
                 content.style.left = pageX + "px"; //Let the ContextMenu be right;
             if(document.body.clientWidth<(content.offsetWidth+pageX)) 
                 content.style.left = pageX - content.offsetWidth + "px"; //Let the ContextMenu be left;
+				*/
+			content.style.left = document.documentElement.clientWidth>(content.offsetWidth+pageX)?
+								 pageX + "px":pageX - content.offsetWidth + "px";
         }else{
-            content.style.width = document.body.clientWidth + "px";
+            content.style.width = document.documentElement.clientWidth + "px";
         }
         //Set the offset-y
-        if(document.body.clientHeight>content.offsetHeight){
-            if(document.body.clientHeight>(content.offsetHeight+pageY))
+        if(document.documentElement.clientHeight>content.offsetHeight){
+        /*  if(document.body.clientHeight>(content.offsetHeight+pageY))
                 content.style.top = pageY + "px";
             if(document.body.clientHeight<(content.offsetHeight+pageY))
-                content.style.top = pageY - content.offsetHeight + "px";
+                content.style.top = pageY - content.offsetHeight + "px";*/
+			content.style.top = document.documentElement.clientHeight>(content.offsetHeight+pageY)?
+								pageY + "px":pageY - content.offsetHeight + "px";
         }
         content.style.visibility = "visible";
         return this;
@@ -816,4 +845,3 @@ const cContext = class cContext{
     }
 }
 if(window)window.cPlayer = cPlayer;
-console.log("\n%ccPlayer%cv2.4.6%c\n\n","padding:7px;background:#cd3e45;font-family:'Sitka Heading';font-weight:bold;font-size:large;color:white","padding:7px;background:#ff5450;font-family:'Sitka Text';font-size:large;color:#eee","");

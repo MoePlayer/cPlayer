@@ -53,14 +53,7 @@ const cPlayer = class cPlayer {
 	        };
 	        (()=>{
 	            for(let i = 0,keys = Object.keys(this.SVG),length = keys.length;i<length;i++){
-	                let svg = document.createElementNS("http://www.w3.org/2000/svg","svg");
-	                    if(keys[i]==="playlistPlay"){
-	                        svg.setAttribute("viewBox","-12 -12 48 48");
-	                        svg.setAttribute("enable-background","new -12 -12 48 48")
-	                    }else{
-	                        svg.setAttribute("viewBox","0 0 48 48");
-	                    }
-	                    svg = keys[i]==="playlistPlay" ?
+	                let svg = keys[i]==="playlistPlay" ?
 	                     '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-12 -12 48 48" enable-background="new -12 -12 48 48"><path d="' + this.SVG[keys[i]] + '"/></svg>' :
 	                     '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="' + this.SVG[keys[i]] + '"/></svg>';
 	                this.SVG[keys[i]] = svg;
@@ -71,103 +64,7 @@ const cPlayer = class cPlayer {
 	        this.now = 0;
 	        this.dragging = {contain: false, target: undefined};
 	        //现在开始填DOM
-	        (()=>{
-	            let cPlayer = document.createElement("c-player");
-	                let lyric = document.createElement("div");
-	                    lyric.classList.add("lyric");
-	                    lyric.classList.add("invisible");
-	                        let lyricBody = document.createElement("lyric-body");
-	                    lyric.appendChild(lyricBody);
-	                let controls = document.createElement("div");
-	                    controls.classList.add("controls");
-	                        let cLeft = document.createElement("div");
-	                            cLeft.classList.add("c-left");
-	                                let musicDescription = document.createElement("div");
-	                                    musicDescription.classList.add("music-description");
-	                                        let image = document.createElement("div");
-	                                            image.classList.add("image");
-	                                                let metaBak = document.createElement("img");
-	                                                    metaBak.classList.add("meta-bak");
-	                                            image.appendChild(metaBak);
-	                                        let musicMeta = document.createElement("div");
-	                                            musicMeta.classList.add("music-meta");
-	                                                let div = document.createElement("div");
-	                                                    let musicName = document.createElement("span");
-	                                                        musicName.classList.add("music-name");
-	                                                    let musicArtist = document.createElement("span");
-	                                                        musicArtist.classList.add("music-artist");
-	                                                    div.appendChild(musicName);
-	                                                    div.appendChild(musicArtist);
-	                                            musicMeta.appendChild(div);
-	                                    musicDescription.appendChild(image);
-	                                    musicDescription.appendChild(musicMeta);
-	                                let playIcon = document.createElement("a");
-	                                    playIcon.classList.add("play-icon");
-	                                    this.CBASE.replaceInner(playIcon,this.SVG.playArrow);
-	                            cLeft.appendChild(musicDescription);
-	                            cLeft.appendChild(playIcon);
-	                        let cCenter = document.createElement("div");
-	                            cCenter.classList.add("c-center");
-	                                let time = document.createElement("div");
-	                                    time.classList.add("time");
-	                                        let timeBody = document.createElement("div");
-	                                            timeBody.classList.add("time-body");
-	                                                let timeLine = document.createElement("div");
-	                                                    timeLine.classList.add("time-line");
-		                                                let timePoint = document.createElement("div");
-		                                                    timePoint.classList.add("time-point");
-	                                            		timeLine.appendChild(timePoint);
-	                                            timeBody.appendChild(timeLine);
-	                                    time.appendChild(timeBody);
-	                            cCenter.appendChild(time);
-	                        let cRight = document.createElement("div");
-	                            cRight.classList.add("c-right");
-	                                let volume = document.createElement("div");
-	                                    volume.classList.add("volume");
-	                                        let volumeButton = document.createElement("div");
-	                                            volumeButton.classList.add("volume-button");
-	                                                let volumePower = document.createElement("a");
-	                                                    volumePower.classList.add("volume-power");
-	                                                    this.CBASE.replaceInner(volumePower,this.SVG.volumeOff);
-	                                            volumeButton.appendChild(volumePower);
-	                                        let volumeBody = document.createElement("div");
-	                                            volumeBody.classList.add("volume-body");
-	                                                let volumeLine = document.createElement("div");
-	                                                    volumeLine.classList.add("volume-line");
-		                                                let volumePoint = document.createElement("div");
-		                                                    volumePoint.classList.add("volume-point");
-	                                            		volumeLine.appendChild(volumePoint);
-	                                            volumeBody.appendChild(volumeLine);
-	                                    volume.appendChild(volumeButton);
-	                                    volume.appendChild(volumeBody);
-	                                let listButton = document.createElement("div");
-	                                    listButton.classList.add("list-button");
-	                                        let listPower = document.createElement("a");
-	                                            listPower.classList.add("list-power");
-	                                            this.CBASE.replaceInner(listPower,this.SVG.playlistPlay);
-	                                    listButton.appendChild(listPower);
-	                                let lyricButton = document.createElement("div");
-	                                    lyricButton.classList.add("lyric-button");
-	                                        let lyricPower = document.createElement("a");
-	                                            lyricPower.classList.add("lyric-power");
-	                                            this.CBASE.replaceInner(lyricPower,this.SVG.note);
-	                                    lyricButton.appendChild(lyricPower);
-	                            cRight.appendChild(volume);
-	                            cRight.appendChild(listButton);
-	                            cRight.appendChild(lyricButton);
-	                    controls.appendChild(cLeft);
-	                    controls.appendChild(cCenter);
-	                    controls.appendChild(cRight);
-	                let list = document.createElement("div");
-	                    list.classList.add("list");
-	                    list.classList.add("invisible");
-	                        let listBody = document.createElement("list-body");
-	                    list.appendChild(listBody);
-	            cPlayer.appendChild(lyric);
-	            cPlayer.appendChild(controls);
-	            cPlayer.appendChild(list);
-	            this.options.element.appendChild(cPlayer);
-	        })();
+			this.options.element.innerHTML = '<c-player><div class="lyric invisible"><lyric-body></lyric-body></div><div class="controls"><div class="c-left"><div class="music-description"><div class="image"><img class="meta-bak"></div><div class="music-meta"><div><span class="music-name"></span><span class="music-artist"></span></div></div></div><a class="play-icon"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M16 10v28l22-14z"></path></svg></a></div><div class="c-center"><div class="time"><div class="time-body"><div class="time-line"><div class="time-point"></div></div></div></div></div><div class="c-right"><div class="volume"><div class="volume-button"><a class="volume-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M33 24c0-3.53-2.04-6.58-5-8.05v4.42l4.91 4.91c.06-.42.09-.85.09-1.28zm5 0c0 1.88-.41 3.65-1.08 5.28l3.03 3.03C41.25 29.82 42 27 42 24c0-8.56-5.99-15.72-14-17.54v4.13c5.78 1.72 10 7.07 10 13.41zM8.55 6L6 8.55 15.45 18H6v12h8l10 10V26.55l8.51 8.51c-1.34 1.03-2.85 1.86-4.51 2.36v4.13c2.75-.63 5.26-1.89 7.37-3.62L39.45 42 42 39.45l-18-18L8.55 6zM24 8l-4.18 4.18L24 16.36V8z"></path></svg></a></div><div class="volume-body"><div class="volume-line"><div class="volume-point"></div></div></div></div><div class="list-button"><a class="list-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-12 -12 48 48" enable-background="new -12 -12 48 48"><path d="M26 6H-8v4h34V6zm0-8H-8v4h34v-4zM-8 18h26v-4H-8v4zm30-4v12l10-6-10-6z"></path></svg></a></div><div class="lyric-button"><a class="lyric-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M44 20L32 8H8c-2.2 0-4 1.8-4 4v24.02C4 38.22 5.8 40 8 40l32-.02c2.2 0 4-1.78 4-3.98V20zm-14-9l11 11H30V11z"></path></svg></a></div></div></div><div class="list invisible"><list-body></list-body></div></c-player>';
 	        this.CBASE.root = this.options.element.getElementsByTagName("c-player");
 	        this.CBASE.root = this.CBASE.root[this.CBASE.root.length-1];
 	        //然后为DOMList填充一下吧
@@ -376,13 +273,10 @@ const cPlayer = class cPlayer {
 	        let checkLevel = ()=>{
 	            if(this.music.volume===0||this.isMuted()){
 	                this.CBASE.replaceInner(this.__LIST__.volumePower,this.SVG.volumeOff);
-	                this.__LIST__.volumeIcon = this.CBASE.getByTagName("svg",this.__LIST__.volumePower);
 	            } else if(this.music.volume>0&&this.music.volume<=0.5){
 	                this.CBASE.replaceInner(this.__LIST__.volumePower,this.SVG.volumeDown);
-	                this.__LIST__.volumeIcon = this.CBASE.getByTagName("svg",this.__LIST__.volumePower);
 	            } else if(this.music.volume>0.5&&this.music.volume<=1){
 	                this.CBASE.replaceInner(this.__LIST__.volumePower,this.SVG.volumeUp);
-	                this.__LIST__.volumeIcon = this.CBASE.getByTagName("svg",this.__LIST__.volumePower);
 	            } else {
 	                console.log("Unexcepted Volume: "+this.music.volume);
 	            }
@@ -442,7 +336,6 @@ const cPlayer = class cPlayer {
 	    }
 
 	    toggle(now = this.now) {
-	        //this.emitter.emit("toggle");
 	        let list = this.options.list[now], dom = this.__LIST__;
 	        this.music.pause();
 	        [dom.img.src, dom.name.innerHTML, dom.artist.innerHTML, this.music.src] = [list.image, list.name, list.artist, list.url];
@@ -599,9 +492,7 @@ const cPlayer = class cPlayer {
 	    updateTime(time = undefined,func) {
 	        if (time !== undefined)this.music.currentTime = time;
 	        if (this.dragging.contain === false) this.__LIST__.timeLine.style.width = (this.music.currentTime / this.music.duration) * 100 + "%";
-	        //if(this.isPaused()) this.play();
 	        if(func !== undefined) func(this.music.currentTime);
-	        //return this.music.currentTime;
 	    }
 
 	    slideLyric(time){
@@ -615,24 +506,6 @@ const cPlayer = class cPlayer {
 	        //遍历Lyric,寻找当前时间的歌词
 			//注意:[].find & [].findIndex 仅返回符合要求元素组成的数组第一项,符合要求元素组成的数组的顺序参考原数组不变
 			//现在的写法需要__LYRIC__属性具有time从小到大排列的顺序,详见refreshLyric()方法
-	        /*for (let i = this.__LYRIC__.length - 1, lyric = this.__LYRIC__[i]; i >= 0; lyric = this.__LYRIC__[i-1],i--) {
-	        	if(lyric.time>time)
-	        		if(this.__LYRIC__[i-1])
-	        		if(this.__LYRIC__[i-1].time>time) continue;
-	        	if(lyric.time<time||!this.__LYRIC__[i-1]) break;
-		        	if(this.__LYRIC__["now"]!==i-1)
-		        		this.__LYRIC__["now"]=i-1;
-		            lrc[i-1].classList.add("now");
-			        lyricToTop  = lyricBody.childNodes[i-1].offsetTop - lyricBody.childNodes[0].offsetTop - 0.5 * lyricBody.childNodes[i-1].clientHeight;
-			        halfBody    = 0.5 * this.__LIST__.lyric.clientHeight - lyricBody.childNodes[i-1].clientHeight;
-			        translateY  = -(lyricToTop - halfBody);
-			        this.CBASE.style(lyricBody,"transform","translateY(" + translateY + "px)");
-			        let list = this.__LIST__.lyricBody.getElementsByClassName("now");
-		            if(list.length>1)
-			            for (let n = list.length - 1; n >= 0; n--)
-			            	if(list[n]!==lrc[i-1])
-			            		list[n].classList.remove("now");
-			}*/
 			let lyric = this.CBASE.find(this.__LYRIC__,(element)=>element.time<time).reverse()[0];
 			let i = this.__LYRIC__.indexOf(lyric);if(i<0)return;
 
@@ -655,9 +528,6 @@ const cPlayer = class cPlayer {
 	    	this.transLock = !this.transLock;
 	    	this.refreshLyric(this.transLock);
 	    }
-		checkProcessor(param,id){
-			this.options.list[id]
-		}
 	    get length(){
 	        return this.options.list.length;
 	    }
@@ -718,23 +588,13 @@ const cBase = class cBase{
 	    constructor(rootNode=document.documentElement){
 	        this.root = rootNode;
 	        for(let styleList = document.documentElement.style,i = styleList.length;i>0;i--){
-	            if(styleList[i].indexOf("-webkit-")!==-1){
-	                this.browser = "webkit";
-	                break;
-	            }
-	            if(styleList[i].indexOf("-moz-")!==-1){
-	                this.browser = "moz";
-	                break;
-	            }
-	            if(styleList[i].indexOf("-o-")!==-1){
-	                this.browser = "o";
-	                break;
-	            }
-	            if(styleList[i].indexOf("-ms-")!==-1){
-	                this.browser = "ms";
-	                break;
-	            }
-	        }
+				["-webkit-","-moz-","-o-","-ms-"].forEach(element=>{
+					if(styleList[i].indexOf(element)!==-1){
+						this.browser = element.replace("-","");
+					};
+				});
+				if(this.browser)break;
+			}
 	    }
 	    replace(oldElement,newElement){
 	        //newElement 不存在于oldElement 的父元素中,首先载入.
@@ -810,11 +670,6 @@ const cContext = class cContext{
         document.body.appendChild(content);
         //Set the offset-x
         if(document.documentElement.clientWidth>content.offsetWidth){ //When the body is wide enough
-        /*  if(document.body.clientWidth>(content.offsetWidth+pageX))
-                content.style.left = pageX + "px"; //Let the ContextMenu be right;
-            if(document.body.clientWidth<(content.offsetWidth+pageX)) 
-                content.style.left = pageX - content.offsetWidth + "px"; //Let the ContextMenu be left;
-				*/
 			content.style.left = document.documentElement.clientWidth>(content.offsetWidth+pageX)?
 								 pageX + "px":pageX - content.offsetWidth + "px";
         }else{
@@ -822,10 +677,6 @@ const cContext = class cContext{
         }
         //Set the offset-y
         if(document.documentElement.clientHeight>content.offsetHeight){
-        /*  if(document.body.clientHeight>(content.offsetHeight+pageY))
-                content.style.top = pageY + "px";
-            if(document.body.clientHeight<(content.offsetHeight+pageY))
-                content.style.top = pageY - content.offsetHeight + "px";*/
 			content.style.top = document.documentElement.clientHeight>(content.offsetHeight+pageY)?
 								pageY + "px":pageY - content.offsetHeight + "px";
         }

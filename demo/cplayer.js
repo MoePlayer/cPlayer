@@ -10,6 +10,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 	I am the super Corps!
  */
+
 var cPlayer = function () {
 	function cPlayer(options) {
 		var _this = this;
@@ -516,58 +517,56 @@ var cPlayer = function () {
 			this.__LIST__.lyricBody.innerHTML = "";
 			if (!this.hasLyric(this.now)) return;
 			var lr = isTrans !== false ? this.options.list[this.now].transLyric : this.options.list[this.now].lyric;
+			var lyric = cLyric(lr);
 			//START LRC BASEING...
-			lr = lr.split("\n").length > 1 ? lr.split("\n") : lr.replace("]", "]\n").split("]");
-			var lrcs = [];
-			for (var i = 0, content = lr[i]; i < lr.length; i++, content = lr[i]) {
-				if (typeof content !== "string") break;
-				var onelrc = content.split(/\[|\]\[|\]/gi);
-				for (var _i = 0; _i < onelrc.length - 1; _i++) {
-					if (onelrc[_i] === "" && _i !== onelrc.length - 1 || onelrc[_i].match(/\d{1,}\:\d{1,}/gi) === null) {
-						onelrc.splice(_i, 1);
-						_i--;
-						continue;
-					}
-
-					if (onelrc[_i].match(/\d{1,}\:\d{1,}/gi)) {
-						var lyricsarray = onelrc[_i].split(/\:|\./gi);
-						switch (lyricsarray.length) {
-							case 2:
-								onelrc[_i] = parseInt(lyricsarray[0]) * 60 + parseInt(lyricsarray[1]);
-								break;
-							case 3:
-								onelrc[_i] = parseInt(lyricsarray[0]) * 60 + parseInt(lyricsarray[1]) + parseFloat("0." + lyricsarray[2]);
-								break;
-							default:
-								throw new Error("Time not be Found!");
-						}
-					}
-				}
-
-				lrcs.push(onelrc);
-			}
-			//LRC BASED
-			var lyric = [];
-			for (var _i2 = lrcs.length - 1; _i2 >= 0; _i2--) {
-				if (lrcs[_i2].length > 2) {
-					for (var count = lrcs[_i2].length - 1; count >= 0; count--) {
-						if (count !== lrcs[_i2].length - 1 && lrcs[_i2][lrcs[_i2].length - 1] !== undefined) {
-							lyric.push({ time: lrcs[_i2][count], content: lrcs[_i2][lrcs[_i2].length - 1] });
-						}
-					}
-				} else if (lrcs[_i2][1] !== undefined) {
-					lyric.push({ time: lrcs[_i2][0], content: lrcs[_i2][1] });
-				}
-			}
-
-			lyric.sort(function (a, b) {
-				return a.time - b.time;
-			});
+			/*lr = lr.split("\n").length>1?lr.split("\n"):lr.replace("]","]\n").split("]");
+         let lrcs = [];
+         for (let i = 0,content=lr[i];i<lr.length;i++,content=lr[i]) {
+             if (typeof content !== "string") break;
+             let onelrc = content.split(/\[|\]\[|\]/gi);
+             for (let i = 0; i < onelrc.length - 1; i++) {
+                 if (onelrc[i] === "" && i !== onelrc.length - 1 || onelrc[i].match(/\d{1,}\:\d{1,}/gi)===null) {
+                     onelrc.splice(i, 1);
+                     i--;
+                     continue;
+                 }
+                   if (onelrc[i].match(/\d{1,}\:\d{1,}/gi)) {
+                     let lyricsarray = onelrc[i].split(/\:|\./gi);
+                     switch (lyricsarray.length) {
+                         case 2:
+                             onelrc[i] = parseInt(lyricsarray[0]) * 60 + parseInt(lyricsarray[1]);
+                             break;
+                         case 3:
+                             onelrc[i] = parseInt(lyricsarray[0]) * 60 + parseInt(lyricsarray[1]) + parseFloat("0." + lyricsarray[2]);
+                             break;
+                         default:
+                             throw new Error("Time not be Found!")
+                     }
+                 }
+             }
+               lrcs.push(onelrc);
+         }
+         //LRC BASED
+         let lyric = [];
+         for (let i = lrcs.length - 1; i >= 0; i--) {
+             if (lrcs[i].length > 2) {
+                 for (let count = lrcs[i].length - 1; count >= 0; count--) {
+                     if (count !== lrcs[i].length - 1 && lrcs[i][lrcs[i].length - 1]!==undefined) {
+                         lyric.push({time: lrcs[i][count], content: lrcs[i][lrcs[i].length - 1]});
+                     }
+                 }
+               } else if(lrcs[i][1]!==undefined) {
+                 lyric.push({time: lrcs[i][0], content: lrcs[i][1]});
+             }
+         }
+           lyric.sort((a, b)=> {
+             return a.time - b.time;
+         });*/
 			lyric["now"] = 0;
 			this.__LYRIC__ = lyric;
-			for (var _i3 = 0; _i3 <= lyric.length - 1; _i3++) {
+			for (var i = 0; i <= lyric.length - 1; i++) {
 				var div = document.createElement("lrc");
-				div.innerHTML = lyric[_i3].content;
+				div.innerHTML = lyric[i].content;
 				this.__LIST__.lyricBody.appendChild(div);
 			}
 			this.emitter.emit("changeLyric");
@@ -860,6 +859,35 @@ var cContext = function () {
 
 	return cContext;
 }();
+
+function cLyric(lrc) {
+	var offset = 0,
+	    lyricArray = [];
+	lrc.replace(/\n+/gi, "\n").split("\n").forEach(function (content) {
+		//content is like:
+		// [00:12.34]JUUUUUUUUUUUUUUMP!!!!!!
+		//get OFFSET
+		if (content.indexOf("offset") !== -1) offset = parseInt(/offset\:(\d+)/gi.exec(content)[1]);
+		//get Lyric and translate it.
+		//ar[] -> [1.24,2.21,36.15,"HEY!"]
+		if (/\d:\d/gi.test(content)) {
+			(function () {
+				var ar = [];
+				[].forEach.call(content.match(/\[\d+\:[\.\d]+\]/gi), function (e) {
+					var number = /\[(\d+)\:([\.\d]+)\]/gi.exec(e);
+					ar.push(parseInt(number[1]) * 60 + parseFloat(number[2] - offset * 0.001));
+				});
+				ar.push(/(?:\[\d+\:[\.\d]+\])*(.*)/gi.exec(content)[1]);
+				do {
+					lyricArray.push({ time: ar.shift(), content: ar[ar.length - 1] });
+				} while (ar.length >= 2);
+			})();
+		}
+	});
+	return lyricArray.sort(function (a, b) {
+		return a.time - b.time;
+	});
+};
 if (window) window.cPlayer = cPlayer;
 //# sourceMappingURL=cplayer.js.map
 console.log("\n%ccPlayer%cv2.4.7%c\n\n", "padding:7px;background:#cd3e45;font-family:'Sitka Heading';font-weight:bold;font-size:large;color:white", "padding:7px;background:#ff5450;font-family:'Sitka Text';font-size:large;color:#eee", "");

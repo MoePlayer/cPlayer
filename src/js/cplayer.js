@@ -4,6 +4,7 @@
 
 	I am the super Corps!
  */
+
 const cPlayer = class cPlayer {
 	    constructor(options) {
 	    	this.transLock = false;
@@ -431,8 +432,9 @@ const cPlayer = class cPlayer {
 	        this.__LIST__.lyricBody.innerHTML = ``;
 	        if (!this.hasLyric(this.now)) return;
 	        let lr = isTrans!==false?this.options.list[this.now].transLyric:this.options.list[this.now].lyric;
+	        let lyric = cLyric(lr);
 	        //START LRC BASEING...
-			lr = lr.split("\n").length>1?lr.split("\n"):lr.replace("]","]\n").split("]");
+			/*lr = lr.split("\n").length>1?lr.split("\n"):lr.replace("]","]\n").split("]");
 	        let lrcs = [];
 	        for (let i = 0,content=lr[i];i<lr.length;i++,content=lr[i]) {
 	            if (typeof content !== "string") break;
@@ -478,7 +480,7 @@ const cPlayer = class cPlayer {
 
 	        lyric.sort((a, b)=> {
 	            return a.time - b.time;
-	        });
+	        });*/
 	        lyric["now"] = 0;
 	        this.__LYRIC__ = lyric;
 	        for (let i = 0; i <= lyric.length - 1; i++) {
@@ -695,4 +697,31 @@ const cContext = class cContext{
         return this.options.items;
     }
 }
+
+function cLyric(lrc){
+	let offset = 0,
+	lyricArray = [];
+	lrc.replace(/\n+/gi,"\n").split("\n").forEach(function(content){
+		//content is like:
+		// [00:12.34]JUUUUUUUUUUUUUUMP!!!!!!
+		//get OFFSET
+		if(content.indexOf("offset")!==-1) offset = parseInt((/offset\:(\d+)/gi).exec(content)[1]);
+		//get Lyric and translate it.
+		//ar[] -> [1.24,2.21,36.15,"HEY!"]
+		if(/\d:\d/gi.test(content)){
+			let ar = [];
+			[].forEach.call(content.match(/\[\d+\:[\.\d]+\]/gi),function(e){
+				let number = /\[(\d+)\:([\.\d]+)\]/gi.exec(e);
+				ar.push(parseInt(number[1])*60+parseFloat(number[2]-offset*0.001));
+			});
+			ar.push(/(?:\[\d+\:[\.\d]+\])*(.*)/gi.exec(content)[1]);
+			do{
+				lyricArray.push({time:ar.shift(),content:ar[ar.length-1]});
+			}while(ar.length>=2)
+		}
+	});
+	return lyricArray.sort((a, b)=> {
+	    return a.time - b.time;
+	});
+} ;
 if(window)window.cPlayer = cPlayer;

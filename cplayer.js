@@ -10,6 +10,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 	I am the super Corps!
  */
+
 var cPlayer = function () {
 	function cPlayer(options) {
 		var _this = this;
@@ -65,14 +66,7 @@ var cPlayer = function () {
 		};
 		(function () {
 			for (var i = 0, keys = Object.keys(_this.SVG), length = keys.length; i < length; i++) {
-				var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-				if (keys[i] === "playlistPlay") {
-					svg.setAttribute("viewBox", "-12 -12 48 48");
-					svg.setAttribute("enable-background", "new -12 -12 48 48");
-				} else {
-					svg.setAttribute("viewBox", "0 0 48 48");
-				}
-				svg = keys[i] === "playlistPlay" ? '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-12 -12 48 48" enable-background="new -12 -12 48 48"><path d="' + _this.SVG[keys[i]] + '"/></svg>' : '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="' + _this.SVG[keys[i]] + '"/></svg>';
+				var svg = keys[i] === "playlistPlay" ? '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-12 -12 48 48" enable-background="new -12 -12 48 48"><path d="' + _this.SVG[keys[i]] + '"/></svg>' : '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="' + _this.SVG[keys[i]] + '"/></svg>';
 				_this.SVG[keys[i]] = svg;
 			}
 		})();
@@ -81,103 +75,7 @@ var cPlayer = function () {
 		this.now = 0;
 		this.dragging = { contain: false, target: undefined };
 		//现在开始填DOM
-		(function () {
-			var cPlayer = document.createElement("c-player");
-			var lyric = document.createElement("div");
-			lyric.classList.add("lyric");
-			lyric.classList.add("invisible");
-			var lyricBody = document.createElement("lyric-body");
-			lyric.appendChild(lyricBody);
-			var controls = document.createElement("div");
-			controls.classList.add("controls");
-			var cLeft = document.createElement("div");
-			cLeft.classList.add("c-left");
-			var musicDescription = document.createElement("div");
-			musicDescription.classList.add("music-description");
-			var image = document.createElement("div");
-			image.classList.add("image");
-			var metaBak = document.createElement("img");
-			metaBak.classList.add("meta-bak");
-			image.appendChild(metaBak);
-			var musicMeta = document.createElement("div");
-			musicMeta.classList.add("music-meta");
-			var div = document.createElement("div");
-			var musicName = document.createElement("span");
-			musicName.classList.add("music-name");
-			var musicArtist = document.createElement("span");
-			musicArtist.classList.add("music-artist");
-			div.appendChild(musicName);
-			div.appendChild(musicArtist);
-			musicMeta.appendChild(div);
-			musicDescription.appendChild(image);
-			musicDescription.appendChild(musicMeta);
-			var playIcon = document.createElement("a");
-			playIcon.classList.add("play-icon");
-			_this.CBASE.replaceInner(playIcon, _this.SVG.playArrow);
-			cLeft.appendChild(musicDescription);
-			cLeft.appendChild(playIcon);
-			var cCenter = document.createElement("div");
-			cCenter.classList.add("c-center");
-			var time = document.createElement("div");
-			time.classList.add("time");
-			var timeBody = document.createElement("div");
-			timeBody.classList.add("time-body");
-			var timeLine = document.createElement("div");
-			timeLine.classList.add("time-line");
-			var timePoint = document.createElement("div");
-			timePoint.classList.add("time-point");
-			timeLine.appendChild(timePoint);
-			timeBody.appendChild(timeLine);
-			time.appendChild(timeBody);
-			cCenter.appendChild(time);
-			var cRight = document.createElement("div");
-			cRight.classList.add("c-right");
-			var volume = document.createElement("div");
-			volume.classList.add("volume");
-			var volumeButton = document.createElement("div");
-			volumeButton.classList.add("volume-button");
-			var volumePower = document.createElement("a");
-			volumePower.classList.add("volume-power");
-			_this.CBASE.replaceInner(volumePower, _this.SVG.volumeOff);
-			volumeButton.appendChild(volumePower);
-			var volumeBody = document.createElement("div");
-			volumeBody.classList.add("volume-body");
-			var volumeLine = document.createElement("div");
-			volumeLine.classList.add("volume-line");
-			var volumePoint = document.createElement("div");
-			volumePoint.classList.add("volume-point");
-			volumeLine.appendChild(volumePoint);
-			volumeBody.appendChild(volumeLine);
-			volume.appendChild(volumeButton);
-			volume.appendChild(volumeBody);
-			var listButton = document.createElement("div");
-			listButton.classList.add("list-button");
-			var listPower = document.createElement("a");
-			listPower.classList.add("list-power");
-			_this.CBASE.replaceInner(listPower, _this.SVG.playlistPlay);
-			listButton.appendChild(listPower);
-			var lyricButton = document.createElement("div");
-			lyricButton.classList.add("lyric-button");
-			var lyricPower = document.createElement("a");
-			lyricPower.classList.add("lyric-power");
-			_this.CBASE.replaceInner(lyricPower, _this.SVG.note);
-			lyricButton.appendChild(lyricPower);
-			cRight.appendChild(volume);
-			cRight.appendChild(listButton);
-			cRight.appendChild(lyricButton);
-			controls.appendChild(cLeft);
-			controls.appendChild(cCenter);
-			controls.appendChild(cRight);
-			var list = document.createElement("div");
-			list.classList.add("list");
-			list.classList.add("invisible");
-			var listBody = document.createElement("list-body");
-			list.appendChild(listBody);
-			cPlayer.appendChild(lyric);
-			cPlayer.appendChild(controls);
-			cPlayer.appendChild(list);
-			_this.options.element.appendChild(cPlayer);
-		})();
+		this.options.element.innerHTML = '<c-player><div class="lyric invisible"><lyric-body></lyric-body></div><div class="controls"><div class="c-left"><div class="music-description"><div class="image"><img class="meta-bak"></div><div class="music-meta"><div><span class="music-name"></span><span class="music-artist"></span></div></div></div><a class="play-icon"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M16 10v28l22-14z"></path></svg></a></div><div class="c-center"><div class="time"><div class="time-body"><div class="time-line"><div class="time-point"></div></div></div></div></div><div class="c-right"><div class="volume"><div class="volume-button"><a class="volume-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M33 24c0-3.53-2.04-6.58-5-8.05v4.42l4.91 4.91c.06-.42.09-.85.09-1.28zm5 0c0 1.88-.41 3.65-1.08 5.28l3.03 3.03C41.25 29.82 42 27 42 24c0-8.56-5.99-15.72-14-17.54v4.13c5.78 1.72 10 7.07 10 13.41zM8.55 6L6 8.55 15.45 18H6v12h8l10 10V26.55l8.51 8.51c-1.34 1.03-2.85 1.86-4.51 2.36v4.13c2.75-.63 5.26-1.89 7.37-3.62L39.45 42 42 39.45l-18-18L8.55 6zM24 8l-4.18 4.18L24 16.36V8z"></path></svg></a></div><div class="volume-body"><div class="volume-line"><div class="volume-point"></div></div></div></div><div class="list-button"><a class="list-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-12 -12 48 48" enable-background="new -12 -12 48 48"><path d="M26 6H-8v4h34V6zm0-8H-8v4h34v-4zM-8 18h26v-4H-8v4zm30-4v12l10-6-10-6z"></path></svg></a></div><div class="lyric-button"><a class="lyric-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M44 20L32 8H8c-2.2 0-4 1.8-4 4v24.02C4 38.22 5.8 40 8 40l32-.02c2.2 0 4-1.78 4-3.98V20zm-14-9l11 11H30V11z"></path></svg></a></div></div></div><div class="list invisible"><list-body></list-body></div></c-player>';
 		this.CBASE.root = this.options.element.getElementsByTagName("c-player");
 		this.CBASE.root = this.CBASE.root[this.CBASE.root.length - 1];
 		//然后为DOMList填充一下吧
@@ -413,18 +311,15 @@ var cPlayer = function () {
 		value: function volume() {
 			var _this2 = this;
 
-			var vl = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+			var vl = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
 
 			var checkLevel = function checkLevel() {
 				if (_this2.music.volume === 0 || _this2.isMuted()) {
 					_this2.CBASE.replaceInner(_this2.__LIST__.volumePower, _this2.SVG.volumeOff);
-					_this2.__LIST__.volumeIcon = _this2.CBASE.getByTagName("svg", _this2.__LIST__.volumePower);
 				} else if (_this2.music.volume > 0 && _this2.music.volume <= 0.5) {
 					_this2.CBASE.replaceInner(_this2.__LIST__.volumePower, _this2.SVG.volumeDown);
-					_this2.__LIST__.volumeIcon = _this2.CBASE.getByTagName("svg", _this2.__LIST__.volumePower);
 				} else if (_this2.music.volume > 0.5 && _this2.music.volume <= 1) {
 					_this2.CBASE.replaceInner(_this2.__LIST__.volumePower, _this2.SVG.volumeUp);
-					_this2.__LIST__.volumeIcon = _this2.CBASE.getByTagName("svg", _this2.__LIST__.volumePower);
 				} else {
 					console.log("Unexcepted Volume: " + _this2.music.volume);
 				}
@@ -491,9 +386,8 @@ var cPlayer = function () {
 	}, {
 		key: "toggle",
 		value: function toggle() {
-			var now = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.now;
+			var now = arguments.length <= 0 || arguments[0] === undefined ? this.now : arguments[0];
 
-			//this.emitter.emit("toggle");
 			var list = this.options.list[now],
 			    dom = this.__LIST__;
 			this.music.pause();
@@ -518,7 +412,7 @@ var cPlayer = function () {
 	}, {
 		key: "hasLyric",
 		value: function hasLyric() {
-			var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+			var id = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
 			var func = arguments[1];
 
 			if (func !== undefined) func();
@@ -604,7 +498,7 @@ var cPlayer = function () {
 	}, {
 		key: "lyric",
 		value: function lyric() {
-			var content = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+			var content = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
 
 			if (content === undefined) {
 				if (this.hasLyric(this.now)) return this.options.list[this.now].lyric;
@@ -617,64 +511,62 @@ var cPlayer = function () {
 	}, {
 		key: "refreshLyric",
 		value: function refreshLyric() {
-			var isTrans = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+			var isTrans = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
 
 			//REQUIRE LYRIC...
 			this.__LIST__.lyricBody.innerHTML = "";
 			if (!this.hasLyric(this.now)) return;
 			var lr = isTrans !== false ? this.options.list[this.now].transLyric : this.options.list[this.now].lyric;
+			var lyric = cLyric(lr);
 			//START LRC BASEING...
-			lr = lr.split("\n").length > 1 ? lr.split("\n") : lr.replace("]", "]\n").split("]");
-			var lrcs = [];
-			for (var i = 0, content = lr[i]; i < lr.length; i++, content = lr[i]) {
-				if (typeof content !== "string") break;
-				var onelrc = content.split(/\[|\]\[|\]/gi);
-				for (var _i = 0; _i < onelrc.length - 1; _i++) {
-					if (onelrc[_i] === "" && _i !== onelrc.length - 1 || onelrc[_i].match(/\d{1,}\:\d{1,}/gi) === null) {
-						onelrc.splice(_i, 1);
-						_i--;
-						continue;
-					}
-
-					if (onelrc[_i].match(/\d{1,}\:\d{1,}/gi)) {
-						var lyricsarray = onelrc[_i].split(/\:|\./gi);
-						switch (lyricsarray.length) {
-							case 2:
-								onelrc[_i] = parseInt(lyricsarray[0]) * 60 + parseInt(lyricsarray[1]);
-								break;
-							case 3:
-								onelrc[_i] = parseInt(lyricsarray[0]) * 60 + parseInt(lyricsarray[1]) + parseFloat("0." + lyricsarray[2]);
-								break;
-							default:
-								throw new Error("Time not be Found!");
-						}
-					}
-				}
-
-				lrcs.push(onelrc);
-			}
-			//LRC BASED
-			var lyric = [];
-			for (var _i2 = lrcs.length - 1; _i2 >= 0; _i2--) {
-				if (lrcs[_i2].length > 2) {
-					for (var count = lrcs[_i2].length - 1; count >= 0; count--) {
-						if (count !== lrcs[_i2].length - 1 && lrcs[_i2][lrcs[_i2].length - 1] !== undefined) {
-							lyric.push({ time: lrcs[_i2][count], content: lrcs[_i2][lrcs[_i2].length - 1] });
-						}
-					}
-				} else if (lrcs[_i2][1] !== undefined) {
-					lyric.push({ time: lrcs[_i2][0], content: lrcs[_i2][1] });
-				}
-			}
-
-			lyric.sort(function (a, b) {
-				return a.time - b.time;
-			});
+			/*lr = lr.split("\n").length>1?lr.split("\n"):lr.replace("]","]\n").split("]");
+         let lrcs = [];
+         for (let i = 0,content=lr[i];i<lr.length;i++,content=lr[i]) {
+             if (typeof content !== "string") break;
+             let onelrc = content.split(/\[|\]\[|\]/gi);
+             for (let i = 0; i < onelrc.length - 1; i++) {
+                 if (onelrc[i] === "" && i !== onelrc.length - 1 || onelrc[i].match(/\d{1,}\:\d{1,}/gi)===null) {
+                     onelrc.splice(i, 1);
+                     i--;
+                     continue;
+                 }
+                   if (onelrc[i].match(/\d{1,}\:\d{1,}/gi)) {
+                     let lyricsarray = onelrc[i].split(/\:|\./gi);
+                     switch (lyricsarray.length) {
+                         case 2:
+                             onelrc[i] = parseInt(lyricsarray[0]) * 60 + parseInt(lyricsarray[1]);
+                             break;
+                         case 3:
+                             onelrc[i] = parseInt(lyricsarray[0]) * 60 + parseInt(lyricsarray[1]) + parseFloat("0." + lyricsarray[2]);
+                             break;
+                         default:
+                             throw new Error("Time not be Found!")
+                     }
+                 }
+             }
+               lrcs.push(onelrc);
+         }
+         //LRC BASED
+         let lyric = [];
+         for (let i = lrcs.length - 1; i >= 0; i--) {
+             if (lrcs[i].length > 2) {
+                 for (let count = lrcs[i].length - 1; count >= 0; count--) {
+                     if (count !== lrcs[i].length - 1 && lrcs[i][lrcs[i].length - 1]!==undefined) {
+                         lyric.push({time: lrcs[i][count], content: lrcs[i][lrcs[i].length - 1]});
+                     }
+                 }
+               } else if(lrcs[i][1]!==undefined) {
+                 lyric.push({time: lrcs[i][0], content: lrcs[i][1]});
+             }
+         }
+           lyric.sort((a, b)=> {
+             return a.time - b.time;
+         });*/
 			lyric["now"] = 0;
 			this.__LYRIC__ = lyric;
-			for (var _i3 = 0; _i3 <= lyric.length - 1; _i3++) {
+			for (var i = 0; i <= lyric.length - 1; i++) {
 				var div = document.createElement("lrc");
-				div.innerHTML = lyric[_i3].content;
+				div.innerHTML = lyric[i].content;
 				this.__LIST__.lyricBody.appendChild(div);
 			}
 			this.emitter.emit("changeLyric");
@@ -682,14 +574,12 @@ var cPlayer = function () {
 	}, {
 		key: "updateTime",
 		value: function updateTime() {
-			var time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
+			var time = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
 			var func = arguments[1];
 
 			if (time !== undefined) this.music.currentTime = time;
 			if (this.dragging.contain === false) this.__LIST__.timeLine.style.width = this.music.currentTime / this.music.duration * 100 + "%";
-			//if(this.isPaused()) this.play();
 			if (func !== undefined) func(this.music.currentTime);
-			//return this.music.currentTime;
 		}
 	}, {
 		key: "slideLyric",
@@ -702,19 +592,22 @@ var cPlayer = function () {
 			    lyricBody = this.__LIST__.lyricBody,
 			    lrc = this.__LIST__.lyricBody.getElementsByTagName("lrc");
 			//遍历Lyric,寻找当前时间的歌词
-			for (var i = this.__LYRIC__.length - 1, lyric = this.__LYRIC__[i]; i >= 0; lyric = this.__LYRIC__[i - 1], i--) {
-				if (lyric.time > time) if (this.__LYRIC__[i - 1]) if (this.__LYRIC__[i - 1].time > time) continue;
-				if (lyric.time < time || !this.__LYRIC__[i - 1]) break;
-				if (this.__LYRIC__["now"] !== i - 1) this.__LYRIC__["now"] = i - 1;
-				lrc[i - 1].classList.add("now");
-				lyricToTop = lyricBody.childNodes[i - 1].offsetTop - lyricBody.childNodes[0].offsetTop - 0.5 * lyricBody.childNodes[i - 1].clientHeight;
-				halfBody = 0.5 * this.__LIST__.lyric.clientHeight - lyricBody.childNodes[i - 1].clientHeight;
-				translateY = -(lyricToTop - halfBody);
-				this.CBASE.style(lyricBody, "transform", "translateY(" + translateY + "px)");
-				var list = this.__LIST__.lyricBody.getElementsByClassName("now");
-				if (list.length > 1) for (var n = list.length - 1; n >= 0; n--) {
-					if (list[n] !== lrc[i - 1]) list[n].classList.remove("now");
-				}
+			//注意:[].find & [].findIndex 仅返回符合要求元素组成的数组第一项,符合要求元素组成的数组的顺序参考原数组不变
+			//现在的写法需要__LYRIC__属性具有time从小到大排列的顺序,详见refreshLyric()方法
+			var lyric = this.CBASE.find(this.__LYRIC__, function (element) {
+				return element.time < time;
+			}).reverse()[0];
+			var i = this.__LYRIC__.indexOf(lyric);if (i < 0) return;
+
+			if (this.__LYRIC__["now"] !== i) this.__LYRIC__["now"] = i;
+			lrc[i].classList.add("now");
+			lyricToTop = lyricBody.childNodes[i].offsetTop - lyricBody.childNodes[0].offsetTop - 0.5 * lyricBody.childNodes[i].clientHeight;
+			halfBody = 0.5 * this.__LIST__.lyric.clientHeight - lyricBody.childNodes[i].clientHeight;
+			translateY = -(lyricToTop - halfBody);
+			this.CBASE.style(lyricBody, "transform", "translateY(" + translateY + "px)");
+			var list = this.__LIST__.lyricBody.getElementsByClassName("now");
+			if (list.length > 1) for (var n = list.length - 1; n >= 0; n--) {
+				if (list[n] !== lrc[i]) list[n].classList.remove("now");
 			}
 		}
 	}, {
@@ -723,11 +616,6 @@ var cPlayer = function () {
 			if (!this.options.list[this.now].transLyric || !this.hasLyric(this.now)) return false;
 			this.transLock = !this.transLock;
 			this.refreshLyric(this.transLock);
-		}
-	}, {
-		key: "checkProcessor",
-		value: function checkProcessor(param, id) {
-			this.options.list[id];
 		}
 	}, {
 		key: "length",
@@ -807,28 +695,27 @@ var cEmitter = function () {
 }();
 var cBase = function () {
 	function cBase() {
-		var rootNode = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.documentElement;
+		var _this5 = this;
+
+		var rootNode = arguments.length <= 0 || arguments[0] === undefined ? document.documentElement : arguments[0];
 
 		_classCallCheck(this, cBase);
 
 		this.root = rootNode;
+
+		var _loop2 = function _loop2(styleList, i) {
+			["-webkit-", "-moz-", "-o-", "-ms-"].forEach(function (element) {
+				if (styleList[i].indexOf(element) !== -1) {
+					_this5.browser = element.replace("-", "");
+				};
+			});
+			if (_this5.browser) return "break";
+		};
+
 		for (var styleList = document.documentElement.style, i = styleList.length; i > 0; i--) {
-			if (styleList[i].indexOf("-webkit-") !== -1) {
-				this.browser = "webkit";
-				break;
-			}
-			if (styleList[i].indexOf("-moz-") !== -1) {
-				this.browser = "moz";
-				break;
-			}
-			if (styleList[i].indexOf("-o-") !== -1) {
-				this.browser = "o";
-				break;
-			}
-			if (styleList[i].indexOf("-ms-") !== -1) {
-				this.browser = "ms";
-				break;
-			}
+			var _ret2 = _loop2(styleList, i);
+
+			if (_ret2 === "break") break;
 		}
 	}
 
@@ -865,6 +752,14 @@ var cBase = function () {
 			return (end - start) * Math.random() + start;
 		}
 	}, {
+		key: "find",
+		value: function find(array, func) {
+			var ar = [];
+			array.forEach(function (el) {
+				if (!!func(el)) ar.push(el);
+			});return ar;
+		}
+	}, {
 		key: "style",
 		value: function style(dom, property, content) {
 			dom.style[this.browser + property.slice(0, 1).toUpperCase() + property.slice(1)] = content;
@@ -885,7 +780,7 @@ var cContext = function () {
   *         }
   */
 	function cContext(options) {
-		var _this5 = this;
+		var _this6 = this;
 
 		_classCallCheck(this, cContext);
 
@@ -895,12 +790,12 @@ var cContext = function () {
 			return false;
 		};
 		this.options.element.addEventListener("contextmenu", function (a) {
-			_this5.hide();
-			_this5.show(a);
+			_this6.hide();
+			_this6.show(a);
 			return false;
 		});
 		document.documentElement.addEventListener("click", function () {
-			return _this5.hide();
+			return _this6.hide();
 		});
 		return this;
 	}
@@ -908,8 +803,8 @@ var cContext = function () {
 	_createClass(cContext, [{
 		key: "add",
 		value: function add(_ref2) {
-			var name = _ref2.name,
-			    action = _ref2.action;
+			var name = _ref2.name;
+			var action = _ref2.action;
 
 			this.options.items.push({ name: name, action: action });
 			return this;
@@ -917,8 +812,8 @@ var cContext = function () {
 	}, {
 		key: "show",
 		value: function show(_ref3) {
-			var pageX = _ref3.pageX,
-			    pageY = _ref3.pageY;
+			var pageX = _ref3.pageX;
+			var pageY = _ref3.pageY;
 
 			var content = document.createElement("div");
 			content.classList.add("c-context");
@@ -931,17 +826,15 @@ var cContext = function () {
 			}
 			document.body.appendChild(content);
 			//Set the offset-x
-			if (document.body.clientWidth > content.offsetWidth) {
+			if (document.documentElement.clientWidth > content.offsetWidth) {
 				//When the body is wide enough
-				if (document.body.clientWidth > content.offsetWidth + pageX) content.style.left = pageX + "px"; //Let the ContextMenu be right;
-				if (document.body.clientWidth < content.offsetWidth + pageX) content.style.left = pageX - content.offsetWidth + "px"; //Let the ContextMenu be left;
+				content.style.left = document.documentElement.clientWidth > content.offsetWidth + pageX ? pageX + "px" : pageX - content.offsetWidth + "px";
 			} else {
-				content.style.width = document.body.clientWidth + "px";
+				content.style.width = document.documentElement.clientWidth + "px";
 			}
 			//Set the offset-y
-			if (document.body.clientHeight > content.offsetHeight) {
-				if (document.body.clientHeight > content.offsetHeight + pageY) content.style.top = pageY + "px";
-				if (document.body.clientHeight < content.offsetHeight + pageY) content.style.top = pageY - content.offsetHeight + "px";
+			if (document.documentElement.clientHeight > content.offsetHeight) {
+				content.style.top = document.documentElement.clientHeight > content.offsetHeight + pageY ? pageY + "px" : pageY - content.offsetHeight + "px";
 			}
 			content.style.visibility = "visible";
 			return this;
@@ -966,6 +859,35 @@ var cContext = function () {
 
 	return cContext;
 }();
+
+function cLyric(lrc) {
+	var offset = 0,
+	    lyricArray = [];
+	lrc.replace(/\n+/gi, "\n").split("\n").forEach(function (content) {
+		//content is like:
+		// [00:12.34]JUUUUUUUUUUUUUUMP!!!!!!
+		//get OFFSET
+		if (content.indexOf("offset") !== -1) offset = parseInt(/offset\:(\d+)/gi.exec(content)[1]);
+		//get Lyric and translate it.
+		//ar[] -> [1.24,2.21,36.15,"HEY!"]
+		if (/\d:\d/gi.test(content)) {
+			(function () {
+				var ar = [];
+				[].forEach.call(content.match(/\[\d+\:[\.\d]+\]/gi), function (e) {
+					var number = /\[(\d+)\:([\.\d]+)\]/gi.exec(e);
+					ar.push(parseInt(number[1]) * 60 + parseFloat(number[2] - offset * 0.001));
+				});
+				ar.push(/(?:\[\d+\:[\.\d]+\])*(.*)/gi.exec(content)[1]);
+				do {
+					lyricArray.push({ time: ar.shift(), content: ar[ar.length - 1] });
+				} while (ar.length >= 2);
+			})();
+		}
+	});
+	return lyricArray.sort(function (a, b) {
+		return a.time - b.time;
+	});
+};
 if (window) window.cPlayer = cPlayer;
-console.log("\n%ccPlayer%cv2.4.6%c\n\n", "padding:7px;background:#cd3e45;font-family:'Sitka Heading';font-weight:bold;font-size:large;color:white", "padding:7px;background:#ff5450;font-family:'Sitka Text';font-size:large;color:#eee", "");
 //# sourceMappingURL=cplayer.js.map
+console.log("\n%ccPlayer%cv2.4.7%c\n\n", "padding:7px;background:#cd3e45;font-family:'Sitka Heading';font-weight:bold;font-size:large;color:white", "padding:7px;background:#ff5450;font-family:'Sitka Text';font-size:large;color:#eee", "");

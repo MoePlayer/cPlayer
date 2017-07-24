@@ -551,7 +551,7 @@ const cBase = class cBase{
 	        return parentElement!=undefined?parentElement.getElementsByTagName(tagName)[0]:this.root.getElementsByTagName(tagName)[0];
 	    }
 	    rand(start,end){
-	        if(start===undefined||end===undefined) return Math.random();
+	        if(!start||!end) return Math.random();
 	        if(start>end) throw new RangeError("the EndNumber must be bigger than the StartNumber");
 	        return (end-start)*Math.random()+start;
 	    }
@@ -562,6 +562,7 @@ const cBase = class cBase{
 			});return ar;
 		}
 	    style(dom,property,content){
+			//不管浏览器，暴力加前缀
 	        dom.style[this.browser+property.slice(0,1).toUpperCase()+property.slice(1)] = content;
 	        dom.style[property] = content;
 	    }
@@ -643,7 +644,7 @@ function cLyric(lrc){
 		if(content.indexOf("offset")!==-1) offset = parseInt((/offset\:(\d+)/gi).exec(content)[1]);
 		//get Lyric and translate it.
 		//ar[] -> [1.24,2.21,36.15,"HEY!"]
-		if(/\d:[\d\.]+\]/gi.test(content)){
+		if(/\[\d+:[\d\.]+\]/gi.test(content)){
 			let ar = [];
 			[].forEach.call(content.match(/\[\d+\:[\.\d]+\]/gi),function(e){
 				let number = /\[(\d+)\:([\.\d]+)\]/gi.exec(e);

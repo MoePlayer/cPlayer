@@ -58,11 +58,7 @@
             if (!cp || !id) throw new Error("Unable Property.");
             var obj = { name: null, artist: null, image: null, url: null, lyric: null };
             var push = after(3,function(){cp.add(obj)});
-            fetch("https://api.imjad.cn/cloudmusic/?type=song&id=" + id + "&br=320000").then(function (a) {
-                return a.json()
-            }).then(function (result) {
-                obj["url"] = result["data"][0]["url"];push()
-            });
+            obj["url"] = "https://api.imjad.cn/cloudmusic/?type=song&id=" + id + "&br=320000&raw=true";push();
             fetch("https://api.imjad.cn/cloudmusic/?type=detail&id=" + id).then(function (a) {
                 return a.json();
             }).then(function (result) { 
@@ -93,16 +89,17 @@
     </script>
     <script>
         var cp = new cPlayer;
-        add163(cp,4940455);
-        add163(cp,41500711);
-        add163(cp,792449);
-        add163(cp,427609923);
-        add163(cp,34880507);
+        add163(cp,419485504);
+        add163(cp,27669789);
+        add163(cp,691504);
+        add163(cp,20744075);
+        add163(cp,412951925);/*
         add163(cp,38574225);
         add163(cp,34072418);
         add163(cp,32102072);
-        add163(cp,766471);
+        add163(cp,766471);*/
         setTimeout(function(){location.reload()},60*30*1000);
+        addEventListener("keypress",function(e){if(e.keyCode===13)cp.__LIST__.toggle.click()})
     </script>
 </body>
 </html>

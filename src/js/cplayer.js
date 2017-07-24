@@ -67,7 +67,7 @@ const cPlayer = class cPlayer {
 	        //现在开始填DOM
 			this.options.element.innerHTML = '<c-player><div class="lyric invisible"><lyric-body></lyric-body></div><div class="controls"><div class="c-left"><div class="music-description"><div class="image"><img class="meta-bak"></div><div class="music-meta"><div><span class="music-name"></span><span class="music-artist"></span></div></div></div><a class="play-icon"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M16 10v28l22-14z"></path></svg></a></div><div class="c-center"><div class="time"><div class="time-body"><div class="time-line"><div class="time-point"></div></div></div></div></div><div class="c-right"><div class="volume"><div class="volume-button"><a class="volume-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M33 24c0-3.53-2.04-6.58-5-8.05v4.42l4.91 4.91c.06-.42.09-.85.09-1.28zm5 0c0 1.88-.41 3.65-1.08 5.28l3.03 3.03C41.25 29.82 42 27 42 24c0-8.56-5.99-15.72-14-17.54v4.13c5.78 1.72 10 7.07 10 13.41zM8.55 6L6 8.55 15.45 18H6v12h8l10 10V26.55l8.51 8.51c-1.34 1.03-2.85 1.86-4.51 2.36v4.13c2.75-.63 5.26-1.89 7.37-3.62L39.45 42 42 39.45l-18-18L8.55 6zM24 8l-4.18 4.18L24 16.36V8z"></path></svg></a></div><div class="volume-body"><div class="volume-line"><div class="volume-point"></div></div></div></div><div class="list-button"><a class="list-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-12 -12 48 48" enable-background="new -12 -12 48 48"><path d="M26 6H-8v4h34V6zm0-8H-8v4h34v-4zM-8 18h26v-4H-8v4zm30-4v12l10-6-10-6z"></path></svg></a></div><div class="lyric-button"><a class="lyric-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M44 20L32 8H8c-2.2 0-4 1.8-4 4v24.02C4 38.22 5.8 40 8 40l32-.02c2.2 0 4-1.78 4-3.98V20zm-14-9l11 11H30V11z"></path></svg></a></div></div></div><div class="list invisible"><list-body></list-body></div></c-player>';
 	        this.CBASE.root = this.options.element.getElementsByTagName("c-player");
-	        this.CBASE.root = this.CBASE.root[this.CBASE.root.length-1];
+	        this.CBASE.root = this.CBASE.root[this.CBASE.root.length-1];//???
 	        //然后为DOMList填充一下吧
 	        this.__LIST__ = {
 	            "lyric"      : this.CBASE.getByClass("lyric"),
@@ -89,6 +89,7 @@ const cPlayer = class cPlayer {
 	            "list"       : this.CBASE.getByClass("list"),
 	            "listBody"   : this.CBASE.getByTagName("list-body")
 	        };
+			this.__LIST__.toggle.focus();
 	        this.__LIST__.toggleIcon = this.CBASE.getByTagName("svg",this.__LIST__.toggle);
 	        this.__LIST__.volumeIcon = this.CBASE.getByTagName("svg",this.__LIST__.volumePower);
 
@@ -125,7 +126,7 @@ const cPlayer = class cPlayer {
 		        that.dragging.target = options.target;
 				let mover = function(options){
 					if (that.dragging.contain === false) return;
-		            if (!rightTarget[0]) return;
+		            if (!rightTarget[0])return;
 		            parent = that.dragging.target.parentNode.parentNode;
 		            if (parent.classList && parent.classList.contains("volume-body")) {
 		                that.__LIST__.volumeLine.style.width = (options.clientX - parent.getBoundingClientRect().left) / parent.offsetWidth * 100 + "%";
@@ -138,9 +139,9 @@ const cPlayer = class cPlayer {
 		                vol = vol > 1 ? 1 : vol;
 		                vol = vol < 0 ? 0 : vol;
 		                that.music.volume = vol;
-		            }
-		            window.addEventListener("mouseup",upper);
+		            }window.addEventListener("mouseup",upper,{"once":true});
 				};let upper=function (options){
+					window.removeEventListener("mousemove",mover);
 		            	if (that.dragging.contain === false) return;
 			            /*
 			            	While anything...
@@ -166,33 +167,9 @@ const cPlayer = class cPlayer {
 			            }
 			            that.dragging.contain = false;
 			            that.dragging.target = undefined;
-			            window.removeEventListener("mouseup",upper);
-			            window.removeEventListener("mousemove",mover);
-		            };let uppers = function(options){
-		            	if (that.dragging.contain === false) return;
-			            if(false){}
-			            	else if(rightTarget[0]){parent = that.dragging.target.parentNode.parentNode}
-			            	else if(rightTarget[1]){parent = that.dragging.target.parentNode}
-			            	else if(rightTarget[2]){parent = that.dragging.target}
-			            	else throw new Error(JSON.stringify([that.dragging.target, rightTarget]));
-
-			            if (parent.classList.contains("volume-body")) {
-			                let vol = (options.clientX - parent.getBoundingClientRect().left) / parent.offsetWidth;
-			                vol = vol > 1 ? 1 : vol;
-			                vol = vol < 0 ? 0 : vol;
-			                that.music.volume = vol;
-			            } else if (parent.classList.contains("time-body")) {
-			                let time = (options.clientX - parent.getBoundingClientRect().left) / parent.offsetWidth;
-			                time = time > 1 ? 1 : time;
-			                time = time < 0 ? 0 : time;
-			                that.updateTime(time * that.music.duration);
-			            }
-			            that.dragging.contain = false;
-			            that.dragging.target = undefined;
-			            window.removeEventListener("mouseup",uppers);
-		            };
-				if (rightTarget[0])window.addEventListener("mousemove",mover);
-				if (!rightTarget[0])window.addEventListener("mouseup",uppers);
+				};
+				window.addEventListener("mousemove",mover);
+				window.addEventListener("click",upper,{"once":true});
 		    }
 
 	        this.music = document.createElement("audio");
@@ -433,54 +410,6 @@ const cPlayer = class cPlayer {
 	        if (!this.hasLyric(this.now)) return;
 	        let lr = isTrans!==false?this.options.list[this.now].transLyric:this.options.list[this.now].lyric;
 	        let lyric = cLyric(lr);
-	        //START LRC BASEING...
-			/*lr = lr.split("\n").length>1?lr.split("\n"):lr.replace("]","]\n").split("]");
-	        let lrcs = [];
-	        for (let i = 0,content=lr[i];i<lr.length;i++,content=lr[i]) {
-	            if (typeof content !== "string") break;
-	            let onelrc = content.split(/\[|\]\[|\]/gi);
-	            for (let i = 0; i < onelrc.length - 1; i++) {
-	                if (onelrc[i] === "" && i !== onelrc.length - 1 || onelrc[i].match(/\d{1,}\:\d{1,}/gi)===null) {
-	                    onelrc.splice(i, 1);
-	                    i--;
-	                    continue;
-	                }
-
-	                if (onelrc[i].match(/\d{1,}\:\d{1,}/gi)) {
-	                    let lyricsarray = onelrc[i].split(/\:|\./gi);
-	                    switch (lyricsarray.length) {
-	                        case 2:
-	                            onelrc[i] = parseInt(lyricsarray[0]) * 60 + parseInt(lyricsarray[1]);
-	                            break;
-	                        case 3:
-	                            onelrc[i] = parseInt(lyricsarray[0]) * 60 + parseInt(lyricsarray[1]) + parseFloat("0." + lyricsarray[2]);
-	                            break;
-	                        default:
-	                            throw new Error("Time not be Found!")
-	                    }
-	                }
-	            }
-
-	            lrcs.push(onelrc);
-	        }
-	        //LRC BASED
-	        let lyric = [];
-	        for (let i = lrcs.length - 1; i >= 0; i--) {
-	            if (lrcs[i].length > 2) {
-	                for (let count = lrcs[i].length - 1; count >= 0; count--) {
-	                    if (count !== lrcs[i].length - 1 && lrcs[i][lrcs[i].length - 1]!==undefined) {
-	                        lyric.push({time: lrcs[i][count], content: lrcs[i][lrcs[i].length - 1]});
-	                    }
-	                }
-
-	            } else if(lrcs[i][1]!==undefined) {
-	                lyric.push({time: lrcs[i][0], content: lrcs[i][1]});
-	            }
-	        }
-
-	        lyric.sort((a, b)=> {
-	            return a.time - b.time;
-	        });*/
 	        lyric["now"] = 0;
 	        this.__LYRIC__ = lyric;
 	        for (let i = 0; i <= lyric.length - 1; i++) {
@@ -505,11 +434,20 @@ const cPlayer = class cPlayer {
 	        	translateY,
 	        	lyricBody=this.__LIST__.lyricBody,
 	        	lrc = this.__LIST__.lyricBody.getElementsByTagName("lrc");
+			let clear = ()=>{
+					for (let n = list.length - 1; n >= 0; n--)
+						if(list[n]!==lrc[i])
+							list[n].classList.remove("now");
+				};
 	        //遍历Lyric,寻找当前时间的歌词
 			//注意:[].find & [].findIndex 仅返回符合要求元素组成的数组第一项,符合要求元素组成的数组的顺序参考原数组不变
 			//现在的写法需要__LYRIC__属性具有time从小到大排列的顺序,详见refreshLyric()方法
 			let lyric = this.CBASE.find(this.__LYRIC__,(element)=>element.time<time).reverse()[0];
-			let i = this.__LYRIC__.indexOf(lyric);if(i<0)return;
+			let i = this.__LYRIC__.indexOf(lyric);
+			if(i<0){
+				this.CBASE.style(lyricBody,"transform","");
+				clear();
+			}
 
         	if(this.__LYRIC__["now"]!==i)
 		        this.__LYRIC__["now"]=i;
@@ -520,10 +458,7 @@ const cPlayer = class cPlayer {
 			this.CBASE.style(lyricBody,"transform","translateY(" + translateY + "px)");
 			let list = this.__LIST__.lyricBody.getElementsByClassName("now");
 		    if(list.length>1)
-			    for (let n = list.length - 1; n >= 0; n--)
-			    	if(list[n]!==lrc[i])
-			    		list[n].classList.remove("now");
-
+				clear();
 	    }
 	    translate(){
 	    	if(!this.options.list[this.now].transLyric||!this.hasLyric(this.now)) return false;
@@ -708,7 +643,7 @@ function cLyric(lrc){
 		if(content.indexOf("offset")!==-1) offset = parseInt((/offset\:(\d+)/gi).exec(content)[1]);
 		//get Lyric and translate it.
 		//ar[] -> [1.24,2.21,36.15,"HEY!"]
-		if(/\d:\d/gi.test(content)){
+		if(/\d:[\d\.]+\]/gi.test(content)){
 			let ar = [];
 			[].forEach.call(content.match(/\[\d+\:[\.\d]+\]/gi),function(e){
 				let number = /\[(\d+)\:([\.\d]+)\]/gi.exec(e);

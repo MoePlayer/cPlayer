@@ -65,9 +65,9 @@ var cPlayer = function () {
 			"volumeDown": 'M37 24c0-3.53-2.04-6.58-5-8.05v16.11c2.96-1.48 5-4.53 5-8.06zm-27-6v12h8l10 10V8L18 18h-8z'
 		};
 		(function () {
-			for (var i = 0, keys = Object.keys(_this.SVG), length = keys.length; i < length; i++) {
-				var svg = keys[i] === "playlistPlay" ? '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-12 -12 48 48" enable-background="new -12 -12 48 48"><path d="' + _this.SVG[keys[i]] + '"/></svg>' : '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="' + _this.SVG[keys[i]] + '"/></svg>';
-				_this.SVG[keys[i]] = svg;
+			for (var _i = 0, keys = Object.keys(_this.SVG), length = keys.length; _i < length; _i++) {
+				var svg = keys[_i] === "playlistPlay" ? '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-12 -12 48 48" enable-background="new -12 -12 48 48"><path d="' + _this.SVG[keys[_i]] + '"/></svg>' : '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="' + _this.SVG[keys[_i]] + '"/></svg>';
+				_this.SVG[keys[_i]] = svg;
 			}
 		})();
 
@@ -77,7 +77,7 @@ var cPlayer = function () {
 		//现在开始填DOM
 		this.options.element.innerHTML = '<c-player><div class="lyric invisible"><lyric-body></lyric-body></div><div class="controls"><div class="c-left"><div class="music-description"><div class="image"><img class="meta-bak"></div><div class="music-meta"><div><span class="music-name"></span><span class="music-artist"></span></div></div></div><a class="play-icon"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M16 10v28l22-14z"></path></svg></a></div><div class="c-center"><div class="time"><div class="time-body"><div class="time-line"><div class="time-point"></div></div></div></div></div><div class="c-right"><div class="volume"><div class="volume-button"><a class="volume-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M33 24c0-3.53-2.04-6.58-5-8.05v4.42l4.91 4.91c.06-.42.09-.85.09-1.28zm5 0c0 1.88-.41 3.65-1.08 5.28l3.03 3.03C41.25 29.82 42 27 42 24c0-8.56-5.99-15.72-14-17.54v4.13c5.78 1.72 10 7.07 10 13.41zM8.55 6L6 8.55 15.45 18H6v12h8l10 10V26.55l8.51 8.51c-1.34 1.03-2.85 1.86-4.51 2.36v4.13c2.75-.63 5.26-1.89 7.37-3.62L39.45 42 42 39.45l-18-18L8.55 6zM24 8l-4.18 4.18L24 16.36V8z"></path></svg></a></div><div class="volume-body"><div class="volume-line"><div class="volume-point"></div></div></div></div><div class="list-button"><a class="list-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-12 -12 48 48" enable-background="new -12 -12 48 48"><path d="M26 6H-8v4h34V6zm0-8H-8v4h34v-4zM-8 18h26v-4H-8v4zm30-4v12l10-6-10-6z"></path></svg></a></div><div class="lyric-button"><a class="lyric-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M44 20L32 8H8c-2.2 0-4 1.8-4 4v24.02C4 38.22 5.8 40 8 40l32-.02c2.2 0 4-1.78 4-3.98V20zm-14-9l11 11H30V11z"></path></svg></a></div></div></div><div class="list invisible"><list-body></list-body></div></c-player>';
 		this.CBASE.root = this.options.element.getElementsByTagName("c-player");
-		this.CBASE.root = this.CBASE.root[this.CBASE.root.length - 1];
+		this.CBASE.root = this.CBASE.root[this.CBASE.root.length - 1]; //???
 		//然后为DOMList填充一下吧
 		this.__LIST__ = {
 			"lyric": this.CBASE.getByClass("lyric"),
@@ -99,6 +99,7 @@ var cPlayer = function () {
 			"list": this.CBASE.getByClass("list"),
 			"listBody": this.CBASE.getByTagName("list-body")
 		};
+		this.__LIST__.toggle.focus();
 		this.__LIST__.toggleIcon = this.CBASE.getByTagName("svg", this.__LIST__.toggle);
 		this.__LIST__.volumeIcon = this.CBASE.getByTagName("svg", this.__LIST__.volumePower);
 
@@ -147,9 +148,9 @@ var cPlayer = function () {
 					vol = vol > 1 ? 1 : vol;
 					vol = vol < 0 ? 0 : vol;
 					that.music.volume = vol;
-				}
-				window.addEventListener("mouseup", upper);
+				}window.addEventListener("mouseup", upper, { "once": true });
 			};var upper = function upper(options) {
+				window.removeEventListener("mousemove", mover);
 				if (that.dragging.contain === false) return;
 				/*
     	While anything...
@@ -177,35 +178,9 @@ var cPlayer = function () {
 				}
 				that.dragging.contain = false;
 				that.dragging.target = undefined;
-				window.removeEventListener("mouseup", upper);
-				window.removeEventListener("mousemove", mover);
-			};var uppers = function uppers(options) {
-				if (that.dragging.contain === false) return;
-				if (false) {} else if (rightTarget[0]) {
-					parent = that.dragging.target.parentNode.parentNode;
-				} else if (rightTarget[1]) {
-					parent = that.dragging.target.parentNode;
-				} else if (rightTarget[2]) {
-					parent = that.dragging.target;
-				} else throw new Error(JSON.stringify([that.dragging.target, rightTarget]));
-
-				if (parent.classList.contains("volume-body")) {
-					var vol = (options.clientX - parent.getBoundingClientRect().left) / parent.offsetWidth;
-					vol = vol > 1 ? 1 : vol;
-					vol = vol < 0 ? 0 : vol;
-					that.music.volume = vol;
-				} else if (parent.classList.contains("time-body")) {
-					var time = (options.clientX - parent.getBoundingClientRect().left) / parent.offsetWidth;
-					time = time > 1 ? 1 : time;
-					time = time < 0 ? 0 : time;
-					that.updateTime(time * that.music.duration);
-				}
-				that.dragging.contain = false;
-				that.dragging.target = undefined;
-				window.removeEventListener("mouseup", uppers);
 			};
-			if (rightTarget[0]) window.addEventListener("mousemove", mover);
-			if (!rightTarget[0]) window.addEventListener("mouseup", uppers);
+			window.addEventListener("mousemove", mover);
+			window.addEventListener("click", upper, { "once": true });
 		}
 
 		this.music = document.createElement("audio");
@@ -311,7 +286,7 @@ var cPlayer = function () {
 		value: function volume() {
 			var _this2 = this;
 
-			var vl = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
+			var vl = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
 
 			var checkLevel = function checkLevel() {
 				if (_this2.music.volume === 0 || _this2.isMuted()) {
@@ -386,7 +361,7 @@ var cPlayer = function () {
 	}, {
 		key: "toggle",
 		value: function toggle() {
-			var now = arguments.length <= 0 || arguments[0] === undefined ? this.now : arguments[0];
+			var now = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.now;
 
 			var list = this.options.list[now],
 			    dom = this.__LIST__;
@@ -412,7 +387,7 @@ var cPlayer = function () {
 	}, {
 		key: "hasLyric",
 		value: function hasLyric() {
-			var id = arguments.length <= 0 || arguments[0] === undefined ? 0 : arguments[0];
+			var id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 			var func = arguments[1];
 
 			if (func !== undefined) func();
@@ -466,17 +441,17 @@ var cPlayer = function () {
 			    lb = this.__LIST__.listBody;
 			lb.innerHTML = "";
 
-			var _loop = function _loop(i) {
+			var _loop = function _loop(_i2) {
 				var div = document.createElement("div");
-				div.innerHTML = '<span class="music-name">' + list[i].name + '</span><span class="music-artist">' + list[i].artist + '</span>';
+				div.innerHTML = '<span class="music-name">' + list[_i2].name + '</span><span class="music-artist">' + list[_i2].artist + '</span>';
 				div = lb.appendChild(div);
 				div.addEventListener("click", function () {
-					_this3.to(i);
+					_this3.to(_i2);
 				});
 			};
 
-			for (var i = 0; i <= list.length - 1; i++) {
-				_loop(i);
+			for (var _i2 = 0; _i2 <= list.length - 1; _i2++) {
+				_loop(_i2);
 			}
 			if (func !== undefined) func();
 		}
@@ -498,7 +473,7 @@ var cPlayer = function () {
 	}, {
 		key: "lyric",
 		value: function lyric() {
-			var content = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
+			var content = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
 
 			if (content === undefined) {
 				if (this.hasLyric(this.now)) return this.options.list[this.now].lyric;
@@ -511,62 +486,18 @@ var cPlayer = function () {
 	}, {
 		key: "refreshLyric",
 		value: function refreshLyric() {
-			var isTrans = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+			var isTrans = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
 			//REQUIRE LYRIC...
 			this.__LIST__.lyricBody.innerHTML = "";
 			if (!this.hasLyric(this.now)) return;
 			var lr = isTrans !== false ? this.options.list[this.now].transLyric : this.options.list[this.now].lyric;
 			var lyric = cLyric(lr);
-			//START LRC BASEING...
-			/*lr = lr.split("\n").length>1?lr.split("\n"):lr.replace("]","]\n").split("]");
-         let lrcs = [];
-         for (let i = 0,content=lr[i];i<lr.length;i++,content=lr[i]) {
-             if (typeof content !== "string") break;
-             let onelrc = content.split(/\[|\]\[|\]/gi);
-             for (let i = 0; i < onelrc.length - 1; i++) {
-                 if (onelrc[i] === "" && i !== onelrc.length - 1 || onelrc[i].match(/\d{1,}\:\d{1,}/gi)===null) {
-                     onelrc.splice(i, 1);
-                     i--;
-                     continue;
-                 }
-                   if (onelrc[i].match(/\d{1,}\:\d{1,}/gi)) {
-                     let lyricsarray = onelrc[i].split(/\:|\./gi);
-                     switch (lyricsarray.length) {
-                         case 2:
-                             onelrc[i] = parseInt(lyricsarray[0]) * 60 + parseInt(lyricsarray[1]);
-                             break;
-                         case 3:
-                             onelrc[i] = parseInt(lyricsarray[0]) * 60 + parseInt(lyricsarray[1]) + parseFloat("0." + lyricsarray[2]);
-                             break;
-                         default:
-                             throw new Error("Time not be Found!")
-                     }
-                 }
-             }
-               lrcs.push(onelrc);
-         }
-         //LRC BASED
-         let lyric = [];
-         for (let i = lrcs.length - 1; i >= 0; i--) {
-             if (lrcs[i].length > 2) {
-                 for (let count = lrcs[i].length - 1; count >= 0; count--) {
-                     if (count !== lrcs[i].length - 1 && lrcs[i][lrcs[i].length - 1]!==undefined) {
-                         lyric.push({time: lrcs[i][count], content: lrcs[i][lrcs[i].length - 1]});
-                     }
-                 }
-               } else if(lrcs[i][1]!==undefined) {
-                 lyric.push({time: lrcs[i][0], content: lrcs[i][1]});
-             }
-         }
-           lyric.sort((a, b)=> {
-             return a.time - b.time;
-         });*/
 			lyric["now"] = 0;
 			this.__LYRIC__ = lyric;
-			for (var i = 0; i <= lyric.length - 1; i++) {
+			for (var _i3 = 0; _i3 <= lyric.length - 1; _i3++) {
 				var div = document.createElement("lrc");
-				div.innerHTML = lyric[i].content;
+				div.innerHTML = lyric[_i3].content;
 				this.__LIST__.lyricBody.appendChild(div);
 			}
 			this.emitter.emit("changeLyric");
@@ -574,7 +505,7 @@ var cPlayer = function () {
 	}, {
 		key: "updateTime",
 		value: function updateTime() {
-			var time = arguments.length <= 0 || arguments[0] === undefined ? undefined : arguments[0];
+			var time = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : undefined;
 			var func = arguments[1];
 
 			if (time !== undefined) this.music.currentTime = time;
@@ -591,13 +522,22 @@ var cPlayer = function () {
 			    translateY = void 0,
 			    lyricBody = this.__LIST__.lyricBody,
 			    lrc = this.__LIST__.lyricBody.getElementsByTagName("lrc");
+			var clear = function clear() {
+				for (var n = list.length - 1; n >= 0; n--) {
+					if (list[n] !== lrc[i]) list[n].classList.remove("now");
+				}
+			};
 			//遍历Lyric,寻找当前时间的歌词
 			//注意:[].find & [].findIndex 仅返回符合要求元素组成的数组第一项,符合要求元素组成的数组的顺序参考原数组不变
 			//现在的写法需要__LYRIC__属性具有time从小到大排列的顺序,详见refreshLyric()方法
 			var lyric = this.CBASE.find(this.__LYRIC__, function (element) {
 				return element.time < time;
 			}).reverse()[0];
-			var i = this.__LYRIC__.indexOf(lyric);if (i < 0) return;
+			var i = this.__LYRIC__.indexOf(lyric);
+			if (i < 0) {
+				this.CBASE.style(lyricBody, "transform", "");
+				clear();
+			}
 
 			if (this.__LYRIC__["now"] !== i) this.__LYRIC__["now"] = i;
 			lrc[i].classList.add("now");
@@ -606,9 +546,7 @@ var cPlayer = function () {
 			translateY = -(lyricToTop - halfBody);
 			this.CBASE.style(lyricBody, "transform", "translateY(" + translateY + "px)");
 			var list = this.__LIST__.lyricBody.getElementsByClassName("now");
-			if (list.length > 1) for (var n = list.length - 1; n >= 0; n--) {
-				if (list[n] !== lrc[i]) list[n].classList.remove("now");
-			}
+			if (list.length > 1) clear();
 		}
 	}, {
 		key: "translate",
@@ -684,8 +622,8 @@ var cEmitter = function () {
 				args[_key - 1] = arguments[_key];
 			}
 
-			for (var i = 0; i < this.events[eventName].length; i++) {
-				this.events[eventName][i](args);
+			for (var _i4 = 0; _i4 < this.events[eventName].length; _i4++) {
+				this.events[eventName][_i4](args);
 			}
 			return this;
 		}
@@ -697,23 +635,23 @@ var cBase = function () {
 	function cBase() {
 		var _this5 = this;
 
-		var rootNode = arguments.length <= 0 || arguments[0] === undefined ? document.documentElement : arguments[0];
+		var rootNode = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.documentElement;
 
 		_classCallCheck(this, cBase);
 
 		this.root = rootNode;
 
-		var _loop2 = function _loop2(styleList, i) {
+		var _loop2 = function _loop2(styleList, _i5) {
 			["-webkit-", "-moz-", "-o-", "-ms-"].forEach(function (element) {
-				if (styleList[i].indexOf(element) !== -1) {
+				if (styleList[_i5].indexOf(element) !== -1) {
 					_this5.browser = element.replace("-", "");
 				};
 			});
 			if (_this5.browser) return "break";
 		};
 
-		for (var styleList = document.documentElement.style, i = styleList.length; i > 0; i--) {
-			var _ret2 = _loop2(styleList, i);
+		for (var styleList = document.documentElement.style, _i5 = styleList.length; _i5 > 0; _i5--) {
+			var _ret2 = _loop2(styleList, _i5);
 
 			if (_ret2 === "break") break;
 		}
@@ -803,8 +741,8 @@ var cContext = function () {
 	_createClass(cContext, [{
 		key: "add",
 		value: function add(_ref2) {
-			var name = _ref2.name;
-			var action = _ref2.action;
+			var name = _ref2.name,
+			    action = _ref2.action;
 
 			this.options.items.push({ name: name, action: action });
 			return this;
@@ -812,17 +750,17 @@ var cContext = function () {
 	}, {
 		key: "show",
 		value: function show(_ref3) {
-			var pageX = _ref3.pageX;
-			var pageY = _ref3.pageY;
+			var pageX = _ref3.pageX,
+			    pageY = _ref3.pageY;
 
 			var content = document.createElement("div");
 			content.classList.add("c-context");
-			for (var items = this.options.items, i = 0; i < items.length; i++) {
+			for (var items = this.options.items, _i6 = 0; _i6 < items.length; _i6++) {
 				content.appendChild(document.createElement("div"));
-				content.children[i].classList.add("c-context--list");
-				content.children[i].innerHTML = items[i].name;
+				content.children[_i6].classList.add("c-context--list");
+				content.children[_i6].innerHTML = items[_i6].name;
 				//content.innerHTML+=`<div class="c-context--list">${items[i].name}</div>`;
-				content.children[i].addEventListener("click", items[i].action);
+				content.children[_i6].addEventListener("click", items[_i6].action);
 			}
 			document.body.appendChild(content);
 			//Set the offset-x
@@ -842,8 +780,8 @@ var cContext = function () {
 	}, {
 		key: "hide",
 		value: function hide() {
-			for (var list = document.getElementsByClassName("c-context"), i = list.length - 1; i >= 0; i--) {
-				document.body.removeChild(list[i]);
+			for (var _list = document.getElementsByClassName("c-context"), _i7 = _list.length - 1; _i7 >= 0; _i7--) {
+				document.body.removeChild(_list[_i7]);
 			}return this;
 		}
 	}, {
@@ -870,18 +808,16 @@ function cLyric(lrc) {
 		if (content.indexOf("offset") !== -1) offset = parseInt(/offset\:(\d+)/gi.exec(content)[1]);
 		//get Lyric and translate it.
 		//ar[] -> [1.24,2.21,36.15,"HEY!"]
-		if (/\d:\d/gi.test(content)) {
-			(function () {
-				var ar = [];
-				[].forEach.call(content.match(/\[\d+\:[\.\d]+\]/gi), function (e) {
-					var number = /\[(\d+)\:([\.\d]+)\]/gi.exec(e);
-					ar.push(parseInt(number[1]) * 60 + parseFloat(number[2] - offset * 0.001));
-				});
-				ar.push(/(?:\[\d+\:[\.\d]+\])*(.*)/gi.exec(content)[1]);
-				do {
-					lyricArray.push({ time: ar.shift(), content: ar[ar.length - 1] });
-				} while (ar.length >= 2);
-			})();
+		if (/\d:[\d\.]+\]/gi.test(content)) {
+			var ar = [];
+			[].forEach.call(content.match(/\[\d+\:[\.\d]+\]/gi), function (e) {
+				var number = /\[(\d+)\:([\.\d]+)\]/gi.exec(e);
+				ar.push(parseInt(number[1]) * 60 + parseFloat(number[2] - offset * 0.001));
+			});
+			ar.push(/(?:\[\d+\:[\.\d]+\])*(.*)/gi.exec(content)[1]);
+			do {
+				lyricArray.push({ time: ar.shift(), content: ar[ar.length - 1] });
+			} while (ar.length >= 2);
 		}
 	});
 	return lyricArray.sort(function (a, b) {

@@ -1,14 +1,14 @@
 $c-height:4em;
 $p-height:0.5em;
-$b-color:#66bb6a;
+$b-color:#359abc;
 $p-radius:1em;
 
-@keyframes changeSize{
+/*@keyframes changeSize{
 	0%{
-		width:0;
-		height:0;
-		top:50%;
-		left:50%;
+		width:100%;
+		height:100%;
+		top:0;
+		left:0;
 	}
 	100%{
 		width:200%;
@@ -16,7 +16,7 @@ $p-radius:1em;
 		top:-50%;
 		left:-50%;
 	}
-}
+}*/
 
 @mixin progress($type:time){
 	touch-action: none;
@@ -44,7 +44,7 @@ $p-radius:1em;
 				border-radius: 100%;
 				position: absolute;
 				right:0;
-				/*&::before{
+				/**&::before{
 					content:"";
 					display:block;
 					width:0;
@@ -55,7 +55,7 @@ $p-radius:1em;
 					background-color:rgba($b-color,.5);
 					animation:changeSize 1s ease-in-out infinite alternate;
 					border-radius: 100%;
-				}***********/
+				}**********/
 			}
 		}
 	}
@@ -129,7 +129,7 @@ c-player{
 			text-align: center;
 			//padding:6em 0;
 			transform:translateY(6em);
-			transition: all 0.25s;
+			//transition: all 0.25s;
 			lrc{
 				flex:1;
 				display:block;
@@ -139,7 +139,7 @@ c-player{
 				font-size:large;
 				font-family: "LiHei Pro","Microsoft Yahei",sans-serif;
 				width:100%;
-				transition:0.25s background ease;
+				//transition:0.25s background ease;
 				&.now{
 					background:#ddd;
 				}
@@ -200,7 +200,7 @@ c-player{
 			}
 		}
 		.c-center{
-			@media screen and (max-width: 800px) {
+			@media screen and (max-width: 600px) {
 				&{
 					display:none;
 				}
@@ -216,7 +216,7 @@ c-player{
 			}
 		}
 		.c-right{
-			@media screen and (max-width: 800px) {
+			@media screen and (max-width: 600px) {
 				&{
 					flex:1;
 				}

@@ -1,33 +1,18 @@
 @charset "UTF-8";
-@-webkit-keyframes changeSize {
-  0% {
-    width: 0;
-    height: 0;
-    top: 50%;
-    left: 50%;
-  }
-  100% {
-    width: 200%;
-    height: 200%;
-    top: -50%;
-    left: -50%;
-  }
-}
-@keyframes changeSize {
-  0% {
-    width: 0;
-    height: 0;
-    top: 50%;
-    left: 50%;
-  }
-  100% {
-    width: 200%;
-    height: 200%;
-    top: -50%;
-    left: -50%;
-  }
-}
-
+/*@keyframes changeSize{
+	0%{
+		width:100%;
+		height:100%;
+		top:0;
+		left:0;
+	}
+	100%{
+		width:200%;
+		height:200%;
+		top:-50%;
+		left:-50%;
+	}
+}*/
 c-player {
   display: -webkit-box;
   display: -webkit-flex;
@@ -96,8 +81,6 @@ c-player .lyric lyric-body {
   -webkit-transform: translateY(6em);
       -ms-transform: translateY(6em);
           transform: translateY(6em);
-  -webkit-transition: all 0.25s;
-  transition: all 0.25s;
 }
 
 c-player .lyric lyric-body lrc {
@@ -112,8 +95,6 @@ c-player .lyric lyric-body lrc {
   font-size: large;
   font-family: "LiHei Pro","Microsoft Yahei",sans-serif;
   width: 100%;
-  -webkit-transition: 0.25s background ease;
-  transition: 0.25s background ease;
 }
 
 c-player .lyric lyric-body lrc.now {
@@ -226,7 +207,7 @@ c-player .controls .c-left .play-icon {
   height: 3.2em;
   -webkit-border-radius: 100%;
           border-radius: 100%;
-  background-color: #addaaf;
+  background-color: #7dc3da;
   color: white;
   cursor: pointer;
 }
@@ -248,7 +229,7 @@ c-player .controls .c-center {
   padding: 0.5em;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 600px) {
   c-player .controls .c-center {
     display: none;
   }
@@ -277,7 +258,7 @@ c-player .controls .c-center .time .time-body {
 c-player .controls .c-center .time .time-body .time-line {
   width: 0%;
   height: 100%;
-  background-color: #66bb6a;
+  background-color: #359abc;
   will-change: width;
   -webkit-transition: 0.1s width ease-in;
   transition: 0.1s width ease-in;
@@ -290,12 +271,12 @@ c-player .controls .c-center .time .time-body .time-line .time-point {
   width: 1em;
   height: 1em;
   margin: -0.25em -0.5em 0 0;
-  background-color: #addaaf;
+  background-color: #7dc3da;
   -webkit-border-radius: 100%;
           border-radius: 100%;
   position: absolute;
   right: 0;
-  /*&::before{
+  /**&::before{
 					content:"";
 					display:block;
 					width:0;
@@ -306,7 +287,7 @@ c-player .controls .c-center .time .time-body .time-line .time-point {
 					background-color:rgba($b-color,.5);
 					animation:changeSize 1s ease-in-out infinite alternate;
 					border-radius: 100%;
-				}***********/
+				}**********/
 }
 
 c-player .controls .c-right {
@@ -324,7 +305,7 @@ c-player .controls .c-right {
           align-items: center;
 }
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 600px) {
   c-player .controls .c-right {
     -webkit-box-flex: 1;
     -webkit-flex: 1;
@@ -347,7 +328,6 @@ c-player .controls .c-right .volume {
   -webkit-box-align: center;
   -webkit-align-items: center;
       -ms-flex-align: center;
-              -ms-grid-row-align: center;
           align-items: center;
   -ms-touch-action: none;
       touch-action: none;
@@ -372,7 +352,7 @@ c-player .controls .c-right .volume .volume-body {
 c-player .controls .c-right .volume .volume-body .volume-line {
   width: 0%;
   height: 100%;
-  background-color: #66bb6a;
+  background-color: #359abc;
   will-change: width;
   -webkit-transition: 0.1s width ease-in;
   transition: 0.1s width ease-in;
@@ -385,12 +365,12 @@ c-player .controls .c-right .volume .volume-body .volume-line .volume-point {
   width: 1em;
   height: 1em;
   margin: -0.25em -0.5em 0 0;
-  background-color: #addaaf;
+  background-color: #7dc3da;
   -webkit-border-radius: 100%;
           border-radius: 100%;
   position: absolute;
   right: 0;
-  /*&::before{
+  /**&::before{
 					content:"";
 					display:block;
 					width:0;
@@ -401,7 +381,7 @@ c-player .controls .c-right .volume .volume-body .volume-line .volume-point {
 					background-color:rgba($b-color,.5);
 					animation:changeSize 1s ease-in-out infinite alternate;
 					border-radius: 100%;
-				}***********/
+				}**********/
 }
 
 c-player .controls .c-right .volume .volume-body {
@@ -553,7 +533,7 @@ c-player .list list-body > *:hover::before, c-player .list list-body > *:active:
 }
 
 c-player .list list-body > *::before {
-  background: #addaaf;
+  background: #7dc3da;
   -webkit-transition: 0.2s width 0s ease;
   transition: 0.2s width 0s ease;
   float: left;
@@ -614,7 +594,6 @@ c-player .list list-body .music-name {
   min-height: 2em;
   padding: 1em;
   -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
           box-sizing: border-box;
   -webkit-transition: background 0.5s;
   transition: background 0.5s;

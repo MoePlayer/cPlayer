@@ -1,11 +1,12 @@
 {
-  "name": "cPlayer",
+  "name": "cplayer",
   "version": "2.4.7",
   "description": "A beautiful and clean WEB Music Player by HTML5.",
   "scripts": {
     "dist": "gulp compress",
     "demo": "gulp createDemo",
-    "serve":"gulp serve"
+    "serve": "gulp serve",
+    "build": "webpack"
   },
   "keywords": [
     "cPlayer",
@@ -32,9 +33,7 @@
   ],
   "bugs": "zsq01@live.com",
   "license": "MIT",
-  "repository": [
-    "https://github.com/Copay/cPlayer"
-  ],
+  "repository": "https://github.com/Copay/cPlayer",
   "devDependencies": {
     "babel": "*",
     "babel-cli": "*",
@@ -49,6 +48,9 @@
     "gulp-sourcemaps": "*",
     "gulp-uglify": "*",
     "node-sass": "latest",
-    "uglify": "*"
+    "tslint": "^5.5.0",
+    "typescript": "^2.4.2",
+    "uglify": "*",
+    "webpack": "^3.3.0"
   }
 }

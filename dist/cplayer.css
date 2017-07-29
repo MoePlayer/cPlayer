@@ -315,23 +315,6 @@ c-player .controls .c-right {
         -ms-flex: 1;
             flex: 1;
   }
-  c-player .controls .c-right .volume {
-    width: auto !important;
-  }
-  c-player .controls .c-right .volume .volume-body {
-    visibility: hidden !important;
-  }
-  c-player .controls .c-right.hover .list-button,
-  c-player .controls .c-right.hover .lyric-button {
-    display: none;
-  }
-  c-player .controls .c-right.hover .volume-body {
-    width: 100% !important;
-    visibility: visible !important;
-  }
-  c-player .controls .c-right.hover .volume {
-    width: 100% !important;
-  }
 }
 
 c-player .controls .c-right > * {
@@ -416,6 +399,12 @@ c-player .controls .c-right .volume .volume-body {
 
 c-player .controls .c-right .volume:hover, c-player .controls .c-right .volume:active {
   width: 12em;
+}
+
+@media screen and (max-width: 800px) {
+  c-player .controls .c-right .volume:hover, c-player .controls .c-right .volume:active {
+    width: 100% !important;
+  }
 }
 
 c-player .controls .c-right .volume:hover .volume-body, c-player .controls .c-right .volume:active .volume-body {

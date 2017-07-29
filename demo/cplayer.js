@@ -91,7 +91,6 @@ var cPlayer = function () {
 			"timeLine": this.CBASE.getByClass("time-line"),
 			"timePoint": this.CBASE.getByClass("time-point"),
 			"lyricPower": this.CBASE.getByClass("lyric-power"),
-			"volume": this.CBASE.getByClass("volume"),
 			"volumePower": this.CBASE.getByClass("volume-power"),
 			"volumeBody": this.CBASE.getByClass("volume-body"),
 			"volumeLine": this.CBASE.getByClass("volume-line"),
@@ -127,11 +126,11 @@ var cPlayer = function () {
 				},
 				2: {
 					get: function get() {
-						return options.target === that.__LIST__.timeBody || options.target === that.__LIST__.volumeBody;
+						return options.target === that.__LIST__.timePoint || options.target === that.__LIST__.volumePoint || options.target === that.__LIST__.timeBody || options.target === that.__LIST__.volumeBody || options.target === that.__LIST__.timeLine || options.target === that.__LIST__.volumeLine;
 					}
 				}
-			}); //throw new Error("whoops");
-			if (!(rightTarget[2] || rightTarget[1] || rightTarget[0])) return; //Warning!!! rightTarget[2] checks if mouse focus on the percentage.
+			});
+			if (!rightTarget[2]) return; //Warning!!! rightTarget[2] checks if mouse focus on the percentage.
 			that.dragging.contain = true;
 			that.dragging.target = options.target;
 			var mover = function mover(options) {
@@ -208,10 +207,6 @@ var cPlayer = function () {
 				_this.hideList();
 			}
 		}).on("clickVolumePower", function () {
-			if (window.innerWidth < 600) {
-				_this.__LIST__.volume.parentElement.classList.toggle("hover");
-				return;
-			}
 			if (_this.isMuted()) {
 				_this.music.muted = false;
 			} else {

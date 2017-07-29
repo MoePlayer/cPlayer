@@ -1,0 +1,85 @@
+Arguments: 
+  /usr/bin/nodejs /usr/bin/yarn install
+
+PATH: 
+  /usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+
+Yarn version: 
+  0.27.5
+
+Node version: 
+  6.3.1
+
+Platform: 
+  linux x64
+
+npm manifest: 
+  {
+    "name": "cPlayer",
+    "version": "2.4.7",
+    "description": "A beautiful and clean WEB Music Player by HTML5.",
+    "scripts": {
+      "dist": "gulp compress",
+      "demo": "gulp createDemo",
+      "serve":"gulp serve"
+    },
+    "keywords": [
+      "cPlayer",
+      "html5",
+      "audio",
+      "music",
+      "player",
+      "es6",
+      "cplayer"
+    ],
+    "maintainers": [
+      {
+        "name": "Corps",
+        "email": "zsq01@live.com",
+        "web": "https://corps.set-fire.com"
+      }
+    ],
+    "contributors": [
+      {
+        "name": "Corps",
+        "email": "zsq01@live.com",
+        "web": "https://corps.set-fire.com"
+      }
+    ],
+    "bugs": "zsq01@live.com",
+    "license": "MIT",
+    "repository": [
+      "https://github.com/Copay/cPlayer"
+    ],
+    "devDependencies": {
+      "babel": "*",
+      "babel-cli": "*",
+      "babel-preset-es2015": "*",
+      "browser-sync": "*",
+      "bufferstreams": "*",
+      "gulp": "*",
+      "gulp-autoprefixer": "*",
+      "gulp-babel": "*",
+      "gulp-rename": "*",
+      "gulp-sass": "*",
+      "gulp-sourcemaps": "*",
+      "gulp-uglify": "*",
+      "node-sass": "latest",
+      "uglify": "*"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: unable to verify the first certificate
+      at Error (native)
+      at TLSSocket.<anonymous> (_tls_wrap.js:1060:38)
+      at emitNone (events.js:86:13)
+      at TLSSocket.emit (events.js:185:7)
+      at TLSSocket._finishInit (_tls_wrap.js:584:8)
+      at TLSWrap.ssl.onhandshakedone (_tls_wrap.js:416:38)

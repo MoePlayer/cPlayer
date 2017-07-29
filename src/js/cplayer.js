@@ -80,7 +80,8 @@ const cPlayer = class cPlayer {
 	            "timeBody"   : this.CBASE.getByClass("time-body"),
 	            "timeLine"   : this.CBASE.getByClass("time-line"),
 	            "timePoint"  : this.CBASE.getByClass("time-point"),
-	            "lyricPower" : this.CBASE.getByClass("lyric-power"),
+				"lyricPower" : this.CBASE.getByClass("lyric-power"),
+				"volume"	 : this.CBASE.getByClass("volume"),
 	            "volumePower": this.CBASE.getByClass("volume-power"),
 	            "volumeBody" : this.CBASE.getByClass("volume-body"),
 	            "volumeLine" : this.CBASE.getByClass("volume-line"),
@@ -113,15 +114,11 @@ const cPlayer = class cPlayer {
 		                	|| options.target === that.__LIST__.volumeLine}
 						},
 						2:{
-							get: ()=>{return options.target === that.__LIST__.timePoint 
-		                	|| options.target === that.__LIST__.volumePoint
-		                	|| options.target === that.__LIST__.timeBody
-		                	|| options.target === that.__LIST__.volumeBody
-		                	|| options.target === that.__LIST__.timeLine
-		                	|| options.target === that.__LIST__.volumeLine}
+							get: ()=>{return options.target === that.__LIST__.timeBody
+		                	|| options.target === that.__LIST__.volumeBody}
 						}
-					});
-		    	if (!rightTarget[2]) return;//Warning!!! rightTarget[2] checks if mouse focus on the percentage.
+					});//throw new Error("whoops");
+		    	if (!(rightTarget[2]||rightTarget[1]||rightTarget[0])) return;//Warning!!! rightTarget[2] checks if mouse focus on the percentage.
 		        that.dragging.contain = true;
 		        that.dragging.target = options.target;
 				let mover = function(options){
@@ -196,6 +193,10 @@ const cPlayer = class cPlayer {
 	                this.hideList();
 	            }
 	        }).on("clickVolumePower",()=>{
+				if(window.innerWidth<600){
+					this.__LIST__.volume.parentElement.classList.toggle("hover");
+					return;
+				}
 	            if (this.isMuted()) {
 	                this.music.muted = false;
 	            } else {

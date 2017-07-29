@@ -55,6 +55,7 @@ c-player * {
 c-player .lyric {
   will-change: height;
   -webkit-transition: all 0.25s;
+  -o-transition: all 0.25s;
   transition: all 0.25s;
   display: -webkit-box;
   display: -webkit-flex;
@@ -153,6 +154,7 @@ c-player .controls .c-left .music-description .music-meta {
           flex-direction: column;
   height: 100%;
   -webkit-transition: 1.5s all 0.5s ease-in;
+  -o-transition: 1.5s all 0.5s ease-in;
   transition: 1.5s all 0.5s ease-in;
 }
 
@@ -261,6 +263,7 @@ c-player .controls .c-center .time .time-body .time-line {
   background-color: #359abc;
   will-change: width;
   -webkit-transition: 0.1s width ease-in;
+  -o-transition: 0.1s width ease-in;
   transition: 0.1s width ease-in;
   position: relative;
   -webkit-border-radius: 0.5em;
@@ -312,6 +315,23 @@ c-player .controls .c-right {
         -ms-flex: 1;
             flex: 1;
   }
+  c-player .controls .c-right .volume {
+    width: auto !important;
+  }
+  c-player .controls .c-right .volume .volume-body {
+    visibility: hidden !important;
+  }
+  c-player .controls .c-right.hover .list-button,
+  c-player .controls .c-right.hover .lyric-button {
+    display: none;
+  }
+  c-player .controls .c-right.hover .volume-body {
+    width: 100% !important;
+    visibility: visible !important;
+  }
+  c-player .controls .c-right.hover .volume {
+    width: 100% !important;
+  }
 }
 
 c-player .controls .c-right > * {
@@ -334,6 +354,7 @@ c-player .controls .c-right .volume {
   pointer-events: auto;
   cursor: pointer;
   -webkit-transition: width 0.2s;
+  -o-transition: width 0.2s;
   transition: width 0.2s;
 }
 
@@ -355,6 +376,7 @@ c-player .controls .c-right .volume .volume-body .volume-line {
   background-color: #359abc;
   will-change: width;
   -webkit-transition: 0.1s width ease-in;
+  -o-transition: 0.1s width ease-in;
   transition: 0.1s width ease-in;
   position: relative;
   -webkit-border-radius: 0.5em;
@@ -388,17 +410,12 @@ c-player .controls .c-right .volume .volume-body {
   visibility: hidden;
   width: 0;
   -webkit-transition: width 0.2s;
+  -o-transition: width 0.2s;
   transition: width 0.2s;
 }
 
 c-player .controls .c-right .volume:hover, c-player .controls .c-right .volume:active {
   width: 12em;
-}
-
-@media screen and (max-width: 800px) {
-  c-player .controls .c-right .volume:hover, c-player .controls .c-right .volume:active {
-    width: 100% !important;
-  }
 }
 
 c-player .controls .c-right .volume:hover .volume-body, c-player .controls .c-right .volume:active .volume-body {
@@ -422,6 +439,7 @@ c-player .controls .c-right .volume .volume-button .volume-power {
           border-radius: 10%;
   color: grey;
   -webkit-transition: all 0.2s ease-in;
+  -o-transition: all 0.2s ease-in;
   transition: all 0.2s ease-in;
   cursor: pointer;
 }
@@ -445,6 +463,7 @@ c-player .controls .c-right .list-button .list-power {
           border-radius: 10%;
   color: grey;
   -webkit-transition: all 0.2s ease-in;
+  -o-transition: all 0.2s ease-in;
   transition: all 0.2s ease-in;
   cursor: pointer;
 }
@@ -468,6 +487,7 @@ c-player .controls .c-right .lyric-button .lyric-power {
           border-radius: 10%;
   color: grey;
   -webkit-transition: all 0.2s ease-in;
+  -o-transition: all 0.2s ease-in;
   transition: all 0.2s ease-in;
   cursor: pointer;
 }
@@ -483,6 +503,7 @@ c-player .controls .c-right .lyric-button .lyric-power .material-icons {
 c-player .list {
   will-change: height;
   -webkit-transition: all 0.25s;
+  -o-transition: all 0.25s;
   transition: all 0.25s;
   max-height: 75vh;
   background: white;
@@ -517,6 +538,7 @@ c-player .list list-body > * {
           flex: 1;
   cursor: pointer;
   -webkit-transition: 0.5s background 0s ease;
+  -o-transition: 0.5s background 0s ease;
   transition: 0.5s background 0s ease;
 }
 
@@ -535,6 +557,7 @@ c-player .list list-body > *:hover::before, c-player .list list-body > *:active:
 c-player .list list-body > *::before {
   background: #7dc3da;
   -webkit-transition: 0.2s width 0s ease;
+  -o-transition: 0.2s width 0s ease;
   transition: 0.2s width 0s ease;
   float: left;
   height: 2.5em;
@@ -596,6 +619,7 @@ c-player .list list-body .music-name {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   -webkit-transition: background 0.5s;
+  -o-transition: background 0.5s;
   transition: background 0.5s;
   will-change: background;
   cursor: pointer;

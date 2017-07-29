@@ -1,6 +1,6 @@
 {
-  "name": "cPlayer",
-  "version": "2.4.7",
+  "name": "cplayer",
+  "version": "2.4.8",
   "description": "A beautiful and clean WEB Music Player by HTML5.",
   "scripts": {
     "dist": "gulp compress",
@@ -32,9 +32,7 @@
   ],
   "bugs": "zsq01@live.com",
   "license": "MIT",
-  "repository": [
-    "https://github.com/Copay/cPlayer"
-  ],
+  "repository": "https://github.com/Copay/cPlayer",
   "devDependencies": {
     "babel": "*",
     "babel-cli": "*",

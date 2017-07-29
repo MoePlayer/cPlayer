@@ -91,6 +91,7 @@ var cPlayer = function () {
 			"timeLine": this.CBASE.getByClass("time-line"),
 			"timePoint": this.CBASE.getByClass("time-point"),
 			"lyricPower": this.CBASE.getByClass("lyric-power"),
+			"volume": this.CBASE.getByClass("volume"),
 			"volumePower": this.CBASE.getByClass("volume-power"),
 			"volumeBody": this.CBASE.getByClass("volume-body"),
 			"volumeLine": this.CBASE.getByClass("volume-line"),
@@ -126,11 +127,11 @@ var cPlayer = function () {
 				},
 				2: {
 					get: function get() {
-						return options.target === that.__LIST__.timePoint || options.target === that.__LIST__.volumePoint || options.target === that.__LIST__.timeBody || options.target === that.__LIST__.volumeBody || options.target === that.__LIST__.timeLine || options.target === that.__LIST__.volumeLine;
+						return options.target === that.__LIST__.timeBody || options.target === that.__LIST__.volumeBody;
 					}
 				}
-			});
-			if (!rightTarget[2]) return; //Warning!!! rightTarget[2] checks if mouse focus on the percentage.
+			}); //throw new Error("whoops");
+			if (!(rightTarget[2] || rightTarget[1] || rightTarget[0])) return; //Warning!!! rightTarget[2] checks if mouse focus on the percentage.
 			that.dragging.contain = true;
 			that.dragging.target = options.target;
 			var mover = function mover(options) {
@@ -207,6 +208,10 @@ var cPlayer = function () {
 				_this.hideList();
 			}
 		}).on("clickVolumePower", function () {
+			if (window.innerWidth < 600) {
+				_this.__LIST__.volume.parentElement.classList.toggle("hover");
+				return;
+			}
 			if (_this.isMuted()) {
 				_this.music.muted = false;
 			} else {
@@ -685,7 +690,7 @@ var cBase = function () {
 	}, {
 		key: "rand",
 		value: function rand(start, end) {
-			if (start === undefined || end === undefined) return Math.random();
+			if (!start || !end) return Math.random();
 			if (start > end) throw new RangeError("the EndNumber must be bigger than the StartNumber");
 			return (end - start) * Math.random() + start;
 		}
@@ -700,6 +705,7 @@ var cBase = function () {
 	}, {
 		key: "style",
 		value: function style(dom, property, content) {
+			//不管浏览器，暴力加前缀
 			dom.style[this.browser + property.slice(0, 1).toUpperCase() + property.slice(1)] = content;
 			dom.style[property] = content;
 		}
@@ -808,7 +814,7 @@ function cLyric(lrc) {
 		if (content.indexOf("offset") !== -1) offset = parseInt(/offset\:(\d+)/gi.exec(content)[1]);
 		//get Lyric and translate it.
 		//ar[] -> [1.24,2.21,36.15,"HEY!"]
-		if (/\d:[\d\.]+\]/gi.test(content)) {
+		if (/\[\d+:[\d\.]+\]/gi.test(content)) {
 			var ar = [];
 			[].forEach.call(content.match(/\[\d+\:[\.\d]+\]/gi), function (e) {
 				var number = /\[(\d+)\:([\.\d]+)\]/gi.exec(e);

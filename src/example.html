@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>cplayer</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body>
+        <div id="app"></div>
+        <script>
+            window.addEventListener("load",
+                function(){
+                    let player = new cplayer({
+                        element: document.getElementById('app'),
+                        playlist: [
+                            {
+                                src: './example.mp3',
+                                poster: 'http://p4.music.126.net/Gi-zYUifYiRHU2r-Z0VhMA==/3357908511690405.jpg?param=130y130',
+                                name: 'Hop',
+                                artist: 'Azis'
+                            },
+                            {
+                                src: './example1.mp3',
+                                poster: 'http://p1.music.126.net/N9V0Oo-sASE1dbQjFSKSWQ==/2524478697397402.jpg?param=130y130',
+                                name: 'ひねくれネジと雨',
+                                artist: 'ねこぼーろ'
+                            }
+                        ]
+                    })
+                    window.demoPlayer = player;
+                }
+            )
+        </script>
+        <style>
+            body {
+                background-image: url('https://huaji8.top/img/one主题/cover.jpg');
+                background-repeat: repeat;
+                background-position: 50% 50%;
+                background-size: cover;
+                background-origin: padding-box;
+                background-attachment: scroll;
+                padding: 50px;
+                margin: 0px;
+            }
+            html,body {
+                height: 100%;
+            }
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+            }
+        </style>
+    </body>
+</html>

@@ -5,7 +5,10 @@
   "scripts": {
     "dist": "gulp compress",
     "demo": "gulp createDemo",
-    "serve":"gulp serve"
+    "serve": "gulp serve",
+    "clean": "rimraf ./dist",
+    "dev": "webpack-dev-server --inline --progress",
+    "build": "npm run clean && webpack  --config webpack.config.prod.js"
   },
   "keywords": [
     "cPlayer",
@@ -36,19 +39,27 @@
     "https://github.com/Copay/cPlayer"
   ],
   "devDependencies": {
-    "babel": "*",
-    "babel-cli": "*",
-    "babel-preset-es2015": "*",
-    "browser-sync": "*",
-    "bufferstreams": "*",
-    "gulp": "*",
-    "gulp-autoprefixer": "*",
-    "gulp-babel": "*",
-    "gulp-rename": "*",
-    "gulp-sass": "*",
-    "gulp-sourcemaps": "*",
-    "gulp-uglify": "*",
-    "node-sass": "latest",
-    "uglify": "*"
+    "@types/node": "^8.0.15",
+    "autoprefixer": "^7.1.2",
+    "awesome-typescript-loader": "^3.2.1",
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.0",
+    "css-loader": "^0.28.4",
+    "html-loader": "^0.4.5",
+    "html-webpack-plugin": "^2.29.0",
+    "node-sass": "^4.5.3",
+    "postcss": "^6.0.8",
+    "postcss-loader": "^2.0.6",
+    "raw-loader": "^0.5.1",
+    "rimraf": "^2.6.1",
+    "sass-loader": "^6.0.6",
+    "source-map-loader": "^0.2.1",
+    "style-loader": "^0.18.2",
+    "typescript": "^2.4.2",
+    "uglify": "*",
+    "webpack": "^3.3.0",
+    "webpack-dev-server": "^2.6.1"
   }
 }

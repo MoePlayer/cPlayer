@@ -1,353 +1,272 @@
-$c-height:4em;
-$p-height:0.5em;
-$b-color:#66bb6a;
-$p-radius:1em;
+$name-prefix: "cp-";
+$mainbody-height: 45px;
+$mainbody-width: 300px;
 
-@keyframes changeSize{
-	0%{
-		width:0;
-		height:0;
-		top:50%;
-		left:50%;
-	}
-	100%{
-		width:200%;
-		height:200%;
-		top:-50%;
-		left:-50%;
-	}
+$primaryColor: #F44336;
+$primaryDarkColor: #B71C1C;
+$accentColor: #757575;
+$accentDarkColor: #616161;
+$backgroundColor: #fff;
+
+$enable-transitions: true;
+
+@mixin transition($transition...) {
+  @if $enable-transitions {
+    transition: $transition;
+  }
 }
 
-@mixin progress($type:time){
-	touch-action: none;
-	pointer-events: auto;
-	cursor: pointer;
-	.#{$type}-body{
-		margin: 0 1%;
-		height:$p-height;
-		background-color:#ccc;
-		display:flex;
-		border-radius:0.5em;
-		.#{$type}-line{
-			width:0%;
-			height:100%;
-			background-color:$b-color;
-			will-change:width;
-			transition:0.1s width ease-in;
-			position: relative;
-			border-radius:0.5em;
-			.#{$type}-point{
-				width:$p-radius;
-				height:$p-radius;
-				margin:-0.25em -0.5em 0 0;
-				background-color:lighten($b-color,20%);
-				border-radius: 100%;
-				position: absolute;
-				right:0;
-				/*&::before{
-					content:"";
-					display:block;
-					width:0;
-					height:0;
-					position: absolute;
-					top:50%;
-					left:50%;
-					background-color:rgba($b-color,.5);
-					animation:changeSize 1s ease-in-out infinite alternate;
-					border-radius: 100%;
-				}***********/
-			}
-		}
-	}
-}
-@mixin big-button{
-	width:0.8*$c-height;
-	height:0.8*$c-height;
-	border-radius:100%;
-	background-color:lighten($b-color,20%);
-	color:white;
-	cursor:pointer;
-}
-@mixin small-button{
-	display:flex;
-	width:100%;
-	height:100%;
-	border-radius: 10%;
-	color:grey;
-	transition:all 0.2s ease-in;
-	cursor:pointer;
-	&:hover,&:active{
-		background:rgba(117,117,117,.3);
-	}
-	.material-icons{
-		margin:auto;
-	}
+@mixin box_shadow ($level) {
+    @if $level == 1 {
+        box-shadow: rgba(0, 0, 0, 0.117647) 0px 1px 6px, rgba(0, 0, 0, 0.117647) 0px 1px 4px;
+    } @else if $level == 2 {
+        box-shadow: rgba(0, 0, 0, 0.156863) 0px 3px 10px, rgba(0, 0, 0, 0.227451) 0px 3px 10px;
+    } @else if $level == 3 {
+        box-shadow: rgba(0, 0, 0, 0.188235) 0px 10px 30px, rgba(0, 0, 0, 0.227451) 0px 6px 10px;
+    } @else if $level == 4 {
+        box-shadow: rgba(0, 0, 0, 0.247059) 0px 14px 45px, rgba(0, 0, 0, 0.219608) 0px 10px 18px;
+    } @else if $level == 5 {
+        box-shadow: rgba(0, 0, 0, 0.298039) 0px 19px 60px, rgba(0, 0, 0, 0.219608) 0px 15px 20px;
+    }
 }
 
-c-player{
-	svg{
-		width:100%;
-		height:100%;
-		fill:#333;
-		display:block;
-	}
-	.play-icon svg{
-		fill:white;
-		width:80%;
-		height:80%;
-	}
-	.invisible{
-		height:0!important;
-		overflow: hidden!important;
-		max-height: 0!important;
-		min-height: 0!important;
-	}
-	display:flex;
-	flex-direction: column;
-	* {
-		font-family: "Ubuntu Mono","微软雅黑","Microsoft JHenghei",sans-serif;
-	    text-decoration: none;
-	    font-size: initial;
-	    line-height:initial;
-	}
-	.lyric{
-		will-change:height;
-		transition:all 0.25s;
-		display:flex;
-		height:20em;
-		height:45vh;
-		width:100%;
-		background:#eee;
-		overflow:hidden;
-		lyric-body{
-			will-change:transform;
-			display:block;
-			//display:flex;
-			flex-direction: column;
-			width:100%;
-			height:100%;
-			text-align: center;
-			//padding:6em 0;
-			transform:translateY(6em);
-			transition: all 0.25s;
-			lrc{
-				flex:1;
-				display:block;
-				will-change:background;
-				line-height:3em;
-				min-height:3em;
-				font-size:large;
-				font-family: "LiHei Pro","Microsoft Yahei",sans-serif;
-				width:100%;
-				transition:0.25s background ease;
-				&.now{
-					background:#ddd;
-				}
-			}
-		}
-	}
-	.controls{
-		background: white;
-		height:$c-height;
-		display:flex;
-		.c-left{
-			display:flex;
-			.music-description{
-				display:flex;
-				.image,.image img{
-					height:$c-height;
-					width:$c-height;
-					&:hover + .music-meta{
-						max-width: 9999px;
-						//margin:0 0.5em;
-					}
-				}
-				.music-meta{
-					margin:0 0.5em;
-					flex:1;
-					max-width:0;
-					width:auto;
-					display:flex;
-					overflow: hidden;
-					flex-direction: column;
-					height: 100%;
-					transition: 1.5s all 0.5s ease-in;
-					div{
-						display:flex;
-						width:100%;
-						height:100%;
-						justify-content:center;
-						align-items:center;
-						flex-direction:column;
-					}
-					.music-name{
-						font-size: 1.5em;
-						white-space: nowrap;
-					}
-					.music-artist{
-						font-size:0.7em;
-						color:grey;
-						white-space: nowrap;
-					}
-				}
-			}
-			.play-icon{
-				display:flex;
-				align-items:center;
-				justify-content:center;
-				margin:auto 0.5em;
-				@include big-button();
-			}
-		}
-		.c-center{
-			@media screen and (max-width: 800px) {
-				&{
-					display:none;
-				}
-			}
-			flex:1;
-			width:auto;
-			display:flex;
-			align-items:center;
-			padding:0.5em;
-			.time{
-				width:100%;
-				@include progress(time);
-			}
-		}
-		.c-right{
-			@media screen and (max-width: 800px) {
-				&{
-					flex:1;
-				}
-			}
-			display:flex;
-			justify-content: center;
-		    align-items: center;
-			&>*{
-				width:2em;
-				height:2em;
-				margin:0 0.5em;
-				display:flex;
-			}
-			.volume{
-				align-items:center;
-				@include progress(volume);
-				transition: width 0.2s;
-				.volume-body{
-					visibility: hidden;
-					width:0;
-					transition: width 0.2s;
-				}
-				&:hover,&:active{
-					@media screen and (max-width: 800px) {
-						&{
-							width:100% !important;
-						}
-					}
-					width:12em;
-					.volume-body{
-						visibility: visible;
-						width:100%;
-					}
-				}
-				.volume-button{
-					width:2em;
-					height:2em;
-					.volume-power{
-						@include small-button();
-					}
-				}
-			}
-			.list-button{
-				.list-power{
-					@include small-button();
-				}
-			}
-			.lyric-button{
-				.lyric-power{
-					@include small-button();
-				}
-			}
-		}
-	}
-	.list{
-		will-change:height;
-		transition:all 0.25s;
-		//min-height: 45vh;
-		max-height: 75vh;
-		background:white;
-		overflow:auto;
-		list-body{
-			display: flex;
-			flex-direction: column;
-			overflow: hidden;
-			&>*{
-				display:flex;
-				align-items:center;
-				flex:1;
-				cursor:pointer;
-				transition: 0.5s background 0s ease;
-				&:nth-child(2n-1){
-					background:rgba(117,117,117,0.04);
-				}
-				&:hover,&:active{
-					background:rgba(117,117,117,0.13);
-					&::before{
-						width:0.4em;
-					}
-				}
-				&::before{
-					background:lighten($b-color,20%);
-					transition:0.2s width 0s ease;
-					float:left;
-					height:2.5em;
-					width:0em;
-					display:block;
-					content:"";
-					@media screen and (max-width: 800px){
-						&{
-							height:3em;
-							&:hover,&:active{
-								&::before{
-									width:0.4em;
-								}
-							}
-						}
-					}
-				}
-			}
-			.music-name , .music-artist{
-				padding:0 0.5em;
-			}
-			.music-name{
-				flex:1;
-			}
-			.music-artist{
-			}
-		}
+c-player {
+    width: $mainbody-width;
+    display: inline-block;
+    position: relative;
+	.#{$name-prefix}mainbody {
+        display: inline-flex;
+        align-items: center;
+        flex-direction: row;
+		min-height: $mainbody-height + 2px;
+        min-width: $mainbody-width;
+        flex-wrap: wrap;
+        background-color: $backgroundColor;
+        position: relative;
+        z-index: 1;
+        @include box_shadow(1);
+        > * {
+            margin-right: 7px
+        }
+        &:hover + .#{$name-prefix}audio-info {
+            transform: translateY(0%);
+        }
+    }
+    .#{$name-prefix}audio-info {
+        $height: 25px;
+        $margin: 2px;
+        height: $height;
+        min-width: $mainbody-width - $margin * 2;
+        margin: 0px $margin;
+        display: inline-block;
+        text-align: center;
+        font-size: 12px;
+        line-height: $height;
+        background-color: rgba($backgroundColor, 0.6);
+        position: relative;
+        z-index: 0;
+        top: -2px;
+        transform: translateY(-130%);
+        @include box_shadow(1);
+        @include transition(transform 0.25s ease);
+        span.#{$name-prefix}audio-artist {
+            opacity: 0.6
+        }
+        &:hover {
+            transform: translateY(0%);
+        }
+    }
+    .#{$name-prefix}controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-grow: 1;
+        > * {
+            margin-right: 15px;
+        }
+    }
+    .#{$name-prefix}progress {
+        flex-basis: 100%;
+        margin: 0px;
+        height: 2px;
+        overflow: hidden;
+        .#{$name-prefix}progress-fill {
+            display: block;
+            height: 2px;
+            transform: translateX(-100%);
+            background: $primaryColor;
+        }
+    }
+    .#{$name-prefix}poster {
+        width: $mainbody-height;
+        height: $mainbody-height;
+        background-repeat: repeat;
+        background-position: 50% 50%;
+        background-size: cover;
+        background-origin: padding-box;
+        background-attachment: scroll;
+        border-right: 1px solid #eee;
+        background-image: url("http://p1.music.126.net/xXXsTafARePvyQUDb6q9HQ==/3386495814644488.jpg?param=200y200")
+    }
+    .#{$name-prefix}play-icon {
+        $size: 12.5px;
+        width:$size;
+        height:$size;
+        display: block;
+        overflow: hidden;
+        position: relative;
+        .#{$name-prefix}play-icon-left {
+            height: 100%;
+            float: left;
+            background-color: $primaryColor;
+            width: 36%;
+            @include transition(width 0.25s ease);
+            overflow: hidden;
+        }
+        .#{$name-prefix}play-icon-right {
+            height: 100%;
+            float: right;
+            background-color: $primaryColor;
+            width: 36%;
+            @include transition(width 0.25s ease);
+            overflow: hidden;
+        }
+        .#{$name-prefix}play-icon-triangle-1 {
+            transform: translate(0, -100%)
+        }
+        .#{$name-prefix}play-icon-triangle-2 {
+            transform: translate(0, 100%)
+        }
+        .#{$name-prefix}play-icon-triangle-1,
+        .#{$name-prefix}play-icon-triangle-2 {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: transparent;
+            width: 0;
+            height: 0;
+            border-right: $size solid $backgroundColor;
+            border-top: $size / 2 solid transparent;
+            border-bottom: $size / 2 solid transparent;
+            @include transition(transform 0.25s ease);
+        }
+        &.#{$name-prefix}play-icon-paused {
+            .#{$name-prefix}play-icon-left {
+                width: 50%;
+            }
+            .#{$name-prefix}play-icon-right {
+                width: 50%;
+            }
+            .#{$name-prefix}play-icon-triangle-1 {
+                transform: translate(0, -50%);
+            }
+            .#{$name-prefix}play-icon-triangle-2 {
+                transform: translate(0, 50%);
+            }
+        }
+        &.#{$name-prefix}play-icon-hover {
+            .#{$name-prefix}play-icon-left {
+                background-color: $primaryDarkColor;
+            }
+            .#{$name-prefix}play-icon-right {
+                background-color: $primaryDarkColor;
+            }
+        }
+    }
+    .#{$name-prefix}play-button,
+    .#{$name-prefix}volume-button,
+    .#{$name-prefix}prev-button,
+    .#{$name-prefix}list-button,
+    .#{$name-prefix}mode-button,
+    .#{$name-prefix}next-button {
+        display: inline-block;
+        $size: 12.5px;
+        height: $size;
+        width: $size;
+        cursor: pointer;
+    }
+    .#{$name-prefix}volume-button {
+        width: 20px;
+    }
+    .#{$name-prefix}list-button {
+        $size: 17.5px;
+        width: $size;
+        height: $size;
+    }
+    .#{$name-prefix}mode-button {
+        $size: 17.5px;
+        width: $size;
+        height: $size;
+    }
+    .#{$name-prefix}play-button {
+        $size: 30px;
+        height: $size;
+        width: $size;
+        border: $primaryColor solid 1px;
+        border-radius: 50%;
+        .#{$name-prefix}play-icon.#{$name-prefix}play-icon-paused {
+            margin: 8px;
+        }
+        .#{$name-prefix}play-icon {
+            margin: 8px 7.5px;
+        }
+        &:hover {
+            border-color: $primaryDarkColor;
+            @extend .#{$name-prefix}play-icon.#{$name-prefix}play-icon-hover;
+        }
+    }
+    .#{$name-prefix}icon {
+        $size: 12.5px;
+        height: $size;
+        width: $size;
+        path {
+            fill: $primaryColor;
+        }
+        &:hover {
+            path {
+                fill: $primaryDarkColor;
+            }
+        }
+        &.#{$name-prefix}icon-dark {
+            path {
+                fill: $accentColor;
+            }
+            &:hover {
+                path {
+                    fill: $accentDarkColor;
+                }
+            }
+        }
+    }
+    .#{$name-prefix}prev-icon {
+        @extend .#{$name-prefix}icon;
+    }
+    .#{$name-prefix}next-icon {
+        @extend .#{$name-prefix}icon;
+        transform: rotateZ(180deg);
+    }
+    .#{$name-prefix}volume-icon {
+        @extend .#{$name-prefix}icon;
+        width: 20px;
+    }
+    .#{$name-prefix}mode-icon {
+        @extend .#{$name-prefix}icon;
+        $size: 17.5px;
+        width: $size;
+        height: $size;
+    }
+    .#{$name-prefix}list-icon {
+        @extend .#{$name-prefix}icon;
+        $size: 17.5px;
+        width: $size;
+        height: $size;
+    }
+    svg {
+        vertical-align: top;
+    }
+	*,
+	*::before,
+	*::after {
+		box-sizing: border-box;
 	}
 }
-	.c-context{
-		z-index:9999;
-		position:absolute;
-		display:inline-flex;
-		min-width:5em;
-		height:auto;
-		flex-direction:column;
-		background: #fff;
-		box-shadow: 0 0 3em -1em #000;
-	}
-	.c-context--list{
-		display:flex;
-		flex:1;
-		min-height:2em;
-		padding:1em;
-		box-sizing:border-box;
-		transition:background 0.5s;
-		will-change:background;
-		cursor:pointer;
-	}
-	.c-context--list:hover{
-		background: #6af;
-	}

@@ -1,14 +1,16 @@
 import { listloopPlaymode } from './playmode/listloop';
-import { IAudioItem, Iplaymode, IplaymodeConstructor } from './interfaces';
+import { IAudioItem, Iplaymode, IplaymodeConstructor, Iplaylist } from './interfaces';
 import { EventEmitter } from 'events';
 import cplayerView from './view';
+import { decodeLyricStr } from "./lyric";
 
-require('file-loader?name=example.mp3!../example/Azis - Hop.mp3');
+require('file-loader?name=example2.mp3!../example/Azis - Hop.mp3');
 require('file-loader?name=example1.mp3!../example/ねこぼーろ - ひねくれネジと雨.mp3');
+require('file-loader?name=example.mp3!../example/96猫,伊東歌詞太郎 - チルドレンレコード - 双声道版.mp3');
 
 export interface ICplayerOption {
   element?: HTMLElement,
-  playlist?: IAudioItem[]
+  playlist?: Iplaylist
 }
 
 const defaultOption = {
@@ -17,6 +19,18 @@ const defaultOption = {
 
 const playmodes: { [key: string]: IplaymodeConstructor } = {
   listloop: listloopPlaymode
+}
+
+function playlistPreFilter(playlist: Iplaylist) {
+  return playlist.map((audio) => {
+    let res = {
+      ...audio
+    };
+    if (typeof audio.lyric === 'string') {
+      res.lyric = decodeLyricStr(audio.lyric)
+    }
+    return res;
+  })
 }
 
 export default class cplayer extends EventEmitter {
@@ -40,8 +54,9 @@ export default class cplayer extends EventEmitter {
   constructor(options: ICplayerOption) {
     super();
     this.audioElement = new Audio();
+    this.audioElement.loop = false;
     this.initializeEventEmitter();
-    this.playmode = new playmodes.listloop(options.playlist, 0);
+    this.playmode = new playmodes.listloop(playlistPreFilter(options.playlist), 0);
     this.view = new cplayerView(options.element, this);
     this.openAudio();
   }

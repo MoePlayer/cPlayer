@@ -11,7 +11,7 @@ export default class cplayerView extends EventEmitter {
   private rootElement: Element;
   private player: cplayer;
 
-  constructor(element: Element,player: cplayer) {
+  constructor(element: Element, player: cplayer) {
     super();
     element.innerHTML = htmlTemplate;
     this.player = player;
@@ -38,7 +38,9 @@ export default class cplayerView extends EventEmitter {
       progress: rootElement.getElementsByClassName('cp-progress-fill')[0] as HTMLElement,
       poster: rootElement.getElementsByClassName('cp-poster')[0] as HTMLElement,
       title: rootElement.getElementsByClassName('cp-audio-title')[0] as HTMLElement,
-      artist: rootElement.getElementsByClassName('cp-audio-artist')[0] as HTMLElement
+      artist: rootElement.getElementsByClassName('cp-audio-artist')[0] as HTMLElement,
+      lyric: rootElement.getElementsByClassName('cp-lyric-text')[0] as HTMLElement,
+      lyricContainer: rootElement.getElementsByClassName('cp-lyric')[0] as HTMLElement,
     }
   }
 
@@ -58,6 +60,33 @@ export default class cplayerView extends EventEmitter {
     this.elementLinks.poster.style.backgroundImage = `url("${src}")`;
   }
 
+  private __OldLyric = '';
+  private __OldTotalTime = 0;
+
+  private setLyric(lyric: string, time: number = 0, totalTime: number = 0) {
+    if (this.__OldLyric !== lyric || this.__OldTotalTime !== totalTime) {
+      this.elementLinks.lyric.innerText = lyric;
+      this.elementLinks.lyric.style.transition = '';
+      this.elementLinks.lyric.style.transform = '';
+      if (totalTime !== 0) {
+        let lyricWidth = this.elementLinks.lyric.clientWidth;
+        let lyricContainerWidth = this.elementLinks.lyricContainer.clientWidth;
+        if (lyricWidth > lyricContainerWidth) {
+          let duration = totalTime - time;
+          let targetOffset = (lyricWidth - lyricContainerWidth);
+          let timepage = lyricContainerWidth / lyricWidth * duration;
+          let startTime = Math.min(timepage * 0.6, duration);
+          let moveTime = duration - timepage;
+
+          this.elementLinks.lyric.style.transition = `transform ${moveTime}ms linear ${startTime}ms`
+          this.elementLinks.lyric.style.transform = `translateX(-${targetOffset}px)`;
+        }
+      }
+      this.__OldLyric = lyric;
+      this.__OldTotalTime = totalTime;
+    }
+  }
+
   private injectEventListener() {
     this.elementLinks.button.play.addEventListener('click', this.handleClickPlayButton);
     this.elementLinks.button.prev.addEventListener('click', this.handleClickPrevButton);
@@ -66,6 +95,22 @@ export default class cplayerView extends EventEmitter {
     this.player.addListener('playstatechange', this.handlePlayStateChange)
     this.player.addListener('timeupdate', this.handleTimeUpdate)
     this.player.addListener('openaudio', this.handleOpenAudio)
+  }
+
+  private updateLyric(playedTime: number) {
+    if (this.player.nowplay.lyric && this.player.played) {
+      let lyric = this.player.nowplay.lyric.getLyric(playedTime * 1000);
+      let nextLyric = this.player.nowplay.lyric.getNextLyric(playedTime * 1000);
+      if (lyric) {
+        let duration = nextLyric.time - lyric.time;
+        let currentTime = playedTime * 1000 - lyric.time;
+        this.setLyric(lyric.word, currentTime, duration);
+      } else {
+        this.setLyric(this.player.nowplay.name + ' - ' + this.player.nowplay.artist, playedTime * 1000, nextLyric.time);
+      }
+    } else {
+      this.setLyric(this.player.nowplay.name + ' - ' + this.player.nowplay.artist);
+    }
   }
 
   private handleClickPlayButton = () => {
@@ -77,10 +122,12 @@ export default class cplayerView extends EventEmitter {
     this.setProgress(0);
     this.elementLinks.title.innerText = audio.name;
     this.elementLinks.artist.innerText = audio.artist;
+    this.updateLyric(0);
   }
 
-  private handleTimeUpdate = (playedTime:number, time:number) => {
+  private handleTimeUpdate = (playedTime: number, time: number) => {
     this.setProgress(playedTime / time);
+    this.updateLyric(playedTime);
   }
 
   private handleClickPrevButton = () => {
@@ -91,7 +138,7 @@ export default class cplayerView extends EventEmitter {
     this.player.next();
   }
 
-  private handlePlayStateChange = (paused:boolean) => {
+  private handlePlayStateChange = (paused: boolean) => {
     this.setPlayIcon(paused);
   }
 }

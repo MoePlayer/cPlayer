@@ -1,18 +1,23 @@
+import { Lyric } from "./lyric";
+
 export interface IAudioItem {
   __id?: number; //音频在列表中的唯一索引
   name?: string; //名称
   poster?: string; //海报
   artist?: string; //艺术家
   src: string; //音频
+  lyric?: Lyric;
 }
+
+export type Iplaylist = IAudioItem[];
 
 export interface Iplaymode {
   next(): IAudioItem;
   prev(): IAudioItem;
   now(): IAudioItem;
-  playlist: IAudioItem[];
+  playlist: Iplaylist;
 }
 
 export interface IplaymodeConstructor {
-  new (playlist: IAudioItem[], point: number): Iplaymode;
+  new (playlist: Iplaylist, point: number): Iplaymode;
 }

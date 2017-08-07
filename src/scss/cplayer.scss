@@ -35,11 +35,12 @@ c-player {
     display: inline-block;
     position: relative;
 	.#{$name-prefix}mainbody {
-        display: inline-flex;
+        display: flex;
         align-items: center;
         flex-direction: row;
 		min-height: $mainbody-height + 2px;
         min-width: $mainbody-width;
+        height: $mainbody-height + 2px;
         flex-wrap: wrap;
         background-color: $backgroundColor;
         position: relative;
@@ -58,32 +59,78 @@ c-player {
         height: $height;
         min-width: $mainbody-width - $margin * 2;
         margin: 0px $margin;
-        display: inline-block;
+        display: block;
         text-align: center;
         font-size: 12px;
         line-height: $height;
         background-color: rgba($backgroundColor, 0.6);
         position: relative;
         z-index: 0;
-        top: -2px;
         transform: translateY(-130%);
         @include box_shadow(1);
         @include transition(transform 0.25s ease);
+        span.#{$name-prefix}audio-title {
+            max-width: 170px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
         span.#{$name-prefix}audio-artist {
-            opacity: 0.6
+            opacity: 0.6;
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         &:hover {
             transform: translateY(0%);
+        }
+    }
+    .#{$name-prefix}center-container {
+        flex-grow: 1;
+        position: relative;
+        height: calc(100% - 2px);
+        .#{$name-prefix}controls {
+            opacity: 0;
+        }
+        &:hover {
+            .#{$name-prefix}controls {
+                opacity: 1;
+            }
+            .#{$name-prefix}lyric {
+                opacity: 0;
+            }
         }
     }
     .#{$name-prefix}controls {
         display: flex;
         justify-content: center;
         align-items: center;
-        flex-grow: 1;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        @include transition(opacity 0.25s ease);
         > * {
             margin-right: 15px;
         }
+    }
+    .#{$name-prefix}lyric {
+        $margin-left: 10px;
+        $margin-top: 5px;
+        display: flex;
+        align-items: center;
+        position: absolute;
+        width: calc(100% - #{$margin-left * 2});
+        height: calc(100% - #{$margin-top * 2});
+        overflow: hidden;
+        margin: $margin-top $margin-left;
+        font-size: 12px;
+        @include transition(opacity 0.25s ease);
+    }
+    .#{$name-prefix}lyric-text {
+        flex-grow: 1;
+        white-space: nowrap;
+        text-align: center;
+        color: $accentColor;
     }
     .#{$name-prefix}progress {
         flex-basis: 100%;

@@ -6,6 +6,10 @@ import { EventEmitter } from 'events';
 const htmlTemplate = require('../cplayer.html');
 require('../scss/cplayer.scss');
 
+function buildLyric(lyric: string, sublyric?: string) {
+  return lyric + (sublyric?`<span class="cp-lyric-text-sub">${sublyric}</span>`:'')
+}
+
 export default class cplayerView extends EventEmitter {
   private elementLinks = returntypeof(this.getElementLinks);
   private rootElement: Element;
@@ -65,7 +69,7 @@ export default class cplayerView extends EventEmitter {
 
   private setLyric(lyric: string, time: number = 0, totalTime: number = 0) {
     if (this.__OldLyric !== lyric || this.__OldTotalTime !== totalTime) {
-      this.elementLinks.lyric.innerText = lyric;
+      this.elementLinks.lyric.innerHTML = lyric;
       this.elementLinks.lyric.style.transition = '';
       this.elementLinks.lyric.style.transform = '';
       if (totalTime !== 0) {
@@ -97,19 +101,25 @@ export default class cplayerView extends EventEmitter {
     this.player.addListener('openaudio', this.handleOpenAudio)
   }
 
-  private updateLyric(playedTime: number) {
+  private updateLyric(playedTime: number = 0) {
     if (this.player.nowplay.lyric && this.player.played) {
       let lyric = this.player.nowplay.lyric.getLyric(playedTime * 1000);
       let nextLyric = this.player.nowplay.lyric.getNextLyric(playedTime * 1000);
       if (lyric) {
-        let duration = nextLyric.time - lyric.time;
-        let currentTime = playedTime * 1000 - lyric.time;
-        this.setLyric(lyric.word, currentTime, duration);
+        if (nextLyric) {
+          let duration = nextLyric.time - lyric.time;
+          let currentTime = playedTime * 1000 - lyric.time;
+          this.setLyric(buildLyric(lyric.word), currentTime, duration);
+        } else {
+          let duration = this.player.audioElement.duration - lyric.time;
+          let currentTime = playedTime * 1000 - lyric.time;
+          this.setLyric(buildLyric(lyric.word), currentTime, duration);
+        }
       } else {
-        this.setLyric(this.player.nowplay.name + ' - ' + this.player.nowplay.artist, playedTime * 1000, nextLyric.time);
+        this.setLyric(buildLyric(this.player.nowplay.name, this.player.nowplay.artist), playedTime * 1000, nextLyric.time);
       }
     } else {
-      this.setLyric(this.player.nowplay.name + ' - ' + this.player.nowplay.artist);
+      this.setLyric(buildLyric(this.player.nowplay.name, this.player.nowplay.artist));
     }
   }
 
@@ -122,7 +132,7 @@ export default class cplayerView extends EventEmitter {
     this.setProgress(0);
     this.elementLinks.title.innerText = audio.name;
     this.elementLinks.artist.innerText = audio.artist;
-    this.updateLyric(0);
+    this.updateLyric();
   }
 
   private handleTimeUpdate = (playedTime: number, time: number) => {

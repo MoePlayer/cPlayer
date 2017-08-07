@@ -6,6 +6,7 @@ $primaryColor: #F44336;
 $primaryDarkColor: #B71C1C;
 $accentColor: #757575;
 $accentDarkColor: #616161;
+$TextColor: #424242;
 $backgroundColor: #fff;
 
 $enable-transitions: true;
@@ -123,14 +124,19 @@ c-player {
         height: calc(100% - #{$margin-top * 2});
         overflow: hidden;
         margin: $margin-top $margin-left;
-        font-size: 12px;
+        font-size: 14px;
         @include transition(opacity 0.25s ease);
     }
     .#{$name-prefix}lyric-text {
         flex-grow: 1;
         white-space: nowrap;
         text-align: center;
-        color: $accentColor;
+        color: $TextColor;
+        .#{$name-prefix}lyric-text-sub {
+            display: block;
+            color: $accentColor;
+            font-size: 12px;
+        }
     }
     .#{$name-prefix}progress {
         flex-basis: 100%;

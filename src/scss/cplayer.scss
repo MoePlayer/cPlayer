@@ -4,6 +4,7 @@ $mainbody-width: 300px;
 
 $primaryColor: #F44336;
 $primaryDarkColor: #B71C1C;
+$accentLightColor: #BDBDBD;
 $accentColor: #757575;
 $accentDarkColor: #616161;
 $TextColor: #424242;
@@ -234,12 +235,13 @@ c-player {
     .#{$name-prefix}next-button {
         display: inline-block;
         $size: 12.5px;
-        height: $size;
         width: $size;
+        height: $size;
         cursor: pointer;
     }
     .#{$name-prefix}volume-button {
         width: 20px;
+        position: relative;
     }
     .#{$name-prefix}list-button {
         $size: 17.5px;
@@ -313,6 +315,96 @@ c-player {
         $size: 17.5px;
         width: $size;
         height: $size;
+    }
+    .#{$name-prefix}volume-container {
+        $height: 25px;
+        $width: 120px;
+        position: absolute;
+        left: 50%;
+        top: -7px;
+        height: $height;
+        width: $width;
+        transform: translateX(-50%) translateY(-120%);
+        z-index: 1;
+        visibility: hidden;
+        @include box_shadow(1);
+        &.#{$name-prefix}volume-container-show {
+            visibility: visible;
+        }
+        &:hover {
+            visibility: visible;
+        }
+        &:before {
+            $size: 10px;
+            content: '';
+            width: 0px;
+            height: 0px;
+            display: inline-block;
+            border-top: $size solid $backgroundColor;
+            border-left: $size solid transparent;
+            border-right: $size solid transparent;
+            position: absolute;
+            bottom: 0px;
+            left: 50%;
+            transform: translate(-50%,100%);
+        }
+        &:after {
+            $size: 14.142135624px;
+            content: '';
+            width: $size;
+            height: $size;
+            display: inline-block;
+            position: absolute;
+            bottom: 0px;
+            left: 50%;
+            transform: translate(-50%,50%) rotate(45deg);
+            @include box_shadow(1);
+        }
+        > div {
+            width: 100%;
+            height: 100%;
+            background: $backgroundColor;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+    .#{$name-prefix}volume-controller {
+        display: inline-block;
+        $height: 10px;
+        $width: 100px;
+        height: $height;
+        width: $width;
+        border-radius: $width / 2;
+        background: $accentLightColor;
+        line-height: $height;
+        position: relative;
+        .#{$name-prefix}volume-fill {
+            display: inline-block;
+            height: 100%;
+            width: 100%;
+            border-radius: $width / 2;
+            background: $accentDarkColor;
+        }
+        .#{$name-prefix}volume-controller-button {
+            $size: 15px;
+            height: $size;
+            width: $size;
+            position: absolute;
+            right: 0px;
+            top: -2.5px;
+            display: inline-block;
+            border-radius: 50%;
+            border: 2px solid $backgroundColor;
+            background: $accentColor;
+            transform: translateX(50%);
+            @include box_shadow(1);
+            &:hover {
+                background: $accentDarkColor;
+            }
+        }
     }
     svg {
         vertical-align: top;

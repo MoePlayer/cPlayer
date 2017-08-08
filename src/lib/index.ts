@@ -77,7 +77,7 @@ export default class cplayer extends EventEmitter {
       }
     },
     handleVolumeChange: (...args) => {
-      this.emit('volumechange', ...args);
+      this.emit('volumechange', this.audioElement.volume);
     },
     handleTimeUpdate: (...args) => {
       let time = this.audioElement.duration;
@@ -155,6 +155,10 @@ export default class cplayer extends EventEmitter {
     } else {
       this.pause();
     }
+  }
+
+  public setVolume(volume: number) {
+    this.audioElement.volume = Math.max(0.0, Math.min(1.0,volume));
   }
 }
 

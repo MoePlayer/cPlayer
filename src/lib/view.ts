@@ -35,7 +35,7 @@ export default class cplayerView extends EventEmitter {
         prev: rootElement.getElementsByClassName('cp-prev-button')[0],
         play: rootElement.getElementsByClassName('cp-play-button')[0],
         next: rootElement.getElementsByClassName('cp-next-button')[0],
-        volume: rootElement.getElementsByClassName('cp-volume-button')[0],
+        volume: rootElement.getElementsByClassName('cp-volume-icon')[0],
         list: rootElement.getElementsByClassName('cp-list-button')[0],
         mode: rootElement.getElementsByClassName('cp-mode-button')[0]
       },
@@ -45,6 +45,10 @@ export default class cplayerView extends EventEmitter {
       artist: rootElement.getElementsByClassName('cp-audio-artist')[0] as HTMLElement,
       lyric: rootElement.getElementsByClassName('cp-lyric-text')[0] as HTMLElement,
       lyricContainer: rootElement.getElementsByClassName('cp-lyric')[0] as HTMLElement,
+      volumeController: rootElement.getElementsByClassName('cp-volume-controller')[0] as HTMLElement,
+      volumeFill: rootElement.getElementsByClassName('cp-volume-fill')[0] as HTMLElement,
+      volumeControllerButton: rootElement.getElementsByClassName('cp-volume-controller-button')[0] as HTMLElement,
+      volumeControllerContainer: rootElement.getElementsByClassName('cp-volume-container')[0] as HTMLElement
     }
   }
 
@@ -62,6 +66,27 @@ export default class cplayerView extends EventEmitter {
 
   private setPoster(src: string) {
     this.elementLinks.poster.style.backgroundImage = `url("${src}")`;
+  }
+
+  private __OldVolume = 1;
+  private setVolume(volume: number) {
+    if (this.__OldVolume !== volume) {
+      this.elementLinks.volumeFill.style.width = `${volume * 100}%`;
+      this.elementLinks.volumeControllerButton.style.right = (1 - volume) * 100 + '%';
+      this.__OldVolume = volume
+    }
+  }
+
+  private setVolumeControllerKeepShow() {
+    this.elementLinks.volumeControllerContainer.classList.add('cp-volume-container-show');
+  }
+
+  private toggleVolumeControllerKeepShow() {
+    this.elementLinks.volumeControllerContainer.classList.toggle('cp-volume-container-show');
+  }
+
+  private removeVolumeControllerKeepShow() {
+    this.elementLinks.volumeControllerContainer.classList.remove('cp-volume-container-show');
   }
 
   private __OldLyric = '';
@@ -95,10 +120,15 @@ export default class cplayerView extends EventEmitter {
     this.elementLinks.button.play.addEventListener('click', this.handleClickPlayButton);
     this.elementLinks.button.prev.addEventListener('click', this.handleClickPrevButton);
     this.elementLinks.button.next.addEventListener('click', this.handleClickNextButton);
+    this.elementLinks.button.volume.addEventListener('click', this.handleClickVolumeButton)
+    this.elementLinks.volumeController.addEventListener('mousemove', this.handleMouseVolumeController)
+    this.elementLinks.volumeController.addEventListener('mousedown', this.handleMouseVolumeController)
+    this.elementLinks.volumeController.addEventListener('touchmove', this.handleTouchVolumeController)
 
-    this.player.addListener('playstatechange', this.handlePlayStateChange)
-    this.player.addListener('timeupdate', this.handleTimeUpdate)
-    this.player.addListener('openaudio', this.handleOpenAudio)
+    this.player.addListener('playstatechange', this.handlePlayStateChange);
+    this.player.addListener('timeupdate', this.handleTimeUpdate);
+    this.player.addListener('openaudio', this.handleOpenAudio);
+    this.player.addListener('volumechange', this.handleVolumeChange)
   }
 
   private updateLyric(playedTime: number = 0) {
@@ -127,6 +157,10 @@ export default class cplayerView extends EventEmitter {
     this.player.targetPlayState();
   }
 
+  private handleClickVolumeButton = () => {
+    this.toggleVolumeControllerKeepShow();
+  }
+
   private handleOpenAudio = (audio: IAudioItem) => {
     this.setPoster(audio.poster);
     this.setProgress(0);
@@ -134,6 +168,10 @@ export default class cplayerView extends EventEmitter {
     this.elementLinks.artist.innerText = audio.artist;
     this.updateLyric();
   }
+
+  private handleVolumeChange = (volume:number) => {
+    this.setVolume(volume);
+  };
 
   private handleTimeUpdate = (playedTime: number, time: number) => {
     this.setProgress(playedTime / time);
@@ -151,4 +189,24 @@ export default class cplayerView extends EventEmitter {
   private handlePlayStateChange = (paused: boolean) => {
     this.setPlayIcon(paused);
   }
+
+  private handleMouseVolumeController = (event: MouseEvent) => {
+    this.removeVolumeControllerKeepShow()
+    if (event.buttons === 1) {
+      let volume = Math.max(0, Math.min(1.0,
+        (event.clientX - this.elementLinks.volumeController.getBoundingClientRect().left) / this.elementLinks.volumeController.clientWidth
+      ));
+      this.player.setVolume(volume);
+      this.setVolume(volume);
+    }
+  };
+
+  private handleTouchVolumeController = (event: TouchEvent) => {
+    this.removeVolumeControllerKeepShow()
+    let volume = Math.max(0, Math.min(1.0,
+      (event.targetTouches[0].clientX - this.elementLinks.volumeController.getBoundingClientRect().left) / this.elementLinks.volumeController.clientWidth
+    ));
+    this.player.setVolume(volume);
+    this.setVolume(volume);
+  };
 }

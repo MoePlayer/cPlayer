@@ -15,6 +15,7 @@ export interface Iplaymode {
   next(): IAudioItem;
   prev(): IAudioItem;
   now(): IAudioItem;
+  to(id: number): void;
   playlist: Iplaylist;
 }
 

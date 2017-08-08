@@ -4,6 +4,7 @@ import returntypeof from './helper/returntypeof';
 import { EventEmitter } from 'events';
 
 const htmlTemplate = require('../cplayer.html');
+const playIcon = require('../playicon.svg');
 require('../scss/cplayer.scss');
 
 function buildLyric(lyric: string, sublyric?: string) {
@@ -14,6 +15,7 @@ export default class cplayerView extends EventEmitter {
   private elementLinks = returntypeof(this.getElementLinks);
   private rootElement: Element;
   private player: cplayer;
+  private dropDownMenuShowInfo = true;
 
   constructor(element: Element, player: cplayer) {
     super();
@@ -23,6 +25,10 @@ export default class cplayerView extends EventEmitter {
     this.elementLinks = this.getElementLinks();
     this.injectEventListener();
     this.setPlayIcon(this.player.paused);
+  }
+
+  private getPlayListLinks(rootElement: Element = this.rootElement) {
+    return rootElement.querySelectorAll('.cp-playlist li');
   }
 
   private getElementLinks(rootElement: Element = this.rootElement) {
@@ -48,7 +54,10 @@ export default class cplayerView extends EventEmitter {
       volumeController: rootElement.getElementsByClassName('cp-volume-controller')[0] as HTMLElement,
       volumeFill: rootElement.getElementsByClassName('cp-volume-fill')[0] as HTMLElement,
       volumeControllerButton: rootElement.getElementsByClassName('cp-volume-controller-button')[0] as HTMLElement,
-      volumeControllerContainer: rootElement.getElementsByClassName('cp-volume-container')[0] as HTMLElement
+      volumeControllerContainer: rootElement.getElementsByClassName('cp-volume-container')[0] as HTMLElement,
+      dropDownMenu: rootElement.getElementsByClassName('cp-drop-down-menu')[0] as HTMLElement,
+      playlist: rootElement.getElementsByClassName('cp-playlist')[0] as HTMLElement,
+      playlistItems: this.getPlayListLinks(rootElement)
     }
   }
 
@@ -74,6 +83,20 @@ export default class cplayerView extends EventEmitter {
       this.elementLinks.volumeFill.style.width = `${volume * 100}%`;
       this.elementLinks.volumeControllerButton.style.right = (1 - volume) * 100 + '%';
       this.__OldVolume = volume
+    }
+  }
+
+  private toggleDropDownMenu() {
+    if (this.dropDownMenuShowInfo) {
+      this.elementLinks.dropDownMenu.style.height = this.player.playlist.length * 25 + 'px';
+      this.elementLinks.dropDownMenu.classList.remove('cp-drop-down-menu-info');
+      this.elementLinks.dropDownMenu.classList.add('cp-drop-down-menu-playlist');
+      this.dropDownMenuShowInfo = false;
+    } else {
+      this.elementLinks.dropDownMenu.style.height = '';
+      this.elementLinks.dropDownMenu.classList.remove('cp-drop-down-menu-playlist');
+      this.elementLinks.dropDownMenu.classList.add('cp-drop-down-menu-info');
+      this.dropDownMenuShowInfo = true;
     }
   }
 
@@ -116,11 +139,37 @@ export default class cplayerView extends EventEmitter {
     }
   }
 
+  private updatePlaylist() {
+    var lis = this.player.playlist.map((audio) => {
+      var element = document.createElement('li');
+      element.innerHTML = `
+        ${audio.__id === this.player.nowplay.__id ? playIcon : '<span class="cp-play-icon"></span>'}
+        <span>${audio.name}</span><span class='cp-playlist-artist'> - ${audio.artist}</span>
+      `
+      return element;
+    })
+    this.elementLinks.playlist.innerHTML = '';
+    lis.forEach((li) => {
+      this.elementLinks.playlist.appendChild(li);
+    })
+    this.elementLinks.playlistItems = this.getPlayListLinks();
+    this.injectPlayListEventListener();
+  }
+
+  private injectPlayListEventListener() {
+    this.elementLinks.playlistItems.forEach((i, index) => {
+      i.addEventListener('click', (event) => {
+        this.handleClickPlayList(index, event);
+      })
+    })
+  }
+
   private injectEventListener() {
     this.elementLinks.button.play.addEventListener('click', this.handleClickPlayButton);
     this.elementLinks.button.prev.addEventListener('click', this.handleClickPrevButton);
     this.elementLinks.button.next.addEventListener('click', this.handleClickNextButton);
     this.elementLinks.button.volume.addEventListener('click', this.handleClickVolumeButton)
+    this.elementLinks.button.list.addEventListener('click', this.handleClickListButton);
     this.elementLinks.volumeController.addEventListener('mousemove', this.handleMouseVolumeController)
     this.elementLinks.volumeController.addEventListener('mousedown', this.handleMouseVolumeController)
     this.elementLinks.volumeController.addEventListener('touchmove', this.handleTouchVolumeController)
@@ -128,7 +177,8 @@ export default class cplayerView extends EventEmitter {
     this.player.addListener('playstatechange', this.handlePlayStateChange);
     this.player.addListener('timeupdate', this.handleTimeUpdate);
     this.player.addListener('openaudio', this.handleOpenAudio);
-    this.player.addListener('volumechange', this.handleVolumeChange)
+    this.player.addListener('volumechange', this.handleVolumeChange);
+    this.injectPlayListEventListener();
   }
 
   private updateLyric(playedTime: number = 0) {
@@ -153,8 +203,17 @@ export default class cplayerView extends EventEmitter {
     }
   }
 
+  private handleClickListButton = () => {
+    this.toggleDropDownMenu();
+  }
+
+  private handleClickPlayList = (id: number, event: Event) => {
+    if (this.player.nowplay.__id !== id)
+    this.player.to(id);
+  }
+
   private handleClickPlayButton = () => {
-    this.player.targetPlayState();
+    this.player.togglePlayState();
   }
 
   private handleClickVolumeButton = () => {
@@ -167,6 +226,7 @@ export default class cplayerView extends EventEmitter {
     this.elementLinks.title.innerText = audio.name;
     this.elementLinks.artist.innerText = audio.artist;
     this.updateLyric();
+    this.updatePlaylist();
   }
 
   private handleVolumeChange = (volume:number) => {

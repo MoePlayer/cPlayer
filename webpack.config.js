@@ -158,7 +158,12 @@ module.exports = {
                 ],
             },
             {
-                test: /\.svg$/, use: [{ loader: 'raw-loader' }]
+                test: /\.svg$/, use: [{
+                    loader: 'html-loader',
+                    options: {
+                        minimize: true
+                    }
+                }]
             },
             {
                 test: /\.js$/,

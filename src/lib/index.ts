@@ -22,9 +22,10 @@ const playmodes: { [key: string]: IplaymodeConstructor } = {
 }
 
 function playlistPreFilter(playlist: Iplaylist) {
-  return playlist.map((audio) => {
+  return playlist.map((audio,index) => {
     let res = {
-      ...audio
+      ...audio,
+      __id: index
     };
     if (typeof audio.lyric === 'string') {
       res.lyric = decodeLyricStr(audio.lyric)
@@ -129,6 +130,16 @@ export default class cplayer extends EventEmitter {
     }
   }
 
+  public to(id: number) {
+    this.playmode.to(id);
+    this.openAudio();
+    if (this.__paused) {
+      this.pause();
+    } else {
+      this.play();
+    }
+  }
+
   public next() {
     this.playmode.next();
     this.openAudio();
@@ -149,7 +160,7 @@ export default class cplayer extends EventEmitter {
     }
   }
 
-  public targetPlayState() {
+  public togglePlayState() {
     if (this.__paused) {
       this.play();
     } else {

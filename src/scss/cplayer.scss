@@ -51,26 +51,26 @@ c-player {
         > * {
             margin-right: 7px
         }
-        &:hover + .#{$name-prefix}audio-info {
-            transform: translateY(0%);
+        &:hover + .#{$name-prefix}drop-down-menu.#{$name-prefix}drop-down-menu-info {
+            height: 25px;
         }
     }
-    .#{$name-prefix}audio-info {
-        $height: 25px;
+    .#{$name-prefix}drop-down-menu {
+        $lineheight: 25px;
         $margin: 2px;
-        height: $height;
-        min-width: $mainbody-width - $margin * 2;
         margin: 0px $margin;
         display: block;
         text-align: center;
         font-size: 12px;
-        line-height: $height;
+        line-height: $lineheight;
         background-color: rgba($backgroundColor, 0.6);
         position: relative;
         z-index: 0;
-        transform: translateY(-130%);
+        height: 0px;
+        max-height: $lineheight * 5;
+        overflow: hidden;
         @include box_shadow(1);
-        @include transition(transform 0.25s ease);
+        @include transition(transform 0.25s ease, height 0.25s ease);
         span.#{$name-prefix}audio-title {
             max-width: 170px;
             overflow: hidden;
@@ -82,9 +82,46 @@ c-player {
             overflow: hidden;
             text-overflow: ellipsis;
         }
-        &:hover {
-            transform: translateY(0%);
+        &.#{$name-prefix}drop-down-menu-info .#{$name-prefix}playlist {
+            display: none;
         }
+        &.#{$name-prefix}drop-down-menu-info:hover {
+            height: 25px;
+        }
+        &.#{$name-prefix}drop-down-menu-playlist .#{$name-prefix}audio-info {
+            display: none;
+        }
+        &.#{$name-prefix}drop-down-menu-playlist {
+            height: auto;
+        }
+    }
+    .#{$name-prefix}playlist {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        text-align: left;
+        li:nth-of-type(even){
+            background: rgba(255, 255, 255, 0.2);
+        }
+        li {
+            padding: 0px 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            .#{$name-prefix}play-icon {
+                display: inline-block;
+                width: 12px;
+                height: 12px;
+                vertical-align: text-top;
+                margin: 0px 5px 0 0;
+                fill: rgba($primaryDarkColor, 0.8);
+            }
+            cursor: pointer;
+        }
+    }
+    .#{$name-prefix}playlist-artist {
+        color: #000;
+        opacity: 0.46;
     }
     .#{$name-prefix}center-container {
         flex-grow: 1;

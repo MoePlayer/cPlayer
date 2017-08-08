@@ -9,7 +9,7 @@ export class listloopPlaymode implements Iplaymode {
   
   constructor(playlist: Iplaylist = [], point: number = 0) {
     this.__playlist = playlist;
-    this.point = point;
+    this.to(point);
   }
 
   public next() {
@@ -24,6 +24,16 @@ export class listloopPlaymode implements Iplaymode {
 
   public now() {
     return this.playlist[this.point];
+  }
+
+  public to(id: number) {
+    let toPoint = this.__playlist.reduce((p, c, index) => {
+      if (c.__id == id) {
+        return index;
+      }
+      return p;
+    }, 0);
+    this.point = toPoint;
   }
 
   private nextPoint() {

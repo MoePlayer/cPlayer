@@ -93,6 +93,7 @@ class cPlayer extends cEmitter {
 			"volumeBody": this.CBASE.getByClass("volume-body"),
 			"volumeLine": this.CBASE.getByClass("volume-line"),
 			"volumePoint": this.CBASE.getByClass("volume-point"),
+			"volume": this.CBASE.getByClass("volume"),
 			"listPower": this.CBASE.getByClass("list-power"),
 			"list": this.CBASE.getByClass("list"),
 			"listBody": this.CBASE.getByTagName("list-body")
@@ -125,16 +126,12 @@ class cPlayer extends cEmitter {
 				},
 				2: {
 					get: () => {
-						return options.target === that.__LIST__.timePoint
-							|| options.target === that.__LIST__.volumePoint
-							|| options.target === that.__LIST__.timeBody
+						return options.target === that.__LIST__.timeBody
 							|| options.target === that.__LIST__.volumeBody
-							|| options.target === that.__LIST__.timeLine
-							|| options.target === that.__LIST__.volumeLine
 					}
 				}
 			});
-			if (!rightTarget[2]) return;//Warning!!! rightTarget[2] checks if mouse focus on the percentage.
+			if (!(rightTarget[2] || rightTarget[1] || rightTarget[0])) return;//Warning!!! rightTarget[2] checks if mouse focus on the percentage.
 			that.dragging.contain = true;
 			that.dragging.target = <HTMLElement>options.target;
 			let mover = function (options: MouseEvent) {
@@ -210,6 +207,10 @@ class cPlayer extends cEmitter {
 				this.hideList();
 			}
 		}).on("clickVolumePower", () => {
+			if (window.innerWidth < 600) {
+				(<HTMLElement>this.__LIST__.volume.parentElement).classList.toggle("hover");
+				return;
+			}
 			if (this.isMuted()) {
 				this.music.muted = false;
 			} else {

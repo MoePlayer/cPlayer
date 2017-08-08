@@ -219,6 +219,23 @@ c-player{
 			@media screen and (max-width: 600px) {
 				&{
 					flex:1;
+					.volume{
+						width:auto !important;
+						.volume-body{visibility: hidden!important}
+					}
+				}
+				&.hover{
+					.list-button,
+					.lyric-button{
+						display:none;
+					}
+					.volume-body{
+						width:100% !important;
+						visibility: visible !important;
+					}
+					.volume{
+						width:100% !important;
+					}
 				}
 			}
 			display:flex;
@@ -240,11 +257,6 @@ c-player{
 					transition: width 0.2s;
 				}
 				&:hover,&:active{
-					@media screen and (max-width: 800px) {
-						&{
-							width:100% !important;
-						}
-					}
 					width:12em;
 					.volume-body{
 						visibility: visible;
@@ -322,8 +334,6 @@ c-player{
 			}
 			.music-name{
 				flex:1;
-			}
-			.music-artist{
 			}
 		}
 	}

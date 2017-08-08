@@ -1,0 +1,23 @@
+{
+    "include": [
+        "src/js/*",
+        "src/js/modules/*"
+    ],
+    "exclude": [
+        "demo",
+        "dist",
+        "node_modules"
+    ],
+    "compilerOptions": {
+        "outDir": ".",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "strictNullChecks": true,
+        "module": "es6",
+        "target": "es5",
+        "allowJs": false,
+        "alwaysStrict": true,
+        "declaration": true,
+        "declarationDir": "../declaration"
+    }
+}

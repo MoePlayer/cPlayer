@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="cplayer.js"></script>
     <script type="text/javascript" src="fetch.js"></script>
-    <link rel="stylesheet" href="cplayer.min.css">
-    <link href="https://cdn.bootcss.com/material-design-icons/2.2.3/iconfont/material-icons.css" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -51,13 +49,17 @@
     </div>
     <script>
         "use strict";
-        function after(times,callback){
-            return times<2?callback():function(){after(times--,callback)};
+        function trigger(times,callback){
+            if(times<1)return callback();
+            return function(){
+                times--;
+                if(times<1)return callback();
+            }
         }
         function add163(cp, id) {
             if (!cp || !id) throw new Error("Unable Property.");
             var obj = { name: null, artist: null, image: null, url: null, lyric: null };
-            var push = after(3,function(){cp.add(obj)});
+            var push = trigger(3,function(){cp.add(obj)});
             obj["url"] = "https://api.imjad.cn/cloudmusic/?type=song&id=" + id + "&br=320000&raw=true";push();
             fetch("https://api.imjad.cn/cloudmusic/?type=detail&id=" + id).then(function (a) {
                 return a.json();

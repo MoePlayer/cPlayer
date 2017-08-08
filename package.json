@@ -1,12 +1,13 @@
 {
-  "name": "cplayer",
-  "version": "2.4.7",
+  "name": "cPlayer",
+  "version": "2.5.000",
   "description": "A beautiful and clean WEB Music Player by HTML5.",
+  "main": "dist/cplayer.js",
+  "types": "declaration/cplayer.d.ts",
   "scripts": {
-    "dist": "gulp compress",
-    "demo": "gulp createDemo",
-    "serve": "gulp serve",
-    "build": "webpack"
+    "demo": "cross-env NODE_ENV=development PLATFORM=web webpack --display-error-details",
+    "serve": "webpack-dev-server --open",
+    "build": "cross-env NODE_ENV=production PLATFORM=web webpack --display-error-details"
   },
   "keywords": [
     "cPlayer",
@@ -35,22 +36,15 @@
   "license": "MIT",
   "repository": "https://github.com/Copay/cPlayer",
   "devDependencies": {
-    "babel": "*",
-    "babel-cli": "*",
-    "babel-preset-es2015": "*",
-    "browser-sync": "*",
-    "bufferstreams": "*",
-    "gulp": "*",
-    "gulp-autoprefixer": "*",
-    "gulp-babel": "*",
-    "gulp-rename": "*",
-    "gulp-sass": "*",
-    "gulp-sourcemaps": "*",
-    "gulp-uglify": "*",
-    "node-sass": "latest",
-    "tslint": "^5.5.0",
+    "@types/node": "^8.0.19",
+    "cross-env": "^5.0.4",
+    "css-loader": "^0.28.4",
+    "node-sass": "^4.5.3",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
+    "ts-loader": "^2.3.2",
     "typescript": "^2.4.2",
-    "uglify": "*",
-    "webpack": "^3.3.0"
+    "webpack": "^3.4.1",
+    "webpack-dev-server": "^2.6.1"
   }
 }

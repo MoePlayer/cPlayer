@@ -1,4 +1,4 @@
-interface ILyricItem {
+export interface ILyricItem {
   time: number;
   word: string;
 }

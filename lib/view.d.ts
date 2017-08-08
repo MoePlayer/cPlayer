@@ -1,0 +1,40 @@
+/// <reference types="node" />
+import cplayer from './';
+import { EventEmitter } from 'events';
+export default class cplayerView extends EventEmitter {
+    private elementLinks;
+    private rootElement;
+    private player;
+    private dropDownMenuShowInfo;
+    constructor(element: Element, player: cplayer);
+    private getPlayListLinks(rootElement?);
+    private getElementLinks(rootElement?);
+    private setPlayIcon(paused);
+    private setProgress(point);
+    private setPoster(src);
+    private __OldVolume;
+    private setVolume(volume);
+    private toggleDropDownMenu();
+    private setVolumeControllerKeepShow();
+    private toggleVolumeControllerKeepShow();
+    private removeVolumeControllerKeepShow();
+    private __OldLyric;
+    private __OldTotalTime;
+    private setLyric(lyric, time?, totalTime?);
+    private updatePlaylist();
+    private injectPlayListEventListener();
+    private injectEventListener();
+    private updateLyric(playedTime?);
+    private handleClickListButton;
+    private handleClickPlayList;
+    private handleClickPlayButton;
+    private handleClickVolumeButton;
+    private handleOpenAudio;
+    private handleVolumeChange;
+    private handleTimeUpdate;
+    private handleClickPrevButton;
+    private handleClickNextButton;
+    private handlePlayStateChange;
+    private handleMouseVolumeController;
+    private handleTouchVolumeController;
+}

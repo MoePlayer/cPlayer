@@ -1,14 +1,12 @@
 {
-  "name": "cPlayer",
-  "version": "2.4.7",
+  "name": "cplayer",
+  "version": "3.0.0",
   "description": "A beautiful and clean WEB Music Player by HTML5.",
+  "main": "./lib/index.js",
   "scripts": {
-    "dist": "gulp compress",
-    "demo": "gulp createDemo",
-    "serve": "gulp serve",
-    "clean": "rimraf ./dist",
+    "clean": "rimraf ./dist && rimraf ./lib",
     "dev": "webpack-dev-server --inline --progress",
-    "build": "npm run clean && webpack  --config webpack.config.prod.js"
+    "build": "npm run clean && tsc && webpack  --config webpack.config.prod.js"
   },
   "keywords": [
     "cPlayer",
@@ -35,9 +33,7 @@
   ],
   "bugs": "zsq01@live.com",
   "license": "MIT",
-  "repository": [
-    "https://github.com/Copay/cPlayer"
-  ],
+  "repository": "https://github.com/MoePlayer/cPlayer",
   "devDependencies": {
     "@types/node": "^8.0.15",
     "autoprefixer": "^7.1.2",
@@ -62,5 +58,6 @@
     "uglify": "*",
     "webpack": "^3.3.0",
     "webpack-dev-server": "^2.6.1"
-  }
+  },
+  "typings": "./lib/index.d.ts"
 }

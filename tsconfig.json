@@ -1,6 +1,7 @@
 {
     "compilerOptions": {
-        "outDir": "./dist/",
+        "declaration": true,
+        "outDir": "./lib/",
         "sourceMap": true,
         "noImplicitAny": true,
         "module": "commonjs",
@@ -12,6 +13,6 @@
         ]
     },
     "include": [
-        "src/**/*"
+        "src/lib/**/*"
     ]
 }

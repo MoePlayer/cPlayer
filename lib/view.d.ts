@@ -5,12 +5,14 @@ export interface ICplayerViewOption {
     element?: Element;
     generateBeforeElement?: boolean;
     deleteElementAfterGenerate?: boolean;
+    zoomOutKana?: boolean;
 }
 export default class cplayerView extends EventEmitter {
     private elementLinks;
     private rootElement;
     private player;
     private dropDownMenuShowInfo;
+    private options;
     constructor(player: cplayer, options: ICplayerViewOption);
     private getPlayListLinks(rootElement?);
     private getElementLinks(rootElement?);

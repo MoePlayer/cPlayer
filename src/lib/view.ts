@@ -9,20 +9,42 @@ const htmlTemplate = require('../cplayer.html');
 const playIcon = require('../playicon.svg');
 require('../scss/cplayer.scss');
 
-function buildLyric(lyric: string, sublyric?: string) {
-  return lyric + (sublyric?`<span class="cp-lyric-text-sub">${sublyric}</span>`:'')
+function kanaFilter(str: string) {
+  const starttag = '<span class="cp-lyric-text-zoomout">';
+  const endtag = '</span>';
+  let res = '';
+  let startflag = false;
+  for (let ch of str) {
+    let kano = /[ぁ-んァ-ン]/.test(ch);
+    if (kano && !startflag) {
+      res += starttag;
+      startflag = true;
+    }
+    if (!kano && startflag) {
+      res += endtag;
+      startflag = false;
+    }
+    res += ch;
+  }
+  return res;
+}
+
+function buildLyric(lyric: string, sublyric?: string, zoomOutKana: boolean = false) {
+  return (zoomOutKana ? kanaFilter(lyric) : lyric) + (sublyric?`<span class="cp-lyric-text-sub">${sublyric}</span>`:'')
 }
 
 export interface ICplayerViewOption {
   element?: Element;
   generateBeforeElement?: boolean;
-  deleteElementAfterGenerate?: boolean
+  deleteElementAfterGenerate?: boolean;
+  zoomOutKana?: boolean;
 }
 
 const defaultOption:ICplayerViewOption = {
   element: document.body,
   generateBeforeElement: false,
-  deleteElementAfterGenerate: false
+  deleteElementAfterGenerate: false,
+  zoomOutKana: false
 }
 
 export default class cplayerView extends EventEmitter {
@@ -30,21 +52,22 @@ export default class cplayerView extends EventEmitter {
   private rootElement: Element;
   private player: cplayer;
   private dropDownMenuShowInfo = true;
+  private options: ICplayerViewOption;
 
   constructor(player: cplayer, options: ICplayerViewOption) {
     super();
-    options = {
+    this.options = {
       ...defaultOption,
       ...options
     };
     this.player = player;
-    if (options.generateBeforeElement) {
+    if (this.options.generateBeforeElement) {
       let newFragment = parseHTML(htmlTemplate);
-      options.element.parentNode.insertBefore(newFragment, options.element);
-      this.rootElement = options.element.previousSibling as Element;
+      this.options.element.parentNode.insertBefore(newFragment, this.options.element);
+      this.rootElement = this.options.element.previousSibling as Element;
     } else {
-      options.element.appendChild(parseHTML(htmlTemplate));
-      this.rootElement = options.element.lastChild as Element;
+      this.options.element.appendChild(parseHTML(htmlTemplate));
+      this.rootElement = this.options.element.lastChild as Element;
     }
     if (options.deleteElementAfterGenerate) {
       options.element.parentElement.removeChild(options.element);
@@ -224,17 +247,17 @@ export default class cplayerView extends EventEmitter {
         if (nextLyric) {
           let duration = nextLyric.time - lyric.time;
           let currentTime = playedTime * 1000 - lyric.time;
-          this.setLyric(buildLyric(lyric.word), currentTime, duration);
+          this.setLyric(buildLyric(lyric.word, undefined, this.options.zoomOutKana), currentTime, duration);
         } else {
           let duration = this.player.audioElement.duration - lyric.time;
           let currentTime = playedTime * 1000 - lyric.time;
-          this.setLyric(buildLyric(lyric.word), currentTime, duration);
+          this.setLyric(buildLyric(lyric.word, undefined, this.options.zoomOutKana), currentTime, duration);
         }
       } else {
-        this.setLyric(buildLyric(this.player.nowplay.name, this.player.nowplay.artist || ''), playedTime * 1000, nextLyric.time);
+        this.setLyric(buildLyric(this.player.nowplay.name, this.player.nowplay.artist, false), playedTime * 1000, nextLyric.time);
       }
     } else {
-      this.setLyric(buildLyric(this.player.nowplay.name, this.player.nowplay.artist || ''));
+      this.setLyric(buildLyric(this.player.nowplay.name, this.player.nowplay.artist, false));
     }
   }
 

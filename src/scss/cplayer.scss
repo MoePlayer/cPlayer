@@ -175,6 +175,12 @@ c-player {
             color: $accentColor;
             font-size: 12px;
         }
+        .#{$name-prefix}lyric-text-zoomout {
+            font-size: 12px;
+            transform: translateY(1px);
+            display: inline-block;
+            margin: 0px 2px;
+        }
     }
     .#{$name-prefix}progress {
         flex-basis: 100%;

@@ -15,6 +15,7 @@ export interface ICplayerOption {
 }
 
 const defaultOption: ICplayerOption = {
+  playlist: []
 }
 
 const playmodes: { [key: string]: IplaymodeConstructor } = {

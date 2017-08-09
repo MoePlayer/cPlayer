@@ -19,6 +19,7 @@ export default class cplayerView extends EventEmitter {
     private setPoster(src);
     private __OldVolume;
     private setVolume(volume);
+    private setMode(mode);
     private toggleDropDownMenu();
     private setVolumeControllerKeepShow();
     private toggleVolumeControllerKeepShow();
@@ -31,10 +32,12 @@ export default class cplayerView extends EventEmitter {
     private injectEventListener();
     private updateLyric(playedTime?);
     private handleClickListButton;
+    private handleClickModeButton;
     private handleClickPlayList;
     private handleClickPlayButton;
     private handleClickVolumeButton;
     private handleOpenAudio;
+    private handleModeChange;
     private handleVolumeChange;
     private handleTimeUpdate;
     private handleClickPrevButton;

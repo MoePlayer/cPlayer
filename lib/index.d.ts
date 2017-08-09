@@ -10,6 +10,8 @@ export default class cplayer extends EventEmitter {
     view: cplayerView;
     audioElement: HTMLAudioElement;
     private playmode;
+    private playmodeName;
+    mode: string;
     readonly playlist: IAudioItem[];
     readonly nowplay: IAudioItem;
     readonly played: boolean;
@@ -19,6 +21,9 @@ export default class cplayer extends EventEmitter {
     private eventHandlers;
     openAudio(audio?: IAudioItem): void;
     play(): void;
+    toggleMode(): void;
+    setMode(playmode: string): void;
+    getMode(): string;
     pause(): void;
     to(id: number): void;
     next(): void;

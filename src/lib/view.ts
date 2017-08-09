@@ -113,6 +113,12 @@ export default class cplayerView extends EventEmitter {
     }
   }
 
+  private setMode(mode: string) {
+    var modeattr = document.createAttribute('data-mode');
+    modeattr.value = mode;
+    this.elementLinks.button.mode.attributes.setNamedItem(modeattr);
+  }
+
   private toggleDropDownMenu() {
     if (this.dropDownMenuShowInfo) {
       this.elementLinks.dropDownMenu.style.height = this.player.playlist.length * 25 + 'px';
@@ -197,6 +203,7 @@ export default class cplayerView extends EventEmitter {
     this.elementLinks.button.next.addEventListener('click', this.handleClickNextButton);
     this.elementLinks.button.volume.addEventListener('click', this.handleClickVolumeButton)
     this.elementLinks.button.list.addEventListener('click', this.handleClickListButton);
+    this.elementLinks.button.mode.addEventListener('click', this.handleClickModeButton);
     this.elementLinks.volumeController.addEventListener('mousemove', this.handleMouseVolumeController)
     this.elementLinks.volumeController.addEventListener('mousedown', this.handleMouseVolumeController)
     this.elementLinks.volumeController.addEventListener('touchmove', this.handleTouchVolumeController)
@@ -205,6 +212,7 @@ export default class cplayerView extends EventEmitter {
     this.player.addListener('timeupdate', this.handleTimeUpdate);
     this.player.addListener('openaudio', this.handleOpenAudio);
     this.player.addListener('volumechange', this.handleVolumeChange);
+    this.player.addListener('playmodechange', this.handleModeChange)
     this.injectPlayListEventListener();
   }
 
@@ -234,6 +242,10 @@ export default class cplayerView extends EventEmitter {
     this.toggleDropDownMenu();
   }
 
+  private handleClickModeButton = () => {
+    this.player.toggleMode();
+  }
+
   private handleClickPlayList = (id: number, event: Event) => {
     if (this.player.nowplay.__id !== id)
     this.player.to(id);
@@ -254,6 +266,10 @@ export default class cplayerView extends EventEmitter {
     this.elementLinks.artist.innerText = audio.artist || '';
     this.updateLyric();
     this.updatePlaylist();
+  }
+
+  private handleModeChange = (mode: string) => {
+    this.setMode(mode);
   }
 
   private handleVolumeChange = (volume:number) => {

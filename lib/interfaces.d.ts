@@ -1,7 +1,7 @@
 import { Lyric } from "./lyric";
 export interface IAudioItem {
     __id?: number;
-    name?: string;
+    name: string;
     poster?: string;
     artist?: string;
     src: string;

@@ -3,6 +3,8 @@ import { IAudioItem, Iplaymode, IplaymodeConstructor, Iplaylist } from './interf
 import { EventEmitter } from 'events';
 import cplayerView, { ICplayerViewOption } from './view';
 import { decodeLyricStr } from "./lyric";
+import { singlecyclePlaymode } from "./playmode/singlecycle";
+import { listrandomPlaymode } from "./playmode/listrandom";
 
 require('file-loader?name=example2.mp3!../example/Azis - Hop.mp3');
 require('file-loader?name=example1.mp3!../example/ねこぼーろ - ひねくれネジと雨.mp3');
@@ -16,11 +18,13 @@ const defaultOption: ICplayerOption = {
 }
 
 const playmodes: { [key: string]: IplaymodeConstructor } = {
-  listloop: listloopPlaymode
+  listloop: listloopPlaymode,
+  singlecycle: singlecyclePlaymode,
+  listrandom: listrandomPlaymode
 }
 
 function playlistPreFilter(playlist: Iplaylist) {
-  return playlist.map((audio,index) => {
+  return playlist.map((audio, index) => {
     let res = {
       ...audio,
       __id: index
@@ -37,6 +41,13 @@ export default class cplayer extends EventEmitter {
   public view: cplayerView;
   public audioElement: HTMLAudioElement;
   private playmode: Iplaymode;
+  private playmodeName: string = 'listloop';
+  set mode(playmode: string) {
+    this.setMode(playmode);
+  }
+  get mode() {
+    return this.playmodeName;
+  }
   get playlist() {
     return this.playmode.playlist;
   }
@@ -62,6 +73,7 @@ export default class cplayer extends EventEmitter {
     this.playmode = new playmodes.listloop(playlistPreFilter(options.playlist), 0);
     this.view = new cplayerView(this, options);
     this.openAudio();
+    this.eventHandlers.handlePlaymodeChange();
   }
 
   private initializeEventEmitter() {
@@ -103,6 +115,9 @@ export default class cplayer extends EventEmitter {
     },
     handlePlayListChange: (...args) => {
       this.emit('playlistchange', ...args);
+    },
+    handlePlaymodeChange: (mode: string = this.mode) => {
+      this.emit('playmodechange', mode);
     }
   }
 
@@ -121,6 +136,30 @@ export default class cplayer extends EventEmitter {
       this.emit('playstatechange', this.__paused);
       this.emit('play');
     }
+  }
+
+  public toggleMode() {
+    switch (this.playmodeName) {
+      case 'listloop':  this.setMode('singlecycle');break;
+      case 'singlecycle': this.setMode('listrandom');break;
+      case 'listrandom': this.setMode('listloop');break;
+    }
+  }
+
+  public setMode(playmode: string) {
+    if (typeof playmode === 'string') {
+      if (this.playmodeName !== playmode) {
+        if (playmodes[playmode]) {
+          this.playmode = new playmodes[playmode](this.playlist, this.nowplay.__id);
+          this.playmodeName = playmode;
+          this.eventHandlers.handlePlaymodeChange();
+        }
+      }
+    }
+  }
+
+  public getMode() {
+    return this.mode;
   }
 
   public pause() {
@@ -145,21 +184,13 @@ export default class cplayer extends EventEmitter {
   public next() {
     this.playmode.next();
     this.openAudio();
-    if (this.__paused) {
-      this.pause();
-    } else {
-      this.play();
-    }
+    this.play();
   }
 
   public prev() {
     this.playmode.prev();
     this.openAudio();
-    if (this.__paused) {
-      this.pause();
-    } else {
-      this.play();
-    }
+    this.play();
   }
 
   public togglePlayState() {
@@ -171,22 +202,22 @@ export default class cplayer extends EventEmitter {
   }
 
   public setVolume(volume: number) {
-    this.audioElement.volume = Math.max(0.0, Math.min(1.0,volume));
+    this.audioElement.volume = Math.max(0.0, Math.min(1.0, volume));
   }
 }
 
 function parseCPlayerTag() {
   document.querySelectorAll('template[cplayer]').forEach((element) => {
     element.attributes.getNamedItem('loaded') ||
-    new cplayer({
-      generateBeforeElement: true,
-      deleteElementAfterGenerate: true,
-      element,
-      ...JSON.parse(element.innerHTML)
-    })
+      new cplayer({
+        generateBeforeElement: true,
+        deleteElementAfterGenerate: true,
+        element,
+        ...JSON.parse(element.innerHTML)
+      })
   })
 }
 
-window.addEventListener("load",parseCPlayerTag);
+window.addEventListener("load", parseCPlayerTag);
 
 (window as any).cplayer = cplayer;

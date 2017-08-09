@@ -286,7 +286,7 @@ c-player {
         height: $size;
     }
     .#{$name-prefix}mode-button {
-        $size: 17.5px;
+        $size: 19px;
         width: $size;
         height: $size;
     }
@@ -341,11 +341,19 @@ c-player {
         @extend .#{$name-prefix}icon;
         width: 20px;
     }
-    .#{$name-prefix}mode-icon {
+    .#{$name-prefix}random-icon,
+    .#{$name-prefix}single-icon,
+    .#{$name-prefix}loop-icon {
         @extend .#{$name-prefix}icon;
-        $size: 17.5px;
+        $size: 19px;
         width: $size;
         height: $size;
+        display: none;
+    }
+    .#{$name-prefix}mode-button[data-mode=listloop] .#{$name-prefix}loop-icon,
+    .#{$name-prefix}mode-button[data-mode=singlecycle] .#{$name-prefix}single-icon,
+    .#{$name-prefix}mode-button[data-mode=listrandom] .#{$name-prefix}random-icon {
+        display: block;
     }
     .#{$name-prefix}list-icon {
         @extend .#{$name-prefix}icon;

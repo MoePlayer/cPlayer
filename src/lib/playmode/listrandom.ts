@@ -1,6 +1,6 @@
 import { IAudioItem, Iplaymode, Iplaylist } from '../interfaces';
 
-export class listloopPlaymode implements Iplaymode {
+export class listrandomPlaymode implements Iplaymode {
   private __playlist: Iplaylist = [];
   private point = 0;
   get playlist() {
@@ -13,17 +13,17 @@ export class listloopPlaymode implements Iplaymode {
   }
 
   public next() {
-    this.point = this.nextPoint();
-    return this.playlist[this.point];
+    this.point = this.randomPoint();
+    return this.__playlist[this.point];
   }
 
   public prev() {
-    this.point = this.prevPoint();
-    return this.playlist[this.point];
+    this.point = this.randomPoint();
+    return this.__playlist[this.point];
   }
 
   public now() {
-    return this.playlist[this.point];
+    return this.__playlist[this.point];
   }
 
   public to(id: number) {
@@ -36,19 +36,14 @@ export class listloopPlaymode implements Iplaymode {
     this.point = toPoint;
   }
 
-  private nextPoint() {
-    let res = this.point + 1;
-    if (res >= this.__playlist.length) {
-      res = 0;
-    }
-    return res;
-  }
-
-  private prevPoint() {
-    let res = this.point - 1;
-    if (res < 0) {
-      res = this.__playlist.length - 1
-    }
-    return res;
+  private randomPoint(): number {
+    if (this.__playlist.length > 1) {
+      let random = Math.floor(this.__playlist.length * Math.random());
+      if (random === this.point) {
+        return this.randomPoint();
+      } else {
+        return random;
+      }
+    } else return 0;
   }
 }

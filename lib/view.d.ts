@@ -1,12 +1,17 @@
 /// <reference types="node" />
 import cplayer from './';
 import { EventEmitter } from 'events';
+export interface ICplayerViewOption {
+    element?: Element;
+    generateBeforeElement?: boolean;
+    deleteElementAfterGenerate?: boolean;
+}
 export default class cplayerView extends EventEmitter {
     private elementLinks;
     private rootElement;
     private player;
     private dropDownMenuShowInfo;
-    constructor(element: Element, player: cplayer);
+    constructor(player: cplayer, options: ICplayerViewOption);
     private getPlayListLinks(rootElement?);
     private getElementLinks(rootElement?);
     private setPlayIcon(paused);

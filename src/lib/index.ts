@@ -1,7 +1,7 @@
 import { listloopPlaymode } from './playmode/listloop';
 import { IAudioItem, Iplaymode, IplaymodeConstructor, Iplaylist } from './interfaces';
 import { EventEmitter } from 'events';
-import cplayerView from './view';
+import cplayerView, { ICplayerViewOption } from './view';
 import { decodeLyricStr } from "./lyric";
 
 require('file-loader?name=example2.mp3!../example/Azis - Hop.mp3');
@@ -9,12 +9,10 @@ require('file-loader?name=example1.mp3!../example/ねこぼーろ - ひねくれ
 require('file-loader?name=example.mp3!../example/96猫,伊東歌詞太郎 - チルドレンレコード - 双声道版.mp3');
 
 export interface ICplayerOption {
-  element?: HTMLElement,
-  playlist?: Iplaylist
+  playlist?: Iplaylist;
 }
 
-const defaultOption = {
-  element: document.body
+const defaultOption: ICplayerOption = {
 }
 
 const playmodes: { [key: string]: IplaymodeConstructor } = {
@@ -52,13 +50,17 @@ export default class cplayer extends EventEmitter {
     return this.__paused;
   }
 
-  constructor(options: ICplayerOption) {
+  constructor(options: ICplayerOption & ICplayerViewOption) {
     super();
+    options = {
+      ...defaultOption,
+      ...options
+    }
     this.audioElement = new Audio();
     this.audioElement.loop = false;
     this.initializeEventEmitter();
     this.playmode = new playmodes.listloop(playlistPreFilter(options.playlist), 0);
-    this.view = new cplayerView(options.element, this);
+    this.view = new cplayerView(this, options);
     this.openAudio();
   }
 
@@ -172,5 +174,19 @@ export default class cplayer extends EventEmitter {
     this.audioElement.volume = Math.max(0.0, Math.min(1.0,volume));
   }
 }
+
+function parseCPlayerTag() {
+  document.querySelectorAll('template[cplayer]').forEach((element) => {
+    element.attributes.getNamedItem('loaded') ||
+    new cplayer({
+      generateBeforeElement: true,
+      deleteElementAfterGenerate: true,
+      element,
+      ...JSON.parse(element.innerHTML)
+    })
+  })
+}
+
+window.addEventListener("load",parseCPlayerTag);
 
 (window as any).cplayer = cplayer;

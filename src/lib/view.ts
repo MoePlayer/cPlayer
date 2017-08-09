@@ -2,7 +2,9 @@ import { IAudioItem } from './interfaces';
 import cplayer from './';
 import returntypeof from './helper/returntypeof';
 import { EventEmitter } from 'events';
+import parseHTML from "./helper/parseHTML";
 
+const defaultPoster = require('../defaultposter.jpg')
 const htmlTemplate = require('../cplayer.html');
 const playIcon = require('../playicon.svg');
 require('../scss/cplayer.scss');
@@ -11,17 +13,42 @@ function buildLyric(lyric: string, sublyric?: string) {
   return lyric + (sublyric?`<span class="cp-lyric-text-sub">${sublyric}</span>`:'')
 }
 
+export interface ICplayerViewOption {
+  element?: Element;
+  generateBeforeElement?: boolean;
+  deleteElementAfterGenerate?: boolean
+}
+
+const defaultOption:ICplayerViewOption = {
+  element: document.body,
+  generateBeforeElement: false,
+  deleteElementAfterGenerate: false
+}
+
 export default class cplayerView extends EventEmitter {
   private elementLinks = returntypeof(this.getElementLinks);
   private rootElement: Element;
   private player: cplayer;
   private dropDownMenuShowInfo = true;
 
-  constructor(element: Element, player: cplayer) {
+  constructor(player: cplayer, options: ICplayerViewOption) {
     super();
-    element.innerHTML = htmlTemplate;
+    options = {
+      ...defaultOption,
+      ...options
+    };
     this.player = player;
-    this.rootElement = element.getElementsByTagName('c-player')[0];
+    if (options.generateBeforeElement) {
+      let newFragment = parseHTML(htmlTemplate);
+      options.element.parentNode.insertBefore(newFragment, options.element);
+      this.rootElement = options.element.previousSibling as Element;
+    } else {
+      options.element.appendChild(parseHTML(htmlTemplate));
+      this.rootElement = options.element.lastChild as Element;
+    }
+    if (options.deleteElementAfterGenerate) {
+      options.element.parentElement.removeChild(options.element);
+    }
     this.elementLinks = this.getElementLinks();
     this.injectEventListener();
     this.setPlayIcon(this.player.paused);
@@ -144,7 +171,7 @@ export default class cplayerView extends EventEmitter {
       var element = document.createElement('li');
       element.innerHTML = `
         ${audio.__id === this.player.nowplay.__id ? playIcon : '<span class="cp-play-icon"></span>'}
-        <span>${audio.name}</span><span class='cp-playlist-artist'> - ${audio.artist}</span>
+        <span>${audio.name}</span><span class='cp-playlist-artist'>${audio.artist ? ' - ' + audio.artist : ''}</span>
       `
       return element;
     })
@@ -196,10 +223,10 @@ export default class cplayerView extends EventEmitter {
           this.setLyric(buildLyric(lyric.word), currentTime, duration);
         }
       } else {
-        this.setLyric(buildLyric(this.player.nowplay.name, this.player.nowplay.artist), playedTime * 1000, nextLyric.time);
+        this.setLyric(buildLyric(this.player.nowplay.name, this.player.nowplay.artist || ''), playedTime * 1000, nextLyric.time);
       }
     } else {
-      this.setLyric(buildLyric(this.player.nowplay.name, this.player.nowplay.artist));
+      this.setLyric(buildLyric(this.player.nowplay.name, this.player.nowplay.artist || ''));
     }
   }
 
@@ -221,10 +248,10 @@ export default class cplayerView extends EventEmitter {
   }
 
   private handleOpenAudio = (audio: IAudioItem) => {
-    this.setPoster(audio.poster);
+    this.setPoster(audio.poster || defaultPoster);
     this.setProgress(0);
     this.elementLinks.title.innerText = audio.name;
-    this.elementLinks.artist.innerText = audio.artist;
+    this.elementLinks.artist.innerText = audio.artist || '';
     this.updateLyric();
     this.updatePlaylist();
   }

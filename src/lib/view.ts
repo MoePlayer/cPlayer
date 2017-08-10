@@ -240,7 +240,7 @@ export default class cplayerView extends EventEmitter {
   }
 
   private updateLyric(playedTime: number = 0) {
-    if (this.player.nowplay.lyric && this.player.played) {
+    if (this.player.nowplay.lyric && typeof this.player.nowplay.lyric !== 'string' && this.player.played) {
       let lyric = this.player.nowplay.lyric.getLyric(playedTime * 1000);
       let nextLyric = this.player.nowplay.lyric.getNextLyric(playedTime * 1000);
       if (lyric) {

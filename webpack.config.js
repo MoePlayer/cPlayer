@@ -20,11 +20,11 @@ var HtmlWebpackConfig = {
 
 module.exports = {
     entry: [
-        "./src/lib/index.ts"
+        "./src/example.ts"
     ],
     output: {
-        filename: "cplayer.js",
-        path: __dirname + "/dist"
+        filename: "cplayerexample.js",
+        path: __dirname + "/example"
     },
 
     // Enable sourcemaps for debugging webpack's output.

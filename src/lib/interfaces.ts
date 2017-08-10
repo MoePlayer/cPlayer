@@ -6,7 +6,7 @@ export interface IAudioItem {
   poster?: string; //海报
   artist?: string; //艺术家
   src: string; //音频
-  lyric?: Lyric;
+  lyric?: Lyric | string;
 }
 
 export type Iplaylist = IAudioItem[];

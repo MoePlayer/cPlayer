@@ -7,27 +7,6 @@ const GLOBALS = {
     __DEV__: false
 };
 
-
-var HtmlWebpackConfig = {
-    title: 'hexo',
-    filename: 'index.html',
-    template: "./src/example.html",
-    hash: true,
-    showErrors: true,
-    minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-        removeEmptyAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true
-    },
-};
-
 module.exports = {
     entry: [
         "./src/lib/index.ts"
@@ -42,7 +21,6 @@ module.exports = {
 
     plugins: [
         new webpack.DefinePlugin(GLOBALS),
-        new HtmlWebpackPlugin(HtmlWebpackConfig),
         new webpack.optimize.UglifyJsPlugin({ sourceMap: true })
     ],
 
@@ -169,7 +147,12 @@ module.exports = {
                 ],
             },
             {
-                test: /\.svg$/, use: [{ loader: 'raw-loader' }]
+                test: /\.svg$/, use: [{
+                    loader: 'html-loader',
+                    options: {
+                        minimize: true
+                    }
+                }]
             },
             {
                 test: /\.js$/,

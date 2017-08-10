@@ -4,9 +4,9 @@
   "description": "A beautiful and clean WEB Music Player by HTML5.",
   "main": "./lib/index.js",
   "scripts": {
-    "clean": "rimraf ./dist && rimraf ./lib",
+    "clean": "rimraf ./dist && rimraf ./lib && rimraf ./example",
     "dev": "webpack-dev-server --inline --progress",
-    "build": "npm run clean && tsc && webpack  --config webpack.config.prod.js"
+    "build": "npm run clean && tsc && webpack && webpack  --config webpack.config.prod.js"
   },
   "keywords": [
     "cPlayer",

@@ -6,10 +6,6 @@ import { decodeLyricStr } from "./lyric";
 import { singlecyclePlaymode } from "./playmode/singlecycle";
 import { listrandomPlaymode } from "./playmode/listrandom";
 
-require('file-loader?name=example2.mp3!../example/Azis - Hop.mp3');
-require('file-loader?name=example1.mp3!../example/ねこぼーろ - ひねくれネジと雨.mp3');
-require('file-loader?name=example.mp3!../example/96猫,伊東歌詞太郎 - チルドレンレコード - 双声道版.mp3');
-
 export interface ICplayerOption {
   playlist?: Iplaylist;
 }

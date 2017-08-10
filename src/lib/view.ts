@@ -86,32 +86,32 @@ export default class cplayerView extends EventEmitter {
   }
 
   private getElementLinks(rootElement: Element = this.rootElement) {
-    let gebc = rootElement.getElementsByClassName
+    let gebc: (className:string)=> Element = className=>rootElement.getElementsByClassName(className)[0];
     return {
       icon: {
-        play: gebc('cp-play-icon')[0],
-        mode: gebc('cp-mode-icon')[0],
+        play: gebc('cp-play-icon'),
+        mode: gebc('cp-mode-icon'),
       },
       button: {
-        prev: gebc('cp-prev-button')[0],
-        play: gebc('cp-play-button')[0],
-        next: gebc('cp-next-button')[0],
-        volume: gebc('cp-volume-icon')[0],
-        list: gebc('cp-list-button')[0],
-        mode: gebc('cp-mode-button')[0]
+        prev: gebc('cp-prev-button'),
+        play: gebc('cp-play-button'),
+        next: gebc('cp-next-button'),
+        volume: gebc('cp-volume-icon'),
+        list: gebc('cp-list-button'),
+        mode: gebc('cp-mode-button')
       },
-      progress: gebc('cp-progress-fill')[0] as HTMLElement,
-      poster: gebc('cp-poster')[0] as HTMLElement,
-      title: gebc('cp-audio-title')[0] as HTMLElement,
-      artist: gebc('cp-audio-artist')[0] as HTMLElement,
-      lyric: gebc('cp-lyric-text')[0] as HTMLElement,
-      lyricContainer: gebc('cp-lyric')[0] as HTMLElement,
-      volumeController: gebc('cp-volume-controller')[0] as HTMLElement,
-      volumeFill: gebc('cp-volume-fill')[0] as HTMLElement,
-      volumeControllerButton: gebc('cp-volume-controller-button')[0] as HTMLElement,
-      volumeControllerContainer: gebc('cp-volume-container')[0] as HTMLElement,
-      dropDownMenu: gebc('cp-drop-down-menu')[0] as HTMLElement,
-      playlist: gebc('cp-playlist')[0] as HTMLElement,
+      progress: gebc('cp-progress-fill') as HTMLElement,
+      poster: gebc('cp-poster') as HTMLElement,
+      title: gebc('cp-audio-title') as HTMLElement,
+      artist: gebc('cp-audio-artist') as HTMLElement,
+      lyric: gebc('cp-lyric-text') as HTMLElement,
+      lyricContainer: gebc('cp-lyric') as HTMLElement,
+      volumeController: gebc('cp-volume-controller') as HTMLElement,
+      volumeFill: gebc('cp-volume-fill') as HTMLElement,
+      volumeControllerButton: gebc('cp-volume-controller-button') as HTMLElement,
+      volumeControllerContainer: gebc('cp-volume-container') as HTMLElement,
+      dropDownMenu: gebc('cp-drop-down-menu') as HTMLElement,
+      playlist: gebc('cp-playlist') as HTMLElement,
       playlistItems: this.getPlayListLinks(rootElement)
     }
   }

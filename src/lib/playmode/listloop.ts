@@ -36,6 +36,10 @@ export class listloopPlaymode implements Iplaymode {
     this.point = toPoint;
   }
 
+  public addMusic(item:IAudioItem){
+    this.__playlist.push(item);
+  }
+
   private nextPoint() {
     let res = this.point + 1;
     if (res >= this.__playlist.length) {

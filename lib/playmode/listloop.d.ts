@@ -8,6 +8,7 @@ export declare class listloopPlaymode implements Iplaymode {
     prev(): IAudioItem;
     now(): IAudioItem;
     to(id: number): void;
+    addMusic(item: IAudioItem): void;
     private nextPoint();
     private prevPoint();
 }

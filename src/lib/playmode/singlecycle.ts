@@ -32,4 +32,8 @@ export class singlecyclePlaymode implements Iplaymode {
       return p;
     });
   }
+
+  public addMusic(item:IAudioItem){
+    this.__playlist.push(item);
+  }
 }

@@ -36,6 +36,10 @@ export class listrandomPlaymode implements Iplaymode {
     this.point = toPoint;
   }
 
+  public addMusic(item:IAudioItem){
+    this.__playlist.push(item);
+  }
+
   private randomPoint(): number {
     if (this.__playlist.length > 1) {
       let random = Math.floor(this.__playlist.length * Math.random());

@@ -8,5 +8,6 @@ export declare class listrandomPlaymode implements Iplaymode {
     prev(): IAudioItem;
     now(): IAudioItem;
     to(id: number): void;
+    addMusic(item: IAudioItem): void;
     private randomPoint();
 }

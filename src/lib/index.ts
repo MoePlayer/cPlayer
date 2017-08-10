@@ -204,6 +204,13 @@ export default class cplayer extends EventEmitter {
     }
   }
 
+  public add(item:IAudioItem){
+    item = (playlistPreFilter([item] as Iplaylist))[0];
+    item.__id = this.playlist.length;
+    this.playmode.addMusic(item);
+    this.eventHandlers.handlePlayListChange();
+  }
+
   public setVolume(volume: number) {
     this.audioElement.volume = Math.max(0.0, Math.min(1.0, volume));
   }

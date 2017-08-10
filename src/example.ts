@@ -2,6 +2,45 @@ import cplayer from "./lib";
 
 window.addEventListener("load",
     function () {
+        function trigger(times:number, callback:()=>any):()=>void {
+            if (times < 1) return callback();
+            return function () {
+                times--;
+                if (times < 1) return callback();
+            }
+        }
+        (cplayer.prototype as any).add163 = function add163(id:number) {
+            if (!id) throw new Error("Unable Property.");
+            var obj:{[propName:string]:any} = { name: null, artist: null, image: null, url: null, lyric: null };
+            var push = trigger(3, () => this.add(obj));
+            obj["src"] = "https://api.imjad.cn/cloudmusic/?type=song&id=" + id + "&br=320000&raw=true"; push();
+            fetch("https://api.imjad.cn/cloudmusic/?type=detail&id=" + id).then(function (a) {
+                return a.json();
+            }).then(function (result) {
+                result = result["songs"][0];
+                var _ref = [result["name"], (result["ar"].length > 1 ?
+                    (function () {
+                        for (var i = result["ar"].length - 1; i >= 1; i--) result["ar"][0]["name"] += "/ " + result["ar"][i]["name"];
+                        return result["ar"][0]["name"];
+                    })() : result["ar"][0]["name"]), result["al"]["picUrl"]];
+                obj["name"] = _ref[0];
+                obj["artist"] = _ref[1];
+                obj["poster"] = _ref[2];
+                push()
+            }).then();
+            fetch("https://api.imjad.cn/cloudmusic/?type=lyric&id=" + id).then(function (a) {
+                return a.json();
+            }).then(function (result) {
+                if (result["uncollected"] === true || result["nolyric"]) {
+                    obj["lyric"] = undefined;
+                } else {
+                    obj["lyric"] = result["lrc"]["lyric"];
+                    if (result["tlyric"] !== undefined && result["tlyric"]["lyric"] !== undefined)
+                        obj["sublyric"] = result["tlyric"]["lyric"];
+                }; push()
+            });
+        }
+
         let player = new cplayer({
             element: document.getElementById('app'),
             zoomOutKana: true,

@@ -14,6 +14,7 @@ export interface Iplaymode {
     prev(): IAudioItem;
     now(): IAudioItem;
     to(id: number): void;
+    addMusic(item: IAudioItem): void;
     playlist: Iplaylist;
 }
 export interface IplaymodeConstructor {

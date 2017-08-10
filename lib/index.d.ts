@@ -30,5 +30,6 @@ export default class cplayer extends EventEmitter {
     next(): void;
     prev(): void;
     togglePlayState(): void;
+    add(item: IAudioItem): void;
     setVolume(volume: number): void;
 }

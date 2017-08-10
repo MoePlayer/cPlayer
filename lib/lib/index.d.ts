@@ -19,11 +19,12 @@ export default class cplayer extends EventEmitter {
     constructor(options: ICplayerOption & ICplayerViewOption);
     private initializeEventEmitter();
     private eventHandlers;
+    private isPlaying();
     openAudio(audio?: IAudioItem): void;
-    play(): void;
     toggleMode(): void;
     setMode(playmode: string): void;
     getMode(): string;
+    play(): void;
     pause(): void;
     to(id: number): void;
     next(): void;

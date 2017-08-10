@@ -29,6 +29,9 @@ function playlistPreFilter(playlist: Iplaylist) {
     if (typeof audio.lyric === 'string') {
       res.lyric = decodeLyricStr(audio.lyric)
     }
+    if (typeof audio.sublyric === 'string') {
+      res.sublyric = decodeLyricStr(audio.sublyric)
+    }
     return res;
   })
 }
@@ -66,6 +69,7 @@ export default class cplayer extends EventEmitter {
     }
     this.audioElement = new Audio();
     this.audioElement.loop = false;
+    this.audioElement.autoplay = false;
     this.initializeEventEmitter();
     this.playmode = new playmodes.listloop(playlistPreFilter(options.playlist), 0);
     this.view = new cplayerView(this, options);
@@ -80,6 +84,7 @@ export default class cplayer extends EventEmitter {
     this.audioElement.addEventListener('pause', this.eventHandlers.handlePause);
     this.audioElement.addEventListener('play', this.eventHandlers.handlePlay);
     this.audioElement.addEventListener('ended', this.eventHandlers.handleEnded);
+    this.audioElement.addEventListener('loadeddata', this.eventHandlers.handleLoadeddata)
   }
 
   private eventHandlers: { [key: string]: (...args: any[]) => void } = {
@@ -100,7 +105,7 @@ export default class cplayer extends EventEmitter {
       this.emit('canplaythrough', ...args);
     },
     handlePause: (...args) => {
-      if (!this.__paused) {
+      if (!this.__paused && !this.audioElement.ended) {
         this.play();
       }
     },
@@ -118,20 +123,14 @@ export default class cplayer extends EventEmitter {
     }
   }
 
-  public openAudio(audio: IAudioItem = this.nowplay) {
-    if (audio) {
-      this.audioElement.pause();
-      this.audioElement.src = this.nowplay.src;
-      this.emit('openaudio', audio);
-    }
+  private isPlaying() {
+    return this.audioElement.currentTime > 0 && !this.audioElement.paused && !this.audioElement.ended && this.audioElement.readyState > 2;
   }
 
-  public play() {
-    if (this.audioElement.paused || this.audioElement.ended) {
-      this.__paused = false;
-      this.audioElement.play();
-      this.emit('playstatechange', this.__paused);
-      this.emit('play');
+  public openAudio(audio: IAudioItem = this.nowplay) {
+    if (audio) {
+      this.audioElement.src = this.nowplay.src;
+      this.emit('openaudio', audio);
     }
   }
 
@@ -159,8 +158,19 @@ export default class cplayer extends EventEmitter {
     return this.mode;
   }
 
+  public play() {
+    let isPlaying = this.isPlaying();
+    if (!isPlaying) {
+      this.__paused = false;
+      this.audioElement.play();
+      this.emit('playstatechange', this.__paused);
+      this.emit('play');
+    }
+  }
+
   public pause() {
-    if (this.audioElement.played) {
+    let isPlaying = this.audioElement.currentTime > 0 && !this.audioElement.paused && !this.audioElement.ended && this.audioElement.readyState > 2;
+    if (isPlaying) {
       this.__paused = true;
       this.audioElement.pause();
       this.emit('playstatechange', this.__paused);
@@ -171,11 +181,7 @@ export default class cplayer extends EventEmitter {
   public to(id: number) {
     this.playmode.to(id);
     this.openAudio();
-    if (this.__paused) {
-      this.pause();
-    } else {
-      this.play();
-    }
+    this.play();
   }
 
   public next() {

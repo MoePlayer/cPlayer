@@ -1,6 +1,7 @@
 var webpack = require('webpack');
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const GLOBALS = {
     'process.env.NODE_ENV': JSON.stringify('production'),
@@ -20,6 +21,7 @@ module.exports = {
     devtool: "source-map",
 
     plugins: [
+        new BundleAnalyzerPlugin(),
         new webpack.DefinePlugin(GLOBALS),
         new webpack.optimize.UglifyJsPlugin({ sourceMap: true })
     ],

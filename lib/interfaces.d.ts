@@ -6,6 +6,7 @@ export interface IAudioItem {
     artist?: string;
     src: string;
     lyric?: Lyric | string;
+    sublyric?: Lyric | string;
 }
 export declare type Iplaylist = IAudioItem[];
 export interface Iplaymode {

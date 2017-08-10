@@ -3,6 +3,7 @@ import cplayer from './';
 import returntypeof from './helper/returntypeof';
 import { EventEmitter } from 'events';
 import parseHTML from "./helper/parseHTML";
+import { ILyricItem } from "./lyric";
 
 const defaultPoster = require('../defaultposter.jpg')
 const htmlTemplate = require('../cplayer.html');
@@ -25,6 +26,9 @@ function kanaFilter(str: string) {
       startflag = false;
     }
     res += ch;
+  }
+  if (startflag) {
+    res += endtag;
   }
   return res;
 }
@@ -82,31 +86,32 @@ export default class cplayerView extends EventEmitter {
   }
 
   private getElementLinks(rootElement: Element = this.rootElement) {
+    let gebc = rootElement.getElementsByClassName
     return {
       icon: {
-        play: rootElement.getElementsByClassName('cp-play-icon')[0],
-        mode: rootElement.getElementsByClassName('cp-mode-icon')[0],
+        play: gebc('cp-play-icon')[0],
+        mode: gebc('cp-mode-icon')[0],
       },
       button: {
-        prev: rootElement.getElementsByClassName('cp-prev-button')[0],
-        play: rootElement.getElementsByClassName('cp-play-button')[0],
-        next: rootElement.getElementsByClassName('cp-next-button')[0],
-        volume: rootElement.getElementsByClassName('cp-volume-icon')[0],
-        list: rootElement.getElementsByClassName('cp-list-button')[0],
-        mode: rootElement.getElementsByClassName('cp-mode-button')[0]
+        prev: gebc('cp-prev-button')[0],
+        play: gebc('cp-play-button')[0],
+        next: gebc('cp-next-button')[0],
+        volume: gebc('cp-volume-icon')[0],
+        list: gebc('cp-list-button')[0],
+        mode: gebc('cp-mode-button')[0]
       },
-      progress: rootElement.getElementsByClassName('cp-progress-fill')[0] as HTMLElement,
-      poster: rootElement.getElementsByClassName('cp-poster')[0] as HTMLElement,
-      title: rootElement.getElementsByClassName('cp-audio-title')[0] as HTMLElement,
-      artist: rootElement.getElementsByClassName('cp-audio-artist')[0] as HTMLElement,
-      lyric: rootElement.getElementsByClassName('cp-lyric-text')[0] as HTMLElement,
-      lyricContainer: rootElement.getElementsByClassName('cp-lyric')[0] as HTMLElement,
-      volumeController: rootElement.getElementsByClassName('cp-volume-controller')[0] as HTMLElement,
-      volumeFill: rootElement.getElementsByClassName('cp-volume-fill')[0] as HTMLElement,
-      volumeControllerButton: rootElement.getElementsByClassName('cp-volume-controller-button')[0] as HTMLElement,
-      volumeControllerContainer: rootElement.getElementsByClassName('cp-volume-container')[0] as HTMLElement,
-      dropDownMenu: rootElement.getElementsByClassName('cp-drop-down-menu')[0] as HTMLElement,
-      playlist: rootElement.getElementsByClassName('cp-playlist')[0] as HTMLElement,
+      progress: gebc('cp-progress-fill')[0] as HTMLElement,
+      poster: gebc('cp-poster')[0] as HTMLElement,
+      title: gebc('cp-audio-title')[0] as HTMLElement,
+      artist: gebc('cp-audio-artist')[0] as HTMLElement,
+      lyric: gebc('cp-lyric-text')[0] as HTMLElement,
+      lyricContainer: gebc('cp-lyric')[0] as HTMLElement,
+      volumeController: gebc('cp-volume-controller')[0] as HTMLElement,
+      volumeFill: gebc('cp-volume-fill')[0] as HTMLElement,
+      volumeControllerButton: gebc('cp-volume-controller-button')[0] as HTMLElement,
+      volumeControllerContainer: gebc('cp-volume-container')[0] as HTMLElement,
+      dropDownMenu: gebc('cp-drop-down-menu')[0] as HTMLElement,
+      playlist: gebc('cp-playlist')[0] as HTMLElement,
       playlistItems: this.getPlayListLinks(rootElement)
     }
   }
@@ -143,15 +148,16 @@ export default class cplayerView extends EventEmitter {
   }
 
   private toggleDropDownMenu() {
+    let dropDownMenu = this.elementLinks.dropDownMenu;
     if (this.dropDownMenuShowInfo) {
-      this.elementLinks.dropDownMenu.style.height = this.player.playlist.length * 25 + 'px';
-      this.elementLinks.dropDownMenu.classList.remove('cp-drop-down-menu-info');
-      this.elementLinks.dropDownMenu.classList.add('cp-drop-down-menu-playlist');
+      dropDownMenu.style.height = this.player.playlist.length * 25 + 'px';
+      dropDownMenu.classList.remove('cp-drop-down-menu-info');
+      dropDownMenu.classList.add('cp-drop-down-menu-playlist');
       this.dropDownMenuShowInfo = false;
     } else {
-      this.elementLinks.dropDownMenu.style.height = '';
-      this.elementLinks.dropDownMenu.classList.remove('cp-drop-down-menu-playlist');
-      this.elementLinks.dropDownMenu.classList.add('cp-drop-down-menu-info');
+      dropDownMenu.style.height = '';
+      dropDownMenu.classList.remove('cp-drop-down-menu-playlist');
+      dropDownMenu.classList.add('cp-drop-down-menu-info');
       this.dropDownMenuShowInfo = true;
     }
   }
@@ -244,14 +250,18 @@ export default class cplayerView extends EventEmitter {
       let lyric = this.player.nowplay.lyric.getLyric(playedTime * 1000);
       let nextLyric = this.player.nowplay.lyric.getNextLyric(playedTime * 1000);
       if (lyric) {
+        let sublyric: ILyricItem;
+        if (this.player.nowplay.sublyric && typeof this.player.nowplay.sublyric !== 'string') {
+          sublyric = this.player.nowplay.sublyric.getLyric(playedTime * 1000);
+        }
         if (nextLyric) {
           let duration = nextLyric.time - lyric.time;
           let currentTime = playedTime * 1000 - lyric.time;
-          this.setLyric(buildLyric(lyric.word, undefined, this.options.zoomOutKana), currentTime, duration);
+          this.setLyric(buildLyric(lyric.word, sublyric ? sublyric.word : undefined, this.options.zoomOutKana), currentTime, duration);
         } else {
           let duration = this.player.audioElement.duration - lyric.time;
           let currentTime = playedTime * 1000 - lyric.time;
-          this.setLyric(buildLyric(lyric.word, undefined, this.options.zoomOutKana), currentTime, duration);
+          this.setLyric(buildLyric(lyric.word, sublyric ? sublyric.word : undefined, this.options.zoomOutKana), currentTime, duration);
         }
       } else {
         this.setLyric(buildLyric(this.player.nowplay.name, this.player.nowplay.artist, false), playedTime * 1000, nextLyric.time);

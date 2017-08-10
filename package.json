@@ -17,6 +17,11 @@
     "es6",
     "cplayer"
   ],
+  "browserslist": [
+    "> 1%",
+    "Last 2 versions",
+    "IE 10"
+  ],
   "maintainers": [
     {
       "name": "Corps",
@@ -58,6 +63,7 @@
     "uglify": "*",
     "url-loader": "^0.5.9",
     "webpack": "^3.3.0",
+    "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.6.1"
   },
   "typings": "./lib/index.d.ts"

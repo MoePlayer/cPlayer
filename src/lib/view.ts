@@ -81,6 +81,10 @@ export default class cplayerView extends EventEmitter {
     this.setPlayIcon(this.player.paused);
   }
 
+  public getRootElement(){
+    return this.rootElement;
+  }
+
   private getPlayListLinks(rootElement: Element = this.rootElement) {
     return rootElement.querySelectorAll('.cp-playlist li');
   }

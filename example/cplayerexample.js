@@ -704,6 +704,20 @@ var cplayer = function (_events_1$EventEmitte) {
             this.audioElement.volume = Math.max(0.0, Math.min(1.0, volume));
         }
     }, {
+        key: "destroy",
+        value: function destroy() {
+            var _this2 = this;
+
+            this.audioElement.src = null;
+            this.audioElement.removeEventListener("timeupdate", this.eventHandlers.handleTimeUpdate);
+            this.removeAllListeners();
+            this.view.getRootElement().parentElement.removeChild(this.view.getRootElement());
+            Object.getOwnPropertyNames(this).forEach(function (name) {
+                return delete _this2[name];
+            });
+            this.__proto__ = Object;
+        }
+    }, {
         key: "mode",
         set: function set(playmode) {
             this.setMode(playmode);
@@ -1002,6 +1016,11 @@ var cplayerView = function (_events_1$EventEmitte) {
     }
 
     _createClass(cplayerView, [{
+        key: "getRootElement",
+        value: function getRootElement() {
+            return this.rootElement;
+        }
+    }, {
         key: "getPlayListLinks",
         value: function getPlayListLinks() {
             var rootElement = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.rootElement;

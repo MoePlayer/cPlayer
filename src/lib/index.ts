@@ -214,6 +214,15 @@ export default class cplayer extends EventEmitter {
   public setVolume(volume: number) {
     this.audioElement.volume = Math.max(0.0, Math.min(1.0, volume));
   }
+
+  public destroy(){
+    this.audioElement.src = null;
+    this.audioElement.removeEventListener("timeupdate",this.eventHandlers.handleTimeUpdate);
+    this.removeAllListeners();
+    this.view.getRootElement().parentElement.removeChild(this.view.getRootElement());
+    Object.getOwnPropertyNames(this).forEach((name:keyof cplayer)=>delete this[name]);
+    (this as any).__proto__ = Object;
+  }
 }
 
 function parseCPlayerTag() {

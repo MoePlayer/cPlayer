@@ -14,6 +14,7 @@ export default class cplayerView extends EventEmitter {
     private dropDownMenuShowInfo;
     private options;
     constructor(player: cplayer, options: ICplayerViewOption);
+    getRootElement(): Element;
     private getPlayListLinks(rootElement?);
     private getElementLinks(rootElement?);
     private setPlayIcon(paused);

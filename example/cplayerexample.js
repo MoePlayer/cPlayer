@@ -582,6 +582,13 @@ window.addEventListener("load", function () {
         zoomOutKana: true,
         playlist: playlist
     });
+    document.getElementById('add163').addEventListener("click", function (e) {
+        var id163 = prompt('输入音乐的网易云ID:').trim();
+        if (id163) {
+            player.view.openDropDownMenu();
+            player.add163(id163);
+        }
+    });
     window.demoPlayer = player;
     window.playlist = playlist;
 });
@@ -1192,19 +1199,30 @@ var cplayerView = function (_events_1$EventEmitte) {
             this.elementLinks.button.mode.attributes.setNamedItem(modeattr);
         }
     }, {
+        key: "closeDropDownMenu",
+        value: function closeDropDownMenu() {
+            var dropDownMenu = this.elementLinks.dropDownMenu;
+            dropDownMenu.style.height = '';
+            dropDownMenu.classList.remove('cp-drop-down-menu-playlist');
+            dropDownMenu.classList.add('cp-drop-down-menu-info');
+            this.dropDownMenuShowInfo = true;
+        }
+    }, {
+        key: "openDropDownMenu",
+        value: function openDropDownMenu() {
+            var dropDownMenu = this.elementLinks.dropDownMenu;
+            dropDownMenu.style.height = this.player.playlist.length * 25 + 'px';
+            dropDownMenu.classList.remove('cp-drop-down-menu-info');
+            dropDownMenu.classList.add('cp-drop-down-menu-playlist');
+            this.dropDownMenuShowInfo = false;
+        }
+    }, {
         key: "toggleDropDownMenu",
         value: function toggleDropDownMenu() {
-            var dropDownMenu = this.elementLinks.dropDownMenu;
             if (this.dropDownMenuShowInfo) {
-                dropDownMenu.style.height = this.player.playlist.length * 25 + 'px';
-                dropDownMenu.classList.remove('cp-drop-down-menu-info');
-                dropDownMenu.classList.add('cp-drop-down-menu-playlist');
-                this.dropDownMenuShowInfo = false;
+                this.openDropDownMenu();
             } else {
-                dropDownMenu.style.height = '';
-                dropDownMenu.classList.remove('cp-drop-down-menu-playlist');
-                dropDownMenu.classList.add('cp-drop-down-menu-info');
-                this.dropDownMenuShowInfo = true;
+                this.closeDropDownMenu();
             }
         }
     }, {

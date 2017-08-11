@@ -23,7 +23,9 @@ export default class cplayerView extends EventEmitter {
     private __OldVolume;
     private setVolume(volume);
     private setMode(mode);
-    private toggleDropDownMenu();
+    closeDropDownMenu(): void;
+    openDropDownMenu(): void;
+    toggleDropDownMenu(): void;
     private setVolumeControllerKeepShow();
     private toggleVolumeControllerKeepShow();
     private removeVolumeControllerKeepShow();

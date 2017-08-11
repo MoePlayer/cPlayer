@@ -34,7 +34,7 @@ function kanaFilter(str: string) {
 }
 
 function buildLyric(lyric: string, sublyric?: string, zoomOutKana: boolean = false) {
-  return (zoomOutKana ? kanaFilter(lyric) : lyric) + (sublyric?`<span class="cp-lyric-text-sub">${sublyric}</span>`:'')
+  return (zoomOutKana ? kanaFilter(lyric) : lyric) + (sublyric ? `<span class="cp-lyric-text-sub">${sublyric}</span>` : '')
 }
 
 export interface ICplayerViewOption {
@@ -44,7 +44,7 @@ export interface ICplayerViewOption {
   zoomOutKana?: boolean;
 }
 
-const defaultOption:ICplayerViewOption = {
+const defaultOption: ICplayerViewOption = {
   element: document.body,
   generateBeforeElement: false,
   deleteElementAfterGenerate: false,
@@ -81,7 +81,7 @@ export default class cplayerView extends EventEmitter {
     this.setPlayIcon(this.player.paused);
   }
 
-  public getRootElement(){
+  public getRootElement() {
     return this.rootElement;
   }
 
@@ -90,7 +90,7 @@ export default class cplayerView extends EventEmitter {
   }
 
   private getElementLinks(rootElement: Element = this.rootElement) {
-    let gebc: (className:string)=> Element = className=>rootElement.getElementsByClassName(className)[0];
+    let gebc: (className: string) => Element = className => rootElement.getElementsByClassName(className)[0];
     return {
       icon: {
         play: gebc('cp-play-icon'),
@@ -151,18 +151,27 @@ export default class cplayerView extends EventEmitter {
     this.elementLinks.button.mode.attributes.setNamedItem(modeattr);
   }
 
-  private toggleDropDownMenu() {
+  public closeDropDownMenu() {
     let dropDownMenu = this.elementLinks.dropDownMenu;
+    dropDownMenu.style.height = '';
+    dropDownMenu.classList.remove('cp-drop-down-menu-playlist');
+    dropDownMenu.classList.add('cp-drop-down-menu-info');
+    this.dropDownMenuShowInfo = true;
+  }
+
+  public openDropDownMenu() {
+    let dropDownMenu = this.elementLinks.dropDownMenu;
+    dropDownMenu.style.height = this.player.playlist.length * 25 + 'px';
+    dropDownMenu.classList.remove('cp-drop-down-menu-info');
+    dropDownMenu.classList.add('cp-drop-down-menu-playlist');
+    this.dropDownMenuShowInfo = false;
+  }
+
+  public toggleDropDownMenu() {
     if (this.dropDownMenuShowInfo) {
-      dropDownMenu.style.height = this.player.playlist.length * 25 + 'px';
-      dropDownMenu.classList.remove('cp-drop-down-menu-info');
-      dropDownMenu.classList.add('cp-drop-down-menu-playlist');
-      this.dropDownMenuShowInfo = false;
+      this.openDropDownMenu();
     } else {
-      dropDownMenu.style.height = '';
-      dropDownMenu.classList.remove('cp-drop-down-menu-playlist');
-      dropDownMenu.classList.add('cp-drop-down-menu-info');
-      this.dropDownMenuShowInfo = true;
+      this.closeDropDownMenu();
     }
   }
 
@@ -249,7 +258,7 @@ export default class cplayerView extends EventEmitter {
     this.player.addListener('openaudio', this.handleOpenAudio);
     this.player.addListener('volumechange', this.handleVolumeChange);
     this.player.addListener('playmodechange', this.handleModeChange);
-    this.player.addListener('playlistchange',this.handlePlaylistchange);
+    this.player.addListener('playlistchange', this.handlePlaylistchange);
     this.injectPlayListEventListener();
   }
 
@@ -293,7 +302,7 @@ export default class cplayerView extends EventEmitter {
 
   private handleClickPlayList = (point: number, event: Event) => {
     if (this.player.nowplaypoint !== point)
-    this.player.to(point);
+      this.player.to(point);
   }
 
   private handleClickPlayButton = () => {
@@ -317,7 +326,7 @@ export default class cplayerView extends EventEmitter {
     this.setMode(mode);
   }
 
-  private handleVolumeChange = (volume:number) => {
+  private handleVolumeChange = (volume: number) => {
     this.setVolume(volume);
   };
 

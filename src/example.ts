@@ -70,6 +70,15 @@ window.addEventListener("load",
             zoomOutKana: true,
             playlist
         });
+
+        document.getElementById('add163').addEventListener("click", (e) => {
+            let id163 = prompt('输入音乐的网易云ID:').trim();
+            if (id163) {
+                player.view.openDropDownMenu();
+                (player as any).add163(id163);
+            }
+        });
+
         (window as any).demoPlayer = player;
         (window as any).playlist = playlist;
     }

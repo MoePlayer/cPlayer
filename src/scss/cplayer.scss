@@ -36,6 +36,12 @@ c-player {
     width: $mainbody-width;
     display: inline-block;
     position: relative;
+    &:hover {
+        .#{$name-prefix}progress {
+            opacity: 1;
+            transform: scaleY(1) translateY(0%);
+        }
+    }
 	.#{$name-prefix}mainbody {
         display: flex;
         align-items: center;
@@ -52,15 +58,8 @@ c-player {
             margin-right: 7px
         }
         &:hover{
-            height: $mainbody-height+2px;
-            @include transition(height ease 0.5s);
             & + .#{$name-prefix}drop-down-menu.#{$name-prefix}drop-down-menu-info {
                 height: 25px;
-            }
-            .#{$name-prefix}progress {
-                display:block;
-                opacity: 1;
-                height: 2px;
             }
         }
     }
@@ -193,11 +192,11 @@ c-player {
     .#{$name-prefix}progress {
         flex-basis: 100%;
         margin: 0px;
-        height: 0px;
-        display: none;
         opacity: 0.8;
         overflow: hidden;
-        @include transition(opacity 0.5s ease, height 0.5s ease);
+        transform: scaleY(0) translateY(-100%);
+        background: $backgroundColor;
+        @include transition(opacity 0.3s ease, transform 0.3s ease);
         .#{$name-prefix}progress-fill {
             display: block;
             height: 2px;

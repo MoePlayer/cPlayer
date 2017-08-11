@@ -350,4 +350,8 @@ export default class cplayerView extends EventEmitter {
     this.player.setVolume(volume);
     this.setVolume(volume);
   };
+
+  public destroy() {
+    this.rootElement.parentElement.removeChild(this.rootElement);
+  }
 }

@@ -219,7 +219,7 @@ export default class cplayer extends EventEmitter {
     this.audioElement.src = null;
     this.audioElement.removeEventListener("timeupdate",this.eventHandlers.handleTimeUpdate);
     this.removeAllListeners();
-    this.view.getRootElement().parentElement.removeChild(this.view.getRootElement());
+    this.view.destroy();
     Object.getOwnPropertyNames(this).forEach((name:keyof cplayer)=>delete this[name]);
     (this as any).__proto__ = Object;
   }

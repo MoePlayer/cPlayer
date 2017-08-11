@@ -53,47 +53,16 @@ new cplayer({
 
 # Option
 
-- element 
+|OPTION|default content|description|
+|:-----|:-------------:|:----------|
+|element|`document.body`|注入播放器的目标元素。|
+|playlist|`[]`|播放列表。|
+|zoomOutKana|`false`|日语优化，缩小显示歌词中的假名。|
+|playmode|`listloop`|默认播放模式。|
+|volume|`1`|默认音量|
+|point|`0`|开始播放的歌曲索引。|
+|showPlaylist|`false`|显示播放列表，而不是当前歌曲信息。|
 
-  默认: `document.body`
-  
-  注入播放器的目标元素。
-
-- playlist
-
-  默认: `[]`
-
-  播放列表。
-
-- zoomOutKana
-
-  默认：`false`
-
-  日语优化，缩小显示歌词中的假名。
-
-- playmode
-
-  默认: `listloop`
-
-  默认播放模式。
-
-- volume
-
-  默认：1
-
-  默认音量
-
-- point
-
-  默认：0
-
-  开始播放的歌曲索引。
-
-- showPlaylist
-
-  默认: false
-
-  显示播放列表，而不是当前歌曲信息。
 
 # Apis
 

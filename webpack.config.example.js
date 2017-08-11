@@ -1,11 +1,13 @@
 var webpack = require('webpack');
 var path = require('path');
 var uglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
+var OfflinePlugin = require('offline-plugin');
+
 
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const GLOBALS = {
-    'process.env.NODE_ENV': JSON.stringify('development'),
+    'process.env.NODE_ENV': JSON.stringify('production'),
     __DEV__: true
 };
 
@@ -15,7 +17,19 @@ var HtmlWebpackConfig = {
     template: "./src/example.html",
     hash: true,
     showErrors: true,
-    inject: 'head'
+    inject: 'head',
+    minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
+    }
 };
 
 
@@ -33,7 +47,9 @@ module.exports = {
 
     plugins: [
         new webpack.DefinePlugin(GLOBALS),
-        new HtmlWebpackPlugin(HtmlWebpackConfig)
+        new HtmlWebpackPlugin(HtmlWebpackConfig),
+        new webpack.optimize.UglifyJsPlugin({ sourceMap: true }),
+        new OfflinePlugin()
     ],
 
     resolve: {
@@ -172,26 +188,5 @@ module.exports = {
                 use: [{ loader: 'source-map-loader' }]
             }
         ]
-    },
-    devServer: {
-        port: process.env.PORT || 8888,
-        host: '127.0.0.1',
-        publicPath: '/',
-        contentBase: './src',
-        historyApiFallback: true,
-        open: true,
-        disableHostCheck: true,
-        watchContentBase: true,
-        compress: true,
-        headers: {
-            "access-control-allow-origin":"*"
-        },
-        proxy: {
-            // OPTIONAL: proxy configuration:
-            // '/optional-prefix/**': { // path pattern to rewrite
-            //   target: 'http://target-host.com',
-            //   pathRewrite: path => path.replace(/^\/[^\/]+\//, '')   // strip first path segment
-            // }
-        }
     }
 }

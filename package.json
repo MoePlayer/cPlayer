@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rimraf ./dist && rimraf ./lib && rimraf ./example",
     "dev": "webpack-dev-server --inline --progress",
-    "build": "npm run clean && tsc && webpack && webpack  --config webpack.config.prod.js",
+    "build": "npm run clean && tsc && webpack --config webpack.config.example.js && webpack --config webpack.config.prod.js",
     "prepublish": "rimraf ./example"
   },
   "keywords": [
@@ -53,6 +53,7 @@
     "html-loader": "^0.4.5",
     "html-webpack-plugin": "^2.29.0",
     "node-sass": "^4.5.3",
+    "offline-plugin": "^4.8.3",
     "postcss": "^6.0.8",
     "postcss-loader": "^2.0.6",
     "raw-loader": "^0.5.1",

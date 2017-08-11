@@ -5,10 +5,7 @@
     <title>DEMO</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="cplayer.js"></script>
-    <script src="cpixel.js"></script>
     <script type="text/javascript" src="fetch.js"></script>
-    <link rel="stylesheet" href="cplayer.min.css">
-    <link href="https://cdn.bootcss.com/material-design-icons/2.2.3/iconfont/material-icons.css" rel="stylesheet">
     <style>
         body {
             margin: 0;
@@ -52,31 +49,21 @@
     </div>
     <script>
         "use strict";
-        new cPixel;
-        function check(obj, args) {
-            if (!Array.isArray(args)) throw new Error("Property 'args' is not a Array.");
-            var rs = true;
-            for (var i in args) {
-                if (obj[args[i]] === false) {
-                    return false;
-                }
-            }return true;
+        function trigger(times,callback){
+            if(times<1)return callback();
+            return function(){
+                times--;
+                if(times<1)return callback();
+            }
         }
         function add163(cp, id) {
             if (!cp || !id) throw new Error("Unable Property.");
-            var obj = { name: false, artist: false, image: false, url: false, lyric: false };
-            var push = function push(bool) {
-                if (bool) cp.add(obj);
-            };
-            fetch("https://api.imjad.cn/cloudmusic/?type=song&id=" + id + "&br=320000").then(function (a) {
-                return a.json();
-            }).then(function (result) {
-                obj["url"] = result["data"][0]["url"];
-                return check(obj, ["name", "artist", "image", "url", "lyric"]);
-            }).then(push);
+            var obj = { name: null, artist: null, image: null, url: null, lyric: null };
+            var push = trigger(3,function(){cp.add(obj)});
+            obj["url"] = "https://api.imjad.cn/cloudmusic/?type=song&id=" + id + "&br=320000&raw=true";push();
             fetch("https://api.imjad.cn/cloudmusic/?type=detail&id=" + id).then(function (a) {
                 return a.json();
-            }).then(function (result) {
+            }).then(function (result) { 
                 result = result["songs"][0];
                 var _ref = [result["name"], (result["ar"].length>1?
                     (function(){
@@ -86,32 +73,31 @@
                 obj["name"] = _ref[0];
                 obj["artist"] = _ref[1];
                 obj["image"] = _ref[2];
-
-                return check(obj, ["name", "artist", "image", "url", "lyric"]);
-            }).then(push);
+                push()
+            }).then();
             fetch("https://api.imjad.cn/cloudmusic/?type=lyric&id=" + id).then(function (a) {
                 return a.json();
             }).then(function (result) {
-                if (result["nolyric"] === true) {
+                if (result["uncollected"] === true ||result["nolyric"]) {
                     obj["lyric"] = undefined;
                 } else {
                     obj["lyric"] = result["lrc"]["lyric"];
                     if(result["tlyric"]!==undefined&&result["tlyric"]["lyric"]!==undefined)
                         obj["transLyric"] = result["tlyric"]["lyric"];
-                }
-                return check(obj, ["name", "artist", "image", "url", "lyric"]);
-            }).then(push);
+                };push()
+            });
         }
 
     </script>
     <script>
         var cp = new cPlayer;
-        add163(cp,4940455);
-        add163(cp,41500711);
-        add163(cp,792449);
-        add163(cp,427609923);
-        add163(cp,34880507);
-        add163(cp,38574225);
+        add163(cp,419485504);
+        add163(cp,27669789);
+        add163(cp,691504);
+        add163(cp,20744075);
+        add163(cp,412951925);
+        //setTimeout(function(){location.reload()},60*30*1000);
+        addEventListener("keypress",function(e){if(e.keyCode===13)cp.__LIST__.toggle.click()})
     </script>
 </body>
 </html>

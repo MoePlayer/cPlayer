@@ -40,9 +40,9 @@ c-player {
         display: flex;
         align-items: center;
         flex-direction: row;
-		min-height: $mainbody-height + 2px;
+		min-height: $mainbody-height;
         min-width: $mainbody-width;
-        height: $mainbody-height + 2px;
+        height: $mainbody-height;
         flex-wrap: wrap;
         background-color: $backgroundColor;
         position: relative;
@@ -51,8 +51,17 @@ c-player {
         > * {
             margin-right: 7px
         }
-        &:hover + .#{$name-prefix}drop-down-menu.#{$name-prefix}drop-down-menu-info {
-            height: 25px;
+        &:hover{
+            height: $mainbody-height+2px;
+            @include transition(height ease 0.5s);
+            & + .#{$name-prefix}drop-down-menu.#{$name-prefix}drop-down-menu-info {
+                height: 25px;
+            }
+            .#{$name-prefix}progress {
+                display:block;
+                opacity: 1;
+                height: 2px;
+            }
         }
     }
     .#{$name-prefix}drop-down-menu {
@@ -69,7 +78,7 @@ c-player {
         height: 0px;
         overflow: hidden;
         @include box_shadow(1);
-        @include transition(transform 0.25s ease, height 0.25s ease);
+        @include transition(transform 0.25s ease 0.1s, height 0.25s ease 0.1s);
         span.#{$name-prefix}audio-title {
             max-width: 170px;
             overflow: hidden;
@@ -184,8 +193,11 @@ c-player {
     .#{$name-prefix}progress {
         flex-basis: 100%;
         margin: 0px;
-        height: 2px;
+        height: 0px;
+        display: none;
+        opacity: 0.8;
         overflow: hidden;
+        @include transition(opacity 0.5s ease, height 0.5s ease);
         .#{$name-prefix}progress-fill {
             display: block;
             height: 2px;

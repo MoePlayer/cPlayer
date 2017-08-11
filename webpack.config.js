@@ -174,13 +174,17 @@ module.exports = {
     },
     devServer: {
         port: process.env.PORT || 8888,
-        host: 'localhost',
+        host: '127.0.0.1',
         publicPath: '/',
         contentBase: './src',
         historyApiFallback: true,
         open: true,
+        disableHostCheck: true,
         watchContentBase: true,
         compress: true,
+        headers: {
+            "access-control-allow-origin":"*"
+        },
         proxy: {
             // OPTIONAL: proxy configuration:
             // '/optional-prefix/**': { // path pattern to rewrite

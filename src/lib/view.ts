@@ -15,7 +15,8 @@ function kanaFilter(str: string) {
   const endtag = '</span>';
   let res = '';
   let startflag = false;
-  for (let ch of str) {
+  for(let i = 0; i < str.length; i++) {
+    let ch = str.charAt(i);
     let kano = /[ぁ-んァ-ン]/.test(ch);
     if (kano && !startflag) {
       res += starttag;
@@ -241,11 +242,11 @@ export default class cplayerView extends EventEmitter {
   }
 
   private injectPlayListEventListener() {
-    this.elementLinks.playlistItems.forEach((i, index) => {
+    Array.prototype.forEach.call(this.elementLinks.playlistItems,((i: Element, index: number) => {
       i.addEventListener('click', (event) => {
         this.handleClickPlayList(index, event);
       })
-    })
+    }))
   }
 
   private injectEventListener() {

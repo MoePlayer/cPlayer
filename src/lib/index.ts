@@ -251,7 +251,7 @@ export default class cplayer extends EventEmitter {
 }
 
 function parseCPlayerTag() {
-  document.querySelectorAll('template[cplayer]').forEach((element) => {
+  Array.prototype.forEach.call(document.querySelectorAll('template[cplayer]'),(element: Element) => {
     element.attributes.getNamedItem('loaded') ||
       new cplayer({
         generateBeforeElement: true,

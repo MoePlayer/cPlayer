@@ -42,13 +42,15 @@ export interface ICplayerViewOption {
   generateBeforeElement?: boolean;
   deleteElementAfterGenerate?: boolean;
   zoomOutKana?: boolean;
+  showPlaylist?: boolean
 }
 
 const defaultOption: ICplayerViewOption = {
   element: document.body,
   generateBeforeElement: false,
   deleteElementAfterGenerate: false,
-  zoomOutKana: false
+  zoomOutKana: false,
+  showPlaylist: false
 }
 
 export default class cplayerView extends EventEmitter {
@@ -79,6 +81,10 @@ export default class cplayerView extends EventEmitter {
     this.elementLinks = this.getElementLinks();
     this.injectEventListener();
     this.setPlayIcon(this.player.paused);
+    this.dropDownMenuShowInfo = !this.options.showPlaylist;
+    if (this.dropDownMenuShowInfo) {
+      this.showInfo();
+    } else this.showPlaylist();
   }
 
   public getRootElement() {
@@ -151,7 +157,7 @@ export default class cplayerView extends EventEmitter {
     this.elementLinks.button.mode.attributes.setNamedItem(modeattr);
   }
 
-  public closeDropDownMenu() {
+  public showInfo() {
     let dropDownMenu = this.elementLinks.dropDownMenu;
     dropDownMenu.style.height = '';
     dropDownMenu.classList.remove('cp-drop-down-menu-playlist');
@@ -159,7 +165,7 @@ export default class cplayerView extends EventEmitter {
     this.dropDownMenuShowInfo = true;
   }
 
-  public openDropDownMenu() {
+  public showPlaylist() {
     let dropDownMenu = this.elementLinks.dropDownMenu;
     dropDownMenu.style.height = this.player.playlist.length * 25 + 'px';
     dropDownMenu.classList.remove('cp-drop-down-menu-info');
@@ -169,9 +175,9 @@ export default class cplayerView extends EventEmitter {
 
   public toggleDropDownMenu() {
     if (this.dropDownMenuShowInfo) {
-      this.openDropDownMenu();
+      this.showPlaylist();
     } else {
-      this.closeDropDownMenu();
+      this.showInfo();
     }
   }
 

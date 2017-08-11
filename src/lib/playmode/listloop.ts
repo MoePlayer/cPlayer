@@ -53,7 +53,7 @@ export class listloopPlaymode implements Iplaymode {
   }
 
   public to(point: number) {
-    this.point = point;
+    this.point = Math.max(0, Math.min(point, this.__playlist.length - 1));
   }
 
   public addMusic(item: IAudioItem) {

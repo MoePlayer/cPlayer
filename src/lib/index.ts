@@ -9,10 +9,16 @@ import shallowEqual from "./helper/shallowEqual";
 
 export interface ICplayerOption {
   playlist?: Iplaylist;
+  playmode?: string;
+  volume?: number;
+  point?: number;
 }
 
 const defaultOption: ICplayerOption = {
-  playlist: []
+  playlist: [],
+  point: 0,
+  volume: 1,
+  playmode: 'listloop'
 }
 
 const playmodes: { [key: string]: IplaymodeConstructor } = {
@@ -77,10 +83,11 @@ export default class cplayer extends EventEmitter {
     this.audioElement.loop = false;
     this.audioElement.autoplay = false;
     this.initializeEventEmitter();
-    this.playmode = new playmodes.listloop(playlistPreFilter(options.playlist), 0);
+    this.playmode = new playmodes[options.playmode](playlistPreFilter(options.playlist), options.point);
     this.view = new cplayerView(this, options);
     this.openAudio();
     this.eventHandlers.handlePlaymodeChange();
+    this.setVolume(options.volume);
   }
 
   private initializeEventEmitter() {

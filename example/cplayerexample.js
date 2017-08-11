@@ -136,7 +136,7 @@ var listloopPlaymode = function () {
     }, {
         key: "to",
         value: function to(point) {
-            this.point = point;
+            this.point = Math.max(0, Math.min(point, this.__playlist.length - 1));
         }
     }, {
         key: "addMusic",
@@ -585,7 +585,7 @@ window.addEventListener("load", function () {
     document.getElementById('add163').addEventListener("click", function (e) {
         var id163 = prompt('输入音乐的网易云ID:').trim();
         if (id163) {
-            player.view.openDropDownMenu();
+            player.view.showPlaylist();
             player.add163(id163);
         }
     });
@@ -616,7 +616,10 @@ var lyric_1 = __webpack_require__(17);
 var singlecycle_1 = __webpack_require__(18);
 var listrandom_1 = __webpack_require__(19);
 var defaultOption = {
-    playlist: []
+    playlist: [],
+    point: 0,
+    volume: 1,
+    playmode: 'listloop'
 };
 var playmodes = {
     listloop: listloop_1.listloopPlaymode,
@@ -700,10 +703,11 @@ var cplayer = function (_events_1$EventEmitte) {
         _this.audioElement.loop = false;
         _this.audioElement.autoplay = false;
         _this.initializeEventEmitter();
-        _this.playmode = new playmodes.listloop(playlistPreFilter(options.playlist), 0);
+        _this.playmode = new playmodes[options.playmode](playlistPreFilter(options.playlist), options.point);
         _this.view = new view_1.default(_this, options);
         _this.openAudio();
         _this.eventHandlers.handlePlaymodeChange();
+        _this.setVolume(options.volume);
         return _this;
     }
 
@@ -1021,7 +1025,8 @@ var defaultOption = {
     element: document.body,
     generateBeforeElement: false,
     deleteElementAfterGenerate: false,
-    zoomOutKana: false
+    zoomOutKana: false,
+    showPlaylist: false
 };
 
 var cplayerView = function (_events_1$EventEmitte) {
@@ -1112,6 +1117,10 @@ var cplayerView = function (_events_1$EventEmitte) {
         _this.elementLinks = _this.getElementLinks();
         _this.injectEventListener();
         _this.setPlayIcon(_this.player.paused);
+        _this.dropDownMenuShowInfo = !_this.options.showPlaylist;
+        if (_this.dropDownMenuShowInfo) {
+            _this.showInfo();
+        } else _this.showPlaylist();
         return _this;
     }
 
@@ -1199,8 +1208,8 @@ var cplayerView = function (_events_1$EventEmitte) {
             this.elementLinks.button.mode.attributes.setNamedItem(modeattr);
         }
     }, {
-        key: "closeDropDownMenu",
-        value: function closeDropDownMenu() {
+        key: "showInfo",
+        value: function showInfo() {
             var dropDownMenu = this.elementLinks.dropDownMenu;
             dropDownMenu.style.height = '';
             dropDownMenu.classList.remove('cp-drop-down-menu-playlist');
@@ -1208,8 +1217,8 @@ var cplayerView = function (_events_1$EventEmitte) {
             this.dropDownMenuShowInfo = true;
         }
     }, {
-        key: "openDropDownMenu",
-        value: function openDropDownMenu() {
+        key: "showPlaylist",
+        value: function showPlaylist() {
             var dropDownMenu = this.elementLinks.dropDownMenu;
             dropDownMenu.style.height = this.player.playlist.length * 25 + 'px';
             dropDownMenu.classList.remove('cp-drop-down-menu-info');
@@ -1220,9 +1229,9 @@ var cplayerView = function (_events_1$EventEmitte) {
         key: "toggleDropDownMenu",
         value: function toggleDropDownMenu() {
             if (this.dropDownMenuShowInfo) {
-                this.openDropDownMenu();
+                this.showPlaylist();
             } else {
-                this.closeDropDownMenu();
+                this.showInfo();
             }
         }
     }, {
@@ -2121,7 +2130,7 @@ var singlecyclePlaymode = function () {
     }, {
         key: "to",
         value: function to(point) {
-            this.point = point;
+            this.point = Math.max(0, Math.min(point, this.__playlist.length - 1));
         }
     }, {
         key: "addMusic",
@@ -2208,7 +2217,7 @@ var listrandomPlaymode = function () {
     }, {
         key: "to",
         value: function to(point) {
-            this.point = point;
+            this.point = Math.max(0, Math.min(point, this.__playlist.length - 1));
         }
     }, {
         key: "addMusic",

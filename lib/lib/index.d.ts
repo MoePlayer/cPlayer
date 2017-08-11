@@ -4,6 +4,9 @@ import { EventEmitter } from 'events';
 import cplayerView, { ICplayerViewOption } from './view';
 export interface ICplayerOption {
     playlist?: Iplaylist;
+    playmode?: string;
+    volume?: number;
+    point?: number;
 }
 export default class cplayer extends EventEmitter {
     private __paused;

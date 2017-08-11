@@ -6,6 +6,7 @@ export interface ICplayerViewOption {
     generateBeforeElement?: boolean;
     deleteElementAfterGenerate?: boolean;
     zoomOutKana?: boolean;
+    showPlaylist?: boolean;
 }
 export default class cplayerView extends EventEmitter {
     private elementLinks;
@@ -23,8 +24,8 @@ export default class cplayerView extends EventEmitter {
     private __OldVolume;
     private setVolume(volume);
     private setMode(mode);
-    closeDropDownMenu(): void;
-    openDropDownMenu(): void;
+    showInfo(): void;
+    showPlaylist(): void;
     toggleDropDownMenu(): void;
     private setVolumeControllerKeepShow();
     private toggleVolumeControllerKeepShow();

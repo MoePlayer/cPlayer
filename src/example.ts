@@ -74,7 +74,7 @@ window.addEventListener("load",
         document.getElementById('add163').addEventListener("click", (e) => {
             let id163 = prompt('输入音乐的网易云ID:').trim();
             if (id163) {
-                player.view.openDropDownMenu();
+                player.view.showPlaylist();
                 (player as any).add163(id163);
             }
         });

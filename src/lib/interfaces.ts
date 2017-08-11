@@ -1,7 +1,6 @@
 import { Lyric } from "./lyric";
 
 export interface IAudioItem {
-  __id?: number; //音频在列表中的唯一索引
   name: string; //名称
   poster?: string; //海报
   artist?: string; //艺术家
@@ -16,8 +15,10 @@ export interface Iplaymode {
   next(): IAudioItem;
   prev(): IAudioItem;
   now(): IAudioItem;
+  nowpoint(): number;
   to(id: number): void;
   addMusic(item: IAudioItem): void;
+  removeMusic(item: IAudioItem): boolean;
   playlist: Iplaylist;
 }
 

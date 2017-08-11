@@ -5,6 +5,7 @@ import cplayerView, { ICplayerViewOption } from './view';
 import { decodeLyricStr } from "./lyric";
 import { singlecyclePlaymode } from "./playmode/singlecycle";
 import { listrandomPlaymode } from "./playmode/listrandom";
+import shallowEqual from "./helper/shallowEqual";
 
 export interface ICplayerOption {
   playlist?: Iplaylist;
@@ -23,8 +24,7 @@ const playmodes: { [key: string]: IplaymodeConstructor } = {
 function playlistPreFilter(playlist: Iplaylist) {
   return playlist.map((audio, index) => {
     let res = {
-      ...audio,
-      __id: index
+      ...audio
     };
     if (typeof audio.lyric === 'string') {
       res.lyric = decodeLyricStr(audio.lyric)
@@ -45,6 +45,9 @@ export default class cplayer extends EventEmitter {
   set mode(playmode: string) {
     this.setMode(playmode);
   }
+  set volume(volume: number) {
+    this.setVolume(volume);
+  }
   get mode() {
     return this.playmodeName;
   }
@@ -53,6 +56,9 @@ export default class cplayer extends EventEmitter {
   }
   get nowplay() {
     return this.playmode && this.playmode.now();
+  }
+  get nowplaypoint() {
+    return this.playmode && this.playmode.nowpoint();
   }
   get played() {
     return !this.__paused;
@@ -136,9 +142,9 @@ export default class cplayer extends EventEmitter {
 
   public toggleMode() {
     switch (this.playmodeName) {
-      case 'listloop':  this.setMode('singlecycle');break;
-      case 'singlecycle': this.setMode('listrandom');break;
-      case 'listrandom': this.setMode('listloop');break;
+      case 'listloop': this.setMode('singlecycle'); break;
+      case 'singlecycle': this.setMode('listrandom'); break;
+      case 'listrandom': this.setMode('listloop'); break;
     }
   }
 
@@ -146,7 +152,7 @@ export default class cplayer extends EventEmitter {
     if (typeof playmode === 'string') {
       if (this.playmodeName !== playmode) {
         if (playmodes[playmode]) {
-          this.playmode = new playmodes[playmode](this.playlist, this.nowplay.__id);
+          this.playmode = new playmodes[playmode](this.playlist, this.nowplaypoint);
           this.playmodeName = playmode;
           this.eventHandlers.handlePlaymodeChange();
         }
@@ -204,23 +210,35 @@ export default class cplayer extends EventEmitter {
     }
   }
 
-  public add(item:IAudioItem){
+  public add(item: IAudioItem) {
     item = (playlistPreFilter([item] as Iplaylist))[0];
-    item.__id = this.playlist.length;
     this.playmode.addMusic(item);
     this.eventHandlers.handlePlayListChange();
+  }
+
+  public remove(item: IAudioItem) {
+    let needUpdate = this.playmode.removeMusic(item);
+    this.eventHandlers.handlePlayListChange();
+    if (needUpdate) {
+      this.openAudio();
+      if (this.__paused) {
+        this.pause();
+      } else {
+        this.play();
+      }
+    }
   }
 
   public setVolume(volume: number) {
     this.audioElement.volume = Math.max(0.0, Math.min(1.0, volume));
   }
 
-  public destroy(){
+  public destroy() {
     this.audioElement.src = null;
-    this.audioElement.removeEventListener("timeupdate",this.eventHandlers.handleTimeUpdate);
+    this.audioElement.removeEventListener("timeupdate", this.eventHandlers.handleTimeUpdate);
     this.removeAllListeners();
     this.view.destroy();
-    Object.getOwnPropertyNames(this).forEach((name:keyof cplayer)=>delete this[name]);
+    Object.getOwnPropertyNames(this).forEach((name: keyof cplayer) => delete this[name]);
     (this as any).__proto__ = Object;
   }
 }

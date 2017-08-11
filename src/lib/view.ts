@@ -206,10 +206,10 @@ export default class cplayerView extends EventEmitter {
   }
 
   private updatePlaylist() {
-    var lis = this.player.playlist.map((audio) => {
+    var lis = this.player.playlist.map((audio, index) => {
       var element = document.createElement('li');
       element.innerHTML = `
-        ${audio.__id === this.player.nowplay.__id ? playIcon : '<span class="cp-play-icon"></span>'}
+        ${index === this.player.nowplaypoint ? playIcon : '<span class="cp-play-icon"></span>'}
         <span>${audio.name}</span><span class='cp-playlist-artist'>${audio.artist ? ' - ' + audio.artist : ''}</span>
       `
       return element;
@@ -220,6 +220,9 @@ export default class cplayerView extends EventEmitter {
     })
     this.elementLinks.playlistItems = this.getPlayListLinks();
     this.injectPlayListEventListener();
+    if (!this.dropDownMenuShowInfo) {
+      this.elementLinks.dropDownMenu.style.height = this.player.playlist.length * 25 + 'px';
+    }
   }
 
   private injectPlayListEventListener() {
@@ -246,8 +249,12 @@ export default class cplayerView extends EventEmitter {
     this.player.addListener('openaudio', this.handleOpenAudio);
     this.player.addListener('volumechange', this.handleVolumeChange);
     this.player.addListener('playmodechange', this.handleModeChange);
-    this.player.addListener('playlistchange',()=>this.updatePlaylist());
+    this.player.addListener('playlistchange',this.handlePlaylistchange);
     this.injectPlayListEventListener();
+  }
+
+  private handlePlaylistchange = () => {
+    this.updatePlaylist()
   }
 
   private updateLyric(playedTime: number = 0) {
@@ -284,9 +291,9 @@ export default class cplayerView extends EventEmitter {
     this.player.toggleMode();
   }
 
-  private handleClickPlayList = (id: number, event: Event) => {
-    if (this.player.nowplay.__id !== id)
-    this.player.to(id);
+  private handleClickPlayList = (point: number, event: Event) => {
+    if (this.player.nowplaypoint !== point)
+    this.player.to(point);
   }
 
   private handleClickPlayButton = () => {

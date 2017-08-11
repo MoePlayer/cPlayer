@@ -1,4 +1,6 @@
 import { IAudioItem, Iplaymode, Iplaylist } from '../interfaces';
+import shallowEqual from "../helper/shallowEqual";
+import { baseRemoveMusic } from "./listloop";
 
 export class listrandomPlaymode implements Iplaymode {
   private __playlist: Iplaylist = [];
@@ -26,14 +28,12 @@ export class listrandomPlaymode implements Iplaymode {
     return this.__playlist[this.point];
   }
 
-  public to(id: number) {
-    let toPoint = this.__playlist.reduce((p, c, index) => {
-      if (c.__id == id) {
-        return index;
-      }
-      return p;
-    }, this.__playlist[0].__id);
-    this.point = toPoint;
+  public nowpoint() {
+    return this.point;
+  }
+
+  public to(point: number) {
+    this.point = point;
   }
 
   public addMusic(item:IAudioItem){
@@ -49,5 +49,12 @@ export class listrandomPlaymode implements Iplaymode {
         return random;
       }
     } else return 0;
+  }
+
+  public removeMusic(item: IAudioItem) {
+    let {playlist,nowpoint,needupdate} = baseRemoveMusic(item, this.__playlist, this.point, (point) => this.randomPoint())
+    this.__playlist = playlist;
+    this.point = nowpoint;
+    return needupdate;
   }
 }

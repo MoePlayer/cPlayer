@@ -5,6 +5,7 @@ export interface ILyricItem {
 
 
 export class Lyric {
+  raw: string;
   items: ILyricItem[] = [];
   public getLyric(time: number) {
     return this.items.reduce((p, c) => {
@@ -22,8 +23,12 @@ export class Lyric {
       return p;
     }, undefined)
   }
-  constructor(items: ILyricItem[]) {
+  public toString() {
+    return this.raw;
+  }
+  constructor(items: ILyricItem[] ,raw: string) {
     this.items = items;
+    this.raw = raw;
   }
 }
 
@@ -33,7 +38,7 @@ export function decodeLyricStr(lyricStr: string, options?: {}) {
   lyricStr.replace(/\n+/gi, "\n").trim().split("\n").forEach((lyricStrItem) => {
     lyric.push(...decodeLyricStrItem(lyricStrItem));
   });
-  return new Lyric(lyric);
+  return new Lyric(lyric, lyricStr);
 }
 
 export function decodeLyricStrItem(lyricItemStr: string): ILyricItem[] {

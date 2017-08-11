@@ -33,6 +33,7 @@ export default class cplayerView extends EventEmitter {
     private updatePlaylist();
     private injectPlayListEventListener();
     private injectEventListener();
+    private handlePlaylistchange;
     private updateLyric(playedTime?);
     private handleClickListButton;
     private handleClickModeButton;
@@ -48,4 +49,5 @@ export default class cplayerView extends EventEmitter {
     private handlePlayStateChange;
     private handleMouseVolumeController;
     private handleTouchVolumeController;
+    destroy(): void;
 }

@@ -1,4 +1,26 @@
 import { IAudioItem, Iplaymode, Iplaylist } from '../interfaces';
+import shallowEqual from "../helper/shallowEqual";
+
+export function baseRemoveMusic(item: IAudioItem, playlist: Iplaylist, nowpoint: number, newpoint: (point: number) => number) {
+  let targetPoint: number;
+  let needupdate = false;
+  playlist.forEach((a, index) => {
+    if (shallowEqual(a, item)) {
+      targetPoint = index;
+    }
+  })
+  if (typeof targetPoint !== 'undefined') {
+    playlist.splice(targetPoint, 1);
+    if (nowpoint > targetPoint) {
+      nowpoint--;
+      needupdate = false;
+    } else if (nowpoint === targetPoint) {
+      nowpoint = newpoint(nowpoint);
+      needupdate = true;
+    }
+  }
+  return { playlist, nowpoint, needupdate };
+}
 
 export class listloopPlaymode implements Iplaymode {
   private __playlist: Iplaylist = [];
@@ -26,17 +48,15 @@ export class listloopPlaymode implements Iplaymode {
     return this.playlist[this.point];
   }
 
-  public to(id: number) {
-    let toPoint = this.__playlist.reduce((p, c, index) => {
-      if (c.__id == id) {
-        return index;
-      }
-      return p;
-    }, this.__playlist[0].__id);
-    this.point = toPoint;
+  public nowpoint() {
+    return this.point
   }
 
-  public addMusic(item:IAudioItem){
+  public to(point: number) {
+    this.point = point;
+  }
+
+  public addMusic(item: IAudioItem) {
     this.__playlist.push(item);
   }
 
@@ -54,5 +74,12 @@ export class listloopPlaymode implements Iplaymode {
       res = this.__playlist.length - 1
     }
     return res;
+  }
+
+  public removeMusic(item: IAudioItem) {
+    let { playlist, nowpoint, needupdate } = baseRemoveMusic(item, this.__playlist, this.point, (point) => Math.max(0, Math.min(point, this.__playlist.length - 1)))
+    this.__playlist = playlist;
+    this.point = nowpoint;
+    return needupdate;
   }
 }

@@ -1,6 +1,4 @@
 $name-prefix: "cp-";
-$mainbody-height: 50px;
-$mainbody-width: 300px;
 
 $primaryColor: #F44336;
 $primaryDarkColor: #B71C1C;
@@ -9,13 +7,27 @@ $accentColor: #757575;
 $accentDarkColor: #616161;
 $TextColor: #424242;
 $backgroundColor: #fff;
-
+$base-font-size: 12px;
 $enable-transitions: true;
 
 @mixin transition($transition...) {
   @if $enable-transitions {
     transition: $transition;
   }
+}
+
+@function strip-units($number){
+  @return $number / ($number * 0 + 1);
+}
+
+@function toem($target-size,$context:$base-font-size){
+  @if not unitless($target-size){
+    $target-size: strip-units($target-size);
+  }
+  @if not unitless($context){
+    $context: strip-units($context);
+  }
+  @return ($target-size / $context) * 1em;
 }
 
 @mixin box_shadow ($level) {
@@ -32,10 +44,13 @@ $enable-transitions: true;
     }
 }
 
+$mainbody-height: toem(50px);
+$mainbody-width: toem(300px);
+
 c-player {
-    width: $mainbody-width;
     display: inline-block;
     position: relative;
+    font-size: $base-font-size;
     &:hover {
         .#{$name-prefix}progress {
             opacity: 1;
@@ -46,7 +61,7 @@ c-player {
         display: flex;
         align-items: center;
         flex-direction: row;
-		min-height: $mainbody-height;
+		    min-height: $mainbody-height;
         min-width: $mainbody-width;
         height: $mainbody-height;
         flex-wrap: wrap;
@@ -55,37 +70,37 @@ c-player {
         z-index: 1;
         @include box_shadow(1);
         > * {
-            margin-right: 7px
+            margin-right: toem(7px)
         }
         &:hover{
             & + .#{$name-prefix}drop-down-menu.#{$name-prefix}drop-down-menu-info {
-                height: 25px;
+                height: toem(25px);
             }
         }
     }
     .#{$name-prefix}drop-down-menu {
         $lineheight: 25px;
         $margin: 2px;
-        margin: 0px $margin;
+        margin: toem(0px) toem($margin) 0;
         display: block;
         text-align: center;
-        font-size: 12px;
-        line-height: $lineheight;
+        font-size: toem(12px);
+        line-height: toem($lineheight);
         background-color: rgba($backgroundColor, 0.6);
         position: relative;
         z-index: 0;
-        height: 0px;
+        height: toem(0px);
         overflow: hidden;
         @include box_shadow(1);
         @include transition(transform 0.25s ease 0.1s, height 0.25s ease 0.1s);
         span.#{$name-prefix}audio-title {
-            max-width: 170px;
+            max-width: toem(170px);
             overflow: hidden;
             text-overflow: ellipsis;
         }
         span.#{$name-prefix}audio-artist {
             opacity: 0.6;
-            max-width: 100px;
+            max-width: toem(100px);
             overflow: hidden;
             text-overflow: ellipsis;
         }
@@ -93,7 +108,7 @@ c-player {
             display: none;
         }
         &.#{$name-prefix}drop-down-menu-info:hover {
-            height: 25px;
+            height: toem(25px);
         }
         &.#{$name-prefix}drop-down-menu-playlist .#{$name-prefix}audio-info {
             display: none;
@@ -103,24 +118,24 @@ c-player {
         }
     }
     .#{$name-prefix}playlist {
-        margin: 0px;
-        padding: 0px;
+        margin: toem(0px);
+        padding: toem(0px);
         list-style: none;
         text-align: left;
         li:nth-of-type(even){
             background: rgba(255, 255, 255, 0.2);
         }
         li {
-            padding: 0px 10px;
+            padding: toem(0px) toem(10px);
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
             .#{$name-prefix}play-icon {
                 display: inline-block;
-                width: 12px;
-                height: 12px;
+                width: toem(12px);
+                height: toem(12px);
                 vertical-align: text-top;
-                margin: 0px 5px 0 0;
+                margin: 0px toem(5px) 0 0;
                 fill: rgba($primaryDarkColor, 0.8);
             }
             cursor: pointer;
@@ -133,7 +148,7 @@ c-player {
     .#{$name-prefix}center-container {
         flex-grow: 1;
         position: relative;
-        height: calc(100% - 2px);
+        height: 100%;
         .#{$name-prefix}controls {
             opacity: 0;
         }
@@ -156,12 +171,12 @@ c-player {
         z-index: 1;
         @include transition(opacity 0.25s ease);
         > * {
-            margin-right: 15px;
+            margin-right: toem(15px);
         }
     }
     .#{$name-prefix}lyric {
-        $margin-left: 10px;
-        $margin-top: 5px;
+        $margin-left: toem(10px);
+        $margin-top: toem(5px);
         display: flex;
         align-items: center;
         position: absolute;
@@ -169,7 +184,7 @@ c-player {
         height: calc(100% - #{$margin-top * 2});
         overflow: hidden;
         margin: $margin-top $margin-left;
-        font-size: 14px;
+        font-size: toem(14px);
         @include transition(opacity 0.25s ease);
     }
     .#{$name-prefix}lyric-text {
@@ -180,18 +195,18 @@ c-player {
         .#{$name-prefix}lyric-text-sub {
             display: block;
             color: $accentColor;
-            font-size: 12px;
+            font-size: toem(12px, 14px);
         }
         .#{$name-prefix}lyric-text-zoomout {
-            font-size: 12px;
-            transform: translateY(1px);
+            font-size: toem(12px);
+            transform: translateY(toem(1px));
             display: inline-block;
-            margin: 0px 2px;
+            margin: 0px toem(2px, 14px);
         }
     }
     .#{$name-prefix}progress {
         flex-basis: 100%;
-        margin: 0px;
+        margin: toem(0px);
         opacity: 0.8;
         overflow: hidden;
         transform: scaleY(0) translateY(-100%);
@@ -199,7 +214,7 @@ c-player {
         @include transition(opacity 0.3s ease, transform 0.3s ease);
         .#{$name-prefix}progress-fill {
             display: block;
-            height: 2px;
+            height: toem(2px);
             transform: translateX(-100%);
             background: $primaryColor;
         }
@@ -212,11 +227,11 @@ c-player {
         background-size: cover;
         background-origin: padding-box;
         background-attachment: scroll;
-        border-right: 1px solid #eee;
+        border-right: toem(1px) solid #eee;
         background-image: url("http://p1.music.126.net/xXXsTafARePvyQUDb6q9HQ==/3386495814644488.jpg?param=200y200")
     }
     .#{$name-prefix}play-icon {
-        $size: 12.5px;
+        $size: toem(12.5px);
         width:$size;
         height:$size;
         display: block;
@@ -287,36 +302,36 @@ c-player {
     .#{$name-prefix}mode-button,
     .#{$name-prefix}next-button {
         display: inline-block;
-        $size: 12.5px;
+        $size: toem(12.5px);
         width: $size;
         height: $size;
         cursor: pointer;
     }
     .#{$name-prefix}volume-button {
-        width: 20px;
+        width: toem(20px);
         position: relative;
     }
     .#{$name-prefix}list-button {
-        $size: 17.5px;
+        $size: toem(17.5px);
         width: $size;
         height: $size;
     }
     .#{$name-prefix}mode-button {
-        $size: 19px;
+        $size: toem(19px);
         width: $size;
         height: $size;
     }
     .#{$name-prefix}play-button {
-        $size: 30px;
+        $size: toem(30px);
         height: $size;
         width: $size;
         border: $primaryColor solid 1px;
         border-radius: 50%;
         .#{$name-prefix}play-icon.#{$name-prefix}play-icon-paused {
-            margin: 8px;
+            margin: toem(8px);
         }
         .#{$name-prefix}play-icon {
-            margin: 8px 7.5px;
+            margin: toem(8px) toem(7.5px);
         }
         &:hover {
             border-color: $primaryDarkColor;
@@ -324,7 +339,7 @@ c-player {
         }
     }
     .#{$name-prefix}icon {
-        $size: 12.5px;
+        $size: toem(12.5px);
         height: $size;
         width: $size;
         path {
@@ -355,13 +370,13 @@ c-player {
     }
     .#{$name-prefix}volume-icon {
         @extend .#{$name-prefix}icon;
-        width: 20px;
+        width: toem(20px);
     }
     .#{$name-prefix}random-icon,
     .#{$name-prefix}single-icon,
     .#{$name-prefix}loop-icon {
         @extend .#{$name-prefix}icon;
-        $size: 19px;
+        $size: toem(19px);
         width: $size;
         height: $size;
         display: none;
@@ -373,13 +388,13 @@ c-player {
     }
     .#{$name-prefix}list-icon {
         @extend .#{$name-prefix}icon;
-        $size: 17.5px;
+        $size: toem(17.5px);
         width: $size;
         height: $size;
     }
     .#{$name-prefix}volume-container {
-        $height: 25px;
-        $width: 120px;
+        $height: toem(25px);
+        $width: toem(120px);
         position: absolute;
         left: 50%;
         top: -7px;
@@ -396,27 +411,27 @@ c-player {
             visibility: visible;
         }
         &:before {
-            $size: 10px;
+            $size: toem(10px);
             content: '';
-            width: 0px;
-            height: 0px;
+            width: toem(0px);
+            height: toem(0px);
             display: inline-block;
             border-top: $size solid $backgroundColor;
             border-left: $size solid transparent;
             border-right: $size solid transparent;
             position: absolute;
-            bottom: 0px;
+            bottom: toem(0px);
             left: 50%;
             transform: translate(-50%,100%);
         }
         &:after {
-            $size: 14.142135624px;
+            $size: toem(14.142135624px);
             content: '';
             width: $size;
             height: $size;
             display: inline-block;
             position: absolute;
-            bottom: 0px;
+            bottom: toem(0px);
             left: 50%;
             transform: translate(-50%,50%) rotate(45deg);
             @include box_shadow(1);
@@ -434,8 +449,8 @@ c-player {
     }
     .#{$name-prefix}volume-controller {
         display: inline-block;
-        $height: 10px;
-        $width: 100px;
+        $height: toem(10px);
+        $width: toem(100px);
         height: $height;
         width: $width;
         border-radius: $width / 2;
@@ -450,15 +465,15 @@ c-player {
             background: $accentDarkColor;
         }
         .#{$name-prefix}volume-controller-button {
-            $size: 15px;
+            $size: toem(15px);
             height: $size;
             width: $size;
             position: absolute;
-            right: 0px;
-            top: -2.5px;
+            right: toem(0px);
+            top: toem(-2.5px);
             display: inline-block;
             border-radius: 50%;
-            border: 2px solid $backgroundColor;
+            border: toem(2px) solid $backgroundColor;
             background: $accentColor;
             transform: translateX(50%);
             @include box_shadow(1);

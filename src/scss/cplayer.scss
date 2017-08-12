@@ -403,6 +403,7 @@ c-player {
         transform: translateX(-50%) translateY(-120%);
         z-index: 1;
         visibility: hidden;
+        text-align: left;
         @include box_shadow(1);
         &.#{$name-prefix}volume-container-show {
             visibility: visible;

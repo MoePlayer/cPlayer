@@ -4,6 +4,8 @@
 
 ![](./previews.png)
 
+A beautiful and clean WEB Music Player by HTML5. [demo here](http://cplayer.js.org/).
+
 # Quick Start
 
 ``` html
@@ -99,6 +101,57 @@ new cplayer({
 - `cplayer.view.showPlaylist()` 显示播放列表。
 - `cplayer.view.toggleDropDownMenu()` 切换播放列表，关闭 > 打开，打开 > 关闭。
 
+## 常见问题
+
 <details><summary>如何播放网易云上的音乐？</summary><br>
+
+
+### 在 `cplayer.js` 之后执行以下脚本
+
+``` javascript
+cplayer.prototype.add163 = function add163(id) {
+  if (!id) throw new Error("Unable Property.");
+  return fetch("https://music.huaji8.top/?id=" + id).then(function(res){return res.json()}).then(function(data){
+    let obj = {
+      name: data.info.songs[0].name,
+      artist: data.info.songs[0].ar.map(function(ar){ return ar.name }).join(','),
+      poster: data.pic.url,
+      lyric: data.lyric.lyric,
+      sublyric: data.lyric.tlyric,
+      src: data.url.url
+    }
+    this.add(obj);
+    return obj;
+  }.bind(this))
+}
+```
+
+### 使用:
+
+``` javascript
+player.add163(12345678) //加入网易云id为 12345678 的歌曲
+```
+
+</details>
+
+<details><summary>如何改变播放器的尺寸？</summary><br>
+
+1. 设置 `<c-player />` 的 `font-size` ，等比例放大。
+
+    ``` css
+    c-player {
+      font-size: 20px;
+    }
+    ```
+
+    在 `chrome` 中，`font-size` 最小为 12px，`cplayer` 默认就是 12px;
+
+2. 设置 `<c-player />` 的 `width` ，宽度放大。
+
+    ``` css
+    c-player {
+      width: 600px;
+    }
+    ```
 
 </details>

@@ -1,1 +1,22 @@
-<!DOCTYPE html> <html> <head> <meta charset=UTF-8 /> <title>CPlayer</title> <meta http-equiv=X-UA-Compatible content="IE=edge"> <meta name=viewport content="width=device-width,initial-scale=1"> </head> <body> <div id=app></div> <div> <button id=add163>从网易云添加音乐</button> </div> <a href=https://github.com/MoePlayer/cPlayer><img style=position:absolute;top:0;right:0;border:0 src=https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67 alt="Fork me on GitHub" data-canonical-src=https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png></a> <style>body{background-image:url(https://huaji8.top/img/one主题/cover.jpg);background-repeat:repeat;background-position:50% 50%;background-size:cover;background-origin:padding-box;background-attachment:scroll;padding:50px;margin:0}body,html{height:100%}*,::after,::before{box-sizing:border-box}</style> <script src=https://polyfill.huaji8.top/ ></script> <script type="text/javascript" src="cplayerexample.js?394002668be74fdfdb8e"></script></body> </html>
+<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>CPlayer</title><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><script type="text/javascript" src="cplayerexample.js?5a18aaf1fe826ceccb2e"></script></head><body><div class="neko-container neko-no-gutters"><div class="center"><h1 class="title">cPlayer</h1><div class="neko-m-v-2" id="app"></div></div><div class="neko-m-v-2 btn-line center"><button class="neko-btn outline neko-color-blue" id="add163">从网易云添加音乐</button> <button class="neko-btn outline neko-color-blue" id="openplaylist">打开播放列表</button> <button class="neko-btn outline neko-color-blue" id="closeplaylist">关闭播放列表</button> <button class="neko-btn outline neko-color-blue" id="remove">删除一首歌曲</button> <a href="https://github.com/MoePlayer/cPlayer/blob/next/src/example.ts" target="_blank"><button class="neko-btn outline neko-color-blue">查看 demo 源代码</button></a></div><div class="neko-m-v-2 center"><h1>Get Start</h1><pre class="getstart neko-helper-center"><code class="html">&lt;div id="app"&gt;&lt;/div&gt;
+&lt;!-- 加载 cplayer 脚本 --&gt;
+&lt;script src="https://cdn.jsdelivr.net/gh/MoePlayer/cPlayer/dist/cplayer.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+  let player = new cplayer({
+    element: document.getElementById('app'),
+    playlist: [
+      {
+        src: '歌曲资源链接...',
+        poster: '封面链接...',
+        name: '歌曲名称...',
+        artist: '歌手名称...',
+        lyric: '歌词...',
+        sublyric: '副歌词，一般为翻译...'
+      },
+      {
+        ...
+      },
+      ......
+    ]
+  })
+&lt;/script&gt;</code></pre></div><div class="neko-m-v-2 btn-line center"><a href="https://github.com/MoePlayer/cPlayer" target="_blank"><button class="neko-btn shadow neko-color-blue">更多详情..</button></a></div></div><a href="https://github.com/MoePlayer/cPlayer"><img style="position:absolute;top:0;right:0;border:0" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a><style>body{background-color:#f8f8f8;background-repeat:repeat;background-position:50% 50%;background-size:cover;background-origin:padding-box;background-attachment:scroll;padding:50px 0;margin:0}*,::after,::before{box-sizing:border-box}.btn-line .neko-btn{margin:10px 8px}.center{text-align:center}.title{font-size:55px}pre.getstart{width:600px;text-align:left}pre.getstart code{border-radius:5px}@media screen and (max-width:600px){pre.getstart{width:auto;margin:0 20px}}</style><script src="https://polyfill.huaji8.top/"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css"/><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/htmlbars.min.js"></script><script>hljs.initHighlightingOnLoad()</script></body></html>

@@ -12,13 +12,15 @@ export interface ICplayerOption {
   playmode?: string;
   volume?: number;
   point?: number;
+  autoplay?: boolean;
 }
 
 const defaultOption: ICplayerOption = {
   playlist: [],
   point: 0,
   volume: 1,
-  playmode: 'listloop'
+  playmode: 'listloop',
+  autoplay: false
 }
 
 const playmodes: { [key: string]: IplaymodeConstructor } = {
@@ -88,6 +90,12 @@ export default class cplayer extends EventEmitter {
     this.openAudio();
     this.eventHandlers.handlePlaymodeChange();
     this.setVolume(options.volume);
+    if (options.autoplay) {
+      this.audioElement.play();
+      if (!this.audioElement.paused) {
+        this.play(true);
+      }
+    }
   }
 
   private initializeEventEmitter() {
@@ -171,9 +179,9 @@ export default class cplayer extends EventEmitter {
     return this.mode;
   }
 
-  public play() {
+  public play(Forced: boolean = false) {
     let isPlaying = this.isPlaying();
-    if (!isPlaying) {
+    if (!isPlaying || Forced) {
       this.__paused = false;
       this.audioElement.play();
       this.emit('playstatechange', this.__paused);
@@ -181,9 +189,9 @@ export default class cplayer extends EventEmitter {
     }
   }
 
-  public pause() {
-    let isPlaying = this.audioElement.currentTime > 0 && !this.audioElement.paused && !this.audioElement.ended && this.audioElement.readyState > 2;
-    if (isPlaying) {
+  public pause(Forced: boolean = false) {
+    let isPlaying = this.isPlaying();
+    if (isPlaying || Forced) {
       this.__paused = true;
       this.audioElement.pause();
       this.emit('playstatechange', this.__paused);

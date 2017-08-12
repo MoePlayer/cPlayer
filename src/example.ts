@@ -55,7 +55,9 @@ window.addEventListener("load",
         let player = new cplayer({
             element: document.getElementById('app'),
             zoomOutKana: true,
-            playlist
+            playlist,
+            autoplay: true,
+            volume: 0.75
         });
 
         document.getElementById('add163').addEventListener("click", (e) => {

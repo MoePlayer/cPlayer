@@ -64,6 +64,7 @@ new cplayer({
 |volume|`1`|默认音量|
 |point|`0`|开始播放的歌曲索引。|
 |showPlaylist|`false`|显示播放列表，而不是当前歌曲信息。|
+|autoplay|`false`|自动播放（移动端不可用）。|
 
 
 # Apis

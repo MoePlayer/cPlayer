@@ -68,5 +68,9 @@
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.6.1"
   },
-  "typings": "./lib/index.d.ts"
+  "typings": "./lib/index.d.ts",
+  "dependencies": {
+    "@types/highlight.js": "^9.1.9",
+    "highlight.js": "^9.12.0"
+  }
 }

@@ -2,6 +2,16 @@ import cplayer from "./lib";
 import { IAudioItem } from "./lib/interfaces";
 
 require('./neko.css');
+require('file-loader?name=manifest.json!./manifest.json');
+require('highlight.js/styles/ocean.css');
+
+const hljs = require('highlight.js/lib/highlight');
+const javascript = require('highlight.js/lib/languages/javascript');
+const xml = require('highlight.js/lib/languages/xml');
+hljs.registerLanguage('javascript', javascript);
+hljs.registerLanguage('xml', xml);
+
+hljs.initHighlightingOnLoad();
 
 window.addEventListener("load",
   function () {

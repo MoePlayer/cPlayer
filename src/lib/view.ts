@@ -258,7 +258,7 @@ export default class cplayerView extends EventEmitter {
     this.elementLinks.button.mode.addEventListener('click', this.handleClickModeButton);
     this.elementLinks.volumeController.addEventListener('mousemove', this.handleMouseVolumeController)
     this.elementLinks.volumeController.addEventListener('mousedown', this.handleMouseVolumeController)
-    this.elementLinks.volumeController.addEventListener('touchmove', this.handleTouchVolumeController)
+    this.elementLinks.volumeController.addEventListener('touchmove', this.handleTouchVolumeController, {passive: true} as any)
 
     this.player.addListener('playstatechange', this.handlePlayStateChange);
     this.player.addListener('timeupdate', this.handleTimeUpdate);

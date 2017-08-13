@@ -51,6 +51,7 @@ c-player {
     display: inline-block;
     position: relative;
     font-size: $base-font-size;
+    width: 300px;
     &:hover {
         .#{$name-prefix}progress {
             opacity: 1;

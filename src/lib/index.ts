@@ -90,11 +90,8 @@ export default class cplayer extends EventEmitter {
     this.openAudio();
     this.eventHandlers.handlePlaymodeChange();
     this.setVolume(options.volume);
-    if (options.autoplay) {
-      this.audioElement.play();
-      if (!this.audioElement.paused) {
-        this.play(true);
-      }
+    if (options.autoplay && this.playlist.length > 0) {
+      this.play();
     }
   }
 
@@ -181,21 +178,25 @@ export default class cplayer extends EventEmitter {
 
   public play(Forced: boolean = false) {
     let isPlaying = this.isPlaying();
-    if (!isPlaying || Forced) {
-      this.__paused = false;
+    if (!isPlaying && this.playlist.length > 0 || Forced) {
       this.audioElement.play();
-      this.emit('playstatechange', this.__paused);
-      this.emit('play');
+      if (this.audioElement.paused === false || Forced) {
+        this.__paused = false;
+        this.emit('playstatechange', this.__paused);
+        this.emit('play');
+      }
     }
   }
 
   public pause(Forced: boolean = false) {
     let isPlaying = this.isPlaying();
-    if (isPlaying || Forced) {
-      this.__paused = true;
+    if (isPlaying && this.playlist.length > 0 || Forced) {
       this.audioElement.pause();
-      this.emit('playstatechange', this.__paused);
-      this.emit('pause');
+      if (this.audioElement.paused === true) {
+        this.__paused = true;
+        this.emit('playstatechange', this.__paused);
+        this.emit('pause');
+      }
     }
   }
 
@@ -229,6 +230,9 @@ export default class cplayer extends EventEmitter {
     item = (playlistPreFilter([item] as Iplaylist))[0];
     this.playmode.addMusic(item);
     this.eventHandlers.handlePlayListChange();
+    if (this.playlist.length === 1) {
+      this.to(0);
+    }
   }
 
   public remove(item: IAudioItem) {

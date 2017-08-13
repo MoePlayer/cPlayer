@@ -7,6 +7,7 @@ export interface ICplayerOption {
     playmode?: string;
     volume?: number;
     point?: number;
+    autoplay?: boolean;
 }
 export default class cplayer extends EventEmitter {
     private __paused;
@@ -29,8 +30,8 @@ export default class cplayer extends EventEmitter {
     toggleMode(): void;
     setMode(playmode: string): void;
     getMode(): string;
-    play(): void;
-    pause(): void;
+    play(Forced?: boolean): void;
+    pause(Forced?: boolean): void;
     to(id: number): void;
     next(): void;
     prev(): void;

@@ -8,7 +8,7 @@ import { ILyricItem } from "./lyric";
 const defaultPoster = require('../defaultposter.jpg')
 const htmlTemplate = require('../cplayer.html');
 const playIcon = require('../playicon.svg');
-require('../scss/cplayer.scss');
+const style = require('!css-loader!postcss-loader!sass-loader!../scss/cplayer.scss');
 
 function kanaFilter(str: string) {
   const starttag = '<span class="cp-lyric-text-zoomout">';
@@ -54,6 +54,38 @@ const defaultOption: ICplayerViewOption = {
   showPlaylist: false
 }
 
+function createShadowElement(targetElement: Element, htmlTemplate: string) {
+  let shadowRoot = (targetElement as any).createShadowRoot() as ShadowRoot;
+  shadowRoot.innerHTML = htmlTemplate;
+  let styleElement = document.createElement('style');
+  styleElement.innerText = style;
+  shadowRoot.appendChild(styleElement);
+  return shadowRoot.firstChild as Element;
+}
+
+function createBeforeElement(targetElement: Element, htmlTemplate: string) {
+  let element = document.createElement('div');
+  element.innerHTML = htmlTemplate;
+  targetElement.parentNode.insertBefore(element, targetElement);
+  return targetElement.previousSibling as Element;
+}
+
+function createBeforeShadowElement(targetElement: Element, htmlTemplate: string) {
+  let element = document.createElement('div');
+  let shadowRoot = (element as any).createShadowRoot() as ShadowRoot;
+  shadowRoot.innerHTML = htmlTemplate;
+  let styleElement = document.createElement('style');
+  styleElement.innerText = style;
+  shadowRoot.appendChild(styleElement);
+  targetElement.parentNode.insertBefore(element, targetElement);
+  return targetElement.previousSibling as Element;
+}
+
+function createElement(targetElement: Element, htmlTemplate: string) {
+  targetElement.innerHTML = htmlTemplate;
+  return targetElement.lastChild as Element;
+}
+
 export default class cplayerView extends EventEmitter {
   private elementLinks = returntypeof(this.getElementLinks);
   private rootElement: Element;
@@ -69,12 +101,17 @@ export default class cplayerView extends EventEmitter {
     };
     this.player = player;
     if (this.options.generateBeforeElement) {
-      let newFragment = parseHTML(htmlTemplate);
-      this.options.element.parentNode.insertBefore(newFragment, this.options.element);
-      this.rootElement = this.options.element.previousSibling as Element;
+      if ((this.options.element as any).createShadowRoot) {
+        this.rootElement = createBeforeShadowElement(this.options.element, htmlTemplate);
+      } else {
+        this.rootElement = createBeforeElement(this.options.element, htmlTemplate);
+      }
     } else {
-      this.options.element.appendChild(parseHTML(htmlTemplate));
-      this.rootElement = this.options.element.lastChild as Element;
+      if ((this.options.element as any).createShadowRoot) {
+        this.rootElement = createShadowElement(this.options.element, htmlTemplate);
+      } else {
+        this.rootElement = createElement(this.options.element, htmlTemplate);
+      }
     }
     if (options.deleteElementAfterGenerate) {
       options.element.parentElement.removeChild(options.element);

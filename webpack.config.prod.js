@@ -53,18 +53,16 @@ module.exports = {
                     {
                         loader: "css-loader",
                         options: {
-                            minimize: true,
-                            sourceMap: true
+                            minimize: true
                         }
                     },
                     {
                         loader: 'postcss-loader',
-                        options: { sourceMap: true }
+                        options: {}
                     },
                     {
                         loader: "sass-loader",
                         options: {
-                            sourceMap: true
                         }
                     }
                 ]
@@ -87,18 +85,16 @@ module.exports = {
                     {
                         loader: "css-loader",
                         options: {
-                            minimize: true,
-                            sourceMap: true
+                            minimize: true
                         }
                     },
                     {
                         loader: 'postcss-loader',
-                        options: { sourceMap: true }
+                        options: {}
                     },
                     {
                         loader: "less-loader",
                         options: {
-                            sourceMap: true
                         }
                     }
                 ]
@@ -112,14 +108,12 @@ module.exports = {
                     {
                         loader: "css-loader",
                         options: {
-                            minimize: true,
-                            sourceMap: true
+                            minimize: true
                         }
                     },
                     {
                         loader: "postcss-loader",
                         options: {
-                            sourceMap: true
                         }
                     }
                 ]

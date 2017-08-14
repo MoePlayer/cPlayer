@@ -43,7 +43,10 @@ export interface ICplayerViewOption {
   generateBeforeElement?: boolean;
   deleteElementAfterGenerate?: boolean;
   zoomOutKana?: boolean;
-  showPlaylist?: boolean
+  showPlaylist?: boolean;
+  width?: string;
+  size?: string;
+  style?: string;
 }
 
 const defaultOption: ICplayerViewOption = {
@@ -51,26 +54,29 @@ const defaultOption: ICplayerViewOption = {
   generateBeforeElement: false,
   deleteElementAfterGenerate: false,
   zoomOutKana: false,
-  showPlaylist: false
+  showPlaylist: false,
+  width: '',
+  size: '12px',
+  style: ''
 }
 
-function createShadowElement(targetElement: Element, htmlTemplate: string) {
+function createShadowElement(targetElement: Element, htmlTemplate: string, style: string) {
   let shadowRoot = (targetElement as any).createShadowRoot() as ShadowRoot;
   shadowRoot.innerHTML = htmlTemplate;
   let styleElement = document.createElement('style');
   styleElement.innerText = style;
   shadowRoot.appendChild(styleElement);
-  return shadowRoot.firstChild as Element;
+  return shadowRoot.firstChild as HTMLElement;
 }
 
-function createBeforeElement(targetElement: Element, htmlTemplate: string) {
+function createBeforeElement(targetElement: Element, htmlTemplate: string, style: string) {
   let element = document.createElement('div');
   element.innerHTML = htmlTemplate;
   targetElement.parentNode.insertBefore(element, targetElement);
-  return targetElement.previousSibling as Element;
+  return targetElement.previousSibling as HTMLElement;
 }
 
-function createBeforeShadowElement(targetElement: Element, htmlTemplate: string) {
+function createBeforeShadowElement(targetElement: Element, htmlTemplate: string, style: string) {
   let element = document.createElement('div');
   let shadowRoot = (element as any).createShadowRoot() as ShadowRoot;
   shadowRoot.innerHTML = htmlTemplate;
@@ -78,17 +84,17 @@ function createBeforeShadowElement(targetElement: Element, htmlTemplate: string)
   styleElement.innerText = style;
   shadowRoot.appendChild(styleElement);
   targetElement.parentNode.insertBefore(element, targetElement);
-  return targetElement.previousSibling as Element;
+  return targetElement.previousSibling as HTMLElement;
 }
 
-function createElement(targetElement: Element, htmlTemplate: string) {
+function createElement(targetElement: Element, htmlTemplate: string, style: string) {
   targetElement.innerHTML = htmlTemplate;
-  return targetElement.lastChild as Element;
+  return targetElement.lastChild as HTMLElement;
 }
 
 export default class cplayerView extends EventEmitter {
   private elementLinks = returntypeof(this.getElementLinks);
-  private rootElement: Element;
+  private rootElement: HTMLElement;
   private player: cplayer;
   private dropDownMenuShowInfo = true;
   private options: ICplayerViewOption;
@@ -102,20 +108,22 @@ export default class cplayerView extends EventEmitter {
     this.player = player;
     if (this.options.generateBeforeElement) {
       if ((this.options.element as any).createShadowRoot) {
-        this.rootElement = createBeforeShadowElement(this.options.element, htmlTemplate);
+        this.rootElement = createBeforeShadowElement(this.options.element, htmlTemplate, style + this.options.style);
       } else {
-        this.rootElement = createBeforeElement(this.options.element, htmlTemplate);
+        this.rootElement = createBeforeElement(this.options.element, htmlTemplate, style + this.options.style);
       }
     } else {
       if ((this.options.element as any).createShadowRoot) {
-        this.rootElement = createShadowElement(this.options.element, htmlTemplate);
+        this.rootElement = createShadowElement(this.options.element, htmlTemplate, style + this.options.style);
       } else {
-        this.rootElement = createElement(this.options.element, htmlTemplate);
+        this.rootElement = createElement(this.options.element, htmlTemplate, style + this.options.style);
       }
     }
     if (options.deleteElementAfterGenerate) {
       options.element.parentElement.removeChild(options.element);
     }
+    this.rootElement.style.width = this.options.width;
+    this.rootElement.style.fontSize = this.options.size;
     this.elementLinks = this.getElementLinks();
     this.injectEventListener();
     this.setPlayIcon(this.player.paused);

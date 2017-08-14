@@ -47,11 +47,9 @@ new cplayer({
 })
 ```
 
-# ToBo
+# 相关项目
 
-- 双语歌词显示
-
-- 动态修改播放列表
+[hexo-tag-cplayer](https://github.com/EYHN/hexo-tag-cplayer)
 
 # Option
 

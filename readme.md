@@ -65,7 +65,9 @@ new cplayer({
 |point|`0`|开始播放的歌曲索引。|
 |showPlaylist|`false`|显示播放列表，而不是当前歌曲信息。|
 |autoplay|`false`|自动播放（移动端不可用）。|
-
+|width|`''`|播放器宽度。|
+|size|`12px`|播放器尺寸。|
+|style|`''`|附加的css样式。|
 
 # Apis
 
@@ -132,27 +134,5 @@ cplayer.prototype.add163 = function add163(id) {
 ``` javascript
 player.add163(12345678) //加入网易云id为 12345678 的歌曲
 ```
-
-</details>
-
-<details><summary>如何改变播放器的尺寸？</summary><br>
-
-1. 设置 `<c-player />` 的 `font-size` ，等比例放大。
-
-    ``` css
-    c-player {
-      font-size: 20px;
-    }
-    ```
-
-    在 `chrome` 中，`font-size` 最小为 12px，`cplayer` 默认就是 12px;
-
-2. 设置 `<c-player />` 的 `width` ，宽度放大。
-
-    ``` css
-    c-player {
-      width: 600px;
-    }
-    ```
 
 </details>

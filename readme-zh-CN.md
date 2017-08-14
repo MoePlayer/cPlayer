@@ -47,6 +47,12 @@ new cplayer({
 })
 ```
 
+# ToBo
+
+- 双语歌词显示
+
+- 动态修改播放列表
+
 # Option
 
 |OPTION|default content|description|
@@ -128,27 +134,5 @@ cplayer.prototype.add163 = function add163(id) {
 ``` javascript
 player.add163(12345678) //加入网易云id为 12345678 的歌曲
 ```
-
-</details>
-
-<details><summary>如何改变播放器的尺寸？</summary><br>
-
-1. 设置 `<c-player />` 的 `font-size` ，等比例放大。
-
-    ``` css
-    c-player {
-      font-size: 20px;
-    }
-    ```
-
-    在 `chrome` 中，`font-size` 最小为 12px，`cplayer` 默认就是 12px;
-
-2. 设置 `<c-player />` 的 `width` ，宽度放大。
-
-    ``` css
-    c-player {
-      width: 600px;
-    }
-    ```
 
 </details>

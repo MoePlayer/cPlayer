@@ -7,6 +7,9 @@ export interface ICplayerViewOption {
     deleteElementAfterGenerate?: boolean;
     zoomOutKana?: boolean;
     showPlaylist?: boolean;
+    width?: string;
+    size?: string;
+    style?: string;
 }
 export default class cplayerView extends EventEmitter {
     private elementLinks;
@@ -15,7 +18,7 @@ export default class cplayerView extends EventEmitter {
     private dropDownMenuShowInfo;
     private options;
     constructor(player: cplayer, options: ICplayerViewOption);
-    getRootElement(): Element;
+    getRootElement(): HTMLElement;
     private getPlayListLinks(rootElement?);
     private getElementLinks(rootElement?);
     private setPlayIcon(paused);

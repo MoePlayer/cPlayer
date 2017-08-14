@@ -47,12 +47,6 @@ new cplayer({
 })
 ```
 
-# ToBo
-
-- 双语歌词显示
-
-- 动态修改播放列表
-
 # Option
 
 |OPTION|default content|description|
@@ -65,7 +59,9 @@ new cplayer({
 |point|`0`|开始播放的歌曲索引。|
 |showPlaylist|`false`|显示播放列表，而不是当前歌曲信息。|
 |autoplay|`false`|自动播放（移动端不可用）。|
-
+|width|`''`|播放器宽度。|
+|size|`12px`|播放器尺寸。|
+|style|`''`|附加的css样式。|
 
 # Apis
 

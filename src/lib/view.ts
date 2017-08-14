@@ -73,7 +73,7 @@ function createBeforeElement(targetElement: Element, htmlTemplate: string, style
   let element = document.createElement('div');
   element.innerHTML = htmlTemplate;
   targetElement.parentNode.insertBefore(element, targetElement);
-  return targetElement.previousSibling as HTMLElement;
+  return element.firstChild as HTMLElement;
 }
 
 function createBeforeShadowElement(targetElement: Element, htmlTemplate: string, style: string) {
@@ -84,7 +84,7 @@ function createBeforeShadowElement(targetElement: Element, htmlTemplate: string,
   styleElement.innerText = style;
   shadowRoot.appendChild(styleElement);
   targetElement.parentNode.insertBefore(element, targetElement);
-  return targetElement.previousSibling as HTMLElement;
+  return shadowRoot.firstChild as HTMLElement;
 }
 
 function createElement(targetElement: Element, htmlTemplate: string, style: string) {

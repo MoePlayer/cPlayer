@@ -1,3 +1,4 @@
+require('./polyfill')
 import { listloopPlaymode } from './playmode/listloop';
 import { IAudioItem, Iplaymode, IplaymodeConstructor, Iplaylist } from './interfaces';
 import { EventEmitter } from 'events';

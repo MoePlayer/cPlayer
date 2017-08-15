@@ -60,12 +60,18 @@ const defaultOption: ICplayerViewOption = {
   style: ''
 }
 
+
+function createStyleElement(style: string) {
+  const styleElement = document.createElement('style');
+  styleElement.id = 'cplayer-style';
+  styleElement.innerHTML = style;
+  return styleElement;
+}
+
 function createShadowElement(targetElement: Element, htmlTemplate: string, style: string) {
   let shadowRoot = (targetElement as any).createShadowRoot() as ShadowRoot;
   shadowRoot.innerHTML = htmlTemplate;
-  let styleElement = document.createElement('style');
-  styleElement.innerText = style;
-  shadowRoot.appendChild(styleElement);
+  shadowRoot.appendChild(createStyleElement(style));
   return shadowRoot.firstChild as HTMLElement;
 }
 
@@ -73,6 +79,9 @@ function createBeforeElement(targetElement: Element, htmlTemplate: string, style
   let element = document.createElement('div');
   element.innerHTML = htmlTemplate;
   targetElement.parentNode.insertBefore(element, targetElement);
+  if (!document.getElementById('cplayer-style')) {
+    document.body.appendChild(createStyleElement(style));
+  }
   return element.firstChild as HTMLElement;
 }
 
@@ -80,16 +89,18 @@ function createBeforeShadowElement(targetElement: Element, htmlTemplate: string,
   let element = document.createElement('div');
   let shadowRoot = (element as any).createShadowRoot() as ShadowRoot;
   shadowRoot.innerHTML = htmlTemplate;
-  let styleElement = document.createElement('style');
-  styleElement.innerText = style;
-  shadowRoot.appendChild(styleElement);
+  shadowRoot.appendChild(createStyleElement(style));
   targetElement.parentNode.insertBefore(element, targetElement);
   return shadowRoot.firstChild as HTMLElement;
 }
 
 function createElement(targetElement: Element, htmlTemplate: string, style: string) {
   targetElement.innerHTML = htmlTemplate;
-  return targetElement.lastChild as HTMLElement;
+  console.log(style);
+  if (!document.getElementById('cplayer-style')) {
+    document.body.appendChild(createStyleElement(style));
+  }
+  return targetElement.firstChild as HTMLElement;
 }
 
 export default class cplayerView extends EventEmitter {

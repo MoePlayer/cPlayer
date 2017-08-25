@@ -7,6 +7,7 @@ import { decodeLyricStr } from "./lyric";
 import { singlecyclePlaymode } from "./playmode/singlecycle";
 import { listrandomPlaymode } from "./playmode/listrandom";
 import shallowEqual from "./helper/shallowEqual";
+import { cplayerMediaSessionPlugin } from "./mediaSession";
 
 export interface ICplayerOption {
   playlist?: Iplaylist;
@@ -94,6 +95,7 @@ export default class cplayer extends EventEmitter {
     if (options.autoplay && this.playlist.length > 0) {
       this.play();
     }
+    cplayerMediaSessionPlugin(this)
   }
 
   private initializeEventEmitter() {

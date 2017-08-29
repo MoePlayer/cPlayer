@@ -31,7 +31,8 @@ window.addEventListener("load",
           poster: data.pic.url,
           lyric: data.lyric.lyric,
           sublyric: data.lyric.tlyric,
-          src: data.url.url
+          src: data.url.url,
+          album: data.info.songs[0].al.name
         }
         this.add(obj);
         return obj;

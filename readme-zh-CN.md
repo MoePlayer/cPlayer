@@ -22,7 +22,8 @@ A beautiful and clean WEB Music Player by HTML5. [demo here](http://cplayer.js.o
         name: '歌曲名称...',
         artist: '歌手名称...',
         lyric: '歌词...',
-        sublyric: '副歌词，一般为翻译...'
+        sublyric: '副歌词，一般为翻译...',
+        album: '专辑，唱片...'
       },
       {
         ...
@@ -119,7 +120,8 @@ cplayer.prototype.add163 = function add163(id) {
       poster: data.pic.url,
       lyric: data.lyric.lyric,
       sublyric: data.lyric.tlyric,
-      src: data.url.url
+      src: data.url.url,
+      album: data.info.songs[0].al.name
     }
     this.add(obj);
     return obj;

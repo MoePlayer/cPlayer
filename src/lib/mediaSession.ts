@@ -1,6 +1,8 @@
 import cplayer from './';
 import { IAudioItem } from '../lib/interfaces';
 
+const defaultPoster = require('../defaultposter.jpg')
+
 export function cplayerMediaSessionPlugin(player: cplayer)
 {
   if ('mediaSession' in navigator) {
@@ -21,7 +23,7 @@ export function mediaMetadata(audio: IAudioItem) {
     artist: audio.artist,
     album: audio.album,
     artwork: [
-      {src: audio.poster}
+      {src: audio.poster || defaultPoster}
     ]
   });
 }

@@ -2,12 +2,18 @@ require('./polyfill')
 import { listloopPlaymode } from './playmode/listloop';
 import { IAudioItem, Iplaymode, IplaymodeConstructor, Iplaylist } from './interfaces';
 import { EventEmitter } from 'events';
-import cplayerView, { ICplayerViewOption } from './view';
+import View, { ICplayerViewOption } from './view';
 import { decodeLyricStr } from "./lyric";
 import { singlecyclePlaymode } from "./playmode/singlecycle";
 import { listrandomPlaymode } from "./playmode/listrandom";
 import shallowEqual from "./helper/shallowEqual";
 import { cplayerMediaSessionPlugin } from "./mediaSession";
+
+let cplayerView:typeof View = undefined;
+
+if (!process.env.cplayer_noview) {
+  cplayerView = require('./view').default;
+}
 
 export interface ICplayerOption {
   playlist?: Iplaylist;
@@ -48,7 +54,7 @@ function playlistPreFilter(playlist: Iplaylist) {
 
 export default class cplayer extends EventEmitter {
   private __paused = true;
-  public view: cplayerView;
+  public view: View;
   public audioElement: HTMLAudioElement;
   private playmode: Iplaymode;
   private playmodeName: string = 'listloop';
@@ -88,7 +94,7 @@ export default class cplayer extends EventEmitter {
     this.audioElement.autoplay = false;
     this.initializeEventEmitter();
     this.playmode = new playmodes[options.playmode](playlistPreFilter(options.playlist), options.point);
-    this.view = new cplayerView(this, options);
+    if (!process.env.cplayer_noview)this.view = new cplayerView(this, options);
     this.openAudio();
     this.eventHandlers.handlePlaymodeChange();
     this.setVolume(options.volume);
@@ -259,24 +265,26 @@ export default class cplayer extends EventEmitter {
     this.audioElement.src = null;
     this.audioElement.removeEventListener("timeupdate", this.eventHandlers.handleTimeUpdate);
     this.removeAllListeners();
-    this.view.destroy();
+    if (this.view) this.view.destroy();
     Object.getOwnPropertyNames(this).forEach((name: keyof cplayer) => delete this[name]);
     (this as any).__proto__ = Object;
   }
 }
 
-function parseCPlayerTag() {
-  Array.prototype.forEach.call(document.querySelectorAll('template[cplayer]'),(element: Element) => {
-    element.attributes.getNamedItem('loaded') ||
-      new cplayer({
-        generateBeforeElement: true,
-        deleteElementAfterGenerate: true,
-        element,
-        ...JSON.parse(element.innerHTML)
-      })
-  })
-}
+if (!process.env.cplayer_noview) {
+  function parseCPlayerTag() {
+    Array.prototype.forEach.call(document.querySelectorAll('template[cplayer]'),(element: Element) => {
+      element.attributes.getNamedItem('loaded') ||
+        new cplayer({
+          generateBeforeElement: true,
+          deleteElementAfterGenerate: true,
+          element,
+          ...JSON.parse(element.innerHTML)
+        })
+    })
+  }
 
-window.addEventListener("load", parseCPlayerTag);
+  window.addEventListener("load", parseCPlayerTag);
+}
 
 (window as any).cplayer = cplayer;

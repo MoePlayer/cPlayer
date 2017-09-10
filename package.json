@@ -6,7 +6,8 @@
   "scripts": {
     "clean": "rimraf ./dist && rimraf ./lib && rimraf ./example",
     "dev": "webpack-dev-server --inline --progress",
-    "build": "npm run clean && tsc && webpack --config webpack.config.example.js && webpack --config webpack.config.prod.js",
+    "build": "npm run clean && tsc && webpack --config webpack.config.example.js && webpack --config webpack.config.prod.js && npm run build:noview",
+    "build:noview": "cross-env noview=true suffix=\"-noview\" webpack --config webpack.config.prod.js",
     "prepublish": "rimraf ./example"
   },
   "keywords": [
@@ -49,6 +50,7 @@
     "babel-loader": "^7.1.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.6.0",
+    "cross-env": "^5.0.5",
     "css-loader": "^0.28.4",
     "file-loader": "^0.11.2",
     "html-loader": "^0.4.5",

@@ -1,7 +1,7 @@
 /// <reference types="node" />
 import { IAudioItem, Iplaylist } from './interfaces';
 import { EventEmitter } from 'events';
-import cplayerView, { ICplayerViewOption } from './view';
+import View, { ICplayerViewOption } from './view';
 export interface ICplayerOption {
     playlist?: Iplaylist;
     playmode?: string;
@@ -11,7 +11,7 @@ export interface ICplayerOption {
 }
 export default class cplayer extends EventEmitter {
     private __paused;
-    view: cplayerView;
+    view: View;
     audioElement: HTMLAudioElement;
     private playmode;
     private playmodeName;

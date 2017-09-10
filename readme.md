@@ -1,4 +1,4 @@
-﻿# cPlayer
+# cPlayer
 
 [![](https://badge.fury.io/js/cplayer.svg)](https://www.npmjs.com/package/cplayer) [![GitHub stars](https://img.shields.io/github/stars/MoePlayer/cPlayer.svg?style=social&label=Star&style=plastic)](https://github.com/MoePlayer/cPlayer) ![](http://img.badgesize.io/https://raw.githubusercontent.com/MoePlayer/cPlayer/master/dist/cplayer.js?compression=gzip)
 
@@ -133,6 +133,29 @@ cplayer.prototype.add163 = function add163(id) {
 
 ``` javascript
 player.add163(12345678) //加入网易云id为 12345678 的歌曲
+```
+
+</details>
+
+
+<details><summary>我只需要一个封装好的 audio api，不想要 UI ？</summary><br>
+
+你可以手动编译去 UI 版本， `clone` 这个 `repo`。
+
+```
+git clone https://github.com/MoePlayer/cPlayer.git
+```
+
+安装依赖
+
+```
+npm install
+```
+
+编译去 UI 版本
+
+```
+npm run build:noview
 ```
 
 </details>

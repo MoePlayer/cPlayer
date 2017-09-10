@@ -5,6 +5,7 @@ var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlug
 
 const GLOBALS = {
     'process.env.NODE_ENV': JSON.stringify('production'),
+    'process.env.cplayer_noview': JSON.stringify(!!process.env.noview),
     __DEV__: false
 };
 
@@ -13,7 +14,7 @@ module.exports = {
         "./src/lib/index.ts"
     ],
     output: {
-        filename: "cplayer.js",
+        filename: "cplayer" + (process.env.suffix || '') + ".js",
         path: __dirname + "/dist"
     },
 
@@ -21,10 +22,10 @@ module.exports = {
     devtool: "source-map",
 
     plugins: [
-        new BundleAnalyzerPlugin(),
+        !!process.env.analyzer ? new BundleAnalyzerPlugin() : undefined,
         new webpack.DefinePlugin(GLOBALS),
         new webpack.optimize.UglifyJsPlugin({ sourceMap: true })
-    ],
+    ].filter(function(e){return e}),
 
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.

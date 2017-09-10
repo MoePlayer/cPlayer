@@ -71,7 +71,8 @@ window.addEventListener("load",
       zoomOutKana: true,
       playlist,
       autoplay: true,
-      volume: 0.75
+      volume: 0.75,
+      dropDownMenuMode: 'bottom'
     });
 
     document.getElementById('add163').addEventListener("click", (e) => {

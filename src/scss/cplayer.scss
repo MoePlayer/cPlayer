@@ -48,7 +48,8 @@ $mainbody-height: toem(50px);
 $mainbody-width: toem(300px);
 
 c-player {
-    display: inline-block;
+    display: inline-flex;
+    flex-direction: column;
     position: relative;
     font-size: $base-font-size;
     width: 300px;
@@ -104,6 +105,15 @@ c-player {
             max-width: toem(100px);
             overflow: hidden;
             text-overflow: ellipsis;
+        }
+        &.#{$name-prefix}drop-down-menu-top {
+            order: -1;
+        }
+        &.#{$name-prefix}drop-down-menu-none {
+            display: none;
+        }
+        &.#{$name-prefix}drop-down-menu-bottom {
+            order: 1;
         }
         &.#{$name-prefix}drop-down-menu-info .#{$name-prefix}playlist {
             display: none;

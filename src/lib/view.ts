@@ -44,9 +44,11 @@ export interface ICplayerViewOption {
   deleteElementAfterGenerate?: boolean;
   zoomOutKana?: boolean;
   showPlaylist?: boolean;
+  showPlaylistButton?: boolean;
   width?: string;
   size?: string;
   style?: string;
+  dropDownMenuMode?: 'bottom' | 'top' | 'none'
 }
 
 const defaultOption: ICplayerViewOption = {
@@ -55,6 +57,8 @@ const defaultOption: ICplayerViewOption = {
   deleteElementAfterGenerate: false,
   zoomOutKana: false,
   showPlaylist: false,
+  showPlaylistButton: true,
+  dropDownMenuMode: 'bottom',
   width: '',
   size: '12px',
   style: ''
@@ -142,6 +146,11 @@ export default class cplayerView extends EventEmitter {
     if (this.dropDownMenuShowInfo) {
       this.showInfo();
     } else this.showPlaylist();
+    if (!this.options.showPlaylistButton)
+      this.elementLinks.button.list.style.display = 'none';
+    else
+      this.elementLinks.button.list.style.display = '';
+    this.elementLinks.dropDownMenu.classList.add('cp-drop-down-menu-' + this.options.dropDownMenuMode)
   }
 
   public getRootElement() {
@@ -156,16 +165,16 @@ export default class cplayerView extends EventEmitter {
     let gebc: (className: string) => Element = className => rootElement.getElementsByClassName(className)[0];
     return {
       icon: {
-        play: gebc('cp-play-icon'),
-        mode: gebc('cp-mode-icon'),
+        play: gebc('cp-play-icon') as HTMLElement,
+        mode: gebc('cp-mode-icon') as HTMLElement,
       },
       button: {
-        prev: gebc('cp-prev-button'),
-        play: gebc('cp-play-button'),
-        next: gebc('cp-next-button'),
-        volume: gebc('cp-volume-icon'),
-        list: gebc('cp-list-button'),
-        mode: gebc('cp-mode-button')
+        prev: gebc('cp-prev-button') as HTMLElement,
+        play: gebc('cp-play-button') as HTMLElement,
+        next: gebc('cp-next-button') as HTMLElement,
+        volume: gebc('cp-volume-icon') as HTMLElement,
+        list: gebc('cp-list-button') as HTMLElement,
+        mode: gebc('cp-mode-button') as HTMLElement
       },
       progress: gebc('cp-progress-fill') as HTMLElement,
       poster: gebc('cp-poster') as HTMLElement,

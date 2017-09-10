@@ -7,9 +7,11 @@ export interface ICplayerViewOption {
     deleteElementAfterGenerate?: boolean;
     zoomOutKana?: boolean;
     showPlaylist?: boolean;
+    showPlaylistButton?: boolean;
     width?: string;
     size?: string;
     style?: string;
+    dropDownMenuMode?: 'bottom' | 'top' | 'none';
 }
 export default class cplayerView extends EventEmitter {
     private elementLinks;

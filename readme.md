@@ -67,6 +67,8 @@ new cplayer({
 |width|`''`|播放器宽度。|
 |size|`12px`|播放器尺寸。|
 |style|`''`|附加的css样式。|
+|showPlaylistButton|`'true'`|显示播放列表按钮|
+|dropDownMenuMode|`'bottom'`|菜单（播放列表和歌曲信息）的显示模式， ‘bottom’ 底部、 'top' 顶部、 'none' 不显示|
 
 # Apis
 
@@ -140,22 +142,6 @@ player.add163(12345678) //加入网易云id为 12345678 的歌曲
 
 <details><summary>我只需要一个封装好的 audio api，不想要 UI ？</summary><br>
 
-你可以手动编译去 UI 版本， `clone` 这个 `repo`。
-
-```
-git clone https://github.com/MoePlayer/cPlayer.git
-```
-
-安装依赖
-
-```
-npm install
-```
-
-编译去 UI 版本
-
-```
-npm run build:noview
-```
+`dist` 文件夹中有 `cplayer-noview.js` 是去 UI 版的 cplayer。
 
 </details>

@@ -44,6 +44,11 @@ $enable-transitions: true;
     }
 }
 
+@keyframes miss-pointer-event {
+    from {pointer-events: none}
+    to {pointer-events: auto}
+}
+
 $mainbody-height: toem(50px);
 $mainbody-width: toem(300px);
 
@@ -166,6 +171,7 @@ c-player {
         &:hover {
             .#{$name-prefix}controls {
                 opacity: 1;
+                animation: miss-pointer-event 100ms;
             }
             .#{$name-prefix}lyric {
                 opacity: 0;

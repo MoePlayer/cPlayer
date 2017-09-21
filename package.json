@@ -2,7 +2,7 @@
   "name": "cplayer",
   "version": "3.1.4",
   "description": "A beautiful and clean WEB Music Player by HTML5.",
-  "main": "./lib/index.js",
+  "main": "./dist/cplayer.js",
   "scripts": {
     "clean": "rimraf ./dist && rimraf ./lib && rimraf ./example",
     "dev": "webpack-dev-server --inline --progress",

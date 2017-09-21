@@ -10,12 +10,16 @@ const GLOBALS = {
 };
 
 module.exports = {
+    
     entry: [
         "./src/lib/index.ts"
     ],
     output: {
         filename: "cplayer" + (process.env.suffix || '') + ".js",
-        path: __dirname + "/dist"
+        path: __dirname + "/dist",
+        library: 'cplayer',
+        libraryTarget: 'umd',
+        umdNamedDefine: true
     },
 
     // Enable sourcemaps for debugging webpack's output.
@@ -33,6 +37,7 @@ module.exports = {
     },
 
     module: {
+        strictExportPresence: true,
         rules: [
             {
                 test: /\.(ts|tsx)?$/,

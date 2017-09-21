@@ -318,7 +318,7 @@ export default class cplayerView extends EventEmitter {
     this.elementLinks.button.play.addEventListener('click', this.handleClickPlayButton);
     this.elementLinks.button.prev.addEventListener('click', this.handleClickPrevButton);
     this.elementLinks.button.next.addEventListener('click', this.handleClickNextButton);
-    this.elementLinks.button.volume.addEventListener('click', this.handleClickVolumeButton)
+    this.elementLinks.button.volume.addEventListener('click', this.handleClickVolumeButton);
     this.elementLinks.button.list.addEventListener('click', this.handleClickListButton);
     this.elementLinks.button.mode.addEventListener('click', this.handleClickModeButton);
     this.elementLinks.volumeController.addEventListener('mousemove', this.handleMouseVolumeController)

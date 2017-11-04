@@ -1,6 +1,6 @@
 {
   "name": "cplayer",
-  "version": "3.1.5",
+  "version": "3.1.6",
   "description": "A beautiful and clean WEB Music Player by HTML5.",
   "main": "./dist/cplayer.js",
   "scripts": {

@@ -17,7 +17,7 @@ module.exports = {
     output: {
         filename: "cplayer" + (process.env.suffix || '') + ".js",
         path: __dirname + "/dist",
-        library: 'cplayer',
+        library: 'cplayer-umd',
         libraryTarget: 'umd',
         umdNamedDefine: true
     },

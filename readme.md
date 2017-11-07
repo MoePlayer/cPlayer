@@ -50,7 +50,8 @@ new cplayer({
 
 # 相关项目
 
-[hexo-tag-cplayer](https://github.com/EYHN/hexo-tag-cplayer)
+- [hexo-tag-cplayer](https://github.com/EYHN/hexo-tag-cplayer)
+- [vue-player](https://github.com/adnasa/vue-cplayer)
 
 # Option
 

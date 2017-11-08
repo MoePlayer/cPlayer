@@ -42,10 +42,10 @@ function playlistPreFilter(playlist: Iplaylist) {
     let res = {
       ...audio
     };
-    if (typeof audio.lyric === 'string') {
+    if (typeof audio.lyric === 'string' && audio.lyric.replace(/\n+/gi, "\n").trim()) {
       res.lyric = decodeLyricStr(audio.lyric)
     }
-    if (typeof audio.sublyric === 'string') {
+    if (typeof audio.sublyric === 'string' && audio.sublyric.replace(/\n+/gi, "\n").trim()) {
       res.sublyric = decodeLyricStr(audio.sublyric)
     }
     return res;

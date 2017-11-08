@@ -38,6 +38,7 @@ export function decodeLyricStr(lyricStr: string, options?: {}) {
   lyricStr.replace(/\n+/gi, "\n").trim().split("\n").forEach((lyricStrItem) => {
     lyric.push(...decodeLyricStrItem(lyricStrItem));
   });
+  if (lyric.length == 0) return undefined;
   return new Lyric(lyric, lyricStr);
 }
 

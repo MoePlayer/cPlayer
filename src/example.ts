@@ -67,30 +67,61 @@ window.addEventListener("load",
       dropDownMenuMode: 'bottom'
     });
 
+    let player2 = new cplayer({
+      element: document.getElementById('app2'),
+      zoomOutKana: true,
+      playlist,
+      volume: 0.75,
+      dropDownMenuMode: 'bottom'
+    });
+
     document.getElementById('add163').addEventListener("click", (e) => {
       let id163 = prompt('输入音乐的网易云ID:', '');
       if (id163) {
         player.view.showPlaylist();
         (player as any).add163(id163.trim());
+        player2.view.showPlaylist();
+        (player2 as any).add163(id163.trim());
       }
     });
 
     document.getElementById('openplaylist').addEventListener("click", (e) => {
       player.view.showPlaylist();
+      player2.view.showPlaylist();
     });
 
     document.getElementById('closeplaylist').addEventListener("click", (e) => {
       player.view.showInfo();
+      player2.view.showInfo();
     });
 
     document.getElementById('remove').addEventListener("click", (e) => {
       player.view.showPlaylist();
+      player2.view.showPlaylist();
       setTimeout(() => {
         player.remove(player.playlist[player.playlist.length - 1]);
+        player2.remove(player.playlist[player.playlist.length - 1]);
       }, 600)
     });
 
+    player.on('ended', () =>{
+      console.log('Event: ended');
+    }).on('play', () => {
+      console.log('Event: play');
+    }).on('pause', () => {
+      console.log('Event: pause');
+    }).on('playmodechange', () => {
+      console.log('Event: playmodechange');
+    }).on('openaudio', () => {
+      console.log('Event: openaudio');
+    }).on('playstatechange', () => {
+      console.log('Event: playstatechange');
+    }).on('started', () => {
+      console.log('Event: started');
+    });
+
     (window as any).demoPlayer = player;
+    (window as any).demoPlayer2 = player2;
     (window as any).playlist = playlist;
   }
 )

@@ -115,6 +115,21 @@ new cplayer({
 - `cplayer.view.showPlaylist()` 显示播放列表。
 - `cplayer.view.toggleDropDownMenu()` 切换播放列表，关闭 > 打开，打开 > 关闭。
 
+### Event
+
+- `started`: 每首歌开始时触发，此时已经开始播放。
+- `ended`: 歌曲播放到末尾时触发
+- `play`: 开始播放时触发
+- `pause`: 暂停播放时触发
+
+> `play 事件` 和 `pause 事件` 必定交替触发。
+> 需要注意的是上一首歌结束自动切换到下一首时不会触发 `play 事件`, 但会触发 `started 事件` 和 `openaudio 事件`。
+
+- `playmodechange`: `play 事件` 和 `pause 事件` 的结合体
+- `openaudio`: 打开音频时触发，但此时还不一定有音频数据。
+- `volumechange`: 音量被改变时触发
+- `timeupdate`: 更新播放时间
+
 ## 常见问题
 
 <details><summary>如何播放网易云上的音乐？</summary><br>

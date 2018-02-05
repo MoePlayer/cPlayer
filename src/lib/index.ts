@@ -55,7 +55,7 @@ function playlistPreFilter(playlist: Iplaylist) {
 export default class cplayer extends EventEmitter {
   private __paused = true;
   public view: View;
-  public audioElement: HTMLAudioElement;
+  public audioElement: HTMLAudioElement | HTMLVideoElement;
   private playmode: Iplaymode;
   private playmodeName: string = 'listloop';
   set mode(playmode: string) {
@@ -95,13 +95,15 @@ export default class cplayer extends EventEmitter {
     this.initializeEventEmitter();
     this.playmode = new playmodes[options.playmode](playlistPreFilter(options.playlist), options.point);
     if (!process.env.cplayer_noview)this.view = new cplayerView(this, options);
-    this.openAudio();
-    this.eventHandlers.handlePlaymodeChange();
-    this.setVolume(options.volume);
-    if (options.autoplay && this.playlist.length > 0) {
-      this.play();
-    }
-    cplayerMediaSessionPlugin(this)
+    cplayerMediaSessionPlugin(this);
+    // 同步调用会导致，用户的事件得不到触发
+    setImmediate(() => {
+      this.openAudio();
+      this.setVolume(options.volume);
+      if (options.autoplay && this.playlist.length > 0) {
+        this.play();
+      }
+    });
   }
 
   private initializeEventEmitter() {
@@ -110,14 +112,20 @@ export default class cplayer extends EventEmitter {
     this.audioElement.addEventListener('canplaythrough', this.eventHandlers.handleCanPlayThrough);
     this.audioElement.addEventListener('pause', this.eventHandlers.handlePause);
     this.audioElement.addEventListener('play', this.eventHandlers.handlePlay);
+    this.audioElement.addEventListener('playing', this.eventHandlers.handlePlaying)
     this.audioElement.addEventListener('ended', this.eventHandlers.handleEnded);
-    this.audioElement.addEventListener('loadeddata', this.eventHandlers.handleLoadeddata)
+    this.audioElement.addEventListener('loadeddata', this.eventHandlers.handleLoadeddata);
   }
 
   private eventHandlers: { [key: string]: (...args: any[]) => void } = {
     handlePlay: (...args) => {
       if (this.__paused) {
         this.pause();
+      }
+    },
+    handlePlaying: (...args) => {
+      if (this.audioElement.currentTime === 0) {
+        this.emit('started');
       }
     },
     handleVolumeChange: (...args) => {
@@ -137,16 +145,19 @@ export default class cplayer extends EventEmitter {
       }
     },
     handleEnded: (...args) => {
+      this.emit('ended', ...args);
       if (!this.__paused) {
         this.next();
       }
-      this.emit('ended', ...args);
     },
     handlePlayListChange: (...args) => {
       this.emit('playlistchange', ...args);
     },
     handlePlaymodeChange: (mode: string = this.mode) => {
       this.emit('playmodechange', mode);
+    },
+    handleLoadeddata: (...args) => {
+      this.emit('loadeddata', ...args);
     }
   }
 
@@ -189,11 +200,11 @@ export default class cplayer extends EventEmitter {
     let isPlaying = this.isPlaying();
     if (!isPlaying && this.playlist.length > 0 || Forced) {
       this.audioElement.play();
-      if (this.audioElement.paused === false || Forced) {
-        this.__paused = false;
-        this.emit('playstatechange', this.__paused);
-        this.emit('play');
-      }
+    }
+    if (this.__paused) {
+      this.__paused = false;
+      this.emit('playstatechange', this.__paused);
+      this.emit('play');
     }
   }
 
@@ -201,11 +212,11 @@ export default class cplayer extends EventEmitter {
     let isPlaying = this.isPlaying();
     if (isPlaying && this.playlist.length > 0 || Forced) {
       this.audioElement.pause();
-      if (this.audioElement.paused === true) {
-        this.__paused = true;
-        this.emit('playstatechange', this.__paused);
-        this.emit('pause');
-      }
+    }
+    if (!this.__paused) {
+      this.__paused = true;
+      this.emit('playstatechange', this.__paused);
+      this.emit('pause');
     }
   }
 

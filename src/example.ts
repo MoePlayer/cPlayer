@@ -70,7 +70,6 @@ window.addEventListener("load",
       element: document.getElementById('app'),
       zoomOutKana: true,
       playlist,
-      autoplay: true,
       volume: 0.75,
       dropDownMenuMode: 'bottom'
     });

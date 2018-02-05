@@ -6,6 +6,15 @@
 
 A beautiful and clean WEB Music Player by HTML5. [demo here](http://cplayer.js.org/).
 
+# Feature
+
+* 歌词显示
+* 多歌曲播放列表
+* 三种播放模式 单曲循环 列表循环 随机播放
+* 专为触控优化的界面
+* 模块化 定制性
+* [Media Session 支持](https://developers.google.com/web/updates/2017/02/media-session)
+
 # Quick Start
 
 ``` html

@@ -6,6 +6,15 @@
 
 A beautiful and clean WEB Music Player by HTML5. [demo here](http://cplayer.js.org/).
 
+# Feature
+
+* Lyrics display
+* Playlists
+* Three play modes, Single cycle, list loop, random play
+* Designed for touch devices
+* Modular Customizable
+* [Media Session Support](https://developers.google.com/web/updates/2017/02/media-session)
+
 # Quick Start
 
 ``` html

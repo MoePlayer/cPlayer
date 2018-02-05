@@ -15,13 +15,6 @@ hljs.initHighlightingOnLoad();
 
 window.addEventListener("load",
   function () {
-    function trigger(times: number, callback: () => any): () => void {
-      if (times < 1) return callback();
-      return function () {
-        times--;
-        if (times < 1) return callback();
-      }
-    }
     (cplayer as any).prototype.add163 = function add163(id: number) {
       if (!id) throw new Error("Unable Property.");
       return fetch("https://music.huaji8.top/?id=" + id).then(function (res: any) { return res.json() }).then((data) => {

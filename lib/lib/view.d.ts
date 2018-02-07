@@ -11,7 +11,9 @@ export interface ICplayerViewOption {
     width?: string;
     size?: string;
     style?: string;
-    dropDownMenuMode?: 'bottom' | 'top' | 'none';
+    dark?: boolean;
+    big?: boolean;
+    dropDownMenuMode?: 'bottom' | 'top' | 'none' | string;
 }
 export default class cplayerView extends EventEmitter {
     private elementLinks;
@@ -21,10 +23,12 @@ export default class cplayerView extends EventEmitter {
     private options;
     constructor(player: cplayer, options: ICplayerViewOption);
     getRootElement(): HTMLElement;
+    dark(): void;
+    big(): void;
     private getPlayListLinks(rootElement?);
     private getElementLinks(rootElement?);
     private setPlayIcon(paused);
-    private setProgress(point);
+    private setProgress(point, currentTime, duration);
     private setPoster(src);
     private __OldVolume;
     private setVolume(volume);
@@ -57,5 +61,8 @@ export default class cplayerView extends EventEmitter {
     private handlePlayStateChange;
     private handleMouseVolumeController;
     private handleTouchVolumeController;
+    private handleAudioElementChange;
+    private handleMouseProgress;
+    private handleTouchProgress;
     destroy(): void;
 }

@@ -45,12 +45,15 @@ $enable-transitions: true;
 }
 
 @keyframes miss-pointer-event {
-    from {pointer-events: none}
-    to {pointer-events: auto}
+    0% {pointer-events: none;}
+    50% {pointer-events: none;}
+    100% {pointer-events: auto;}
 }
 
 $mainbody-height: toem(50px);
 $mainbody-width: toem(300px);
+$big-progress-height: toem(35px);
+$border-radius: toem(4px);
 
 c-player {
     display: inline-flex;
@@ -58,23 +61,18 @@ c-player {
     position: relative;
     font-size: $base-font-size;
     width: 300px;
-    &:hover {
-        .#{$name-prefix}progress {
-            opacity: 1;
-            transform: scaleY(1) translateY(0%);
-        }
-    }
+    text-align: left;
 	.#{$name-prefix}mainbody {
         display: flex;
         align-items: center;
         flex-direction: row;
-		    min-height: $mainbody-height;
+		min-height: $mainbody-height;
         min-width: $mainbody-width;
-        height: $mainbody-height;
         flex-wrap: wrap;
         background-color: $backgroundColor;
         position: relative;
         z-index: 1;
+        border-radius: $border-radius;
         @include box_shadow(1);
         > * {
             margin-right: toem(7px)
@@ -98,6 +96,8 @@ c-player {
         z-index: 0;
         height: toem(0px);
         overflow: hidden;
+        border-bottom-right-radius: $border-radius;
+        border-bottom-left-radius: $border-radius;
         @include box_shadow(1);
         @include transition(transform 0.25s ease 0.1s, height 0.25s ease 0.1s);
         span.#{$name-prefix}audio-title {
@@ -138,9 +138,6 @@ c-player {
         padding: toem(0px);
         list-style: none;
         text-align: left;
-        li:nth-of-type(even){
-            background: rgba(255, 255, 255, 0.2);
-        }
         li {
             padding: toem(0px) toem(10px);
             overflow: hidden;
@@ -158,13 +155,13 @@ c-player {
         }
     }
     .#{$name-prefix}playlist-artist {
-        color: #000;
         opacity: 0.46;
     }
     .#{$name-prefix}center-container {
         flex-grow: 1;
         position: relative;
-        height: 100%;
+        height: $mainbody-height;
+        pointer-events: auto;
         .#{$name-prefix}controls {
             opacity: 0;
         }
@@ -172,6 +169,7 @@ c-player {
             .#{$name-prefix}controls {
                 opacity: 1;
                 animation: miss-pointer-event 100ms;
+                animation-fill-mode: both;
             }
             .#{$name-prefix}lyric {
                 opacity: 0;
@@ -189,6 +187,7 @@ c-player {
         @include transition(opacity 0.25s ease);
         > * {
             margin-right: toem(15px);
+            -webkit-tap-highlight-color: transparent;
         }
     }
     .#{$name-prefix}lyric {
@@ -221,19 +220,59 @@ c-player {
             margin: 0px toem(2px, 14px);
         }
     }
-    .#{$name-prefix}progress {
+    .#{$name-prefix}progress-container {
         flex-basis: 100%;
         margin: toem(0px);
         opacity: 0.8;
+        position: absolute;
+        width: 100%;
+        bottom: 0px;
+        border-bottom-left-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
         overflow: hidden;
-        transform: scaleY(0) translateY(-100%);
-        background: $backgroundColor;
-        @include transition(opacity 0.3s ease, transform 0.3s ease);
+        pointer-events: none;
+        > span {
+            display: none
+        }
+    }
+    &.#{$name-prefix}big .#{$name-prefix}progress-container {
+        position: relative;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        height: $big-progress-height;
+        padding: 0 toem(5px);
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        justify-content: space-between;
+        pointer-events: auto;
+        color: $TextColor;
+        > span {
+            display: inline;
+            margin: 0 toem(15px);
+            font-size: 0.8em
+        }
+    }
+    .#{$name-prefix}progress {
+        overflow: hidden;
         .#{$name-prefix}progress-fill {
             display: block;
             height: toem(2px);
-            transform: translateX(-100%);
             background: $primaryColor;
+        }
+        .#{$name-prefix}progress-button {
+            display: none;
+        }
+    }
+    &.#{$name-prefix}big .#{$name-prefix}progress {
+        @extend %#{$name-prefix}-controller;
+        overflow: visible;
+        .#{$name-prefix}progress-fill {
+            @extend %#{$name-prefix}-controller-fill;
+        }
+        .#{$name-prefix}progress-button {
+            @extend %#{$name-prefix}-controller-button;
         }
     }
     .#{$name-prefix}poster {
@@ -242,10 +281,30 @@ c-player {
         background-repeat: repeat;
         background-position: 50% 50%;
         background-size: cover;
+        background-color: #fafafa;
         background-origin: padding-box;
         background-attachment: scroll;
         border-right: toem(1px) solid #eee;
-        background-image: url("http://p1.music.126.net/xXXsTafARePvyQUDb6q9HQ==/3386495814644488.jpg?param=200y200")
+        background-image: url("../defaultposter.jpg");
+        border-top-left-radius: $border-radius;
+        border-bottom-left-radius: $border-radius;
+        overflow: hidden;
+        video {
+            width: 100%;
+            height: 100%;
+        }
+    }
+    &.#{$name-prefix}big .#{$name-prefix}poster {
+        flex-basis: 100%;
+        width: $mainbody-width;
+        height: $mainbody-width * 0.5625;
+        border-right: none;
+        border-bottom: toem(1px) solid #eee;
+        margin: 0;
+        border-top-left-radius: $border-radius;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: $border-radius;
+        border-bottom-right-radius: 0;
     }
     .#{$name-prefix}play-icon {
         $size: toem(12.5px);
@@ -345,10 +404,10 @@ c-player {
         border: $primaryColor solid 1px;
         border-radius: 50%;
         .#{$name-prefix}play-icon.#{$name-prefix}play-icon-paused {
-            margin: toem(8px);
+            margin: toem(8.25px);
         }
         .#{$name-prefix}play-icon {
-            margin: toem(8px) toem(7.5px);
+            margin: toem(8.25px);
         }
         &:hover {
             border-color: $primaryDarkColor;
@@ -411,7 +470,7 @@ c-player {
     }
     .#{$name-prefix}volume-container {
         $height: toem(25px);
-        $width: toem(120px);
+        $width: toem(130px);
         position: absolute;
         left: 50%;
         top: -7px;
@@ -421,6 +480,9 @@ c-player {
         z-index: 1;
         visibility: hidden;
         text-align: left;
+        border-radius: $border-radius;
+        padding: 0 15px;
+        background: $backgroundColor;
         @include box_shadow(1);
         &.#{$name-prefix}volume-container-show {
             visibility: visible;
@@ -458,6 +520,7 @@ c-player {
             width: 100%;
             height: 100%;
             background: $backgroundColor;
+            border-radius: $border-radius;
             position: relative;
             z-index: 1;
             display: flex;
@@ -466,35 +529,43 @@ c-player {
         }
     }
     .#{$name-prefix}volume-controller {
-        display: inline-block;
-        $height: toem(10px);
-        $width: toem(100px);
-        height: $height;
-        width: $width;
-        border-radius: $width / 2;
-        background: $accentLightColor;
-        line-height: $height;
-        position: relative;
+        @extend %#{$name-prefix}-controller;
         .#{$name-prefix}volume-fill {
+            @extend %#{$name-prefix}-controller-fill;
+        }
+        .#{$name-prefix}volume-controller-button {
+            @extend %#{$name-prefix}-controller-button;
+        }
+    }
+    %#{$name-prefix}-controller {
+        display: inline-block;
+        $height: $border-radius;
+        height: $height;
+        width: 100%;
+        border-radius: $height / 2;
+        background: $accentLightColor;
+        line-height: 0;
+        touch-action: none;
+        position: relative;
+        %#{$name-prefix}-controller-fill {
             display: inline-block;
             height: 100%;
             width: 100%;
-            border-radius: $width / 2;
+            border-radius: $height / 2;
             background: $accentDarkColor;
         }
-        .#{$name-prefix}volume-controller-button {
+        %#{$name-prefix}-controller-button {
             $size: toem(15px);
             height: $size;
             width: $size;
             position: absolute;
             right: toem(0px);
-            top: toem(-2.5px);
+            top: toem(-5.5px);
             display: inline-block;
             border-radius: 50%;
             border: toem(2px) solid $backgroundColor;
             background: $accentColor;
             transform: translateX(50%);
-            @include box_shadow(1);
             &:hover {
                 background: $accentDarkColor;
             }
@@ -508,4 +579,129 @@ c-player {
 	*::after {
 		box-sizing: border-box;
 	}
+}
+
+$dark-primaryColor: #a1a1a1;
+$dark-primaryDarkColor: #BDBDBD;
+$dark-accentLightColor: #BDBDBD;
+$dark-accentColor: #757575;
+$dark-accentDarkColor: #616161;
+$dark-TextColor: #bbb;
+$dark-backgroundColor: #222;
+$dark-posterBgColor: #333;
+
+c-player.#{$name-prefix}dark {
+    color: $dark-TextColor;
+	.#{$name-prefix}mainbody {
+        background-color: $dark-backgroundColor;
+    }
+    .#{$name-prefix}drop-down-menu {
+        background-color: rgba($dark-backgroundColor, 0.9);
+    }
+    .#{$name-prefix}playlist {
+        li {
+            .#{$name-prefix}play-icon {
+                fill: rgba($dark-primaryDarkColor, 0.8);
+            }
+        }
+    }
+    .#{$name-prefix}lyric-text {
+        color: $dark-TextColor;
+        .#{$name-prefix}lyric-text-sub {
+            color: $dark-accentColor;
+        }
+    }
+    .#{$name-prefix}progress {
+        .#{$name-prefix}progress-fill {
+            background: $dark-primaryDarkColor;
+        }
+    }
+    .#{$name-prefix}poster {
+        background-color: $dark-posterBgColor;
+        border-right-color: $dark-posterBgColor;
+    }
+    &.#{$name-prefix}big .#{$name-prefix}poster {
+        border-bottom-color: $dark-posterBgColor;
+    }
+    &.#{$name-prefix}big .#{$name-prefix}progress-container {
+        color: $dark-TextColor;
+    }
+    &.#{$name-prefix}big .#{$name-prefix}progress {
+        @extend %#{$name-prefix}-controller;
+        overflow: visible;
+        .#{$name-prefix}progress-fill {
+            @extend %#{$name-prefix}-controller-fill;
+        }
+        .#{$name-prefix}progress-button {
+            @extend %#{$name-prefix}-controller-button;
+        }
+    }
+    .#{$name-prefix}play-icon {
+        .#{$name-prefix}play-icon-left {
+            background-color: $dark-primaryColor;
+        }
+        .#{$name-prefix}play-icon-right {
+            background-color: $dark-primaryColor;
+        }
+        .#{$name-prefix}play-icon-triangle-1,
+        .#{$name-prefix}play-icon-triangle-2 {
+            border-right-color: $dark-backgroundColor;
+        }
+        &.#{$name-prefix}play-icon-hover {
+            .#{$name-prefix}play-icon-left {
+                background-color: $dark-primaryDarkColor;
+            }
+            .#{$name-prefix}play-icon-right {
+                background-color: $dark-primaryDarkColor;
+            }
+        }
+    }
+    .#{$name-prefix}play-button {
+        border-color: $dark-primaryColor;
+        &:hover {
+            border-color: $dark-primaryDarkColor;
+        }
+    }
+    .#{$name-prefix}icon {
+        path {
+            fill: $dark-primaryColor;
+        }
+        &:hover {
+            path {
+                fill: $dark-primaryDarkColor;
+            }
+        }
+        &.#{$name-prefix}icon-dark {
+            path {
+                fill: $dark-accentColor;
+            }
+            &:hover {
+                path {
+                    fill: $dark-accentDarkColor;
+                }
+            }
+        }
+    }
+    .#{$name-prefix}volume-container {
+        background: $dark-backgroundColor;
+        &:before {
+            border-top-color: $dark-backgroundColor;
+        }
+        > div {
+            background: $dark-backgroundColor;
+        }
+    }
+    %#{$name-prefix}-controller {
+        background: $dark-accentDarkColor;
+        %#{$name-prefix}-controller-fill {
+            background: $dark-accentLightColor;
+        }
+        %#{$name-prefix}-controller-button {
+            border-color: $dark-backgroundColor;
+            background: $dark-accentColor;
+            &:hover {
+                background: $dark-accentLightColor;
+            }
+        }
+    }
 }

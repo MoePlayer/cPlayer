@@ -58,11 +58,16 @@ export default class cplayer extends EventEmitter {
   public audioElement: HTMLAudioElement | HTMLVideoElement;
   private playmode: Iplaymode;
   private playmodeName: string = 'listloop';
+  private audioElementType: string;
+  private _volume: number = 0;
   set mode(playmode: string) {
     this.setMode(playmode);
   }
   set volume(volume: number) {
     this.setVolume(volume);
+  }
+  get volume() {
+    return this._volume
   }
   get mode() {
     return this.playmodeName;
@@ -82,6 +87,18 @@ export default class cplayer extends EventEmitter {
   get paused() {
     return this.__paused;
   }
+  get duration() {
+    if (this.audioElement) {
+      return this.audioElement.duration;
+    }
+    return 0;
+  }
+  get currentTime() {
+    if (this.audioElement) {
+      return this.audioElement.currentTime;
+    }
+    return 0;
+  }
 
   constructor(options: ICplayerOption & ICplayerViewOption) {
     super();
@@ -89,10 +106,6 @@ export default class cplayer extends EventEmitter {
       ...defaultOption,
       ...options
     }
-    this.audioElement = new Audio();
-    this.audioElement.loop = false;
-    this.audioElement.autoplay = false;
-    this.initializeEventEmitter();
     this.playmode = new playmodes[options.playmode](playlistPreFilter(options.playlist), options.point);
     if (!process.env.cplayer_noview)this.view = new cplayerView(this, options);
     cplayerMediaSessionPlugin(this);
@@ -101,20 +114,36 @@ export default class cplayer extends EventEmitter {
       this.openAudio();
       this.setVolume(options.volume);
       if (options.autoplay && this.playlist.length > 0) {
-        this.play();
+        this.play(true).catch((e) => {
+          console.log(e);
+          this.pause();
+        });
       }
     });
   }
 
-  private initializeEventEmitter() {
-    this.audioElement.addEventListener('volumechange', this.eventHandlers.handleVolumeChange);
-    this.audioElement.addEventListener('timeupdate', this.eventHandlers.handleTimeUpdate);
-    this.audioElement.addEventListener('canplaythrough', this.eventHandlers.handleCanPlayThrough);
-    this.audioElement.addEventListener('pause', this.eventHandlers.handlePause);
-    this.audioElement.addEventListener('play', this.eventHandlers.handlePlay);
-    this.audioElement.addEventListener('playing', this.eventHandlers.handlePlaying)
-    this.audioElement.addEventListener('ended', this.eventHandlers.handleEnded);
-    this.audioElement.addEventListener('loadeddata', this.eventHandlers.handleLoadeddata);
+  private initializeEventEmitter(element: HTMLElement) {
+    const a = element.addEventListener.bind(element);
+    const e = this.eventHandlers;
+    a('timeupdate', e.handleTimeUpdate);
+    a('canplaythrough', e.handleCanPlayThrough);
+    a('pause', e.handlePause);
+    a('play', e.handlePlay);
+    a('playing', e.handlePlaying)
+    a('ended', e.handleEnded);
+    a('loadeddata', e.handleLoadeddata);
+  }
+
+  private removeEventEmitter(element: HTMLElement) {
+    const r = element.removeEventListener.bind(element);
+    const e = this.eventHandlers;
+    r('timeupdate', e.handleTimeUpdate);
+    r('canplaythrough', e.handleCanPlayThrough);
+    r('pause', e.handlePause);
+    r('play', e.handlePlay);
+    r('playing', e.handlePlaying)
+    r('ended', e.handleEnded);
+    r('loadeddata', e.handleLoadeddata);
   }
 
   private eventHandlers: { [key: string]: (...args: any[]) => void } = {
@@ -128,9 +157,6 @@ export default class cplayer extends EventEmitter {
         this.emit('started');
       }
     },
-    handleVolumeChange: (...args) => {
-      this.emit('volumechange', this.audioElement.volume);
-    },
     handleTimeUpdate: (...args) => {
       let time = this.audioElement.duration;
       let playedTime = this.audioElement.currentTime;
@@ -141,7 +167,10 @@ export default class cplayer extends EventEmitter {
     },
     handlePause: (...args) => {
       if (!this.__paused && !this.audioElement.ended) {
-        this.play();
+        this.play(true).catch((e) => {
+          console.log(e);
+          this.pause();
+        });
       }
     },
     handleEnded: (...args) => {
@@ -157,7 +186,22 @@ export default class cplayer extends EventEmitter {
       this.emit('playmodechange', mode);
     },
     handleLoadeddata: (...args) => {
-      this.emit('loadeddata', ...args);
+      let time = this.audioElement.duration;
+      let playedTime = this.audioElement.currentTime;
+      this.emit('timeupdate', playedTime, time);
+    }
+  }
+
+  public setCurrentTime(currentTime: number | string) {
+    if (typeof currentTime === 'string') {
+      currentTime.trim();
+      if (currentTime[currentTime.length - 1] === '%') {
+        const percentage = parseFloat(currentTime);
+        currentTime = this.duration * (percentage / 100);
+      }
+    }
+    if (this.audioElement) {
+      this.audioElement.currentTime = parseFloat(currentTime.toString());
     }
   }
 
@@ -167,8 +211,44 @@ export default class cplayer extends EventEmitter {
 
   public openAudio(audio: IAudioItem = this.nowplay) {
     if (audio) {
+      if (audio.type === 'video') {
+        if (!(this.audioElementType === 'HTMLVideoElement')) {
+          if(typeof this.audioElement !== 'undefined') {
+            this.removeEventEmitter(this.audioElement);
+            this.audioElement.src = '';
+          }
+          this.audioElement = document.createElement('video');
+          if (this.audioElement instanceof HTMLVideoElement) {
+            this.audioElementType = 'HTMLVideoElement';
+            this.audioElement.loop = false;
+            this.audioElement.autoplay = false;
+            this.audioElement.poster = audio.poster;
+            this.audioElement.setAttribute('playsinline', 'true');
+            this.audioElement.setAttribute('webkit-playsinline', 'true');
+          }
+          this.initializeEventEmitter(this.audioElement);
+          this.emit('audioelementchange', this.audioElement);
+        }
+      } else { 
+        if (!(this.audioElementType === 'HTMLAudioElement')) {
+          if(typeof this.audioElement !== 'undefined') { 
+            this.removeEventEmitter(this.audioElement);
+            this.audioElement.src = '';
+          }
+          this.audioElement = new Audio();
+          this.audioElementType = 'HTMLAudioElement';
+          this.audioElement.loop = false;
+          this.audioElement.autoplay = false;
+          this.initializeEventEmitter(this.audioElement);
+          this.emit('audioelementchange', this.audioElement);
+        }
+      }
+      this.setVolume(this.volume);
       this.audioElement.src = this.nowplay.src;
       this.emit('openaudio', audio);
+      if (!this.__paused) {
+        this.play();
+      }
     }
   }
 
@@ -198,14 +278,16 @@ export default class cplayer extends EventEmitter {
 
   public play(Forced: boolean = false) {
     let isPlaying = this.isPlaying();
+    let res;
     if (!isPlaying && this.playlist.length > 0 || Forced) {
-      this.audioElement.play();
+      res = this.audioElement.play();
     }
     if (this.__paused) {
       this.__paused = false;
       this.emit('playstatechange', this.__paused);
       this.emit('play');
     }
+    return res;
   }
 
   public pause(Forced: boolean = false) {
@@ -223,19 +305,16 @@ export default class cplayer extends EventEmitter {
   public to(id: number) {
     this.playmode.to(id);
     this.openAudio();
-    this.play();
   }
 
   public next() {
     this.playmode.next();
     this.openAudio();
-    this.play();
   }
 
   public prev() {
     this.playmode.prev();
     this.openAudio();
-    this.play();
   }
 
   public togglePlayState() {
@@ -260,22 +339,22 @@ export default class cplayer extends EventEmitter {
     this.eventHandlers.handlePlayListChange();
     if (needUpdate) {
       this.openAudio();
-      if (this.__paused) {
-        this.pause();
-      } else {
-        this.play();
-      }
     }
   }
 
-  public setVolume(volume: number) {
-    this.audioElement.volume = Math.max(0.0, Math.min(1.0, volume));
+  public setVolume(volume: number | string) {
+    this._volume = parseFloat(volume as string);
+    if (this.audioElement)
+      this.audioElement.volume = Math.max(0.0, Math.min(1.0, this._volume));
+    this.emit('volumechange', this.audioElement.volume);
   }
 
   public destroy() {
-    this.audioElement.src = null;
-    this.audioElement.removeEventListener("timeupdate", this.eventHandlers.handleTimeUpdate);
-    this.removeAllListeners();
+    if (this.audioElement) {
+      this.audioElement.src = null;
+      this.audioElement.removeEventListener("timeupdate", this.eventHandlers.handleTimeUpdate);
+      this.removeAllListeners();  
+    }
     if (this.view) this.view.destroy();
     Object.getOwnPropertyNames(this).forEach((name: keyof cplayer) => delete this[name]);
     (this as any).__proto__ = Object;

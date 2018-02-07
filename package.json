@@ -1,14 +1,13 @@
 {
   "name": "cplayer",
-  "version": "3.1.6",
+  "version": "3.2.0",
   "description": "A beautiful and clean WEB Music Player by HTML5.",
   "main": "./dist/cplayer.js",
   "scripts": {
     "clean": "rimraf ./dist && rimraf ./lib && rimraf ./example",
     "dev": "webpack-dev-server --inline --progress",
     "build": "npm run clean && tsc && webpack --config webpack.config.example.js && webpack --config webpack.config.prod.js && npm run build:noview",
-    "build:noview": "cross-env noview=true suffix=\"-noview\" webpack --config webpack.config.prod.js",
-    "prepublish": "rimraf ./example"
+    "build:noview": "cross-env noview=true suffix=\"-noview\" webpack --config webpack.config.prod.js"
   },
   "keywords": [
     "cPlayer",

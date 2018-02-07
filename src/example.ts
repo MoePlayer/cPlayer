@@ -1,5 +1,6 @@
 import cplayer from "./lib";
 import { IAudioItem } from "./lib/interfaces";
+import cplayerView from "./lib/view";
 
 require('./neko.css');
 require('file-loader?name=manifest.json!./manifest.json');
@@ -15,7 +16,7 @@ hljs.initHighlightingOnLoad();
 
 window.addEventListener("load",
   function () {
-    (cplayer as any).prototype.add163 = function add163(id: number) {
+    function from163(id: string) {
       if (!id) throw new Error("Unable Property.");
       return fetch("https://music.huaji8.top/?id=" + id).then(function (res: any) { return res.json() }).then((data) => {
         let obj = {
@@ -27,7 +28,6 @@ window.addEventListener("load",
           src: data.url.url,
           album: data.info.songs[0].al.name
         }
-        this.add(obj);
         return obj;
       })
     }
@@ -53,58 +53,80 @@ window.addEventListener("load",
       },
       {
         src: require('file-loader!./example/FELT - In my room.mp3'),
+        poster: require('./example/FELT - In my room.jpg'),
         name: 'In my room',
         artist: 'FELT',
         album: 'Grow Color'
+      },
+      {
+        src: require('file-loader!./example/ボーカロイドたちがただﾃｯﾃｰﾃﾚｯﾃｰするだけ.mp4'),
+        poster: require('./example/ボーカロイドたちがただﾃｯﾃｰﾃﾚｯﾃｰするだけ.png'),
+        name: 'ボーカロイドたちがただﾃｯﾃｰﾃﾚｯﾃｰするだけ',
+        type: 'video'
       }
     ];
 
-    let player = new cplayer({
-      element: document.getElementById('app'),
+    const options = {
       zoomOutKana: true,
-      playlist,
       volume: 0.75,
       dropDownMenuMode: 'bottom'
-    });
+    };
 
-    let player2 = new cplayer({
+    let players = [ new cplayer({
+      ...options,
+      playlist,
+      element: document.getElementById('app1')
+    }), new cplayer({
+      ...options,
+      playlist: playlist.push(playlist.shift()) && playlist,
       element: document.getElementById('app2'),
-      zoomOutKana: true,
-      playlist,
-      volume: 0.75,
-      dropDownMenuMode: 'bottom'
-    });
+      dark: true
+    }), new cplayer({
+      ...options,
+      playlist: playlist.push(playlist.shift()) && playlist,
+      element: document.getElementById('app3'),
+      big: true
+    }), new cplayer({
+      ...options,
+      playlist: playlist.push(playlist.shift()) && playlist,
+      element: document.getElementById('app4'),
+      big: true,
+      dark: true,
+      autoplay: true
+    })];
 
-    document.getElementById('add163').addEventListener("click", (e) => {
-      let id163 = prompt('输入音乐的网易云ID:', '');
+    (window as any).cplayerView = cplayerView;
+
+    document.getElementById('add163').addEventListener("click", () => {
+      let id163 = prompt('输入音乐的网易云ID:', '').trim();
       if (id163) {
-        player.view.showPlaylist();
-        (player as any).add163(id163.trim());
-        player2.view.showPlaylist();
-        (player2 as any).add163(id163.trim());
+        from163(id163).then(audio => {
+          players.forEach(player => {
+            player.view.showPlaylist();
+            setTimeout(() => {
+              player.add(audio);
+            }, 500);
+          })
+        })
       }
     });
 
     document.getElementById('openplaylist').addEventListener("click", (e) => {
-      player.view.showPlaylist();
-      player2.view.showPlaylist();
+      players.forEach(player => player.view.showPlaylist());
     });
 
     document.getElementById('closeplaylist').addEventListener("click", (e) => {
-      player.view.showInfo();
-      player2.view.showInfo();
+      players.forEach(player => player.view.showInfo());
     });
 
     document.getElementById('remove').addEventListener("click", (e) => {
-      player.view.showPlaylist();
-      player2.view.showPlaylist();
+      players.forEach(player => player.view.showPlaylist());
       setTimeout(() => {
-        player.remove(player.playlist[player.playlist.length - 1]);
-        player2.remove(player.playlist[player.playlist.length - 1]);
+        players.forEach(player => player.remove(player.playlist[player.playlist.length - 1]));
       }, 600)
     });
 
-    player.on('ended', () =>{
+    players[0].on('ended', () =>{
       console.log('Event: ended');
     }).on('play', () => {
       console.log('Event: play');
@@ -120,8 +142,8 @@ window.addEventListener("load",
       console.log('Event: started');
     });
 
-    (window as any).demoPlayer = player;
-    (window as any).demoPlayer2 = player2;
+    (window as any).demoPlayer = players[0];
+    (window as any).demoPlayers = players;
     (window as any).playlist = playlist;
   }
 )

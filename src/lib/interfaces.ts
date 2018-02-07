@@ -8,6 +8,7 @@ export interface IAudioItem {
   lyric?: Lyric | string; // 歌词
   sublyric?: Lyric | string; // 小歌词;
   album?: string; // 专辑 & 唱片
+  type?: string;
 }
 
 export type Iplaylist = IAudioItem[];

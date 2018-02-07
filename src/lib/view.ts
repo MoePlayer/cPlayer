@@ -38,6 +38,12 @@ function buildLyric(lyric: string, sublyric?: string, zoomOutKana: boolean = fal
   return (zoomOutKana ? kanaFilter(lyric) : lyric) + (sublyric ? `<span class="cp-lyric-text-sub">${sublyric}</span>` : '')
 }
 
+function secondNumber2TimeStr(secondTime: number) {
+  const minute: string = parseInt((secondTime / 60).toString()).toString().padStart(2, '0');
+  const second: string = parseInt((secondTime % 60).toString()).toString().padStart(2, '0');
+  return minute + ':' + second;
+}
+
 export interface ICplayerViewOption {
   element?: Element;
   generateBeforeElement?: boolean;
@@ -48,7 +54,9 @@ export interface ICplayerViewOption {
   width?: string;
   size?: string;
   style?: string;
-  dropDownMenuMode?: 'bottom' | 'top' | 'none'
+  dark?: boolean;
+  big?: boolean;
+  dropDownMenuMode?: 'bottom' | 'top' | 'none' | string;
 }
 
 const defaultOption: ICplayerViewOption = {
@@ -151,10 +159,33 @@ export default class cplayerView extends EventEmitter {
     else
       this.elementLinks.button.list.style.display = '';
     this.elementLinks.dropDownMenu.classList.add('cp-drop-down-menu-' + this.options.dropDownMenuMode)
+    if (this.options.dark) {
+      this.dark();
+    }
+    if (this.options.big) {
+      this.big();
+    }
+
+    this.setPoster(this.player.nowplay.poster || defaultPoster);
+    this.setProgress(this.player.currentTime / this.player.duration,
+      this.player.currentTime,
+      this.player.duration);
+    this.elementLinks.title.innerText = this.player.nowplay.name;
+    this.elementLinks.artist.innerText = this.player.nowplay.artist || '';
+    this.updateLyric();
+    this.updatePlaylist();
   }
 
   public getRootElement() {
     return this.rootElement;
+  }
+
+  public dark() {
+    this.rootElement.classList.add('cp-dark');
+  }
+
+  public big() {
+    this.rootElement.classList.add('cp-big');
   }
 
   private getPlayListLinks(rootElement: Element = this.rootElement) {
@@ -176,7 +207,11 @@ export default class cplayerView extends EventEmitter {
         list: gebc('cp-list-button') as HTMLElement,
         mode: gebc('cp-mode-button') as HTMLElement
       },
-      progress: gebc('cp-progress-fill') as HTMLElement,
+      progress: gebc('cp-progress') as HTMLElement,
+      progressFill: gebc('cp-progress-fill') as HTMLElement,
+      progressButton: gebc('cp-progress-button') as HTMLElement,
+      progressDuration: gebc('cp-progress-duration') as HTMLElement,
+      progressCurrentTime: gebc('cp-progress-current-time') as HTMLElement,
       poster: gebc('cp-poster') as HTMLElement,
       title: gebc('cp-audio-title') as HTMLElement,
       artist: gebc('cp-audio-artist') as HTMLElement,
@@ -200,8 +235,11 @@ export default class cplayerView extends EventEmitter {
     }
   }
 
-  private setProgress(point: number) {
-    this.elementLinks.progress.style.transform = `translateX(-${100 - point * 100}%)`
+  private setProgress(point: number, currentTime: number, duration: number) {
+    this.elementLinks.progressFill.style.width = `${point * 100}%`;
+    this.elementLinks.progressButton.style.right = (1 - point) * 100 + '%';
+    this.elementLinks.progressCurrentTime.innerText = secondNumber2TimeStr(currentTime);
+    this.elementLinks.progressDuration.innerText = secondNumber2TimeStr(duration);
   }
 
   private setPoster(src: string) {
@@ -233,7 +271,7 @@ export default class cplayerView extends EventEmitter {
 
   public showPlaylist() {
     let dropDownMenu = this.elementLinks.dropDownMenu;
-    dropDownMenu.style.height = this.player.playlist.length * 25 + 'px';
+    dropDownMenu.style.height = this.player.playlist.length * 2.08333 + 'em';
     dropDownMenu.classList.remove('cp-drop-down-menu-info');
     dropDownMenu.classList.add('cp-drop-down-menu-playlist');
     this.dropDownMenuShowInfo = false;
@@ -302,7 +340,7 @@ export default class cplayerView extends EventEmitter {
     this.elementLinks.playlistItems = this.getPlayListLinks();
     this.injectPlayListEventListener();
     if (!this.dropDownMenuShowInfo) {
-      this.elementLinks.dropDownMenu.style.height = this.player.playlist.length * 25 + 'px';
+      this.elementLinks.dropDownMenu.style.height = this.player.playlist.length * 2.08333 + 'em';
     }
   }
 
@@ -325,12 +363,17 @@ export default class cplayerView extends EventEmitter {
     this.elementLinks.volumeController.addEventListener('mousedown', this.handleMouseVolumeController)
     this.elementLinks.volumeController.addEventListener('touchmove', this.handleTouchVolumeController, {passive: true} as any)
 
+    this.elementLinks.progress.addEventListener('mousemove', this.handleMouseProgress)
+    this.elementLinks.progress.addEventListener('mousedown', this.handleMouseProgress)
+    this.elementLinks.progress.addEventListener('touchmove', this.handleTouchProgress, {passive: true} as any)
+
     this.player.addListener('playstatechange', this.handlePlayStateChange);
     this.player.addListener('timeupdate', this.handleTimeUpdate);
     this.player.addListener('openaudio', this.handleOpenAudio);
     this.player.addListener('volumechange', this.handleVolumeChange);
     this.player.addListener('playmodechange', this.handleModeChange);
     this.player.addListener('playlistchange', this.handlePlaylistchange);
+    this.player.addListener('audioelementchange', this.handleAudioElementChange);
     this.injectPlayListEventListener();
   }
 
@@ -352,7 +395,7 @@ export default class cplayerView extends EventEmitter {
           let currentTime = playedTime * 1000 - lyric.time;
           this.setLyric(buildLyric(lyric.word, sublyric ? sublyric.word : undefined, this.options.zoomOutKana), currentTime, duration);
         } else {
-          let duration = this.player.audioElement.duration - lyric.time;
+          let duration = this.player.duration - lyric.time;
           let currentTime = playedTime * 1000 - lyric.time;
           this.setLyric(buildLyric(lyric.word, sublyric ? sublyric.word : undefined, this.options.zoomOutKana), currentTime, duration);
         }
@@ -373,8 +416,10 @@ export default class cplayerView extends EventEmitter {
   }
 
   private handleClickPlayList = (point: number, event: Event) => {
-    if (this.player.nowplaypoint !== point)
+    if (this.player.nowplaypoint !== point){
       this.player.to(point);
+      this.player.play();
+    }
   }
 
   private handleClickPlayButton = () => {
@@ -386,8 +431,12 @@ export default class cplayerView extends EventEmitter {
   }
 
   private handleOpenAudio = (audio: IAudioItem) => {
-    this.setPoster(audio.poster || defaultPoster);
-    this.setProgress(0);
+    if (audio.type !== 'video') {
+      this.setPoster(audio.poster || defaultPoster);
+    } else {
+      this.setPoster('none');
+    }
+    this.setProgress(0,0,0);
     this.elementLinks.title.innerText = audio.name;
     this.elementLinks.artist.innerText = audio.artist || '';
     this.updateLyric();
@@ -403,16 +452,18 @@ export default class cplayerView extends EventEmitter {
   };
 
   private handleTimeUpdate = (playedTime: number, time: number) => {
-    this.setProgress(playedTime / time);
+    this.setProgress(playedTime / time, playedTime, time);
     this.updateLyric(playedTime);
   }
 
   private handleClickPrevButton = () => {
     this.player.prev();
+    this.player.play();
   }
 
   private handleClickNextButton = () => {
     this.player.next();
+    this.player.play();
   }
 
   private handlePlayStateChange = (paused: boolean) => {
@@ -421,7 +472,7 @@ export default class cplayerView extends EventEmitter {
 
   private handleMouseVolumeController = (event: MouseEvent) => {
     this.removeVolumeControllerKeepShow()
-    if (event.buttons === 1) {
+    if (event.buttons === 1 || event.which === 1) {
       let volume = Math.max(0, Math.min(1.0,
         (event.clientX - this.elementLinks.volumeController.getBoundingClientRect().left) / this.elementLinks.volumeController.clientWidth
       ));
@@ -438,6 +489,31 @@ export default class cplayerView extends EventEmitter {
     this.player.setVolume(volume);
     this.setVolume(volume);
   };
+
+  private handleAudioElementChange = (element: HTMLAudioElement | HTMLVideoElement) => {
+    if (element instanceof HTMLVideoElement) {
+      this.elementLinks.poster.appendChild(element);
+    }
+    else {
+      this.elementLinks.poster.innerHTML = '';
+    }
+  }
+
+  private handleMouseProgress = (event: MouseEvent) => {
+    if (event.buttons === 1 || event.which === 1) {
+      let progress = Math.max(0, Math.min(1.0,
+        (event.clientX - this.elementLinks.progress.getBoundingClientRect().left) / this.elementLinks.progress.clientWidth
+      ));
+      this.player.setCurrentTime(progress * 100 + '%');
+    }
+  };
+
+  private handleTouchProgress = (event: TouchEvent) => {
+    let progress = Math.max(0, Math.min(1.0,
+      (event.targetTouches[0].clientX - this.elementLinks.progress.getBoundingClientRect().left) / this.elementLinks.progress.clientWidth
+    ));
+    this.player.setCurrentTime(progress * 100 + '%');
+  }
 
   public destroy() {
     this.rootElement.parentElement.removeChild(this.rootElement);

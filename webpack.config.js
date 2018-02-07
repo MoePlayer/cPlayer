@@ -175,7 +175,7 @@ module.exports = {
     },
     devServer: {
         port: process.env.PORT || 8888,
-        host: '127.0.0.1',
+        host: '0.0.0.0',
         publicPath: '/',
         contentBase: './src',
         historyApiFallback: true,

@@ -3,6 +3,7 @@ var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
+
 const GLOBALS = {
     'process.env.NODE_ENV': JSON.stringify('production'),
     'process.env.cplayer_noview': JSON.stringify(!!process.env.noview),

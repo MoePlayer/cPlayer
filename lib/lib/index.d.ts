@@ -12,9 +12,11 @@ export interface ICplayerOption {
 export default class cplayer extends EventEmitter {
     private __paused;
     view: View;
-    audioElement: HTMLAudioElement;
+    audioElement: HTMLAudioElement | HTMLVideoElement;
     private playmode;
     private playmodeName;
+    private audioElementType;
+    private _volume;
     mode: string;
     volume: number;
     readonly playlist: IAudioItem[];
@@ -22,15 +24,19 @@ export default class cplayer extends EventEmitter {
     readonly nowplaypoint: number;
     readonly played: boolean;
     readonly paused: boolean;
+    readonly duration: number;
+    readonly currentTime: number;
     constructor(options: ICplayerOption & ICplayerViewOption);
-    private initializeEventEmitter();
+    private initializeEventEmitter(element);
+    private removeEventEmitter(element);
     private eventHandlers;
+    setCurrentTime(currentTime: number | string): void;
     private isPlaying();
     openAudio(audio?: IAudioItem): void;
     toggleMode(): void;
     setMode(playmode: string): void;
     getMode(): string;
-    play(Forced?: boolean): void;
+    play(Forced?: boolean): Promise<void>;
     pause(Forced?: boolean): void;
     to(id: number): void;
     next(): void;
@@ -38,6 +44,6 @@ export default class cplayer extends EventEmitter {
     togglePlayState(): void;
     add(item: IAudioItem): void;
     remove(item: IAudioItem): void;
-    setVolume(volume: number): void;
+    setVolume(volume: number | string): void;
     destroy(): void;
 }

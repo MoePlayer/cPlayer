@@ -108,7 +108,6 @@ function createBeforeShadowElement(targetElement: Element, htmlTemplate: string,
 
 function createElement(targetElement: Element, htmlTemplate: string, style: string) {
   targetElement.innerHTML = htmlTemplate;
-  console.log(style);
   if (!document.getElementById('cplayer-style')) {
     document.body.appendChild(createStyleElement(style));
   }
@@ -472,7 +471,7 @@ export default class cplayerView extends EventEmitter {
 
   private handleMouseVolumeController = (event: MouseEvent) => {
     this.removeVolumeControllerKeepShow()
-    if (event.buttons === 1 || event.which === 1) {
+    if (event.buttons === 1 || typeof event.buttons === 'undefined' && event.which === 1) {
       let volume = Math.max(0, Math.min(1.0,
         (event.clientX - this.elementLinks.volumeController.getBoundingClientRect().left) / this.elementLinks.volumeController.clientWidth
       ));
@@ -500,7 +499,7 @@ export default class cplayerView extends EventEmitter {
   }
 
   private handleMouseProgress = (event: MouseEvent) => {
-    if (event.buttons === 1 || event.which === 1) {
+    if (event.buttons === 1 || typeof event.buttons === 'undefined' && event.which === 1) {
       let progress = Math.max(0, Math.min(1.0,
         (event.clientX - this.elementLinks.progress.getBoundingClientRect().left) / this.elementLinks.progress.clientWidth
       ));

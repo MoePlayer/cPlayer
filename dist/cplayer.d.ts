@@ -1,6 +1,6 @@
-import { cEmitter } from "modules/cEmitter.class";
-import { cOption, cList, __LYRIC__ } from "modules/c.interface";
-import { cBase } from "modules/cBase.class";
+import { cEmitter } from "./modules/cEmitter.class";
+import { cOption, cList, __LYRIC__ } from "./modules/c.interface";
+import { cBase } from "./modules/cBase.class";
 import "../scss/cplayer.scss";
 declare class cPlayer extends cEmitter {
     static version: string;
@@ -37,11 +37,17 @@ declare class cPlayer extends cEmitter {
     private _refreshList();
     add(u: cList): this;
     remove(id: number): this;
-    lyric(content?: undefined): string | this | undefined;
-    refreshLyric(isTrans?: boolean): void;
+    lyric(content?: undefined): Promise<string | {
+        waiter: () => Promise<string>;
+        resolve: (promise: string) => {
+            lyric: string | null;
+            transLyric: string | null;
+        };
+    } | undefined>;
+    refreshLyric(isTrans?: boolean): Promise<false | undefined>;
     updateTime(time?: number | void, func?: (time: number) => void): void;
     private _slideLyric(time);
-    translate(): false | undefined;
+    translate(): Promise<false | undefined>;
     length: number;
 }
 export { cPlayer };

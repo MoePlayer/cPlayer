@@ -5,7 +5,13 @@ export interface cList {
     image: string;
     url?: string;
     loop?: boolean;
-    lyric?: string;
+    lyric?: string | {
+        waiter: () => Promise<string>;
+        resolve: (promise: string) => {
+            lyric: string | null;
+            transLyric: string | null;
+        };
+    };
     transLyric?: string;
 }
 export interface cOption {

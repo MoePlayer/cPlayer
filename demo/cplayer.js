@@ -70,7 +70,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "46768ef3bca6de830506"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "813946818b2a4ce25ce3"; // eslint-disable-line no-unused-vars
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
@@ -730,12 +730,12 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(8)(true);
+exports = module.exports = __webpack_require__(8)(false);
 // imports
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n/*@keyframes changeSize{\r\n\t0%{\r\n\t\twidth:100%;\r\n\t\theight:100%;\r\n\t\ttop:0;\r\n\t\tleft:0;\r\n\t}\r\n\t100%{\r\n\t\twidth:200%;\r\n\t\theight:200%;\r\n\t\ttop:-50%;\r\n\t\tleft:-50%;\r\n\t}\r\n}*/\nc-player {\n  display: flex;\n  flex-direction: column; }\n  c-player svg {\n    width: 100%;\n    height: 100%;\n    fill: #333;\n    display: block; }\n  c-player .play-icon svg {\n    fill: white;\n    width: 80%;\n    height: 80%; }\n  c-player .invisible {\n    height: 0 !important;\n    overflow: hidden !important;\n    max-height: 0 !important;\n    min-height: 0 !important; }\n  c-player * {\n    font-family: \"Ubuntu Mono\",\"\\5FAE\\8F6F\\96C5\\9ED1\",\"Microsoft JHenghei\",sans-serif;\n    text-decoration: none;\n    font-size: initial;\n    line-height: initial; }\n  c-player .lyric {\n    will-change: height;\n    transition: all 0.25s;\n    display: flex;\n    height: 20em;\n    height: 45vh;\n    width: 100%;\n    background: #eee;\n    overflow: hidden; }\n    c-player .lyric lyric-body {\n      will-change: transform;\n      display: block;\n      flex-direction: column;\n      width: 100%;\n      height: 100%;\n      text-align: center;\n      transform: translateY(6em); }\n      c-player .lyric lyric-body lrc {\n        flex: 1;\n        display: block;\n        will-change: background;\n        line-height: 3em;\n        min-height: 3em;\n        font-size: large;\n        font-family: \"LiHei Pro\",\"Microsoft Yahei\",sans-serif;\n        width: 100%; }\n        c-player .lyric lyric-body lrc.now {\n          background: #ddd; }\n  c-player .controls {\n    background: white;\n    height: 4em;\n    display: flex; }\n    c-player .controls .c-left {\n      display: flex; }\n      c-player .controls .c-left .music-description {\n        display: flex; }\n        c-player .controls .c-left .music-description .image, c-player .controls .c-left .music-description .image img {\n          height: 4em;\n          width: 4em; }\n          c-player .controls .c-left .music-description .image:hover + .music-meta, c-player .controls .c-left .music-description .image img:hover + .music-meta {\n            max-width: 9999px; }\n        c-player .controls .c-left .music-description .music-meta {\n          margin: 0 0.5em;\n          flex: 1;\n          max-width: 0;\n          width: auto;\n          display: flex;\n          overflow: hidden;\n          flex-direction: column;\n          height: 100%;\n          transition: 1.5s all 0.5s ease-in; }\n          c-player .controls .c-left .music-description .music-meta div {\n            display: flex;\n            width: 100%;\n            height: 100%;\n            justify-content: center;\n            align-items: center;\n            flex-direction: column; }\n          c-player .controls .c-left .music-description .music-meta .music-name {\n            font-size: 1.5em;\n            white-space: nowrap; }\n          c-player .controls .c-left .music-description .music-meta .music-artist {\n            font-size: 0.7em;\n            color: grey;\n            white-space: nowrap; }\n      c-player .controls .c-left .play-icon {\n        display: flex;\n        align-items: center;\n        justify-content: center;\n        margin: auto 0.5em;\n        width: 3.2em;\n        height: 3.2em;\n        border-radius: 100%;\n        background-color: #7dc3da;\n        color: white;\n        cursor: pointer; }\n    c-player .controls .c-center {\n      flex: 1;\n      width: auto;\n      display: flex;\n      align-items: center;\n      padding: 0.5em; }\n      @media screen and (max-width: 600px) {\n        c-player .controls .c-center {\n          display: none; } }\n      c-player .controls .c-center .time {\n        width: 100%;\n        touch-action: none;\n        pointer-events: auto;\n        cursor: pointer; }\n        c-player .controls .c-center .time .time-body {\n          margin: 0 1%;\n          height: 0.5em;\n          background-color: #ccc;\n          display: flex;\n          border-radius: 0.5em; }\n          c-player .controls .c-center .time .time-body .time-line {\n            width: 0%;\n            height: 100%;\n            background-color: #359abc;\n            will-change: width;\n            transition: 0.1s width ease-in;\n            position: relative;\n            border-radius: 0.5em; }\n            c-player .controls .c-center .time .time-body .time-line .time-point {\n              width: 1em;\n              height: 1em;\n              margin: -0.25em -0.5em 0 0;\n              background-color: #7dc3da;\n              border-radius: 100%;\n              position: absolute;\n              right: 0;\n              /**&::before{\r\n\t\t\t\t\tcontent:\"\";\r\n\t\t\t\t\tdisplay:block;\r\n\t\t\t\t\twidth:0;\r\n\t\t\t\t\theight:0;\r\n\t\t\t\t\tposition: absolute;\r\n\t\t\t\t\ttop:50%;\r\n\t\t\t\t\tleft:50%;\r\n\t\t\t\t\tbackground-color:rgba($b-color,.5);\r\n\t\t\t\t\tanimation:changeSize 1s ease-in-out infinite alternate;\r\n\t\t\t\t\tborder-radius: 100%;\r\n\t\t\t\t}**********/ }\n    c-player .controls .c-right {\n      display: flex;\n      justify-content: center;\n      align-items: center; }\n      @media screen and (max-width: 600px) {\n        c-player .controls .c-right {\n          flex: 1; }\n          c-player .controls .c-right .volume {\n            width: auto !important; }\n            c-player .controls .c-right .volume .volume-body {\n              visibility: hidden !important; }\n        c-player .controls .c-right.hover .list-button,\n        c-player .controls .c-right.hover .lyric-button {\n          display: none; }\n        c-player .controls .c-right.hover .volume-body {\n          width: 100% !important;\n          visibility: visible !important; }\n        c-player .controls .c-right.hover .volume {\n          width: 100% !important; } }\n      c-player .controls .c-right > * {\n        width: 2em;\n        height: 2em;\n        margin: 0 0.5em;\n        display: flex; }\n      c-player .controls .c-right .volume {\n        align-items: center;\n        touch-action: none;\n        pointer-events: auto;\n        cursor: pointer;\n        transition: width 0.2s; }\n        c-player .controls .c-right .volume .volume-body {\n          margin: 0 1%;\n          height: 0.5em;\n          background-color: #ccc;\n          display: flex;\n          border-radius: 0.5em; }\n          c-player .controls .c-right .volume .volume-body .volume-line {\n            width: 0%;\n            height: 100%;\n            background-color: #359abc;\n            will-change: width;\n            transition: 0.1s width ease-in;\n            position: relative;\n            border-radius: 0.5em; }\n            c-player .controls .c-right .volume .volume-body .volume-line .volume-point {\n              width: 1em;\n              height: 1em;\n              margin: -0.25em -0.5em 0 0;\n              background-color: #7dc3da;\n              border-radius: 100%;\n              position: absolute;\n              right: 0;\n              /**&::before{\r\n\t\t\t\t\tcontent:\"\";\r\n\t\t\t\t\tdisplay:block;\r\n\t\t\t\t\twidth:0;\r\n\t\t\t\t\theight:0;\r\n\t\t\t\t\tposition: absolute;\r\n\t\t\t\t\ttop:50%;\r\n\t\t\t\t\tleft:50%;\r\n\t\t\t\t\tbackground-color:rgba($b-color,.5);\r\n\t\t\t\t\tanimation:changeSize 1s ease-in-out infinite alternate;\r\n\t\t\t\t\tborder-radius: 100%;\r\n\t\t\t\t}**********/ }\n        c-player .controls .c-right .volume .volume-body {\n          visibility: hidden;\n          width: 0;\n          transition: width 0.2s; }\n        c-player .controls .c-right .volume:hover, c-player .controls .c-right .volume:active {\n          width: 12em; }\n          c-player .controls .c-right .volume:hover .volume-body, c-player .controls .c-right .volume:active .volume-body {\n            visibility: visible;\n            width: 100%; }\n        c-player .controls .c-right .volume .volume-button {\n          width: 2em;\n          height: 2em; }\n          c-player .controls .c-right .volume .volume-button .volume-power {\n            display: flex;\n            width: 100%;\n            height: 100%;\n            border-radius: 10%;\n            color: grey;\n            transition: all 0.2s ease-in;\n            cursor: pointer; }\n            c-player .controls .c-right .volume .volume-button .volume-power:hover, c-player .controls .c-right .volume .volume-button .volume-power:active {\n              background: rgba(117, 117, 117, 0.3); }\n            c-player .controls .c-right .volume .volume-button .volume-power .material-icons {\n              margin: auto; }\n      c-player .controls .c-right .list-button .list-power {\n        display: flex;\n        width: 100%;\n        height: 100%;\n        border-radius: 10%;\n        color: grey;\n        transition: all 0.2s ease-in;\n        cursor: pointer; }\n        c-player .controls .c-right .list-button .list-power:hover, c-player .controls .c-right .list-button .list-power:active {\n          background: rgba(117, 117, 117, 0.3); }\n        c-player .controls .c-right .list-button .list-power .material-icons {\n          margin: auto; }\n      c-player .controls .c-right .lyric-button .lyric-power {\n        display: flex;\n        width: 100%;\n        height: 100%;\n        border-radius: 10%;\n        color: grey;\n        transition: all 0.2s ease-in;\n        cursor: pointer; }\n        c-player .controls .c-right .lyric-button .lyric-power:hover, c-player .controls .c-right .lyric-button .lyric-power:active {\n          background: rgba(117, 117, 117, 0.3); }\n        c-player .controls .c-right .lyric-button .lyric-power .material-icons {\n          margin: auto; }\n  c-player .list {\n    will-change: height;\n    transition: all 0.25s;\n    max-height: 75vh;\n    background: white;\n    overflow: auto; }\n    c-player .list list-body {\n      display: flex;\n      flex-direction: column;\n      overflow: hidden; }\n      c-player .list list-body > * {\n        display: flex;\n        align-items: center;\n        flex: 1;\n        cursor: pointer;\n        transition: 0.5s background 0s ease; }\n        c-player .list list-body > *:nth-child(2n-1) {\n          background: rgba(117, 117, 117, 0.04); }\n        c-player .list list-body > *:hover, c-player .list list-body > *:active {\n          background: rgba(117, 117, 117, 0.13); }\n          c-player .list list-body > *:hover::before, c-player .list list-body > *:active::before {\n            width: 0.4em; }\n        c-player .list list-body > *::before {\n          background: #7dc3da;\n          transition: 0.2s width 0s ease;\n          float: left;\n          height: 2.5em;\n          width: 0em;\n          display: block;\n          content: \"\"; }\n          @media screen and (max-width: 800px) {\n            c-player .list list-body > *::before {\n              height: 3em; }\n              c-player .list list-body > *::before:hover::before, c-player .list list-body > *::before:active::before {\n                width: 0.4em; } }\n      c-player .list list-body .music-name, c-player .list list-body .music-artist {\n        padding: 0 0.5em; }\n      c-player .list list-body .music-name {\n        flex: 1; }\n\n.c-context {\n  z-index: 9999;\n  position: absolute;\n  display: inline-flex;\n  min-width: 5em;\n  height: auto;\n  flex-direction: column;\n  background: #fff;\n  box-shadow: 0 0 3em -1em #000; }\n\n.c-context--list {\n  display: flex;\n  flex: 1;\n  min-height: 2em;\n  padding: 1em;\n  box-sizing: border-box;\n  transition: background 0.5s;\n  will-change: background;\n  cursor: pointer; }\n\n.c-context--list:hover {\n  background: #6af; }\n", "", {"version":3,"sources":["D:/cPlayer/src/scss/cplayer.scss","D:/cPlayer/src/scss/src/scss/cplayer.scss"],"names":[],"mappings":"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","file":"cplayer.scss","sourcesContent":["@charset \"UTF-8\";\n/*@keyframes changeSize{\r\n\t0%{\r\n\t\twidth:100%;\r\n\t\theight:100%;\r\n\t\ttop:0;\r\n\t\tleft:0;\r\n\t}\r\n\t100%{\r\n\t\twidth:200%;\r\n\t\theight:200%;\r\n\t\ttop:-50%;\r\n\t\tleft:-50%;\r\n\t}\r\n}*/\nc-player {\n  display: flex;\n  flex-direction: column; }\n  c-player svg {\n    width: 100%;\n    height: 100%;\n    fill: #333;\n    display: block; }\n  c-player .play-icon svg {\n    fill: white;\n    width: 80%;\n    height: 80%; }\n  c-player .invisible {\n    height: 0 !important;\n    overflow: hidden !important;\n    max-height: 0 !important;\n    min-height: 0 !important; }\n  c-player * {\n    font-family: \"Ubuntu Mono\",\"微软雅黑\",\"Microsoft JHenghei\",sans-serif;\n    text-decoration: none;\n    font-size: initial;\n    line-height: initial; }\n  c-player .lyric {\n    will-change: height;\n    transition: all 0.25s;\n    display: flex;\n    height: 20em;\n    height: 45vh;\n    width: 100%;\n    background: #eee;\n    overflow: hidden; }\n    c-player .lyric lyric-body {\n      will-change: transform;\n      display: block;\n      flex-direction: column;\n      width: 100%;\n      height: 100%;\n      text-align: center;\n      transform: translateY(6em); }\n      c-player .lyric lyric-body lrc {\n        flex: 1;\n        display: block;\n        will-change: background;\n        line-height: 3em;\n        min-height: 3em;\n        font-size: large;\n        font-family: \"LiHei Pro\",\"Microsoft Yahei\",sans-serif;\n        width: 100%; }\n        c-player .lyric lyric-body lrc.now {\n          background: #ddd; }\n  c-player .controls {\n    background: white;\n    height: 4em;\n    display: flex; }\n    c-player .controls .c-left {\n      display: flex; }\n      c-player .controls .c-left .music-description {\n        display: flex; }\n        c-player .controls .c-left .music-description .image, c-player .controls .c-left .music-description .image img {\n          height: 4em;\n          width: 4em; }\n          c-player .controls .c-left .music-description .image:hover + .music-meta, c-player .controls .c-left .music-description .image img:hover + .music-meta {\n            max-width: 9999px; }\n        c-player .controls .c-left .music-description .music-meta {\n          margin: 0 0.5em;\n          flex: 1;\n          max-width: 0;\n          width: auto;\n          display: flex;\n          overflow: hidden;\n          flex-direction: column;\n          height: 100%;\n          transition: 1.5s all 0.5s ease-in; }\n          c-player .controls .c-left .music-description .music-meta div {\n            display: flex;\n            width: 100%;\n            height: 100%;\n            justify-content: center;\n            align-items: center;\n            flex-direction: column; }\n          c-player .controls .c-left .music-description .music-meta .music-name {\n            font-size: 1.5em;\n            white-space: nowrap; }\n          c-player .controls .c-left .music-description .music-meta .music-artist {\n            font-size: 0.7em;\n            color: grey;\n            white-space: nowrap; }\n      c-player .controls .c-left .play-icon {\n        display: flex;\n        align-items: center;\n        justify-content: center;\n        margin: auto 0.5em;\n        width: 3.2em;\n        height: 3.2em;\n        border-radius: 100%;\n        background-color: #7dc3da;\n        color: white;\n        cursor: pointer; }\n    c-player .controls .c-center {\n      flex: 1;\n      width: auto;\n      display: flex;\n      align-items: center;\n      padding: 0.5em; }\n      @media screen and (max-width: 600px) {\n        c-player .controls .c-center {\n          display: none; } }\n      c-player .controls .c-center .time {\n        width: 100%;\n        touch-action: none;\n        pointer-events: auto;\n        cursor: pointer; }\n        c-player .controls .c-center .time .time-body {\n          margin: 0 1%;\n          height: 0.5em;\n          background-color: #ccc;\n          display: flex;\n          border-radius: 0.5em; }\n          c-player .controls .c-center .time .time-body .time-line {\n            width: 0%;\n            height: 100%;\n            background-color: #359abc;\n            will-change: width;\n            transition: 0.1s width ease-in;\n            position: relative;\n            border-radius: 0.5em; }\n            c-player .controls .c-center .time .time-body .time-line .time-point {\n              width: 1em;\n              height: 1em;\n              margin: -0.25em -0.5em 0 0;\n              background-color: #7dc3da;\n              border-radius: 100%;\n              position: absolute;\n              right: 0;\n              /**&::before{\r\n\t\t\t\t\tcontent:\"\";\r\n\t\t\t\t\tdisplay:block;\r\n\t\t\t\t\twidth:0;\r\n\t\t\t\t\theight:0;\r\n\t\t\t\t\tposition: absolute;\r\n\t\t\t\t\ttop:50%;\r\n\t\t\t\t\tleft:50%;\r\n\t\t\t\t\tbackground-color:rgba($b-color,.5);\r\n\t\t\t\t\tanimation:changeSize 1s ease-in-out infinite alternate;\r\n\t\t\t\t\tborder-radius: 100%;\r\n\t\t\t\t}**********/ }\n    c-player .controls .c-right {\n      display: flex;\n      justify-content: center;\n      align-items: center; }\n      @media screen and (max-width: 600px) {\n        c-player .controls .c-right {\n          flex: 1; }\n          c-player .controls .c-right .volume {\n            width: auto !important; }\n            c-player .controls .c-right .volume .volume-body {\n              visibility: hidden !important; }\n        c-player .controls .c-right.hover .list-button,\n        c-player .controls .c-right.hover .lyric-button {\n          display: none; }\n        c-player .controls .c-right.hover .volume-body {\n          width: 100% !important;\n          visibility: visible !important; }\n        c-player .controls .c-right.hover .volume {\n          width: 100% !important; } }\n      c-player .controls .c-right > * {\n        width: 2em;\n        height: 2em;\n        margin: 0 0.5em;\n        display: flex; }\n      c-player .controls .c-right .volume {\n        align-items: center;\n        touch-action: none;\n        pointer-events: auto;\n        cursor: pointer;\n        transition: width 0.2s; }\n        c-player .controls .c-right .volume .volume-body {\n          margin: 0 1%;\n          height: 0.5em;\n          background-color: #ccc;\n          display: flex;\n          border-radius: 0.5em; }\n          c-player .controls .c-right .volume .volume-body .volume-line {\n            width: 0%;\n            height: 100%;\n            background-color: #359abc;\n            will-change: width;\n            transition: 0.1s width ease-in;\n            position: relative;\n            border-radius: 0.5em; }\n            c-player .controls .c-right .volume .volume-body .volume-line .volume-point {\n              width: 1em;\n              height: 1em;\n              margin: -0.25em -0.5em 0 0;\n              background-color: #7dc3da;\n              border-radius: 100%;\n              position: absolute;\n              right: 0;\n              /**&::before{\r\n\t\t\t\t\tcontent:\"\";\r\n\t\t\t\t\tdisplay:block;\r\n\t\t\t\t\twidth:0;\r\n\t\t\t\t\theight:0;\r\n\t\t\t\t\tposition: absolute;\r\n\t\t\t\t\ttop:50%;\r\n\t\t\t\t\tleft:50%;\r\n\t\t\t\t\tbackground-color:rgba($b-color,.5);\r\n\t\t\t\t\tanimation:changeSize 1s ease-in-out infinite alternate;\r\n\t\t\t\t\tborder-radius: 100%;\r\n\t\t\t\t}**********/ }\n        c-player .controls .c-right .volume .volume-body {\n          visibility: hidden;\n          width: 0;\n          transition: width 0.2s; }\n        c-player .controls .c-right .volume:hover, c-player .controls .c-right .volume:active {\n          width: 12em; }\n          c-player .controls .c-right .volume:hover .volume-body, c-player .controls .c-right .volume:active .volume-body {\n            visibility: visible;\n            width: 100%; }\n        c-player .controls .c-right .volume .volume-button {\n          width: 2em;\n          height: 2em; }\n          c-player .controls .c-right .volume .volume-button .volume-power {\n            display: flex;\n            width: 100%;\n            height: 100%;\n            border-radius: 10%;\n            color: grey;\n            transition: all 0.2s ease-in;\n            cursor: pointer; }\n            c-player .controls .c-right .volume .volume-button .volume-power:hover, c-player .controls .c-right .volume .volume-button .volume-power:active {\n              background: rgba(117, 117, 117, 0.3); }\n            c-player .controls .c-right .volume .volume-button .volume-power .material-icons {\n              margin: auto; }\n      c-player .controls .c-right .list-button .list-power {\n        display: flex;\n        width: 100%;\n        height: 100%;\n        border-radius: 10%;\n        color: grey;\n        transition: all 0.2s ease-in;\n        cursor: pointer; }\n        c-player .controls .c-right .list-button .list-power:hover, c-player .controls .c-right .list-button .list-power:active {\n          background: rgba(117, 117, 117, 0.3); }\n        c-player .controls .c-right .list-button .list-power .material-icons {\n          margin: auto; }\n      c-player .controls .c-right .lyric-button .lyric-power {\n        display: flex;\n        width: 100%;\n        height: 100%;\n        border-radius: 10%;\n        color: grey;\n        transition: all 0.2s ease-in;\n        cursor: pointer; }\n        c-player .controls .c-right .lyric-button .lyric-power:hover, c-player .controls .c-right .lyric-button .lyric-power:active {\n          background: rgba(117, 117, 117, 0.3); }\n        c-player .controls .c-right .lyric-button .lyric-power .material-icons {\n          margin: auto; }\n  c-player .list {\n    will-change: height;\n    transition: all 0.25s;\n    max-height: 75vh;\n    background: white;\n    overflow: auto; }\n    c-player .list list-body {\n      display: flex;\n      flex-direction: column;\n      overflow: hidden; }\n      c-player .list list-body > * {\n        display: flex;\n        align-items: center;\n        flex: 1;\n        cursor: pointer;\n        transition: 0.5s background 0s ease; }\n        c-player .list list-body > *:nth-child(2n-1) {\n          background: rgba(117, 117, 117, 0.04); }\n        c-player .list list-body > *:hover, c-player .list list-body > *:active {\n          background: rgba(117, 117, 117, 0.13); }\n          c-player .list list-body > *:hover::before, c-player .list list-body > *:active::before {\n            width: 0.4em; }\n        c-player .list list-body > *::before {\n          background: #7dc3da;\n          transition: 0.2s width 0s ease;\n          float: left;\n          height: 2.5em;\n          width: 0em;\n          display: block;\n          content: \"\"; }\n          @media screen and (max-width: 800px) {\n            c-player .list list-body > *::before {\n              height: 3em; }\n              c-player .list list-body > *::before:hover::before, c-player .list list-body > *::before:active::before {\n                width: 0.4em; } }\n      c-player .list list-body .music-name, c-player .list list-body .music-artist {\n        padding: 0 0.5em; }\n      c-player .list list-body .music-name {\n        flex: 1; }\n\n.c-context {\n  z-index: 9999;\n  position: absolute;\n  display: inline-flex;\n  min-width: 5em;\n  height: auto;\n  flex-direction: column;\n  background: #fff;\n  box-shadow: 0 0 3em -1em #000; }\n\n.c-context--list {\n  display: flex;\n  flex: 1;\n  min-height: 2em;\n  padding: 1em;\n  box-sizing: border-box;\n  transition: background 0.5s;\n  will-change: background;\n  cursor: pointer; }\n\n.c-context--list:hover {\n  background: #6af; }\n","$c-height:4em;\r\n$p-height:0.5em;\r\n$b-color:#359abc;\r\n$p-radius:1em;\r\n\r\n/*@keyframes changeSize{\r\n\t0%{\r\n\t\twidth:100%;\r\n\t\theight:100%;\r\n\t\ttop:0;\r\n\t\tleft:0;\r\n\t}\r\n\t100%{\r\n\t\twidth:200%;\r\n\t\theight:200%;\r\n\t\ttop:-50%;\r\n\t\tleft:-50%;\r\n\t}\r\n}*/\r\n\r\n@mixin progress($type:time){\r\n\ttouch-action: none;\r\n\tpointer-events: auto;\r\n\tcursor: pointer;\r\n\t.#{$type}-body{\r\n\t\tmargin: 0 1%;\r\n\t\theight:$p-height;\r\n\t\tbackground-color:#ccc;\r\n\t\tdisplay:flex;\r\n\t\tborder-radius:0.5em;\r\n\t\t.#{$type}-line{\r\n\t\t\twidth:0%;\r\n\t\t\theight:100%;\r\n\t\t\tbackground-color:$b-color;\r\n\t\t\twill-change:width;\r\n\t\t\ttransition:0.1s width ease-in;\r\n\t\t\tposition: relative;\r\n\t\t\tborder-radius:0.5em;\r\n\t\t\t.#{$type}-point{\r\n\t\t\t\twidth:$p-radius;\r\n\t\t\t\theight:$p-radius;\r\n\t\t\t\tmargin:-0.25em -0.5em 0 0;\r\n\t\t\t\tbackground-color:lighten($b-color,20%);\r\n\t\t\t\tborder-radius: 100%;\r\n\t\t\t\tposition: absolute;\r\n\t\t\t\tright:0;\r\n\t\t\t\t/**&::before{\r\n\t\t\t\t\tcontent:\"\";\r\n\t\t\t\t\tdisplay:block;\r\n\t\t\t\t\twidth:0;\r\n\t\t\t\t\theight:0;\r\n\t\t\t\t\tposition: absolute;\r\n\t\t\t\t\ttop:50%;\r\n\t\t\t\t\tleft:50%;\r\n\t\t\t\t\tbackground-color:rgba($b-color,.5);\r\n\t\t\t\t\tanimation:changeSize 1s ease-in-out infinite alternate;\r\n\t\t\t\t\tborder-radius: 100%;\r\n\t\t\t\t}**********/\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}\r\n@mixin big-button{\r\n\twidth:0.8*$c-height;\r\n\theight:0.8*$c-height;\r\n\tborder-radius:100%;\r\n\tbackground-color:lighten($b-color,20%);\r\n\tcolor:white;\r\n\tcursor:pointer;\r\n}\r\n@mixin small-button{\r\n\tdisplay:flex;\r\n\twidth:100%;\r\n\theight:100%;\r\n\tborder-radius: 10%;\r\n\tcolor:grey;\r\n\ttransition:all 0.2s ease-in;\r\n\tcursor:pointer;\r\n\t&:hover,&:active{\r\n\t\tbackground:rgba(117,117,117,.3);\r\n\t}\r\n\t.material-icons{\r\n\t\tmargin:auto;\r\n\t}\r\n}\r\n\r\nc-player{\r\n\tsvg{\r\n\t\twidth:100%;\r\n\t\theight:100%;\r\n\t\tfill:#333;\r\n\t\tdisplay:block;\r\n\t}\r\n\t.play-icon svg{\r\n\t\tfill:white;\r\n\t\twidth:80%;\r\n\t\theight:80%;\r\n\t}\r\n\t.invisible{\r\n\t\theight:0!important;\r\n\t\toverflow: hidden!important;\r\n\t\tmax-height: 0!important;\r\n\t\tmin-height: 0!important;\r\n\t}\r\n\tdisplay:flex;\r\n\tflex-direction: column;\r\n\t* {\r\n\t\tfont-family: \"Ubuntu Mono\",\"微软雅黑\",\"Microsoft JHenghei\",sans-serif;\r\n\t    text-decoration: none;\r\n\t    font-size: initial;\r\n\t    line-height:initial;\r\n\t}\r\n\t.lyric{\r\n\t\twill-change:height;\r\n\t\ttransition:all 0.25s;\r\n\t\tdisplay:flex;\r\n\t\theight:20em;\r\n\t\theight:45vh;\r\n\t\twidth:100%;\r\n\t\tbackground:#eee;\r\n\t\toverflow:hidden;\r\n\t\tlyric-body{\r\n\t\t\twill-change:transform;\r\n\t\t\tdisplay:block;\r\n\t\t\t//display:flex;\r\n\t\t\tflex-direction: column;\r\n\t\t\twidth:100%;\r\n\t\t\theight:100%;\r\n\t\t\ttext-align: center;\r\n\t\t\t//padding:6em 0;\r\n\t\t\ttransform:translateY(6em);\r\n\t\t\t//transition: all 0.25s;\r\n\t\t\tlrc{\r\n\t\t\t\tflex:1;\r\n\t\t\t\tdisplay:block;\r\n\t\t\t\twill-change:background;\r\n\t\t\t\tline-height:3em;\r\n\t\t\t\tmin-height:3em;\r\n\t\t\t\tfont-size:large;\r\n\t\t\t\tfont-family: \"LiHei Pro\",\"Microsoft Yahei\",sans-serif;\r\n\t\t\t\twidth:100%;\r\n\t\t\t\t//transition:0.25s background ease;\r\n\t\t\t\t&.now{\r\n\t\t\t\t\tbackground:#ddd;\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n\t.controls{\r\n\t\tbackground: white;\r\n\t\theight:$c-height;\r\n\t\tdisplay:flex;\r\n\t\t.c-left{\r\n\t\t\tdisplay:flex;\r\n\t\t\t.music-description{\r\n\t\t\t\tdisplay:flex;\r\n\t\t\t\t.image,.image img{\r\n\t\t\t\t\theight:$c-height;\r\n\t\t\t\t\twidth:$c-height;\r\n\t\t\t\t\t&:hover + .music-meta{\r\n\t\t\t\t\t\tmax-width: 9999px;\r\n\t\t\t\t\t\t//margin:0 0.5em;\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t\t.music-meta{\r\n\t\t\t\t\tmargin:0 0.5em;\r\n\t\t\t\t\tflex:1;\r\n\t\t\t\t\tmax-width:0;\r\n\t\t\t\t\twidth:auto;\r\n\t\t\t\t\tdisplay:flex;\r\n\t\t\t\t\toverflow: hidden;\r\n\t\t\t\t\tflex-direction: column;\r\n\t\t\t\t\theight: 100%;\r\n\t\t\t\t\ttransition: 1.5s all 0.5s ease-in;\r\n\t\t\t\t\tdiv{\r\n\t\t\t\t\t\tdisplay:flex;\r\n\t\t\t\t\t\twidth:100%;\r\n\t\t\t\t\t\theight:100%;\r\n\t\t\t\t\t\tjustify-content:center;\r\n\t\t\t\t\t\talign-items:center;\r\n\t\t\t\t\t\tflex-direction:column;\r\n\t\t\t\t\t}\r\n\t\t\t\t\t.music-name{\r\n\t\t\t\t\t\tfont-size: 1.5em;\r\n\t\t\t\t\t\twhite-space: nowrap;\r\n\t\t\t\t\t}\r\n\t\t\t\t\t.music-artist{\r\n\t\t\t\t\t\tfont-size:0.7em;\r\n\t\t\t\t\t\tcolor:grey;\r\n\t\t\t\t\t\twhite-space: nowrap;\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t\t.play-icon{\r\n\t\t\t\tdisplay:flex;\r\n\t\t\t\talign-items:center;\r\n\t\t\t\tjustify-content:center;\r\n\t\t\t\tmargin:auto 0.5em;\r\n\t\t\t\t@include big-button();\r\n\t\t\t}\r\n\t\t}\r\n\t\t.c-center{\r\n\t\t\t@media screen and (max-width: 600px) {\r\n\t\t\t\t&{\r\n\t\t\t\t\tdisplay:none;\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t\tflex:1;\r\n\t\t\twidth:auto;\r\n\t\t\tdisplay:flex;\r\n\t\t\talign-items:center;\r\n\t\t\tpadding:0.5em;\r\n\t\t\t.time{\r\n\t\t\t\twidth:100%;\r\n\t\t\t\t@include progress(time);\r\n\t\t\t}\r\n\t\t}\r\n\t\t.c-right{\r\n\t\t\t@media screen and (max-width: 600px) {\r\n\t\t\t\t&{\r\n\t\t\t\t\tflex:1;\r\n\t\t\t\t\t.volume{\r\n\t\t\t\t\t\twidth:auto !important;\r\n\t\t\t\t\t\t.volume-body{visibility: hidden!important}\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t\t&.hover{\r\n\t\t\t\t\t.list-button,\r\n\t\t\t\t\t.lyric-button{\r\n\t\t\t\t\t\tdisplay:none;\r\n\t\t\t\t\t}\r\n\t\t\t\t\t.volume-body{\r\n\t\t\t\t\t\twidth:100% !important;\r\n\t\t\t\t\t\tvisibility: visible !important;\r\n\t\t\t\t\t}\r\n\t\t\t\t\t.volume{\r\n\t\t\t\t\t\twidth:100% !important;\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t\tdisplay:flex;\r\n\t\t\tjustify-content: center;\r\n\t\t    align-items: center;\r\n\t\t\t&>*{\r\n\t\t\t\twidth:2em;\r\n\t\t\t\theight:2em;\r\n\t\t\t\tmargin:0 0.5em;\r\n\t\t\t\tdisplay:flex;\r\n\t\t\t}\r\n\t\t\t.volume{\r\n\t\t\t\talign-items:center;\r\n\t\t\t\t@include progress(volume);\r\n\t\t\t\ttransition: width 0.2s;\r\n\t\t\t\t.volume-body{\r\n\t\t\t\t\tvisibility: hidden;\r\n\t\t\t\t\twidth:0;\r\n\t\t\t\t\ttransition: width 0.2s;\r\n\t\t\t\t}\r\n\t\t\t\t&:hover,&:active{\r\n\t\t\t\t\twidth:12em;\r\n\t\t\t\t\t.volume-body{\r\n\t\t\t\t\t\tvisibility: visible;\r\n\t\t\t\t\t\twidth:100%;\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t\t.volume-button{\r\n\t\t\t\t\twidth:2em;\r\n\t\t\t\t\theight:2em;\r\n\t\t\t\t\t.volume-power{\r\n\t\t\t\t\t\t@include small-button();\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t\t.list-button{\r\n\t\t\t\t.list-power{\r\n\t\t\t\t\t@include small-button();\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t\t.lyric-button{\r\n\t\t\t\t.lyric-power{\r\n\t\t\t\t\t@include small-button();\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n\t.list{\r\n\t\twill-change:height;\r\n\t\ttransition:all 0.25s;\r\n\t\t//min-height: 45vh;\r\n\t\tmax-height: 75vh;\r\n\t\tbackground:white;\r\n\t\toverflow:auto;\r\n\t\tlist-body{\r\n\t\t\tdisplay: flex;\r\n\t\t\tflex-direction: column;\r\n\t\t\toverflow: hidden;\r\n\t\t\t&>*{\r\n\t\t\t\tdisplay:flex;\r\n\t\t\t\talign-items:center;\r\n\t\t\t\tflex:1;\r\n\t\t\t\tcursor:pointer;\r\n\t\t\t\ttransition: 0.5s background 0s ease;\r\n\t\t\t\t&:nth-child(2n-1){\r\n\t\t\t\t\tbackground:rgba(117,117,117,0.04);\r\n\t\t\t\t}\r\n\t\t\t\t&:hover,&:active{\r\n\t\t\t\t\tbackground:rgba(117,117,117,0.13);\r\n\t\t\t\t\t&::before{\r\n\t\t\t\t\t\twidth:0.4em;\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t\t&::before{\r\n\t\t\t\t\tbackground:lighten($b-color,20%);\r\n\t\t\t\t\ttransition:0.2s width 0s ease;\r\n\t\t\t\t\tfloat:left;\r\n\t\t\t\t\theight:2.5em;\r\n\t\t\t\t\twidth:0em;\r\n\t\t\t\t\tdisplay:block;\r\n\t\t\t\t\tcontent:\"\";\r\n\t\t\t\t\t@media screen and (max-width: 800px){\r\n\t\t\t\t\t\t&{\r\n\t\t\t\t\t\t\theight:3em;\r\n\t\t\t\t\t\t\t&:hover,&:active{\r\n\t\t\t\t\t\t\t\t&::before{\r\n\t\t\t\t\t\t\t\t\twidth:0.4em;\r\n\t\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t\t}\r\n\t\t\t\t\t\t}\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t\t.music-name , .music-artist{\r\n\t\t\t\tpadding:0 0.5em;\r\n\t\t\t}\r\n\t\t\t.music-name{\r\n\t\t\t\tflex:1;\r\n\t\t\t}\r\n\t\t}\r\n\t}\r\n}\r\n\t.c-context{\r\n\t\tz-index:9999;\r\n\t\tposition:absolute;\r\n\t\tdisplay:inline-flex;\r\n\t\tmin-width:5em;\r\n\t\theight:auto;\r\n\t\tflex-direction:column;\r\n\t\tbackground: #fff;\r\n\t\tbox-shadow: 0 0 3em -1em #000;\r\n\t}\r\n\t.c-context--list{\r\n\t\tdisplay:flex;\r\n\t\tflex:1;\r\n\t\tmin-height:2em;\r\n\t\tpadding:1em;\r\n\t\tbox-sizing:border-box;\r\n\t\ttransition:background 0.5s;\r\n\t\twill-change:background;\r\n\t\tcursor:pointer;\r\n\t}\r\n\t.c-context--list:hover{\r\n\t\tbackground: #6af;\r\n\t}"],"sourceRoot":""}]);
+exports.push([module.i, "@charset \"UTF-8\";\n/*@keyframes changeSize{\r\n\t0%{\r\n\t\twidth:100%;\r\n\t\theight:100%;\r\n\t\ttop:0;\r\n\t\tleft:0;\r\n\t}\r\n\t100%{\r\n\t\twidth:200%;\r\n\t\theight:200%;\r\n\t\ttop:-50%;\r\n\t\tleft:-50%;\r\n\t}\r\n}*/\nc-player {\n  /*! minireset.css v0.0.3 | MIT License | github.com/jgthms/minireset.css */\n  z-index: 1;\n  display: flex;\n  position: relative;\n  color: rgba(255, 255, 255, 0.8);\n  opacity: 0.9;\n  overflow: hidden;\n  flex-direction: column; }\n  c-player html,\n  c-player body,\n  c-player p,\n  c-player ol,\n  c-player ul,\n  c-player li,\n  c-player dl,\n  c-player dt,\n  c-player dd,\n  c-player blockquote,\n  c-player figure,\n  c-player fieldset,\n  c-player legend,\n  c-player textarea,\n  c-player pre,\n  c-player iframe,\n  c-player hr,\n  c-player h1,\n  c-player h2,\n  c-player h3,\n  c-player h4,\n  c-player h5,\n  c-player h6 {\n    margin: 0;\n    padding: 0; }\n  c-player h1,\n  c-player h2,\n  c-player h3,\n  c-player h4,\n  c-player h5,\n  c-player h6 {\n    font-size: 100%;\n    font-weight: normal; }\n  c-player ul {\n    list-style: none; }\n  c-player button,\n  c-player input,\n  c-player select,\n  c-player textarea {\n    margin: 0; }\n  c-player html {\n    box-sizing: border-box; }\n  c-player *, c-player *:before, c-player *:after {\n    box-sizing: inherit; }\n  c-player img,\n  c-player embed,\n  c-player iframe,\n  c-player object,\n  c-player audio,\n  c-player video {\n    height: auto;\n    max-width: 100%; }\n  c-player iframe {\n    border: 0; }\n  c-player table {\n    border-collapse: collapse;\n    border-spacing: 0; }\n  c-player td,\n  c-player th {\n    padding: 0;\n    text-align: left; }\n  c-player svg {\n    width: 100%;\n    height: 100%;\n    fill: rgba(255, 255, 255, 0.8);\n    display: block; }\n  c-player .play-icon svg {\n    fill: rgba(255, 255, 255, 0.8);\n    width: 80%;\n    height: 80%; }\n  c-player .invisible {\n    height: 0 !important;\n    overflow: hidden !important;\n    max-height: 0 !important;\n    min-height: 0 !important; }\n  c-player * {\n    font-family: \"Ubuntu Mono\",\"\\5FAE\\8F6F\\96C5\\9ED1\",\"Microsoft JHenghei\",sans-serif;\n    text-decoration: none; }\n  c-player .lyric {\n    will-change: height;\n    transition: all 0.25s;\n    display: flex;\n    height: 20em;\n    height: 45vh;\n    width: 100%;\n    overflow: hidden; }\n    c-player .lyric lyric-body {\n      will-change: transform;\n      display: block;\n      flex-direction: column;\n      width: 100%;\n      height: 100%;\n      text-align: center;\n      transform: translateY(6em); }\n      c-player .lyric lyric-body lrc {\n        flex: 1;\n        display: block;\n        will-change: background;\n        line-height: 3em;\n        min-height: 3em;\n        font-size: large;\n        font-family: Consolas,'Courier New', Courier,\"Microsoft Yahei\",monospace,sans-serif;\n        width: 100%; }\n        c-player .lyric lyric-body lrc.now {\n          background: rgba(255, 255, 255, 0.247); }\n  c-player .controls {\n    background: rgba(255, 255, 255, 0.2);\n    height: 4em;\n    display: flex; }\n    c-player .controls .c-left {\n      display: flex; }\n      c-player .controls .c-left .music-description {\n        display: flex; }\n        c-player .controls .c-left .music-description .image, c-player .controls .c-left .music-description .image img {\n          height: 4em;\n          width: 4em; }\n          c-player .controls .c-left .music-description .image:hover + .music-meta, c-player .controls .c-left .music-description .image img:hover + .music-meta {\n            max-width: 9999px; }\n        c-player .controls .c-left .music-description .music-meta {\n          margin: 0 0.5em;\n          flex: 1;\n          max-width: 0;\n          width: auto;\n          display: flex;\n          overflow: hidden;\n          flex-direction: column;\n          height: 100%;\n          transition: 1.5s all 0.5s ease-in; }\n          c-player .controls .c-left .music-description .music-meta div {\n            display: flex;\n            width: 100%;\n            height: 100%;\n            justify-content: center;\n            align-items: center;\n            flex-direction: column; }\n          c-player .controls .c-left .music-description .music-meta .music-name {\n            font-size: 1.5em;\n            white-space: nowrap; }\n          c-player .controls .c-left .music-description .music-meta .music-artist {\n            font-size: 0.7em;\n            color: #c8c8c8;\n            white-space: nowrap; }\n      c-player .controls .c-left .play-icon {\n        display: flex;\n        align-items: center;\n        justify-content: center;\n        margin: auto 0.5em;\n        width: 3.2em;\n        height: 3.2em;\n        border-radius: 100%;\n        border: 1px solid rgba(125, 195, 218, 0.733);\n        color: white;\n        cursor: pointer; }\n    c-player .controls .c-center {\n      flex: 1;\n      width: auto;\n      display: flex;\n      align-items: center;\n      padding: 0.5em; }\n      @media screen and (max-width: 600px) {\n        c-player .controls .c-center {\n          display: none; } }\n      c-player .controls .c-center .time {\n        width: 100%;\n        touch-action: none;\n        pointer-events: auto;\n        cursor: pointer; }\n        c-player .controls .c-center .time .time-body {\n          margin: 0 1%;\n          height: 0.1em;\n          background-color: #ccc;\n          display: flex;\n          border-radius: 0.5em; }\n          c-player .controls .c-center .time .time-body .time-line {\n            width: 0%;\n            height: 100%;\n            background-color: rgba(53, 154, 188, 0.733);\n            will-change: width;\n            transition: 0.1s width ease-in;\n            position: relative;\n            border-radius: 0.5em; }\n            c-player .controls .c-center .time .time-body .time-line .time-point {\n              width: 1em;\n              height: 1em;\n              margin: -0.5em -0.5em 0 0;\n              background-color: #7dc3da;\n              border-radius: 100%;\n              position: absolute;\n              right: 0;\n              /**&::before{\r\n\t\t\t\t\tcontent:\"\";\r\n\t\t\t\t\tdisplay:block;\r\n\t\t\t\t\twidth:0;\r\n\t\t\t\t\theight:0;\r\n\t\t\t\t\tposition: absolute;\r\n\t\t\t\t\ttop:50%;\r\n\t\t\t\t\tleft:50%;\r\n\t\t\t\t\tbackground-color:rgba($b-color,.5);\r\n\t\t\t\t\tanimation:changeSize 1s ease-in-out infinite alternate;\r\n\t\t\t\t\tborder-radius: 100%;\r\n\t\t\t\t}**********/ }\n    c-player .controls .c-right {\n      display: flex;\n      justify-content: center;\n      align-items: center; }\n      @media screen and (max-width: 600px) {\n        c-player .controls .c-right {\n          flex: 1; }\n          c-player .controls .c-right .volume {\n            width: auto !important; }\n            c-player .controls .c-right .volume .volume-body {\n              visibility: hidden !important; }\n        c-player .controls .c-right.hover .list-button,\n        c-player .controls .c-right.hover .lyric-button {\n          display: none; }\n        c-player .controls .c-right.hover .volume-body {\n          width: 100% !important;\n          visibility: visible !important; }\n        c-player .controls .c-right.hover .volume {\n          width: 100% !important; } }\n      c-player .controls .c-right > * {\n        width: 2em;\n        height: 2em;\n        margin: 0 0.5em;\n        display: flex; }\n      c-player .controls .c-right .volume {\n        align-items: center;\n        touch-action: none;\n        pointer-events: auto;\n        cursor: pointer;\n        transition: width 0.2s; }\n        c-player .controls .c-right .volume .volume-body {\n          margin: 0 1%;\n          height: 0.1em;\n          background-color: #ccc;\n          display: flex;\n          border-radius: 0.5em; }\n          c-player .controls .c-right .volume .volume-body .volume-line {\n            width: 0%;\n            height: 100%;\n            background-color: rgba(53, 154, 188, 0.733);\n            will-change: width;\n            transition: 0.1s width ease-in;\n            position: relative;\n            border-radius: 0.5em; }\n            c-player .controls .c-right .volume .volume-body .volume-line .volume-point {\n              width: 1em;\n              height: 1em;\n              margin: -0.5em -0.5em 0 0;\n              background-color: #7dc3da;\n              border-radius: 100%;\n              position: absolute;\n              right: 0;\n              /**&::before{\r\n\t\t\t\t\tcontent:\"\";\r\n\t\t\t\t\tdisplay:block;\r\n\t\t\t\t\twidth:0;\r\n\t\t\t\t\theight:0;\r\n\t\t\t\t\tposition: absolute;\r\n\t\t\t\t\ttop:50%;\r\n\t\t\t\t\tleft:50%;\r\n\t\t\t\t\tbackground-color:rgba($b-color,.5);\r\n\t\t\t\t\tanimation:changeSize 1s ease-in-out infinite alternate;\r\n\t\t\t\t\tborder-radius: 100%;\r\n\t\t\t\t}**********/ }\n        c-player .controls .c-right .volume .volume-body {\n          visibility: hidden;\n          width: 0;\n          transition: width 0.2s; }\n        c-player .controls .c-right .volume:hover, c-player .controls .c-right .volume:active {\n          width: 12em; }\n          c-player .controls .c-right .volume:hover .volume-body, c-player .controls .c-right .volume:active .volume-body {\n            visibility: visible;\n            width: 100%; }\n        c-player .controls .c-right .volume .volume-button {\n          width: 2em;\n          height: 2em; }\n          c-player .controls .c-right .volume .volume-button .volume-power {\n            display: flex;\n            width: 100%;\n            height: 100%;\n            border-radius: 10%;\n            color: rgba(255, 255, 255, 0.8);\n            transition: all 0.2s ease-in;\n            cursor: pointer; }\n            c-player .controls .c-right .volume .volume-button .volume-power:hover, c-player .controls .c-right .volume .volume-button .volume-power:active {\n              background: rgba(117, 117, 117, 0.3); }\n            c-player .controls .c-right .volume .volume-button .volume-power .material-icons {\n              margin: auto; }\n      c-player .controls .c-right .list-button .list-power {\n        display: flex;\n        width: 100%;\n        height: 100%;\n        border-radius: 10%;\n        color: rgba(255, 255, 255, 0.8);\n        transition: all 0.2s ease-in;\n        cursor: pointer; }\n        c-player .controls .c-right .list-button .list-power:hover, c-player .controls .c-right .list-button .list-power:active {\n          background: rgba(117, 117, 117, 0.3); }\n        c-player .controls .c-right .list-button .list-power .material-icons {\n          margin: auto; }\n      c-player .controls .c-right .lyric-button .lyric-power {\n        display: flex;\n        width: 100%;\n        height: 100%;\n        border-radius: 10%;\n        color: rgba(255, 255, 255, 0.8);\n        transition: all 0.2s ease-in;\n        cursor: pointer; }\n        c-player .controls .c-right .lyric-button .lyric-power:hover, c-player .controls .c-right .lyric-button .lyric-power:active {\n          background: rgba(117, 117, 117, 0.3); }\n        c-player .controls .c-right .lyric-button .lyric-power .material-icons {\n          margin: auto; }\n  c-player .list {\n    will-change: height;\n    transition: all 0.25s;\n    max-height: 75vh;\n    background: rgba(255, 255, 255, 0.1);\n    overflow: auto; }\n    c-player .list list-body {\n      display: flex;\n      flex-direction: column;\n      overflow: hidden; }\n      c-player .list list-body > * {\n        display: flex;\n        align-items: center;\n        flex: 1;\n        cursor: pointer;\n        transition: 0.5s background 0s ease; }\n        c-player .list list-body > *:nth-child(2n-1) {\n          background: rgba(117, 117, 117, 0.04); }\n        c-player .list list-body > *:hover, c-player .list list-body > *:active {\n          background: rgba(117, 117, 117, 0.13); }\n          c-player .list list-body > *:hover::before, c-player .list list-body > *:active::before {\n            width: 0.4em; }\n        c-player .list list-body > *::before {\n          background: rgba(125, 195, 218, 0.733);\n          transition: 0.2s width 0s ease;\n          float: left;\n          height: 2.5em;\n          width: 0em;\n          display: block;\n          content: \"\"; }\n          @media screen and (max-width: 800px) {\n            c-player .list list-body > *::before {\n              height: 3em; }\n              c-player .list list-body > *::before:hover::before, c-player .list list-body > *::before:active::before {\n                width: 0.4em; } }\n      c-player .list list-body .music-name, c-player .list list-body .music-artist {\n        padding: 0 0.5em; }\n      c-player .list list-body .music-name {\n        flex: 1; }\n  c-player .background {\n    z-index: -1;\n    position: absolute;\n    top: -2.5em;\n    bottom: -2.5em;\n    left: -2.5em;\n    right: -2.5em;\n    transition: background-image 1s;\n    background-color: grey;\n    background-size: cover;\n    background-position: center;\n    filter: blur(2em) brightness(0.4); }\n\n.c-context {\n  z-index: 9999;\n  position: absolute;\n  display: inline-flex;\n  min-width: 5em;\n  height: auto;\n  flex-direction: column;\n  background: #fff;\n  box-shadow: 0 0 3em -1em #000; }\n\n.c-context--list {\n  display: flex;\n  flex: 1;\n  min-height: 2em;\n  padding: 1em;\n  box-sizing: border-box;\n  transition: background 0.5s;\n  will-change: background;\n  cursor: pointer; }\n\n.c-context--list:hover {\n  background: rgba(53, 154, 188, 0.733); }\n", ""]);
 
 // exports
 
@@ -747,11 +747,11 @@ exports.push([module.i, "@charset \"UTF-8\";\n/*@keyframes changeSize{\r\n\t0%{\
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "cPlayer", function() { return cPlayer; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_modules_cEmitter_class__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_modules_cLyric_function__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_modules_SVG_object__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_modules_cBase_class__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_modules_cContext_class__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__modules_cEmitter_class__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__modules_cLyric_function__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_SVG_object__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_cBase_class__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_cContext_class__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__scss_cplayer_scss__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__scss_cplayer_scss___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__scss_cplayer_scss__);
 var __extends = (this && this.__extends) || (function () {
@@ -772,6 +772,41 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     }
     return t;
 };
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 /*
     cPlayer
     Author	Corps
@@ -785,7 +820,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 
 
 
-var cPlayer = (function (_super) {
+var cPlayer = /** @class */ (function (_super) {
     __extends(cPlayer, _super);
     function cPlayer(options) {
         var _this = this;
@@ -821,11 +856,11 @@ var cPlayer = (function (_super) {
             "list": []
         };
         _this.options = __assign({}, DEFAULTS, options);
-        _this.CBASE = new __WEBPACK_IMPORTED_MODULE_3_modules_cBase_class__["a" /* cBase */];
+        _this.CBASE = new __WEBPACK_IMPORTED_MODULE_3__modules_cBase_class__["a" /* cBase */];
         _this.now = 0;
         _this.dragging = { contain: false, target: document.body };
         //现在开始填DOM
-        _this.options.element.innerHTML += '<c-player><div class="lyric invisible"><lyric-body></lyric-body></div><div class="controls"><div class="c-left"><div class="music-description"><div class="image"><img class="meta-bak"></div><div class="music-meta"><div><span class="music-name"></span><span class="music-artist"></span></div></div></div><a class="play-icon"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M16 10v28l22-14z"></path></svg></a></div><div class="c-center"><div class="time"><div class="time-body"><div class="time-line"><div class="time-point"></div></div></div></div></div><div class="c-right"><div class="volume"><div class="volume-button"><a class="volume-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M33 24c0-3.53-2.04-6.58-5-8.05v4.42l4.91 4.91c.06-.42.09-.85.09-1.28zm5 0c0 1.88-.41 3.65-1.08 5.28l3.03 3.03C41.25 29.82 42 27 42 24c0-8.56-5.99-15.72-14-17.54v4.13c5.78 1.72 10 7.07 10 13.41zM8.55 6L6 8.55 15.45 18H6v12h8l10 10V26.55l8.51 8.51c-1.34 1.03-2.85 1.86-4.51 2.36v4.13c2.75-.63 5.26-1.89 7.37-3.62L39.45 42 42 39.45l-18-18L8.55 6zM24 8l-4.18 4.18L24 16.36V8z"></path></svg></a></div><div class="volume-body"><div class="volume-line"><div class="volume-point"></div></div></div></div><div class="list-button"><a class="list-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-12 -12 48 48" enable-background="new -12 -12 48 48"><path d="M26 6H-8v4h34V6zm0-8H-8v4h34v-4zM-8 18h26v-4H-8v4zm30-4v12l10-6-10-6z"></path></svg></a></div><div class="lyric-button"><a class="lyric-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M44 20L32 8H8c-2.2 0-4 1.8-4 4v24.02C4 38.22 5.8 40 8 40l32-.02c2.2 0 4-1.78 4-3.98V20zm-14-9l11 11H30V11z"></path></svg></a></div></div></div><div class="list invisible"><list-body></list-body></div></c-player>';
+        _this.options.element.innerHTML += '<c-player><div class="lyric invisible"><lyric-body></lyric-body></div><div class="controls"><div class="c-left"><div class="music-description"><div class="image"><img class="meta-bak"></div><div class="music-meta"><div><span class="music-name"></span><span class="music-artist"></span></div></div></div><a class="play-icon"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M16 10v28l22-14z"></path></svg></a></div><div class="c-center"><div class="time"><div class="time-body"><div class="time-line"><div class="time-point"></div></div></div></div></div><div class="c-right"><div class="volume"><div class="volume-button"><a class="volume-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M33 24c0-3.53-2.04-6.58-5-8.05v4.42l4.91 4.91c.06-.42.09-.85.09-1.28zm5 0c0 1.88-.41 3.65-1.08 5.28l3.03 3.03C41.25 29.82 42 27 42 24c0-8.56-5.99-15.72-14-17.54v4.13c5.78 1.72 10 7.07 10 13.41zM8.55 6L6 8.55 15.45 18H6v12h8l10 10V26.55l8.51 8.51c-1.34 1.03-2.85 1.86-4.51 2.36v4.13c2.75-.63 5.26-1.89 7.37-3.62L39.45 42 42 39.45l-18-18L8.55 6zM24 8l-4.18 4.18L24 16.36V8z"></path></svg></a></div><div class="volume-body"><div class="volume-line"><div class="volume-point"></div></div></div></div><div class="list-button"><a class="list-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-12 -12 48 48" enable-background="new -12 -12 48 48"><path d="M26 6H-8v4h34V6zm0-8H-8v4h34v-4zM-8 18h26v-4H-8v4zm30-4v12l10-6-10-6z"></path></svg></a></div><div class="lyric-button"><a class="lyric-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M44 20L32 8H8c-2.2 0-4 1.8-4 4v24.02C4 38.22 5.8 40 8 40l32-.02c2.2 0 4-1.78 4-3.98V20zm-14-9l11 11H30V11z"></path></svg></a></div></div></div><div class="list invisible"><list-body></list-body></div><div class="background"></div></c-player>';
         (function () {
             var res = _this.options.element.getElementsByTagName("c-player");
             _this.CBASE.root = res[res.length - 1];
@@ -850,7 +885,8 @@ var cPlayer = (function (_super) {
             "volume": _this.CBASE.getByClass("volume"),
             "listPower": _this.CBASE.getByClass("list-power"),
             "list": _this.CBASE.getByClass("list"),
-            "listBody": _this.CBASE.getByTagName("list-body")
+            "listBody": _this.CBASE.getByTagName("list-body"),
+            "background": _this.CBASE.getByClass("background")
         };
         _this.__LIST__.toggleIcon = _this.CBASE.getByTagName("svg", _this.__LIST__.toggle);
         _this.__LIST__.volumeIcon = _this.CBASE.getByTagName("svg", _this.__LIST__.volumePower);
@@ -994,9 +1030,9 @@ var cPlayer = (function (_super) {
         }).on("volumechange", function () {
             _this.volume(); //做更新界面用.
         }).on("pause", function () {
-            _this.CBASE.replaceInner(_this.__LIST__.toggle, __WEBPACK_IMPORTED_MODULE_2_modules_SVG_object__["a" /* SVG */].playArrow);
+            _this.CBASE.replaceInner(_this.__LIST__.toggle, __WEBPACK_IMPORTED_MODULE_2__modules_SVG_object__["a" /* SVG */].playArrow);
         }).on("play", function () {
-            _this.CBASE.replaceInner(_this.__LIST__.toggle, __WEBPACK_IMPORTED_MODULE_2_modules_SVG_object__["a" /* SVG */].pause);
+            _this.CBASE.replaceInner(_this.__LIST__.toggle, __WEBPACK_IMPORTED_MODULE_2__modules_SVG_object__["a" /* SVG */].pause);
             _this.__LIST__.toggleIcon = _this.CBASE.getByTagName("svg", _this.__LIST__.toggle);
         }).on("ended", function () {
             _this.CBASE.style(_this.__LIST__.lyricBody, "transform", "");
@@ -1009,7 +1045,7 @@ var cPlayer = (function (_super) {
             }
         });
         //结束
-        new __WEBPACK_IMPORTED_MODULE_4_modules_cContext_class__["a" /* cContext */]({
+        new __WEBPACK_IMPORTED_MODULE_4__modules_cContext_class__["a" /* cContext */]({
             element: _this.options.element, items: [
                 { "name": "上一曲", "action": function () { return _this.previous(); } },
                 { "name": "下一曲", "action": function () { return _this.next(); } },
@@ -1039,13 +1075,13 @@ var cPlayer = (function (_super) {
         if (vl === void 0) { vl = undefined; }
         var checkLevel = function () {
             if (_this.music.volume === 0 || _this.isMuted()) {
-                _this.CBASE.replaceInner(_this.__LIST__.volumePower, __WEBPACK_IMPORTED_MODULE_2_modules_SVG_object__["a" /* SVG */].volumeOff);
+                _this.CBASE.replaceInner(_this.__LIST__.volumePower, __WEBPACK_IMPORTED_MODULE_2__modules_SVG_object__["a" /* SVG */].volumeOff);
             }
             else if (_this.music.volume > 0 && _this.music.volume <= 0.5) {
-                _this.CBASE.replaceInner(_this.__LIST__.volumePower, __WEBPACK_IMPORTED_MODULE_2_modules_SVG_object__["a" /* SVG */].volumeDown);
+                _this.CBASE.replaceInner(_this.__LIST__.volumePower, __WEBPACK_IMPORTED_MODULE_2__modules_SVG_object__["a" /* SVG */].volumeDown);
             }
             else if (_this.music.volume > 0.5 && _this.music.volume <= 1) {
-                _this.CBASE.replaceInner(_this.__LIST__.volumePower, __WEBPACK_IMPORTED_MODULE_2_modules_SVG_object__["a" /* SVG */].volumeUp);
+                _this.CBASE.replaceInner(_this.__LIST__.volumePower, __WEBPACK_IMPORTED_MODULE_2__modules_SVG_object__["a" /* SVG */].volumeUp);
             }
             else {
                 console.log("Unexcepted Volume: " + _this.music.volume);
@@ -1083,19 +1119,21 @@ var cPlayer = (function (_super) {
         return this;
     };
     cPlayer.prototype.previous = function () {
+        var _this = this;
         this.emit("previous");
         if (this.now === 0)
             return;
         this.now--;
-        this._toggle().play();
+        this._toggle().then(function (_) { return _this.play(); });
         return this;
     };
     cPlayer.prototype.next = function () {
+        var _this = this;
         this.emit("next");
         if (this.now === this.options.list.length - 1)
             return;
         this.now++;
-        this._toggle().play();
+        this._toggle().then(function (_) { return _this.play(); });
         return this;
     };
     cPlayer.prototype.to = function (now) {
@@ -1106,23 +1144,54 @@ var cPlayer = (function (_super) {
     };
     cPlayer.prototype._toggle = function (now) {
         if (now === void 0) { now = this.now; }
-        var list = this.options.list[now], dom = this.__LIST__;
-        this.music.pause();
-        _a = [list.image, list.name, list.artist, list.url === undefined ? "" : list.url], dom.img.src = _a[0], dom.name.innerHTML = _a[1], dom.artist.innerHTML = _a[2], this.music.src = _a[3];
-        this.transLock = false;
-        this.refreshLyric();
-        if (!this.hasLyric(this.now))
-            this.hideLyric();
-        this.CBASE.style(this.__LIST__.lyricBody, "transform", "");
-        return this;
-        var _a;
+        return __awaiter(this, void 0, void 0, function () {
+            var list, dom, url, _a, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        list = this.options.list[now], dom = this.__LIST__;
+                        this.music.pause();
+                        if (!(list.url && list.url.resolve)) return [3 /*break*/, 2];
+                        return [4 /*yield*/, (function (asyncLoader) {
+                                return __awaiter(this, void 0, void 0, function () {
+                                    var _a, _b;
+                                    return __generator(this, function (_c) {
+                                        switch (_c.label) {
+                                            case 0:
+                                                _b = (_a = asyncLoader).resolve;
+                                                return [4 /*yield*/, asyncLoader.waiter()];
+                                            case 1: return [2 /*return*/, _b.apply(_a, [_c.sent()])];
+                                        }
+                                    });
+                                });
+                            })(list.url)];
+                    case 1:
+                        _a = _c.sent();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        _a = list.url;
+                        _c.label = 3;
+                    case 3:
+                        url = _a;
+                        _b = ["url(" + list.image + ")", list.image, list.name, list.artist, !list.url ? "" : url], dom.background.style.backgroundImage = _b[0], dom.img.src = _b[1], dom.name.innerHTML = _b[2], dom.artist.innerHTML = _b[3], this.music.src = _b[4];
+                        this.transLock = false;
+                        return [4 /*yield*/, this.refreshLyric()];
+                    case 4:
+                        _c.sent();
+                        if (!this.hasLyric(this.now))
+                            this.hideLyric();
+                        this.CBASE.style(this.__LIST__.lyricBody, "transform", "");
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     cPlayer.prototype.isPaused = function () {
         return this.music.paused;
     };
     cPlayer.prototype.hasLyric = function (id) {
         if (id === void 0) { id = 0; }
-        return (this.options.list[id].lyric != undefined);
+        return !!(this.options.list[id].lyric);
     };
     cPlayer.prototype.showLyric = function () {
         this.emit("slideLyric", true);
@@ -1189,34 +1258,61 @@ var cPlayer = (function (_super) {
     };
     cPlayer.prototype.lyric = function (content) {
         if (content === void 0) { content = undefined; }
-        if (content === undefined) {
-            if (this.hasLyric(this.now))
-                return this.options.list[this.now].lyric;
-        }
-        else {
-            this.options.list[this.now].lyric = content;
-            this.refreshLyric();
-        }
-        return this;
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!!content) return [3 /*break*/, 1];
+                        if (this.hasLyric(this.now))
+                            return [2 /*return*/, this.options.list[this.now].lyric];
+                        return [3 /*break*/, 3];
+                    case 1:
+                        this.options.list[this.now].lyric = content;
+                        return [4 /*yield*/, this.refreshLyric()];
+                    case 2:
+                        _a.sent();
+                        _a.label = 3;
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
     };
     cPlayer.prototype.refreshLyric = function (isTrans) {
         if (isTrans === void 0) { isTrans = false; }
-        //REQUIRE LYRIC...
-        this.__LIST__.lyricBody.innerHTML = "";
-        if (!this.hasLyric(this.now))
-            return;
-        var lr = isTrans !== false ?
-            this.options.list[this.now].transLyric
-            : this.options.list[this.now].lyric;
-        var lyric = Object(__WEBPACK_IMPORTED_MODULE_1_modules_cLyric_function__["a" /* cLyric */])(lr);
-        lyric["now"] = 0;
-        this.__LYRIC__ = lyric;
-        for (var i = 0; i <= lyric.length - 1; i++) {
-            var div = document.createElement("lrc");
-            div.innerHTML = lyric[i].content;
-            this.__LIST__.lyricBody.appendChild(div);
-        }
-        this.emit("changeLyric");
+        return __awaiter(this, void 0, void 0, function () {
+            var lyrics, lr, lyric, i, div;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        //REQUIRE LYRIC...
+                        this.__LIST__.lyricBody.innerHTML = "";
+                        if (!(this.options.list[this.now].lyric
+                            && this.options.list[this.now].lyric.waiter)) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.options.list[this.now].lyric.waiter()];
+                    case 1:
+                        lyrics = _a.sent();
+                        this.options.list[this.now] = __assign({}, this.options.list[this.now], this.options.list[this.now].lyric.resolve(lyrics));
+                        _a.label = 2;
+                    case 2:
+                        ;
+                        if (!this.hasLyric(this.now))
+                            return [2 /*return*/, false];
+                        lr = isTrans !== false ?
+                            this.options.list[this.now].transLyric
+                            : this.options.list[this.now].lyric;
+                        lyric = Object(__WEBPACK_IMPORTED_MODULE_1__modules_cLyric_function__["a" /* cLyric */])(lr);
+                        lyric["now"] = 0;
+                        this.__LYRIC__ = lyric;
+                        for (i = 0; i <= lyric.length - 1; i++) {
+                            div = document.createElement("lrc");
+                            div.innerHTML = lyric[i].content;
+                            this.__LIST__.lyricBody.appendChild(div);
+                        }
+                        this.emit("changeLyric");
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     cPlayer.prototype.updateTime = function (time, func) {
         if (time === void 0) { time = undefined; }
@@ -1259,24 +1355,31 @@ var cPlayer = (function (_super) {
             clear(list);
     };
     cPlayer.prototype.translate = function () {
-        if (!this.options.list[this.now].transLyric || !this.hasLyric(this.now))
-            return false;
-        this.transLock = !this.transLock;
-        this.refreshLyric(this.transLock);
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!this.options.list[this.now].transLyric || !this.hasLyric(this.now))
+                            return [2 /*return*/, false];
+                        this.transLock = !this.transLock;
+                        return [4 /*yield*/, this.refreshLyric(this.transLock)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     Object.defineProperty(cPlayer.prototype, "length", {
         get: function () {
             return this.options.list.length;
         },
-        set: function (length) {
-            throw new SyntaxError("Read-only Property.");
-        },
         enumerable: true,
         configurable: true
     });
     return cPlayer;
-}(__WEBPACK_IMPORTED_MODULE_0_modules_cEmitter_class__["a" /* cEmitter */]));
-console.log("\n%ccPlayer%cv" + (cPlayer.version = "2.5.001") + "%c\n\n", "padding:7px;background:#cd3e45;font-family:'Sitka Heading';font-weight:bold;font-size:large;color:white", "padding:7px;background:#ff5450;font-family:'Sitka Text';font-size:large;color:#eee", "");
+}(__WEBPACK_IMPORTED_MODULE_0__modules_cEmitter_class__["a" /* cEmitter */]));
+console.log("\n%ccPlayer%cv" + (cPlayer.version = "2.6.1") + "%c\n\n", "padding:7px;background:#cd3e45;font-family:'Sitka Heading';font-weight:bold;font-size:large;color:white", "padding:7px;background:#ff5450;font-family:'Sitka Text';font-size:large;color:#eee", "");
 
 
 
@@ -1286,7 +1389,7 @@ console.log("\n%ccPlayer%cv" + (cPlayer.version = "2.5.001") + "%c\n\n", "paddin
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return cEmitter; });
-var cEmitter = (function () {
+var cEmitter = /** @class */ (function () {
     function cEmitter(typeList) {
         if (typeList) {
             this.events = typeList;
@@ -1387,7 +1490,7 @@ for (var i = 0, keys = Object.keys(SVG), length_1 = keys.length; i < length_1; i
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return cBase; });
-var cBase = (function () {
+var cBase = /** @class */ (function () {
     function cBase(rootNode) {
         if (rootNode === void 0) { rootNode = document.documentElement; }
         var _this = this;
@@ -1461,7 +1564,7 @@ var cBase = (function () {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return cContext; });
-var cContext = (function () {
+var cContext = /** @class */ (function () {
     /*
      * options:{
      *            "element":element,

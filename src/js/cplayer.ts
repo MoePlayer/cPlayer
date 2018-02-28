@@ -5,12 +5,12 @@
 	I am the super Corps!
  */
 ///
-import { cEmitter } from "modules/cEmitter.class";
-import { cLyric } from "modules/cLyric.function";
-import { SVG } from "modules/SVG.object";
-import { AddEventListener, cOption, cList, __LYRIC__ } from "modules/c.interface";
-import { cBase } from "modules/cBase.class";
-import { cContext } from "modules/cContext.class";
+import { cEmitter } from "./modules/cEmitter.class";
+import { cLyric } from "./modules/cLyric.function";
+import { SVG } from "./modules/SVG.object";
+import { AddEventListener, cOption, cList, __LYRIC__, asyncLoader } from "./modules/c.interface";
+import { cBase } from "./modules/cBase.class";
+import { cContext } from "./modules/cContext.class";
 import "../scss/cplayer.scss";
 
 //To prefix 
@@ -71,7 +71,7 @@ class cPlayer extends cEmitter {
 		this.now = 0;
 		this.dragging = { contain: false, target: document.body };
 		//现在开始填DOM
-		this.options.element.innerHTML += '<c-player><div class="lyric invisible"><lyric-body></lyric-body></div><div class="controls"><div class="c-left"><div class="music-description"><div class="image"><img class="meta-bak"></div><div class="music-meta"><div><span class="music-name"></span><span class="music-artist"></span></div></div></div><a class="play-icon"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M16 10v28l22-14z"></path></svg></a></div><div class="c-center"><div class="time"><div class="time-body"><div class="time-line"><div class="time-point"></div></div></div></div></div><div class="c-right"><div class="volume"><div class="volume-button"><a class="volume-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M33 24c0-3.53-2.04-6.58-5-8.05v4.42l4.91 4.91c.06-.42.09-.85.09-1.28zm5 0c0 1.88-.41 3.65-1.08 5.28l3.03 3.03C41.25 29.82 42 27 42 24c0-8.56-5.99-15.72-14-17.54v4.13c5.78 1.72 10 7.07 10 13.41zM8.55 6L6 8.55 15.45 18H6v12h8l10 10V26.55l8.51 8.51c-1.34 1.03-2.85 1.86-4.51 2.36v4.13c2.75-.63 5.26-1.89 7.37-3.62L39.45 42 42 39.45l-18-18L8.55 6zM24 8l-4.18 4.18L24 16.36V8z"></path></svg></a></div><div class="volume-body"><div class="volume-line"><div class="volume-point"></div></div></div></div><div class="list-button"><a class="list-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-12 -12 48 48" enable-background="new -12 -12 48 48"><path d="M26 6H-8v4h34V6zm0-8H-8v4h34v-4zM-8 18h26v-4H-8v4zm30-4v12l10-6-10-6z"></path></svg></a></div><div class="lyric-button"><a class="lyric-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M44 20L32 8H8c-2.2 0-4 1.8-4 4v24.02C4 38.22 5.8 40 8 40l32-.02c2.2 0 4-1.78 4-3.98V20zm-14-9l11 11H30V11z"></path></svg></a></div></div></div><div class="list invisible"><list-body></list-body></div></c-player>';
+		this.options.element.innerHTML += '<c-player><div class="lyric invisible"><lyric-body></lyric-body></div><div class="controls"><div class="c-left"><div class="music-description"><div class="image"><img class="meta-bak"></div><div class="music-meta"><div><span class="music-name"></span><span class="music-artist"></span></div></div></div><a class="play-icon"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M16 10v28l22-14z"></path></svg></a></div><div class="c-center"><div class="time"><div class="time-body"><div class="time-line"><div class="time-point"></div></div></div></div></div><div class="c-right"><div class="volume"><div class="volume-button"><a class="volume-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M33 24c0-3.53-2.04-6.58-5-8.05v4.42l4.91 4.91c.06-.42.09-.85.09-1.28zm5 0c0 1.88-.41 3.65-1.08 5.28l3.03 3.03C41.25 29.82 42 27 42 24c0-8.56-5.99-15.72-14-17.54v4.13c5.78 1.72 10 7.07 10 13.41zM8.55 6L6 8.55 15.45 18H6v12h8l10 10V26.55l8.51 8.51c-1.34 1.03-2.85 1.86-4.51 2.36v4.13c2.75-.63 5.26-1.89 7.37-3.62L39.45 42 42 39.45l-18-18L8.55 6zM24 8l-4.18 4.18L24 16.36V8z"></path></svg></a></div><div class="volume-body"><div class="volume-line"><div class="volume-point"></div></div></div></div><div class="list-button"><a class="list-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-12 -12 48 48" enable-background="new -12 -12 48 48"><path d="M26 6H-8v4h34V6zm0-8H-8v4h34v-4zM-8 18h26v-4H-8v4zm30-4v12l10-6-10-6z"></path></svg></a></div><div class="lyric-button"><a class="lyric-power"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 48 48"><path d="M44 20L32 8H8c-2.2 0-4 1.8-4 4v24.02C4 38.22 5.8 40 8 40l32-.02c2.2 0 4-1.78 4-3.98V20zm-14-9l11 11H30V11z"></path></svg></a></div></div></div><div class="list invisible"><list-body></list-body></div><div class="background"></div></c-player>';
 		(() => {
 			const res = this.options.element.getElementsByTagName("c-player");
 			this.CBASE.root = res[res.length - 1];
@@ -96,7 +96,8 @@ class cPlayer extends cEmitter {
 			"volume": this.CBASE.getByClass("volume"),
 			"listPower": this.CBASE.getByClass("list-power"),
 			"list": this.CBASE.getByClass("list"),
-			"listBody": this.CBASE.getByTagName("list-body")
+			"listBody": this.CBASE.getByTagName("list-body"),
+			"background": this.CBASE.getByClass("background")
 		};
 		this.__LIST__.toggleIcon = this.CBASE.getByTagName("svg", this.__LIST__.toggle);
 		this.__LIST__.volumeIcon = this.CBASE.getByTagName("svg", this.__LIST__.volumePower);
@@ -311,7 +312,7 @@ class cPlayer extends cEmitter {
 		this.emit("previous");
 		if (this.now === 0) return;
 		this.now--;
-		this._toggle().play();
+		this._toggle().then(_=>this.play());
 		return this;
 	}
 
@@ -319,7 +320,7 @@ class cPlayer extends cEmitter {
 		this.emit("next");
 		if (this.now === (this.options.list as cList[]).length - 1) return;
 		this.now++;
-		this._toggle().play();
+		this._toggle().then(_=>this.play());
 		return this;
 	}
 
@@ -330,15 +331,19 @@ class cPlayer extends cEmitter {
 		return this;
 	}
 
-	private _toggle(now = this.now) {
+	private async _toggle(now = this.now) {
 		let list = (this.options.list as cList[])[now], dom = this.__LIST__;
 		this.music.pause();
-		[dom.img.src, dom.name.innerHTML, dom.artist.innerHTML, this.music.src] = [list.image, list.name, list.artist, list.url === undefined ? "" : list.url];
+		let url = (list.url&&(<asyncLoader>list.url).resolve) ? 
+			await (async function(asyncLoader:asyncLoader){
+				return asyncLoader.resolve(await asyncLoader.waiter()) as any;
+			})(<asyncLoader>list.url) 
+			: list.url as string ;
+		[dom.background.style.backgroundImage,dom.img.src, dom.name.innerHTML, dom.artist.innerHTML, this.music.src] = ["url("+list.image+")",list.image, list.name, list.artist, !list.url ? "" : url];
 		this.transLock = false;
-		this.refreshLyric();
+		await this.refreshLyric();
 		if (!this.hasLyric(this.now)) this.hideLyric();
 		this.CBASE.style(this.__LIST__.lyricBody, "transform", "");
-		return this;
 	}
 
 	isPaused() {
@@ -346,7 +351,7 @@ class cPlayer extends cEmitter {
 	}
 
 	hasLyric(id = 0) {
-		return ((this.options.list as cList[])[id].lyric != undefined);
+		return !!((this.options.list as cList[])[id].lyric);
 	}
 
 	showLyric() {
@@ -411,20 +416,27 @@ class cPlayer extends cEmitter {
 		return this;
 	}
 
-	lyric(content = undefined) {
-		if (content === undefined) {
+	async lyric(content = undefined) {
+		if (!content) {
 			if (this.hasLyric(this.now)) return (this.options.list as cList[])[this.now].lyric;
 		} else {
 			(this.options.list as cList[])[this.now].lyric = content;
-			this.refreshLyric();
+			await this.refreshLyric();
 		}
-		return this;
 	}
 
-	refreshLyric(isTrans = false) {
+	async refreshLyric(isTrans = false) {
 		//REQUIRE LYRIC...
 		this.__LIST__.lyricBody.innerHTML = ``;
-		if (!this.hasLyric(this.now)) return;
+		if((this.options.list as cList[])[this.now].lyric
+		&&((this.options.list as cList[])[this.now].lyric as asyncLoader).waiter){
+			let lyrics = await ((this.options.list as cList[])[this.now].lyric as asyncLoader).waiter();
+			(this.options.list as cList[])[this.now] = <cList>{
+				...(this.options.list as cList[])[this.now],
+				...((this.options.list as cList[])[this.now].lyric as asyncLoader).resolve(lyrics)
+			};
+		};
+		if (!this.hasLyric(this.now)) return false;
 		let lr = isTrans !== false ?
 			(this.options.list as cList[])[this.now].transLyric as string
 			: (this.options.list as cList[])[this.now].lyric as string;
@@ -481,16 +493,13 @@ class cPlayer extends cEmitter {
 		if (list.length > 1)
 			clear(list);
 	}
-	translate() {
+	async translate() {
 		if (!(this.options.list as cList[])[this.now].transLyric || !this.hasLyric(this.now)) return false;
 		this.transLock = !this.transLock;
-		this.refreshLyric(this.transLock);
+		await this.refreshLyric(this.transLock);
 	}
 	get length() {
 		return (this.options.list as cList[]).length;
-	}
-	set length(length) {
-		throw new SyntaxError("Read-only Property.");
 	}
 }
 

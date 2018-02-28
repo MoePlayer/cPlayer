@@ -1,6 +1,6 @@
 $c-height:4em;
-$p-height:0.5em;
-$b-color:#359abc;
+$p-height:0.1em;
+$b-color:rgba(53, 154, 188, 0.733);
 $p-radius:1em;
 
 /*@keyframes changeSize{
@@ -39,8 +39,8 @@ $p-radius:1em;
 			.#{$type}-point{
 				width:$p-radius;
 				height:$p-radius;
-				margin:-0.25em -0.5em 0 0;
-				background-color:lighten($b-color,20%);
+				margin:-0.5em -0.5em 0 0;
+				background-color:lighten(rgba($b-color,1),20%);
 				border-radius: 100%;
 				position: absolute;
 				right:0;
@@ -64,7 +64,8 @@ $p-radius:1em;
 	width:0.8*$c-height;
 	height:0.8*$c-height;
 	border-radius:100%;
-	background-color:lighten($b-color,20%);
+	//background-color:lighten($b-color,20%);
+	border:1px solid lighten($b-color,20%);
 	color:white;
 	cursor:pointer;
 }
@@ -73,7 +74,7 @@ $p-radius:1em;
 	width:100%;
 	height:100%;
 	border-radius: 10%;
-	color:grey;
+	color:rgba(255, 255, 255, 0.8);
 	transition:all 0.2s ease-in;
 	cursor:pointer;
 	&:hover,&:active{
@@ -85,14 +86,15 @@ $p-radius:1em;
 }
 
 c-player{
+	@import "minireset.sass";
 	svg{
 		width:100%;
 		height:100%;
-		fill:#333;
+		fill:rgba(255, 255, 255, 0.8);
 		display:block;
 	}
 	.play-icon svg{
-		fill:white;
+		fill:rgba(255, 255, 255, 0.8);
 		width:80%;
 		height:80%;
 	}
@@ -102,13 +104,18 @@ c-player{
 		max-height: 0!important;
 		min-height: 0!important;
 	}
+	z-index:1; //In order that the cPlayer won't be influenced by the page's background.
 	display:flex;
+	position: relative;
+	color:rgba(255, 255, 255, 0.8);
+	opacity:0.9;
+	overflow: hidden;
 	flex-direction: column;
 	* {
 		font-family: "Ubuntu Mono","微软雅黑","Microsoft JHenghei",sans-serif;
 	    text-decoration: none;
-	    font-size: initial;
-	    line-height:initial;
+	    //font-size: initial;
+	    //line-height:initial;
 	}
 	.lyric{
 		will-change:height;
@@ -117,7 +124,7 @@ c-player{
 		height:20em;
 		height:45vh;
 		width:100%;
-		background:#eee;
+		//background:#eee;
 		overflow:hidden;
 		lyric-body{
 			will-change:transform;
@@ -137,17 +144,17 @@ c-player{
 				line-height:3em;
 				min-height:3em;
 				font-size:large;
-				font-family: "LiHei Pro","Microsoft Yahei",sans-serif;
+				font-family: Consolas,'Courier New', Courier,"Microsoft Yahei",monospace,sans-serif;
 				width:100%;
 				//transition:0.25s background ease;
 				&.now{
-					background:#ddd;
+					background:rgba(255, 255, 255, 0.247);
 				}
 			}
 		}
 	}
 	.controls{
-		background: white;
+		background: rgba(255, 255, 255, 0.2);
 		height:$c-height;
 		display:flex;
 		.c-left{
@@ -186,7 +193,7 @@ c-player{
 					}
 					.music-artist{
 						font-size:0.7em;
-						color:grey;
+						color:rgb(200, 200, 200);
 						white-space: nowrap;
 					}
 				}
@@ -288,7 +295,7 @@ c-player{
 		transition:all 0.25s;
 		//min-height: 45vh;
 		max-height: 75vh;
-		background:white;
+		background:rgba(255, 255, 255, 0.1);
 		overflow:auto;
 		list-body{
 			display: flex;
@@ -337,6 +344,19 @@ c-player{
 			}
 		}
 	}
+	.background{
+		z-index:-1;
+		position:absolute;
+		top:-2.5em;
+		bottom:-2.5em;
+		left:-2.5em;
+		right:-2.5em;
+		transition: background-image 1s;
+		background-color:grey;
+		background-size: cover;
+		background-position: center;
+		filter:blur(2em) brightness(0.4);
+	}
 }
 	.c-context{
 		z-index:9999;
@@ -359,5 +379,5 @@ c-player{
 		cursor:pointer;
 	}
 	.c-context--list:hover{
-		background: #6af;
+		background: $b-color;
 	}

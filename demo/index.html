@@ -1,75 +1,98 @@
 <!doctype html>
 <html lang="zh-Hans">
+
 <head>
     <meta charset="UTF-8">
-    <title>DEMO</title>
+    <title>Corps's Likes</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script src="cplayer.js"></script>
     <script type="text/javascript" src="fetch.js"></script>
     <style>
+        #cplayer {
+            position: absolute;
+            bottom: 0;
+            left: 2em;
+            right: 2em;
+            box-shadow: 0 0 2em black;
+        }
+
+        c-player .background {
+            background: transparent !important;
+        }
+
+        c-player .lyric {
+            height: calc( 100vh - 4em);
+        }
+
+        .bg {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            background-size: cover;
+            filter: blur(1em) brightness(0.5);
+            background-repeat: repeat;
+            transform: scale(1.2);
+            transform-origin: center;
+            background-position: center;
+        }
+
         body {
-            margin: 0;
-            display:flex;
-            height:100vh;
+            overflow: hidden
         }
-        body>.main {
-            /*margin: 5% 0;*/
-            width:100%;
-            padding: 3% 15%;
-            position: relative;
-            background: rgba(255, 255, 255, 0.62);
+
+        c-player lrc.now {
+            background: transparent!important;
+            color: white;
         }
-        h1 {
-            color: black;
-            font-family: "Sitka Small",Tahoma,sans-serif;
+
+        c-player lrc {
+            font-size: xx-large !important
         }
-        @media screen and (max-width: 700px) {
-			body>.main{
-				padding: 3% 5%;
-			}
-        }
-        .main .content {
-            display: flex;
-            flex-direction: column;
-            line-height: 3;
-            font-size: larger;
-            font-family: "Sitka Small","Microsoft Yahei",sans-serif;
+
+        c-player .lyric lyric-body {
+            transition: transform 0.5s
         }
     </style>
 </head>
+
 <body>
-    <div class="main">
-        <h1>cPlayer DEMO</h1>
-        <div class="content">
-            <span>cPlayer is a WEB Music Player.</span>
-            <span>Here is a DEMO,Thanks for trying this.</span>
-            <span style="font-family: 'Sitka Small','Microsoft Yahei';font-style: italic;">ps. 感谢Jad的网易云音乐API！</span>
-            <div id="cplayer"></div>
-        </div>
+    <div id="cplayer">
     </div>
+    <div class="bg"></div>
     <script>
         "use strict";
-        function trigger(times,callback){
-            if(times<1)return callback();
-            return function(){
+        if (sessionStorage) {
+            sessionStorage.clear();
+            sessionStorage.setItem("ids", "");
+        };
+        function trigger(times, callback) {
+            if (times < 1) return callback();
+            return function () {
                 times--;
-                if(times<1)return callback();
+                if (times < 1) return callback();
             }
         }
-        function add163(cp, id) {
+        function add163(cp, id, callback) {
             if (!cp || !id) throw new Error("Unable Property.");
+            if (sessionStorage) {
+                if (sessionStorage.getItem("ids").split(",").indexOf(id) !== -1) return callback ? callback() : false;
+            }
             var obj = { name: null, artist: null, image: null, url: null, lyric: null };
-            var push = trigger(3,function(){cp.add(obj)});
-            obj["url"] = "https://api.imjad.cn/cloudmusic/?type=song&id=" + id + "&br=320000&raw=true";push();
+            var push = trigger(3, function () {
+                cp.add(obj);
+                sessionStorage.setItem("ids", sessionStorage.getItem("ids") + "," + id);
+                if (callback) callback();
+            });
+            obj["url"] = "https://api.imjad.cn/cloudmusic/?type=song&id=" + id + "&br=320000&raw=true"; push();
             fetch("https://api.imjad.cn/cloudmusic/?type=detail&id=" + id).then(function (a) {
                 return a.json();
-            }).then(function (result) { 
+            }).then(function (result) {
                 result = result["songs"][0];
-                var _ref = [result["name"], (result["ar"].length>1?
-                    (function(){
-                        for (var i = result["ar"].length - 1; i >= 1; i--) result["ar"][0]["name"]+="/ "+result["ar"][i]["name"];
+                var _ref = [result["name"], (result["ar"].length > 1 ?
+                    (function () {
+                        for (var i = result["ar"].length - 1; i >= 1; i--) result["ar"][0]["name"] += "/ " + result["ar"][i]["name"];
                         return result["ar"][0]["name"];
-                    })():result["ar"][0]["name"]), result["al"]["picUrl"]];
+                    })() : result["ar"][0]["name"]), result["al"]["picUrl"]];
                 obj["name"] = _ref[0];
                 obj["artist"] = _ref[1];
                 obj["image"] = _ref[2];
@@ -78,26 +101,62 @@
             fetch("https://api.imjad.cn/cloudmusic/?type=lyric&id=" + id).then(function (a) {
                 return a.json();
             }).then(function (result) {
-                if (result["uncollected"] === true ||result["nolyric"]) {
+                if (result["uncollected"] === true || result["nolyric"]) {
                     obj["lyric"] = undefined;
                 } else {
                     obj["lyric"] = result["lrc"]["lyric"];
-                    if(result["tlyric"]!==undefined&&result["tlyric"]["lyric"]!==undefined)
+                    if (result["tlyric"] !== undefined && result["tlyric"]["lyric"] !== undefined)
                         obj["transLyric"] = result["tlyric"]["lyric"];
-                };push()
+                }; push()
             });
         }
 
     </script>
     <script>
-        var cp = new cPlayer;
-        add163(cp,419485504);
-        add163(cp,27669789);
-        add163(cp,691504);
-        add163(cp,20744075);
-        add163(cp,412951925);
+        var cp = new cPlayer;/*
+        add163(cp, 419485504);
+        add163(cp, 27669789);
+        add163(cp, 691504);
+        add163(cp, 20744075);
+        add163(cp, 412951925);*/
+        //if(location.hash.match(location.hash.match(/#\/id\/([\d/]+)/).length===2)
+        window.addEventListener("hashchange", hashchange);
+        function hashchange() {
+            if (location.hash.match(/#\/id\/([\d/]+)/) && location.hash.match(/#\/id\/([\d/]+)/).length === 2) {
+                let a = location.hash.match(/#\/id\/([\d/]+)/)[1].split("/");
+                (function recursion(i) {
+                    if (i >= a.length) return;
+                    if (a[i] === "") recursion(i + 1)
+                    else add163(cp, a[i], () => recursion(i + 1));
+                })(0);
+                return true;
+            } else return false;
+        }
+        if (!hashchange())
+            fetch("https://api.imjad.cn/cloudmusic/?type=playlist&id=87503545")
+                .then(_ => _.json())
+                .then($ => {
+                    $.playlist.tracks.forEach(_ => cp.add({
+                        name: _.name,
+                        artist: _.ar.reduce((sum, value) => sum + (sum === "" ? "" : " / ") + value.name, ""),
+                        image: _.al.picUrl,
+                        url: "https://api.imjad.cn/cloudmusic/?type=song&raw=true&br=320000&id=" + _.id,
+                        lyric: {
+                            waiter: () => fetch("https://api.imjad.cn/cloudmusic/?type=lyric&id=" + _.id),
+                            resolve: function (data) {
+                                data = JSON.parse(data);
+                                return {
+                                    lyric: data.lrc ? data.lrc.lyric : null,
+                                    transLyric: data.tlyric ? data.tlyric.lyric : null
+                                }
+                            }
+                        }
+                    }))
+                })
         //setTimeout(function(){location.reload()},60*30*1000);
-        addEventListener("keypress",function(e){if(e.keyCode===13)cp.__LIST__.toggle.click()})
+        addEventListener("keypress", function (e) { if (e.keyCode === 13) cp.__LIST__.toggle.click() });
+        cp.__LIST__.img.onload = () => { document.querySelector(".bg").style.backgroundImage = "url(" + cp.__LIST__.img.src + ")" };
     </script>
 </body>
+
 </html>

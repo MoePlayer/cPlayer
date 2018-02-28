@@ -1,4 +1,4 @@
-import { __LYRIC__ } from "c.interface";
+import { __LYRIC__ } from "./c.interface";
 
 export class cBase {
     browser: string;

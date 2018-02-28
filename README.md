@@ -6,7 +6,7 @@ __Warning: Loaded well in Internet Explorer 10+, FireFox, Chrome, Edge and so on
 
 ## Screenshot
 
-![Screenshot](http://i1.piimg.com/4851/594e267631e122c9.png)
+![Screenshot](https://i.imgur.com/yZAGZwx.png)
 ---
 
 ## Install && Build
@@ -16,10 +16,11 @@ npm install
 npm run dist
 ```
 
-### Make a DEMO
+### Make a DEMO and serve with it
 
 ```bash
 npm run demo
+npm run serve
 ```
 
 ## Usage
@@ -28,11 +29,6 @@ npm run demo
 
 ```html
 <html>
-    <head>
-        ...
-        <link rel="stylesheet" href=".../cplayer.min.css">
-        ...
-    </head>
     <body>
         ...
         <div id="here"></div>
@@ -48,9 +44,10 @@ npm run demo
 let cp = new cPlayer({
     "element":document.getElementById("here"),
     "list":[
+        //Sync
         {
-            "name":"NINELIE", //The Music's Name
-            "artist":"Aimer/EGOist",//The Music's Artist
+            "name":"xxx", //The Music's Name
+            "artist":"www",//The Music's Artist
             "image":"http://xxxxx",//The Music's Cover
             "url":"http://xxxxx",//The Music's URL
             "loop":true,//If loop === true,the Music will be played again and again.
@@ -65,8 +62,20 @@ let cp = new cPlayer({
             [00:99.99][11:99.99]XXXXX
             `//The Translated of Lyric(Extra),Must work with `lyric`.
         },
+        //Async
         {
-            .......
+            "name":"xxx",
+            "artist":"www",
+            "img":"http://xxxxx",
+            "url":{
+                "waiter":fetch("xxx").then(xxx),
+                "resolve":function(xxx){...} //param is what you have got from waiter(),which means that the xxx includes not a Promise but sth else.And it should return a string.
+            },
+            "loop":true,
+            "lyric":{
+                "waiter":fetch("xxx").then(xxx),
+                "resolve":function(xxx){...} //Nearly as same as above,but it should return {lyric:string|null,transLyric:string|null}
+            }
         },
         .........
     ]
@@ -89,14 +98,12 @@ let cp = new cPlayer({
 * `cp.hasList()`
 * `cp.showList()`
 * `cp.hideList()` // (The Same As Above)
-* `refreshList()` // Refresh the List from `__LIST__`(unuseful)
 * `cp.add(options)` // Add music(the options is like above)
-* `cp.lyric(a)` // Set Lyric or Get Lyric
-* `cp.refreshLyric()` // Refresh the lyric now from `__LYRIC__`(unuseful)
+* `cp.lyric(a)` //`<async>` Set Lyric or Get Lyric
+* `cp.refreshLyric()` //`<async>` Refresh the lyric now from `__LYRIC__`(unuseful)
 * `cp.updateTime()` // Set Music's Current Time
-* `cp.slideLyric(time)` //Core Lyric Process
 * `cp.on(eventName,func)` //Set Events
-* `cp.translate()` //__NEW!__ Make the translated(with transLyric)
+* `cp.translate()` //`<async>` Make the translated(with transLyric)
 
 ## Events
 

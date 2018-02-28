@@ -8,7 +8,7 @@ plugins.push(new webpack.DefinePlugin({
 }),new webpack.HotModuleReplacementPlugin())
 if (process.env.NODE_ENV === "production")
     plugins.push(new webpack.optimize.UglifyJsPlugin({
-        sourceMap: true
+        sourceMap: false
     }));
 module.exports = {
     entry: './src/js/cplayer.ts',
@@ -25,13 +25,20 @@ module.exports = {
                 test: /\.scss$/,
                 use: [
                     { loader: "style-loader" },
-                    { loader: "css-loader", options: { sourceMap: true } },
-                    { loader: "sass-loader", options: { sourceMap: true } }
+                    { loader: "css-loader", options: { sourceMap: false } },
+                    { loader: "sass-loader", options: { sourceMap: false } }
                 ]
             },
             {
                 test: /\.ts$/,
-                use: "ts-loader",
+                use: {
+                    loader: "ts-loader",
+                    options:process.env.NODE_ENV === "production"?{
+                        configFile:"tsconfig.product.json"
+                    }:{
+                        configFile:"tsconfig.json"
+                    }
+                },
                 exclude: /node_modules/,
                 include: [
                     path.resolve(__dirname, "src/js"),

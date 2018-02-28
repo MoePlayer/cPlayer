@@ -1,4 +1,4 @@
-//For development - output->./demo
+//For product - output->./dist
 {
     "include": [
         "src/js/*",
@@ -11,7 +11,7 @@
     ],
     "compilerOptions": {
         "outDir": ".",
-        "sourceMap": true,
+        "sourceMap": false,
         "noImplicitAny": true,
         "strictNullChecks": true,
         "experimentalDecorators": true,
@@ -23,6 +23,6 @@
         "target": "es5",
         "allowJs": false,
         "alwaysStrict": true,
-        "declaration": false
+        "declaration": true
     }
 }

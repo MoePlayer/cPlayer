@@ -7,10 +7,16 @@ export interface cList {
     name: string; //歌曲名
     artist: string; //艺术家
     image: string; //专辑图像
-    url?: string; //音乐URL
+    url?: string|asyncLoader; //音乐URL
     loop?: boolean; //是否循环
-    lyric?: string; //歌词
+    lyric?: string|asyncLoader; //歌词
     transLyric?: string; //歌词翻译
+}
+export interface asyncLoader{
+    waiter:()=>Promise<any>,
+    resolve:(promise:string)=>{
+        [propName:string]:string|null
+    }
 }
 export interface cOption {
     element: HTMLElement; //cPlayer装载入该元素,效果等同于appendChild

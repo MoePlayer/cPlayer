@@ -1,9 +1,9 @@
 {
   "name": "cPlayer",
-  "version": "2.5.001",
+  "version": "2.6.1",
   "description": "A beautiful and clean WEB Music Player by HTML5.",
   "main": "dist/cplayer.js",
-  "types": "declaration/cplayer.d.ts",
+  "types": "dist/cplayer.d.ts",
   "scripts": {
     "demo": "cross-env NODE_ENV=development PLATFORM=web webpack --display-error-details",
     "serve": "webpack-dev-server --open",
@@ -37,13 +37,14 @@
   "repository": "https://github.com/Copay/cPlayer",
   "devDependencies": {
     "@types/node": "^8.0.19",
+    "@types/wicg-mediasession": "^1.0.1",
     "cross-env": "^5.0.4",
     "css-loader": "^0.28.4",
     "node-sass": "^4.5.3",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
     "ts-loader": "^2.3.2",
-    "typescript": "^2.4.2",
+    "typescript": "latest",
     "webpack": "^3.4.1",
     "webpack-dev-server": "^2.6.1"
   }

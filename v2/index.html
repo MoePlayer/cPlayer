@@ -142,9 +142,8 @@
                         image: _.al.picUrl,
                         url: "https://api.imjad.cn/cloudmusic/?type=song&raw=true&br=320000&id=" + _.id,
                         lyric: {
-                            waiter: () => fetch("https://api.imjad.cn/cloudmusic/?type=lyric&id=" + _.id),
+                            waiter: () => fetch("https://api.imjad.cn/cloudmusic/?type=lyric&id=" + _.id).then(_=>_.json()),
                             resolve: function (data) {
-                                data = JSON.parse(data);
                                 return {
                                     lyric: data.lrc ? data.lrc.lyric : null,
                                     transLyric: data.tlyric ? data.tlyric.lyric : null

@@ -350,7 +350,7 @@ export default class cplayerView extends EventEmitter {
         this.handleClickPlayList(index, event);
       })
       i.getElementsByClassName('cp-playlist-delete')[0].addEventListener('click', (event) => {
-        this.handleDeletePlayList(index, event);
+        this.handleDeletePlayList(index);
       })
     }))
   }
@@ -425,7 +425,7 @@ export default class cplayerView extends EventEmitter {
     }
   }
 
-  private handleDeletePlayList = (point: number, event: Event) => {
+  private handleDeletePlayList = (point: number) => {
     this.player.remove(this.player.playlist[point]);
   }
 

@@ -328,7 +328,8 @@ export default class cplayerView extends EventEmitter {
       var element = document.createElement('li');
       element.innerHTML = `
         ${index === this.player.nowplaypoint ? playIcon : '<span class="cp-play-icon"></span>'}
-        <span>${audio.name}</span><span class='cp-playlist-artist'>${audio.artist ? ' - ' + audio.artist : ''}</span>
+        <span>${audio.name}</span><span class='cp-playlist-artist'>${audio.artist ? '<span class="cp-playlist-by"> - </span>' + audio.artist : ''}</span>
+        <span class="cp-playlist-delete"> x </span>
       `
       return element;
     })
@@ -347,6 +348,9 @@ export default class cplayerView extends EventEmitter {
     Array.prototype.forEach.call(this.elementLinks.playlistItems,((i: Element, index: number) => {
       i.addEventListener('click', (event) => {
         this.handleClickPlayList(index, event);
+      })
+      i.getElementsByClassName('cp-playlist-delete')[0].addEventListener('click', (event) => {
+        this.handleDeletePlayList(index);
       })
     }))
   }
@@ -419,6 +423,10 @@ export default class cplayerView extends EventEmitter {
       this.player.to(point);
       this.player.play();
     }
+  }
+
+  private handleDeletePlayList = (point: number) => {
+    this.player.remove(this.player.playlist[point]);
   }
 
   private handleClickPlayButton = () => {

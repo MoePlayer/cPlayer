@@ -50,6 +50,7 @@ export default class cplayerView extends EventEmitter {
     private handleClickListButton;
     private handleClickModeButton;
     private handleClickPlayList;
+    private handleDeletePlayList;
     private handleClickPlayButton;
     private handleClickVolumeButton;
     private handleOpenAudio;

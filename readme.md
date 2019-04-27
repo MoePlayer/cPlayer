@@ -61,6 +61,7 @@ new cplayer({
 
 - [hexo-tag-cplayer](https://github.com/EYHN/hexo-tag-cplayer)
 - [vue-player](https://github.com/adnasa/vue-cplayer)
+- [react-cplayer](https://github.com/Fallenhh/react-cplayer)
 
 # Option
 

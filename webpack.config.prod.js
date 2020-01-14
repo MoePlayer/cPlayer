@@ -1,8 +1,6 @@
 var webpack = require('webpack');
 var path = require('path');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
 var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-
 
 const GLOBALS = {
     'process.env.NODE_ENV': JSON.stringify('production'),
@@ -11,7 +9,8 @@ const GLOBALS = {
 };
 
 module.exports = {
-    
+    mode: 'production',
+
     entry: [
         "./src/lib/index.ts"
     ],
@@ -28,8 +27,7 @@ module.exports = {
 
     plugins: [
         !!process.env.analyzer ? new BundleAnalyzerPlugin() : undefined,
-        new webpack.DefinePlugin(GLOBALS),
-        new webpack.optimize.UglifyJsPlugin({ sourceMap: true })
+        new webpack.DefinePlugin(GLOBALS)
     ].filter(function(e){return e}),
 
     resolve: {
@@ -44,10 +42,10 @@ module.exports = {
                 test: /\.(ts|tsx)?$/,
                 use: [
                     {
-                        loader: "awesome-typescript-loader",
-                        options: {
-                            useBabel: true
-                        }
+                        loader: 'babel-loader'
+                    },
+                    {
+                        loader: "ts-loader"
                     }
                 ]
             },
@@ -58,24 +56,18 @@ module.exports = {
                         loader: 'style-loader'
                     },
                     {
-                        loader: "css-loader",
-                        options: {
-                            minimize: true
-                        }
+                        loader: "css-loader"
                     },
                     {
                         loader: 'postcss-loader',
-                        options: {}
                     },
                     {
-                        loader: "sass-loader",
-                        options: {
-                        }
+                        loader: "sass-loader"
                     }
                 ]
             },
             {
-                test: /\.(html)$/,
+                test: /\.(html|svg)$/,
                 use: {
                     loader: 'html-loader',
                     options: {
@@ -84,44 +76,16 @@ module.exports = {
                 }
             },
             {
-                test: /\.(less)$/,
-                use: [
-                    {
-                        loader: 'style-loader'
-                    },
-                    {
-                        loader: "css-loader",
-                        options: {
-                            minimize: true
-                        }
-                    },
-                    {
-                        loader: 'postcss-loader',
-                        options: {}
-                    },
-                    {
-                        loader: "less-loader",
-                        options: {
-                        }
-                    }
-                ]
-            },
-            {
                 test: /\.(css)$/,
                 use: [
                     {
                         loader: 'style-loader'
                     },
                     {
-                        loader: "css-loader",
-                        options: {
-                            minimize: true
-                        }
+                        loader: "css-loader"
                     },
                     {
-                        loader: "postcss-loader",
-                        options: {
-                        }
+                        loader: "postcss-loader"
                     }
                 ]
             },
@@ -151,19 +115,6 @@ module.exports = {
                         loader: 'babel-loader'
                     }
                 ],
-            },
-            {
-                test: /\.svg$/, use: [{
-                    loader: 'html-loader',
-                    options: {
-                        minimize: true
-                    }
-                }]
-            },
-            {
-                test: /\.js$/,
-                enforce: "pre",
-                use: [{ loader: 'source-map-loader' }]
             }
         ]
     }

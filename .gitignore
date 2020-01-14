@@ -2,3 +2,5 @@
 yarn*
 .DS_Store
 example/
+dist/
+lib/

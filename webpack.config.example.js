@@ -1,8 +1,7 @@
 var webpack = require('webpack');
 var path = require('path');
-var uglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 var OfflinePlugin = require('offline-plugin');
-
+const CopyPlugin = require('copy-webpack-plugin');
 
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -17,23 +16,12 @@ var HtmlWebpackConfig = {
     template: "./src/example.html",
     hash: true,
     showErrors: true,
-    inject: 'head',
-    minify: {
-        removeComments: true,
-        collapseWhitespace: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-        removeEmptyAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true
-    }
+    inject: 'head'
 };
 
-
 module.exports = {
+    mode: 'production',
+
     entry: [
         "./src/example.ts"
     ],
@@ -48,8 +36,9 @@ module.exports = {
     plugins: [
         new webpack.DefinePlugin(GLOBALS),
         new HtmlWebpackPlugin(HtmlWebpackConfig),
-        new webpack.optimize.UglifyJsPlugin({ sourceMap: true }),
-        new OfflinePlugin()
+        new CopyPlugin([
+            { from: __dirname + '/src/manifest.json', to: 'manifest.json' }
+          ])
     ],
 
     resolve: {
@@ -63,10 +52,10 @@ module.exports = {
                 test: /\.(ts|tsx)?$/,
                 use: [
                     {
-                        loader: "awesome-typescript-loader",
-                        options: {
-                            useBabel: true
-                        }
+                        loader: 'babel-loader'
+                    },
+                    {
+                        loader: "ts-loader"
                     }
                 ]
             },
@@ -77,24 +66,18 @@ module.exports = {
                         loader: 'style-loader'
                     },
                     {
-                        loader: "css-loader",
-                        options: {
-                            minimize: true
-                        }
+                        loader: "css-loader"
                     },
                     {
-                        loader: 'postcss-loader',
-                        options: {}
+                        loader: 'postcss-loader'
                     },
                     {
-                        loader: "sass-loader",
-                        options: {
-                        }
+                        loader: "sass-loader"
                     }
                 ]
             },
             {
-                test: /\.(html)$/,
+                test: /\.(html|svg)$/,
                 use: {
                     loader: 'html-loader',
                     options: {
@@ -103,44 +86,16 @@ module.exports = {
                 }
             },
             {
-                test: /\.(less)$/,
-                use: [
-                    {
-                        loader: 'style-loader'
-                    },
-                    {
-                        loader: "css-loader",
-                        options: {
-                            minimize: true
-                        }
-                    },
-                    {
-                        loader: 'postcss-loader',
-                        options: {}
-                    },
-                    {
-                        loader: "less-loader",
-                        options: {
-                        }
-                    }
-                ]
-            },
-            {
                 test: /\.(css)$/,
                 use: [
                     {
                         loader: 'style-loader'
                     },
                     {
-                        loader: "css-loader",
-                        options: {
-                            minimize: true
-                        }
+                        loader: "css-loader"
                     },
                     {
-                        loader: "postcss-loader",
-                        options: {
-                        }
+                        loader: "postcss-loader"
                     }
                 ]
             },
@@ -170,19 +125,6 @@ module.exports = {
                         loader: 'babel-loader'
                     }
                 ],
-            },
-            {
-                test: /\.svg$/, use: [{
-                    loader: 'html-loader',
-                    options: {
-                        minimize: true
-                    }
-                }]
-            },
-            {
-                test: /\.js$/,
-                enforce: "pre",
-                use: [{ loader: 'source-map-loader' }]
             }
         ]
     }

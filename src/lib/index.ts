@@ -206,7 +206,7 @@ export default class cplayer extends EventEmitter {
   }
 
   private isPlaying() {
-    return this.audioElement.currentTime > 0 && !this.audioElement.paused && !this.audioElement.ended && this.audioElement.readyState > 2;
+    return !!this.audioElement && this.audioElement.currentTime > 0 && !this.audioElement.paused && !this.audioElement.ended && this.audioElement.readyState > 2;
   }
 
   public openAudio(audio: IAudioItem = this.nowplay) {
@@ -346,7 +346,7 @@ export default class cplayer extends EventEmitter {
     this._volume = parseFloat(volume as string);
     if (this.audioElement)
       this.audioElement.volume = Math.max(0.0, Math.min(1.0, this._volume));
-    this.emit('volumechange', this.audioElement.volume);
+    this.emit('volumechange', this.volume);
   }
 
   public destroy() {

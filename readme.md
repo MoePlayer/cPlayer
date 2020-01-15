@@ -78,6 +78,7 @@ new cplayer({
 |width|`''`|播放器宽度。|
 |size|`12px`|播放器尺寸。|
 |style|`''`|附加的css样式。|
+|shadowDom|`'true'`|启用 [shadow DOM](https://developer.mozilla.org/zh-CN/docs/Web/Web_Components/Using_shadow_DOM)。|
 |showPlaylistButton|`'true'`|显示播放列表按钮|
 |dropDownMenuMode|`'bottom'`|菜单（播放列表和歌曲信息）的显示模式， ‘bottom’ 底部、 'top' 顶部、 'none' 不显示|
 

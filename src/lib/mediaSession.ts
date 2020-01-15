@@ -6,7 +6,7 @@ const defaultPoster = require('../defaultposter.jpg')
 export function cplayerMediaSessionPlugin(player: cplayer)
 {
   if ('mediaSession' in navigator) {
-    navigator.mediaSession.metadata = mediaMetadata(player.nowplay);
+    if (player.nowplay) navigator.mediaSession.metadata = mediaMetadata(player.nowplay);
     navigator.mediaSession.setActionHandler('play', () => player.play());
     navigator.mediaSession.setActionHandler('pause', () => player.pause());
     navigator.mediaSession.setActionHandler('previoustrack', () => player.prev());

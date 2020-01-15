@@ -56,6 +56,7 @@ export interface ICplayerViewOption {
   style?: string;
   dark?: boolean;
   big?: boolean;
+  shadowDom?: boolean;
   dropDownMenuMode?: 'bottom' | 'top' | 'none' | string;
 }
 
@@ -69,7 +70,8 @@ const defaultOption: ICplayerViewOption = {
   dropDownMenuMode: 'bottom',
   width: '',
   size: '12px',
-  style: ''
+  style: '',
+  shadowDom: true
 }
 
 
@@ -129,13 +131,13 @@ export default class cplayerView extends EventEmitter {
     };
     this.player = player;
     if (this.options.generateBeforeElement) {
-      if ((this.options.element as any).createShadowRoot) {
+      if ((this.options.element as any).createShadowRoot && options.shadowDom !== false) {
         this.rootElement = createBeforeShadowElement(this.options.element, htmlTemplate, style + this.options.style);
       } else {
         this.rootElement = createBeforeElement(this.options.element, htmlTemplate, style + this.options.style);
       }
     } else {
-      if ((this.options.element as any).createShadowRoot) {
+      if ((this.options.element as any).createShadowRoot && options.shadowDom !== false) {
         this.rootElement = createShadowElement(this.options.element, htmlTemplate, style + this.options.style);
       } else {
         this.rootElement = createElement(this.options.element, htmlTemplate, style + this.options.style);
@@ -165,12 +167,12 @@ export default class cplayerView extends EventEmitter {
       this.big();
     }
 
-    this.setPoster(this.player.nowplay.poster || defaultPoster);
+    // this.setPoster(this.player.nowplay.poster || defaultPoster);
     this.setProgress(this.player.currentTime / this.player.duration,
       this.player.currentTime,
       this.player.duration);
-    this.elementLinks.title.innerText = this.player.nowplay.name;
-    this.elementLinks.artist.innerText = this.player.nowplay.artist || '';
+    // this.elementLinks.title.innerText = this.player.nowplay.name;
+    // this.elementLinks.artist.innerText = this.player.nowplay.artist || '';
     this.updateLyric();
     this.updatePlaylist();
   }
@@ -381,6 +383,11 @@ export default class cplayerView extends EventEmitter {
   }
 
   private updateLyric(playedTime: number = 0) {
+    if (!this.player.nowplay) {
+      this.setLyric(null);
+      return;
+    }
+
     if (this.player.nowplay.lyric && typeof this.player.nowplay.lyric !== 'string' && this.player.played) {
       let lyric = this.player.nowplay.lyric.getLyric(playedTime * 1000);
       let nextLyric = this.player.nowplay.lyric.getNextLyric(playedTime * 1000);

@@ -1,6 +1,5 @@
 var webpack = require('webpack');
 var path = require('path');
-var OfflinePlugin = require('offline-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 var HtmlWebpackPlugin = require('html-webpack-plugin');

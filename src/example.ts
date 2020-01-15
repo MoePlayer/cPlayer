@@ -90,8 +90,7 @@ window.addEventListener("load",
       playlist: playlist.push(playlist.shift()) && playlist,
       element: document.getElementById('app4'),
       big: true,
-      dark: true,
-      autoplay: true
+      dark: true
     })];
 
     (window as any).cplayerView = cplayerView;

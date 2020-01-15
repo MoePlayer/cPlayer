@@ -1,3 +1,6 @@
 /node_modules
-/.vscode
 yarn*
+.DS_Store
+example/
+dist/
+lib/

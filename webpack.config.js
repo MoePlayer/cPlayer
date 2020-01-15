@@ -96,20 +96,12 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(png|jpg)$/,
+                test: /\.(ttf|otf|woff|woff2|eot|png|jpg|mp3|mp4)$/,
                 use: [{
                     loader: 'url-loader',
                     options: {
-                        limit: 8192
-                    }
-                }]
-            },
-            {
-                test: /\.(ttf|otf|woff|woff2|eot)$/,
-                use: [{
-                    loader: 'url-loader',
-                    options: {
-                        limit: 8192
+                        limit: 8192,
+                        esModule: false
                     }
                 }]
             },

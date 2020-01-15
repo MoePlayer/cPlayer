@@ -23,7 +23,10 @@ export function mediaMetadata(audio: IAudioItem) {
     artist: audio.artist,
     album: audio.album,
     artwork: [
-      {src: audio.poster || defaultPoster}
+      {
+        sizes: '720x720',
+        src: audio.poster || defaultPoster
+      }
     ]
   });
 }

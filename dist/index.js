@@ -1,5 +1,6 @@
 let cp = new cPlayer({
     "element": document.getElementById("cplayer"),
+    autoplay: true,
     "list": [
         //Sync
         {

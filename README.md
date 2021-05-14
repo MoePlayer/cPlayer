@@ -8,7 +8,11 @@ __Warning: Loaded well in Internet Explorer 10+, FireFox, Chrome, Edge and so on
 
 ![Screenshot2](screenshot/demo2.png)
 ![Screenshot3](screenshot/demo3.png)
-![Screenshot4](screenshot/demo.mobile.png)
+![Screenshot4](screenshot/demo.ZingMP3.png)
+![Screenshot5](screenshot/demo.demo.NCT.png)
+![Screenshot6](screenshot/demo.NhacVN.png)
+![Screenshot7](screenshot/demo.NCT.png)
+![Screenshot8](screenshot/demo.mobile.png)
 ---
 
 ## Install && Build

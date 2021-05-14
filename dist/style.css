@@ -33,10 +33,12 @@
         c-player lrc.now {
             background: transparent!important;
             color: #2E9AFE;
+            
         }
 
         c-player lrc {
             font-size: xx-large !important
+            font-family: Tahoma;
         }
 
         c-player .lyric lyric-body {

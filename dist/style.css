@@ -1,0 +1,46 @@
+﻿#cplayer {
+            position: absolute;
+            bottom: 0;
+            left: 2em;
+            right: 2em;
+            box-shadow: 0 0 2em black;
+        }
+
+        c-player .background {
+            background: transparent !important;
+        }
+
+        c-player .lyric {
+            height: calc( 100vh - 4em);
+        }
+
+        .bg {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            background-size: cover;
+            filter: blur(1em) brightness(0.5);
+            background-repeat: repeat;
+            transform: scale(1.2);
+            transform-origin: center;
+            background-position: center;
+        }
+
+        body {
+            overflow: hidden
+        }
+
+        c-player lrc.now {
+            background: transparent!important;
+            color: #2E9AFE;
+            
+        }
+
+        c-player lrc {
+            font-size: xx-large !important
+            font-family: Tahoma;
+        }
+
+        c-player .lyric lyric-body {
+            transition: transform 0.5s
+        }

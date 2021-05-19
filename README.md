@@ -6,7 +6,12 @@ __Warning: Loaded well in Internet Explorer 10+, FireFox, Chrome, Edge and so on
 
 ## Screenshot
 
-![Screenshot](https://i.imgur.com/yZAGZwx.png)
+![Screenshot2](screenshot/demo2.png)
+![Screenshot3](screenshot/demo3.png)
+![Screenshot4](screenshot/demo.ZingMP3.png)
+![Screenshot5](screenshot/demo.NCT.png)
+![Screenshot6](screenshot/demo.NhacVN.png)
+![Screenshot7](screenshot/demo.mobile.png)
 ---
 
 ## Install && Build
